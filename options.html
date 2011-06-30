@@ -1,18 +1,22 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title id="widget-title">NoAds Advanced</title>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title id="widget-title">NoAds Advanced</title>
 <script type='text/javascript' src='includes/noads-common.js'></script>
 <script type='text/javascript' src='includes/noads-options.js'></script>
 <script type='text/javascript' src='includes/noads-translation.js'></script>
-<script>
-opera.extension.onmessage = function(e){
+<script type='text/javascript'>
+opera.extension.onmessage = function (e) {
     var message = decodeMessage(e.data);
-    if (message.type == 'noads_import_status' ){
+    if (message.type == 'noads_import_status') {
         if (message.status == 'good') alert(TRANSLATE().iSubs.replace('%url',message.url).replace('%d', message.length));
         else alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\n URL: ' + message.url);
         document.getElementById('noads_dlsubscription').disabled = false;
     }
 }
 
-addEventListener('load', function(){
+addEventListener('load', function () {
     // Add default whitelist for blocking external scripts
     if (!getValue('noads_scriptlist_white')) options.setDefWhiteList();
     options.showPreferences();
