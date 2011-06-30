@@ -54,17 +54,17 @@ var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9
 
 var options = {
     stop: null,
-    checkEnabled: function (name) { return getValue(name) != 'disabled' },
-    setEnabled: function (name, value) { setValue(name, !value ? 'disabled' : 'enabled') },
+    checkEnabled: function (name) { return getValue(name) != 'disabled'; },
+    setEnabled: function (name, value) { setValue(name, !value ? 'disabled' : 'enabled'); },
     // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;
-        var str, arr = domains.split(','), inDomain = false, exDomain = false;
+        var str, arr = domains.split(','), inDomain = false, exDomain = false, i;
         while (domain) {
-            for (var i = 0, l = arr.length; i < l; i++) {
+            for (i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
-                if (str.charAt(0) != '~') { if (str == domain) { return true } else { inDomain = true }; }
-                else { if (str.slice(1) == domain) { return false } else { exDomain = true }; }
+                if (str.charAt(0) != '~') { if (str == domain) { return true } else { inDomain = true; }; }
+                else { if (str.slice(1) == domain) { return false } else { exDomain = true; }; }
             };
             domain = domain.slice(domain.indexOf('.') + 1 || domain.length);
         };
@@ -149,7 +149,7 @@ var options = {
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
     },
     getRawRules: function (name, domain, global) {
-        var rez = [], tmp = getValue(name).split('\n');
+        var rez = [], tmp = getValue(name).split('\n'), rule;
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
@@ -157,10 +157,10 @@ var options = {
             }
         };
         for (var i = 0, l = tmp.length; i < l; i++) {
-            var rule = tmp[i], pos = rule.indexOf('##');
+            rule = tmp[i], pos = rule.indexOf('##');
             if (pos != -1) {
                 if (global) { rez.push(rule) }
-                else { if (options.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule) };
+                else { if (options.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule); };
             }
         };
         tmp = null;
@@ -301,9 +301,10 @@ var options = {
         win.createMenu = function () {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
-            menu.id = 'noads_menu';
+            menu.id = 'noads_menu',
+            list;
             for (var i = 0, item; item = arguments[i]; i++) {
-                var list = document.createElement('li');
+                list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
                 list.style.backgroundColor = (i == 0) ? '#fafbfc' : '#edeeef';
@@ -355,7 +356,7 @@ var options = {
             }
             else {
                 if (textEnabled != '') { checkbox.appendChild(document.createTextNode(textEnabled)) }
-                else { checkbox.appendChild(document.createTextNode(sName)) }
+                else { checkbox.appendChild(document.createTextNode(sName)); }
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
             if (options.checkEnabled(sName + '_state')) checkbox.setAttribute('checked', 'true');
@@ -421,7 +422,7 @@ var options = {
                 input.className = 'noads_customurl';
                 input.type = 'text';
                 input.value = url;
-                input.onkeyup = function () { this.previousElementSibling.checked = true; setValue('noads_custom_url', this.value) };
+                input.onkeyup = function () { this.previousElementSibling.checked = true; setValue('noads_custom_url', this.value); };
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(txt));
             };

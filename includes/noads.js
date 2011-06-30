@@ -105,7 +105,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
         
         if (reBlock = options.getReScriptBlock('noads_scriptlist')) {
             window.opera.addEventListener('BeforeScript', function(e){
-                if (reBlock.test(e.element.text)) { e.preventDefault(); inlineScripts++ };
+                if (reBlock.test(e.element.text)) { e.preventDefault(); inlineScripts++; };
             }, false);
         }
     };
@@ -113,12 +113,12 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     var showButton = function(e){
         var docEle;
 
-        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement
+        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
         else docEle = document.body;
         if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 70) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
         }
-    }
+    };
  
     var onCSSAllowed = function(){
         // Add CSS rules
@@ -144,7 +144,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 window.addEventListener('mousemove', showButton, false);
             }
         }
-    }
+    };
     
     try { onCSSAllowed(); }
     catch(ex) { window.opera.addEventListener('BeforeCSS', function(event) {

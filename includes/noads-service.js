@@ -40,32 +40,32 @@ quickButtonCSS = ' \
 // NoAds Advanced main
 var noads = {
     clearCSSrules: function (css) {
-        var a = splitCSS(css);
+        var a = splitCSS(css), rule, j;
         for (var i = a.length; i--; ) {
-            var rule = a[i] + '>';
-            for (var j = a.length; j--; ) if (a[j].indexOf(rule) == 0) a.splice(j, 1);
+            rule = a[i] + '>';
+            for (j = a.length; j--; ) if (a[j].indexOf(rule) == 0) a.splice(j, 1);
         };
         return a.join(',');
     },
     deleleCSSrule: function (css, del) {
         var a = splitCSS(css);
         if (del) { for (var i = a.length; i--; ) if (del.indexOf(a[i]) == 0) a.splice(i, 1) }
-        else { a.pop() };
+        else { a.pop(); };
         return a.join(',');
     },
     getAttrSelector: function (el, tags) {
         var rez = '';
         if (el.attributes) {
-            var r = new RegExp('^(' + tags + ')$');
+            var r = new RegExp('^(' + tags + ')$'), n;
             for (var i = 0, a; a = el.attributes[i]; i++) {
-                var n = a.nodeName.toLowerCase();
+                n = a.nodeName.toLowerCase();
                 if (r.test(n)) {
-                   if(n == 'id') { 
+                   if (n == 'id') { 
                        if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
                        rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, ''); 
                        break; 
                    }
-                   else if(n == 'class') {
+                   else if (n == 'class') {
                        if (~a.nodeValue.indexOf(' ')){ rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
                        else if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
                        else { rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, ''); }
@@ -99,7 +99,6 @@ var noads = {
                     rez.unshift(tag + att + ((wide != false || /^(html|body)$/i.test(tag)) ? '' : this.getNth(el)));
                     try { single = (document.querySelectorAll(tag + att).length == 1); } catch (e) {break;}
                     if (wide && att && single) break;
-                    
                 }
             };
             el = el.parentNode;
@@ -112,7 +111,7 @@ var noads = {
         if (ruleURL && ruleURL[1]) { ruleURL[1] += '*' }
         else {
             ruleURL = css.match(/(?:src|href|data)\s*\*=\s*"([^"]+)"/i);
-            if (ruleURL && ruleURL[1]) { if(ruleURL[1].length <5) return; ruleURL[1] = '*' + ruleURL[1] + '*'; }
+            if (ruleURL && ruleURL[1]) { if(ruleURL[1].length < 5) return; ruleURL[1] = '*' + ruleURL[1] + '*'; }
             else { 
                 ruleURL = css.match(/(?:src|href|data)\s*=\s*"([^"]+)"/i)
                 if (!ruleURL || !ruleURL[1]) return;
@@ -137,12 +136,12 @@ var run = {
     getSubscription: function () {
         var url = getValue('noads_default_url');
         if (url) {
-            postMsg({ type: 'get_filters', url: url, addRules: false, allRules: true});
+            postMsg({type: 'get_filters', url: url, addRules: false, allRules: true});
         }
         else alert(TRANSLATE().iNoDefSub)
     },
     setStatus: function (value) {
-        if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = '' }, 4000) };
+        if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) };
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
@@ -169,7 +168,7 @@ var run = {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
             if (rez) rez += none;
-            if (uStyle) { replaceStyle(uStyle, rez) } else { uStyle = addStyle(rez) };
+            if (uStyle) { replaceStyle(uStyle, rez); } else { uStyle = addStyle(rez); };
         }
     },
     updateCSS: function (domain) {
@@ -347,8 +346,8 @@ var run = {
                     if (rules) css = noads.clearCSSrules(rules + ',' + css);
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
-                    if (uStyle) {replaceStyle(uStyle, css + none) }
-                    else { uStyle = addStyle(css + none)};
+                    if (uStyle) {replaceStyle(uStyle, css + none);}
+                    else { uStyle = addStyle(css + none);};
                 };
                 remove();
             }
@@ -553,9 +552,9 @@ var run = {
                 }
             };
             
-            if (content.childNodes.length) { hide.onclick = function(){content.hide()} }
-            else { hide.style.opacity = 0.5 };
-            close.onclick = function(){ overlay.close() };
+            if (content.childNodes.length) { hide.onclick = function(){content.hide();} }
+            else { hide.style.opacity = 0.5; };
+            close.onclick = function(){ overlay.close(); };
             try {
                 (document.body || document.documentElement).appendChild(overlay);
                 this.blockEle();
