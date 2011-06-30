@@ -238,7 +238,7 @@ var TRANSLATE = function () {
             pExport: 'Eksportuj',
             pURLfilters: 'Filtry URL:',
             pUserURLfilters: 'Filtry URL u\u017Cytkownika:',
-            pHide: 'Hide',
+            pHide: 'Ukryj',
             pHideButton: 'Ukryj przycisk szybkiego dost\u0119pu',
             pToolbarButton: 'Przycisk na pasku',
             pCSSlinks: 'Links embedded in CSS',
