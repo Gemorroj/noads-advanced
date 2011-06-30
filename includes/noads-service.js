@@ -44,13 +44,13 @@ var noads = {
         for (var i = a.length; i--; ) {
             rule = a[i] + '>';
             for (j = a.length; j--; ) if (a[j].indexOf(rule) == 0) a.splice(j, 1);
-        };
+        }
         return a.join(',');
     },
     deleleCSSrule: function (css, del) {
         var a = splitCSS(css);
         if (del) { for (var i = a.length; i--; ) if (del.indexOf(a[i]) == 0) a.splice(i, 1) }
-        else { a.pop(); };
+        else { a.pop(); }
         return a.join(',');
     },
     getAttrSelector: function (el, tags) {
@@ -73,12 +73,12 @@ var noads = {
                    else { rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
                 }
             }
-        };
+        }
         return rez;
     },
     getNth: function (el) {
         var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n } };
+        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n } }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
     },
     getCSSrule: function (el, wide) {
@@ -89,7 +89,7 @@ var noads = {
                 if (/^(html|body)$/i.test(tag)) break;
                 att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
                 if (att) {
-                    if(this.getAttrSelector(el, 'noads')) {tag = ''}; // for blocker helper
+                    if(this.getAttrSelector(el, 'noads')) {tag = ''} // for blocker helper
                     if(~att.indexOf('://')) rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
                     else rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
                     break;
@@ -100,9 +100,9 @@ var noads = {
                     try { single = (document.querySelectorAll(tag + att).length == 1); } catch (e) {break;}
                     if (wide && att && single) break;
                 }
-            };
+            }
             el = el.parentNode;
-        };
+        }
         return rez.join('>');
     },
     getFilterLink: function(css, domain){
@@ -113,7 +113,7 @@ var noads = {
             ruleURL = css.match(/(?:src|href|data)\s*\*=\s*"([^"]+)"/i);
             if (ruleURL && ruleURL[1]) { if(ruleURL[1].length < 5) return; ruleURL[1] = '*' + ruleURL[1] + '*'; }
             else { 
-                ruleURL = css.match(/(?:src|href|data)\s*=\s*"([^"]+)"/i)
+                ruleURL = css.match(/(?:src|href|data)\s*=\s*"([^"]+)"/i);
                 if (!ruleURL || !ruleURL[1]) return;
              }
         }
@@ -122,12 +122,12 @@ var noads = {
         if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
         if (ruleURL[1].indexOf('http') == -1) {
             if (domain) {
-                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) == '/' || domain.charAt(domain.length - 1) == '/')) return domain + ruleURL[1]
+                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) == '/' || domain.charAt(domain.length - 1) == '/')) return domain + ruleURL[1];
                 else return domain + '/' + ruleURL[1];
             }
         }
         else{ return ruleURL[1]; }
-    },
+    }
 };
 
 // Helper Objects
@@ -138,7 +138,7 @@ var run = {
         if (url) {
             postMsg({type: 'get_filters', url: url, addRules: false, allRules: true});
         }
-        else alert(TRANSLATE().iNoDefSub)
+        else alert(TRANSLATE().iNoDefSub);
     },
     setStatus: function (value) {
         if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) };
@@ -168,18 +168,17 @@ var run = {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
             if (rez) rez += none;
-            if (uStyle) { replaceStyle(uStyle, rez); } else { uStyle = addStyle(rez); };
+            if (uStyle) { replaceStyle(uStyle, rez); } else { uStyle = addStyle(rez); }
         }
     },
     updateCSS: function (domain) {
         sCSS = (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) ? options.getRules('noads_list', domain) : '';
-        if (sStyle) { replaceStyle(sStyle, sCSS ? sCSS + none : '') } else if (sCSS) { sStyle = addStyle(sCSS + none) };
+        if (sStyle) { replaceStyle(sStyle, sCSS ? sCSS + none : '') } else if (sCSS) { sStyle = addStyle(sCSS + none); }
         uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
-        if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : '') } else if (uCSS) { uStyle = addStyle(uCSS + none) };
+        if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : '') } else if (uCSS) { uStyle = addStyle(uCSS + none); }
     },
     unblockEle: function (latest) {
-        var domain = window.location.hostname;
-        var protocol = window.location.protocol + '//';
+        var domain = window.location.hostname, protocol = window.location.protocol + '//';
         if (this.stop) this.stop();
         var padCSS, css = options.getRules('noads_userlist', domain);
         if (!uStyle || !css) return;
@@ -256,8 +255,7 @@ var run = {
         }
     },
     blockEle: function (wide) {
-        var domain = window.location.hostname;
-        var protocol = window.location.protocol + '//';
+        var domain = window.location.hostname, protocol = window.location.protocol + '//';
         if (this.stop) this.stop();
         var css, tmpCSS, padCSS, ele = '', outline = '', bgColor = '', title = '';
 
@@ -304,15 +302,15 @@ var run = {
 
             css = css ? (css != (rules = noads.deleleCSSrule(css, rule)) ? (ev.shiftKey ? rules : css) : css + ',' + rule) : rule;
             if (tmpCSS) { replaceStyle(tmpCSS, css + highlightCSS) }
-            else { tmpCSS = addStyle(css + highlightCSS) };
-         
+            else { tmpCSS = addStyle(css + highlightCSS); }
+
             if (!ev.shiftKey) {
                 var lng = TRANSLATE();
                 // highlight elements marked for removing 
-                var backup = [],demo;
+                var backup = [], demo, i;
                 try {
                     demo = document.querySelectorAll(css);
-                    for (var i  = 0, backAttr = {}; i < demo.length; i++) {
+                    for (i = 0, backAttr = {}; i < demo.length; i++) {
                          backAttr = {title: demo[i].title, outline: demo[i].style.outline, bgColor: demo[i].style.backgroundColor};
                          demo[i].style.outline = '1px solid #306EFF';
                          demo[i].style.backgroundColor =  '#C6DEFF';
@@ -322,7 +320,7 @@ var run = {
                 catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null}
                 css = prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
-                    for (var i =0; i < demo.length; i++) {
+                    for (i =0; i < demo.length; i++) {
                          demo[i].style.outline = backup[i].outline;
                          demo[i].style.backgroundColor = backup[i].bgColor;
                     }
@@ -338,8 +336,8 @@ var run = {
                     */
                     var arrCSS = css.split(/\s*,\s*/);
                     // trying to get links out of selectors
-                    for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
-                        if(link) postMsg({ type: 'block_address', url:link});
+                    for (i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
+                        if(link) postMsg({type: 'block_address', url: link});
                     }
 
                     rules = options.getRules('noads_userlist', domain);
@@ -347,8 +345,8 @@ var run = {
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
                     if (uStyle) {replaceStyle(uStyle, css + none);}
-                    else { uStyle = addStyle(css + none);};
-                };
+                    else { uStyle = addStyle(css + none);}
+                }
                 remove();
             }
             out();
@@ -397,7 +395,7 @@ var run = {
             catch (e) {
                 log('invalid CSS encountered: '+arrCSS[i]);
                 return;
-            };
+            }
         }
         css = arrCSS.join(',');
 
@@ -418,11 +416,11 @@ var run = {
             b.setAttribute('title', title);
             b.setAttribute('style', 'right:-100px;');
             b.id = 'noads_button';
-            b.addEventListener('click', function(e){
+            b.addEventListener('click', function (e) {
                 if (e.ctrlKey && !e.shiftKey && !e.altKey) {
                     options.showPreferences(domain);
                     return
-                };
+                }
                 if (run.noreload) {
                     run.toggleBlocking(!enabled);
                     if (css && !blocked) { delEle(this)}
@@ -430,23 +428,23 @@ var run = {
                         this.value = lng.reload;
                         this.style.width = 'auto';
                         run.noreload = false
-                    };
-                } else { window.location.reload() }
+                    }
+                } else { window.location.reload(); }
             }, false);
-            b.addEventListener('mouseout', function(){
+            b.addEventListener('mouseout', function () {
             //    this.setAttribute('style', 'visibility:hidden;');
             //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
                 this.setAttribute('style', 'right:-100px;');
                 delEle(this, this.offsetHeight * this.offsetWidth)
             }, false);
-            try {document.body.appendChild(b);} catch(e) {;}
-        } else { b.setAttribute('value', txt); b.setAttribute('title', title); };
+            try {document.body.appendChild(b);} catch(e) {}
+        } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
     },
     contentBlockHelper: function(){
         var overlay = document.getElementById('noads_helper');
-        if (overlay) { overlay.close(); return };
+        if (overlay) { overlay.close(); return }
         
         var diffHeight = window.outerHeight - window.innerHeight;
         var scripts = document.getElementsByTagName('script');
@@ -496,8 +494,9 @@ var run = {
             content.hide = function(){
                 this.style.visibility = (this.style.visibility != 'hidden') ? 'hidden' : 'visible';
             };
-            
-            for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
+
+            var i;
+            for (i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
                 if (script.src && a.indexOf(script.src) == -1) {
                     link = document.createElement('a');
                     link.href = script.src;
@@ -511,9 +510,9 @@ var run = {
                     link.appendChild(img);
                     content.appendChild(link);
                 }
-            };
-            
-            for (var i = 0, img, source, link, alttext; i < objects.length; i++) {
+            }
+
+            for (i = 0, img, source, link, alttext; i < objects.length; i++) {
                 source = objects[i].src || objects[i].value || objects[i].data;
                 if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
                     link = document.createElement('a');
@@ -528,16 +527,16 @@ var run = {
                     link.appendChild(img);
                     content.appendChild(link);
                 }
-            };
+            }
             overlay.appendChild(content);
-            
+
             var img = document.createElement('img');
             img.className = 'noads_placeholder';
-            img.alt = TRANSLATE().pCSSlinks +':';
+            img.alt = TRANSLATE().pCSSlinks + ':';
             img.setAttribute('servicenoads', 'true');
             overlay.appendChild(img);
 
-            for (var i = 0, source, img, link, a = unique.call(bgImages.split('; ')); source = a[i]; i++) {
+            for (i = 0, source, img, link, a = unique.call(bgImages.split('; ')); source = a[i]; i++) {
                 if (source.indexOf('data:') == -1) {
                     link = document.createElement('a');
                     link.href = source;
@@ -550,10 +549,10 @@ var run = {
                     link.appendChild(img);
                     content.appendChild(link);
                 }
-            };
-            
+            }
+
             if (content.childNodes.length) { hide.onclick = function(){content.hide();} }
-            else { hide.style.opacity = 0.5; };
+            else { hide.style.opacity = 0.5; }
             close.onclick = function(){ overlay.close(); };
             try {
                 (document.body || document.documentElement).appendChild(overlay);

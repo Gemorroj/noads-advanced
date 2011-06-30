@@ -21,10 +21,6 @@ body {
     background-color: #316AC5;
     color: white;
 }
-.end {
-    padding-bottom: 6px !important;
-    border-bottom: 1px solid #aaa !important;
-}
 </style>
 <script type='text/javascript' src='scripts/noads-menu-translation.js'></script>
 <script type='text/javascript'>
@@ -37,7 +33,9 @@ function onMessageHandler(e) {
     // if we want to interact with the menu from injected script
     var message = decodeMessage(e.data);
     if (message.type == 'menu_status_enable') {
-        if (document && document.body) document.body.style.color = 'black';
+        if (document && document.body) {
+            document.body.style.color = 'black';
+        }
         enabled = true;
     }
 }
@@ -52,12 +50,12 @@ if (opera.extension) opera.extension.onmessage = function (e) {
             enabled = true;
         }
     }
-}
-
-function sendCommand(message) {
-    if (theport && message) try { theport.postMessage(encodeMessage(message)); } catch(e) {;}
-    window.close();
 };
+
+function sendCommand (message) {
+    if (theport && message) try { theport.postMessage(encodeMessage(message)); } catch(e) {}
+    window.close();
+}
 
 function onLoad () {
     var menu = document.createElement('div');
@@ -92,10 +90,10 @@ function onLoad () {
     menu.appendChild(command);
     document.body.appendChild(menu);
 
-    if (theport) try { theport.postMessage(encodeMessage({ type: 'ask_menu_status' })); } catch(e) {;}
+    if (theport) try { theport.postMessage(encodeMessage({ type: 'ask_menu_status' })); } catch(e) {}
     if (enabled) document.body.style.color = 'black';
     else document.body.style.color = 'gray';
-};
+}
 window.addEventListener('load', onLoad, false);
 </script>
 </head>

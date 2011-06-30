@@ -8,7 +8,7 @@ var importer = {
 			pos = rule.indexOf('##');
 			if (pos != -1 && rule.length > pos + 2) 
 				len += rule.slice(pos + 2).match(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g).length;
-		};
+		}
 		return len;
 	},
     importSubscription: function(list, url, allRules, addRules){
@@ -29,7 +29,7 @@ var importer = {
 						else { id = rule }
 					}
 				}
-			};
+			}
 			if (id) { return tagName + '.' + id + additional + ',' + tagName + '#' + id + additional; }
 			else { return (tagName || additional) ? tagName + additional : ''; }
 		};
@@ -40,14 +40,14 @@ var importer = {
 			}
 		};
 		var isValidSelector = function(selector){
-			if (document.querySelectorAll) try { document.querySelectorAll(selector) } catch (e) { return false };
+			if (document.querySelectorAll) try { document.querySelectorAll(selector) } catch (e) { return false }
 			return true;
 		};
 		var getHidingRules = function(list, all, script){
 			var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|\@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
 			if (list) {
-				var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
-				for (var i = 0, l = arr.length; i < l; i++) {
+				var rule, domains, tagName, attrRules, selector, arr = list.split('\n'), i;
+				for (i = 0, l = arr.length; i < l; i++) {
 					rule = arr[i].replace(reTrim, '');
 					if (!reBlank.test(rule) && reElemHide.test(rule)) {
 						domains = RegExp.$1;
@@ -62,11 +62,11 @@ var importer = {
 							} else { if (script) scriptList.push(domains + '##' + selector) }
 						}
 					}
-				};
+				}
 				if (script) return scriptList;
-				
+
 				rez.sort();
-				for (var i = rez.length; i--;) {
+				for (i = rez.length; i--;) {
 					if (i > 0 && rez[i][0] == rez[i - 1][0]) {
 						if (rez[i][1] != rez[i - 1][1]) 
 							rez[i - 1][1] += ',' + rez[i][1];
@@ -76,10 +76,10 @@ var importer = {
 						rez[i] = rez[i][0] + '##' + rez[i][1]
 					}
 				}
-			};
+			}
 			return rez;
 		};
-		
+
 		var filterRulesList;
 		if (!addRules) { filterRulesList = getHidingRules(list, allRules) }
 		else {
@@ -87,7 +87,7 @@ var importer = {
 			filterRulesList = unique.call(filterRulesList);
             filterRulesList.sort();
 			for (var i = filterRulesList.length; i--;) if (filterRulesList[i].indexOf('##') == -1) filterRulesList.splice(i, 1);
-		};
+		}
 		
 		if (filterRulesList.length) {
 			//if (confirm(lng.iSubs + url + '\n\n' + getHidingRulesLength(filterRulesList) + lng.iRules + filterRulesList.length + lng.iContinue)) {

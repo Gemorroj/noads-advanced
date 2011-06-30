@@ -16,9 +16,9 @@ var extension = window.opera.extension;
 
 // Helper Functions
 // Example: log('[NoAds]: test..');
-var decodeMessage = function(data) { return JSON.parse(data); }
-var encodeMessage = function(data) { return JSON.stringify(data); }
-var log = function(){ if (bDebug) opera.postError('[NoAdsAdvanced] '+Array.prototype.slice.call(arguments)); }
+var decodeMessage = function(data) { return JSON.parse(data); };
+var encodeMessage = function(data) { return JSON.stringify(data); };
+var log = function(){ if (bDebug) opera.postError('[NoAdsAdvanced] '+Array.prototype.slice.call(arguments)); };
 var extend = function(first, second){ for (var prop in second){ if(!first[prop]) first[prop] = second[prop];} };
 var getValue = function (name) { return storage[name] || ''; };
 var setValue = function (name, value) { storage[name] = value; };
