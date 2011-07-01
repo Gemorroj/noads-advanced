@@ -21,15 +21,17 @@ window.addEventListener('load', function () {
     realoadRules(false, false);
 
     function realoadRules (global, clean) {
+        var i;
+
         //if ((global && !arrayFilters.length) || (!global && !arrayUserFilters.length) || !firstrun) return;
         // empty rules
         if (global) {
-            for (var i = 0; i < arrayFilters.length; i++) {
+            for (i = 0; i < arrayFilters.length; i++) {
                 //log('url removed on URL filter reload -> ' + arrayFilters[i]);
                 filter.block.remove(arrayFilters[i]);
             }
         } else {
-            for (var i = 0; i < arrayUserFilters.length; i++) {
+            for (i = 0; i < arrayUserFilters.length; i++) {
                 log('url removed on URL filter reload -> ' + arrayUserFilters[i]);
                 filter.block.remove(arrayUserFilters[i]);
             }
@@ -46,7 +48,7 @@ window.addEventListener('load', function () {
             if (!arrayFilters.length) return;
 
             arrayFilters[0] = arrayFilters[0].substring(2); // remove ## parser compatibility
-            for (var i = 0; i < arrayFilters.length; i++) {
+            for (i = 0; i < arrayFilters.length; i++) {
                 if (arrayFilters[i].indexOf('##') == -1 && arrayFilters[i].indexOf('@@') == -1) { // check for unsupported "site##rule" format and whitlist
                     //log('url added on URL filter reload -> ' + arrayFilters[i]);
                     filter.block.add(arrayFilters[i]);
@@ -59,7 +61,7 @@ window.addEventListener('load', function () {
             if (!arrayUserFilters.length) return;
 
             arrayUserFilters[0] = arrayUserFilters[0].substring(2); // remove ## parser compatibility
-            for (var i = 0; i < arrayUserFilters.length; i++) {
+            for (i = 0; i < arrayUserFilters.length; i++) {
                 if (arrayUserFilters[i].indexOf('##') == -1 && arrayUserFilters[i].indexOf('@@') == -1) { // check for unsupported "site##rule" format and whitlist
                     log('url added on URL filter reload -> ' + arrayUserFilters[i]);
                     filter.block.add(arrayUserFilters[i]);
@@ -87,11 +89,7 @@ window.addEventListener('load', function () {
     }
 
     function enableButton() {
-        if (opera.extension.tabs.getFocused()) {
-            button.disabled = false;
-        } else {
-            button.disabled = true;
-        }
+        button.disabled = opera.extension.tabs.getFocused() ? false : true;
     }
 
     function onConnectHandler(e) {
@@ -118,7 +116,7 @@ window.addEventListener('load', function () {
                 if (~message.url.indexOf('.ini')) {
                     try {
                         var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.onreadystatechange = function(){
+                        xmlhttp.onreadystatechange = function () {
                             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                                 var pos = xmlhttp.responseText.indexOf(EXCLUDE)
                                 if (~pos) {
@@ -176,7 +174,7 @@ window.addEventListener('load', function () {
                 } else {
                     try {
                         var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.onreadystatechange = function(){
+                        xmlhttp.onreadystatechange = function () {
                             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                                 var rulesN = importer.importSubscription(xmlhttp.responseText, message.url, message.allRules, message.addRules);
                                 if (rulesN) e.source.postMessage(encodeMessage({

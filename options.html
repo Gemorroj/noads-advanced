@@ -9,9 +9,12 @@
 <script type='text/javascript'>
 opera.extension.onmessage = function (e) {
     var message = decodeMessage(e.data);
-    if (message.type == 'noads_import_status') {
-        if (message.status == 'good') alert(TRANSLATE().iSubs.replace('%url',message.url).replace('%d', message.length));
-        else alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\n URL: ' + message.url);
+    if (message.type === 'noads_import_status') {
+        if (message.status === 'good') {
+            alert(TRANSLATE().iSubs.replace('%url', message.url).replace('%d', message.length));
+        } else {
+            alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\n URL: ' + message.url);
+        }
         document.getElementById('noads_dlsubscription').disabled = false;
     }
 };
