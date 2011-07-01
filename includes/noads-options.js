@@ -63,8 +63,8 @@ var options = {
         while (domain) {
             for (i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
-                if (str.charAt(0) != '~') { if (str == domain) { return true } else { inDomain = true; } }
-                else { if (str.slice(1) == domain) { return false } else { exDomain = true; } }
+                if (str.charAt(0) != '~') { if (str == domain) { return true; } else { inDomain = true; } }
+                else { if (str.slice(1) == domain) { return false; } else { exDomain = true; } }
             }
             domain = domain.slice(domain.indexOf('.') + 1 || domain.length);
         }
@@ -85,9 +85,9 @@ var options = {
         var rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n');
         var rules = splitCSS(selector);
         rules.posArr = function (arr) {
-            var len = arr.length;
-            if (len) for (var i = 0, l = this.length - len + 1; i < l; i++) {
-                for (var j = 0; j < len; j++) {
+            var len = arr.length, j, i;
+            if (len) for (i = 0, l = this.length - len + 1; i < l; i++) {
+                for (j = 0; j < len; j++) {
                     if (arr[j] != this[i + j]) break;
                 }
                 if (j == len) return i;
@@ -96,7 +96,7 @@ var options = {
         };
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
-            if (pos != -1) this.splice(pos, arr.length); //wtf?
+            if (pos != -1) this.splice(pos, arr.length); //TODO: wtf?
         };
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [], i;
@@ -121,7 +121,7 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                if (pos == 0) { rules.delArr(splitCSS(rule.slice(pos + 2))) } else { arr.unshift(rule); tmp.splice(i, 1) }
+                if (pos == 0) { rules.delArr(splitCSS(rule.slice(pos + 2))); } else { arr.unshift(rule); tmp.splice(i, 1); }
             }
         }
         switch (arr.length) {
@@ -185,8 +185,8 @@ var options = {
         setValue(name, rez.join('\n'));
         rez = tmp = null;
     },
-    getForSite: function (domain) { return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain) },
-    setForSite: function (domain, value) { this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value) },
+    getForSite: function (domain) { return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain); },
+    setForSite: function (domain, value) { this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value); },
     isWhiteListed: function (rule, domain) {
         var pos = rule.indexOf('$');
         if (pos != -1) rule = rule.slice(0, pos);
@@ -225,7 +225,7 @@ var options = {
             }
         }
         else { rez.unshift('@@||' + domain.replace(/^www\./, '') + '^'); }
-        log('whitelisted '+name+' '+ JSON.stringify(rez));
+        log('whitelisted ' + name + ' ' + JSON.stringify(rez));
         setValue(name, rez.join('\n'));
         rez = null;
     },
@@ -247,7 +247,7 @@ var options = {
         var press = function (e) { if (e.keyCode == 27) options.stop(global); };
 
         var overlay = document.getElementById('noads_overlay');
-        if (overlay) { overlay.close(); return }
+        if (overlay) { overlay.close(); return; }
         //window.scrollTo(0,0);
 
         if (this.stop) this.stop(global);
@@ -267,7 +267,7 @@ var options = {
         //if(!global) overlay.clearStyle = addStyle(optionsCSS);
         //else  
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
-        overlay.close = function(global){
+        overlay.close = function (global) {
             if (!global) {
                 run.updateCSS(domain);
                 delEle(this.clearStyle);
@@ -286,7 +286,7 @@ var options = {
         var lng = TRANSLATE();
         var win = document.createElement('div');
         win.className = 'noads_win';
-        if(!global) win.style.marginTop = '4%';
+        if (!global) win.style.marginTop = '4%';
         overlay.appendChild(win);
         var img = document.createElement('div');
         img.className = 'noads_close_window'
@@ -306,8 +306,8 @@ var options = {
                 list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
-                list.style.backgroundColor = (i == 0) ? '#fafbfc' : '#edeeef';
-                list.style.borderBottomColor = (i == 0) ? '#fafbfc' : '#aaaaaa';
+                list.style.backgroundColor = (i === 0) ? '#fafbfc' : '#edeeef';
+                list.style.borderBottomColor = (i === 0) ? '#fafbfc' : '#aaaaaa';
                 menu.appendChild(list);
             }
             this.appendChild(menu);
@@ -327,21 +327,21 @@ var options = {
             var button = document.createElement('button');
             button.type = 'button';
             button.id = sID;
-            if(imgData) {
+            if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
                 button.appendChild(img);
             }
-            if(sClass) button.className = sClass;
+            if (sClass) button.className = sClass;
             button.appendChild(document.createTextNode(sText));
-            if(sClickFn) button.onclick = sClickFn;
+            if (sClickFn) button.onclick = sClickFn;
             return button;
         };
-        area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn){
+        area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
             var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
             checkbox.id = sName + '_toggle';
-            if(imgData) {
+            if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
                 checkbox.appendChild(img);
@@ -354,15 +354,15 @@ var options = {
                 changetext = true;
             }
             else {
-                if (textEnabled != '') { checkbox.appendChild(document.createTextNode(textEnabled)) }
+                if (textEnabled != '') { checkbox.appendChild(document.createTextNode(textEnabled)); }
                 else { checkbox.appendChild(document.createTextNode(sName)); }
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
             if (options.checkEnabled(sName + '_state')) checkbox.setAttribute('checked', 'true');
            
-            checkbox.onclick = function(e){
+            checkbox.onclick = function (e) {
                 e.preventDefault();
-                if(sClickFn) sClickFn();
+                if (sClickFn) sClickFn();
                 if (this.getAttribute('checked') == 'true') {
                     options.setEnabled(sName + '_state', false);
                     this.className = classDisabled;
@@ -410,7 +410,7 @@ var options = {
             if (url == getValue('noads_default_url')) input.checked = true;
             label.appendChild(input);
             if (!typein) {
-                label.appendChild(document.createTextNode(txt+': '));
+                label.appendChild(document.createTextNode(txt + ': '));
                 var a = document.createElement('a');
                 a.href = url;
                 a.target = '_blank';
@@ -606,9 +606,9 @@ var options = {
             }
             textucss.disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
             textcss.disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
-                
-            checkbox.onclick = function(){
-                var currentstate = !(this.getAttribute('checked') == 'true');
+
+            checkbox.onclick = function () {
+                var currentstate = (this.checked === false);
                 if (currentstate) {
                     this.removeChild(disable); 
                     this.appendChild(enable);
@@ -621,7 +621,7 @@ var options = {
                 textucss.disabled = !currentstate;
                 textcss.disabled = !currentstate;
                 textarea.disabled = !currentstate;
-                this.setAttribute('checked', currentstate);
+                this.checked = currentstate;
                 options.setForSite(window.location.hostname, currentstate);
                 log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
             };
@@ -661,12 +661,9 @@ var options = {
             //this.appendChild(this.createCheckbox('noads_subscription',lng.pEnabled,'positive right',lng.pDisabled,'positive right unchecked'));
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
-                if (document.getElementById('noads_dlsubscription').disabled === true) {
-                    return;
-                } else {
-                    document.getElementById('noads_dlsubscription').disabled = true;
-                }
-                
+                if (document.getElementById('noads_dlsubscription').disabled === true) return;
+                else document.getElementById('noads_dlsubscription').disabled = true;
+
                 var url = '', inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type == 'radio' && radioButton.checked) {
@@ -676,7 +673,7 @@ var options = {
                 }
                 if (url) {
                     setValue('noads_default_url', url);
-                    postMsg({ type: 'get_filters', url: url, addRules: document.getElementById('noads_addrules_toggle').getAttribute('checked') == 'true', allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true'});
+                    postMsg({ type: 'get_filters', url: url, addRules: document.getElementById('noads_addrules_toggle').checked === true, allRules: document.getElementById('noads_allrules_toggle').checked === true});
                 }
             }, '', imgRefresh));
         };
@@ -704,11 +701,8 @@ var options = {
         content.appendChild(area);
         win.appendChild(content);
 
-        if (domain) {
-            area.showSitePreferences(0);
-        } else {
-            area.showUserCSSList(0);
-        }
+        if (domain) area.showSitePreferences(0);
+        else area.showUserCSSList(0);
 
         try {
             document.body.appendChild(overlay);

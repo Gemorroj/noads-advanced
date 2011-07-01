@@ -95,9 +95,7 @@ window.addEventListener('load', function () {
     function onConnectHandler(e) {
         if (e && e.origin && e.origin.indexOf('menu.html') > -1 && e.origin.indexOf('widget://') > -1) {
             var tab = opera.extension.tabs.getFocused();
-            if (tab) {
-                tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
-            }
+            if (tab) tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
         } else {
             enableButton();
         }
@@ -123,10 +121,7 @@ window.addEventListener('load', function () {
                                     var arraySubscription = xmlhttp.responseText.substring(pos + EXCLUDE.length).split('\n');
                                     log('URL filters flushed...');
                                     realoadRules(true, true);
-                                    if (!message.addRules && arrayFilters.length) {
-                                        arrayFilters = null;
-                                        arrayFilters = new Array();
-                                    }
+                                    if (!message.addRules && arrayFilters.length) arrayFilters = new Array();
 
                                     for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
                                         arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');

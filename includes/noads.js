@@ -17,7 +17,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if(typeof storage === undefined || !storage)  { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return };
+    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; };
     var blockingText = '', domain = window.location.hostname;
 
     // Set subscription listener
@@ -51,7 +51,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 ret = (ret == 'NaN') ? null : ret;
                 if (j[0].match(/^function/i)) {
                     // blocking functions
-                    blockedFuncs += ','+j[1];
+                    blockedFuncs += ',' + j[1];
                     
                   /*if (~j[1].indexOf('.')) {                   
                      if (window[j[1].split('.')[0]]) {
@@ -61,18 +61,18 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                      // also must be parsed on BeforeScript event as class sometimes unavailible before
                      } else {*/
                         (function(name, debug) {
-                            window.opera.defineMagicFunction(j[1], function(){ if(debug) window.opera.postError('[NoAdsAdvanced] function '+name+' is void'); return; }); 
+                            window.opera.defineMagicFunction(j[1], function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }); 
                         })(j[1], bDebug);
                     //}
 
                     (function(name, debug) {
-                        window[name] = function(){ if(debug) window.opera.postError('[NoAdsAdvanced] function '+name+' is void'); return; }; 
+                        window[name] = function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }; 
                     })(j[1], bDebug);
                 } //blocking variables
                 else if (j[0].match(/^var/i)) {
-                        blockedVars += ','+j[1];
+                        blockedVars += ',' + j[1];
                         window[j[1]] = ret;
-                        window.opera.defineMagicVariable(j[1], function(){
+                        window.opera.defineMagicVariable(j[1], function () {
                             return null;
                         }, null);
                 }
@@ -93,7 +93,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     // Block external scripts
     if (options.checkEnabled('noads_scriptlist_state') && (reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true))) {
         blockingText += ', external scripts';
-        window.opera.addEventListener('BeforeExternalScript', function(e){
+        window.opera.addEventListener('BeforeExternalScript', function (e) {
             var src = e.element.src;
             if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
             var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);

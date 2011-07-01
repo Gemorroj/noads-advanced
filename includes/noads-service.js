@@ -89,8 +89,8 @@ var noads = {
                 if (/^(html|body)$/i.test(tag)) break;
                 att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
                 if (att) {
-                    if(this.getAttrSelector(el, 'noads')) {tag = ''} // for blocker helper
-                    if(~att.indexOf('://')) rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
+                    if (this.getAttrSelector(el, 'noads')) {tag = ''} // for blocker helper
+                    if (~att.indexOf('://')) rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
                     else rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
                     break;
                 }
@@ -276,7 +276,7 @@ var run = {
             outline = ele.style.outline;
             bgColor = ele.style.backgroundColor;
             
-            if(!ele.getAttribute('servicenoads')) {
+            if (!ele.getAttribute('servicenoads')) {
                 ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
                 ele.style.outline = '1px solid #306EFF';
                 ele.style.backgroundColor = '#C6DEFF';
@@ -285,7 +285,7 @@ var run = {
         var out = function () {
             if (ele) {
                 // restore attributes
-                if(title) ele.title = title; else ele.removeAttribute('title');
+                if (title) ele.title = title; else ele.removeAttribute('title');
                 if (outline || bgColor) {
                     ele.style.outline = outline;
                     ele.style.backgroundColor = bgColor;
@@ -317,7 +317,7 @@ var run = {
                          backup.push(backAttr);
                     }
                 }
-                catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null}
+                catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null;}
                 css = prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
                     for (i =0; i < demo.length; i++) {
@@ -337,7 +337,7 @@ var run = {
                     var arrCSS = css.split(/\s*,\s*/);
                     // trying to get links out of selectors
                     for (i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
-                        if(link) postMsg({type: 'block_address', url: link});
+                        if (link) postMsg({type: 'block_address', url: link});
                     }
 
                     rules = options.getRules('noads_userlist', domain);
@@ -345,7 +345,7 @@ var run = {
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
                     if (uStyle) {replaceStyle(uStyle, css + none);}
-                    else { uStyle = addStyle(css + none);}
+                    else {uStyle = addStyle(css + none);}
                 }
                 remove();
             }
@@ -392,10 +392,7 @@ var run = {
         
         for (var i = arrCSS.length; i--;) {
             try { if (document.querySelectorAll(arrCSS[i]).length == 0) arrCSS.splice(i, 1); } 
-            catch (e) {
-                log('invalid CSS encountered: '+arrCSS[i]);
-                return;
-            }
+            catch (e) {log('invalid CSS encountered: ' + arrCSS[i]); return;}
         }
         css = arrCSS.join(',');
 
@@ -423,11 +420,11 @@ var run = {
                 }
                 if (run.noreload) {
                     run.toggleBlocking(!enabled);
-                    if (css && !blocked) { delEle(this)}
+                    if (css && !blocked) { delEle(this); }
                     else {
                         this.value = lng.reload;
                         this.style.width = 'auto';
-                        run.noreload = false
+                        run.noreload = false;
                     }
                 } else { window.location.reload(); }
             }, false);
@@ -435,7 +432,7 @@ var run = {
             //    this.setAttribute('style', 'visibility:hidden;');
             //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
                 this.setAttribute('style', 'right:-100px;');
-                delEle(this, this.offsetHeight * this.offsetWidth)
+                delEle(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {document.body.appendChild(b);} catch(e) {}
         } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
@@ -449,9 +446,9 @@ var run = {
         var diffHeight = window.outerHeight - window.innerHeight;
         var scripts = document.getElementsByTagName('script');
         var objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video');
-        var resize = function(){
+        var resize = function () {
             if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) 
-                window.setTimeout(function(){
+                window.setTimeout(function () {
                     overlay.close()
                 }, 200)
         };
@@ -462,7 +459,7 @@ var run = {
             overlay.setAttribute('servicenoads', 'true');
             overlay.id = 'noads_helper';
             overlay.clearStyle = addStyle(contentHelperCSS);
-            overlay.close = function(){
+            overlay.close = function () {
                 delEle(this.clearStyle);
                 window.removeEventListener('resize', resize, false);
                 for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) 
@@ -551,9 +548,9 @@ var run = {
                 }
             }
 
-            if (content.childNodes.length) { hide.onclick = function(){content.hide();} }
+            if (content.childNodes.length) { hide.onclick = function () {content.hide();}; }
             else { hide.style.opacity = 0.5; }
-            close.onclick = function(){ overlay.close(); };
+            close.onclick = function () { overlay.close(); };
             try {
                 (document.body || document.documentElement).appendChild(overlay);
                 this.blockEle();
