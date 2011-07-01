@@ -241,7 +241,7 @@ var TRANSLATE = function () {
             pHide: 'Ukryj',
             pHideButton: 'Ukryj przycisk szybkiego dost\u0119pu',
             pToolbarButton: 'Przycisk na pasku',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'Linki osadzone w CSS',
             pDebug: 'Debuguj',
         };
         case 'zh-tw': return {
