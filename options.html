@@ -18,7 +18,9 @@ opera.extension.onmessage = function (e) {
 
 addEventListener('load', function () {
     // Add default whitelist for blocking external scripts
-    if (!getValue('noads_scriptlist_white')) options.setDefWhiteList();
+    if (!getValue('noads_scriptlist_white')) {
+        options.setDefWhiteList();
+    }
     options.showPreferences();
 }, false);
 </script>

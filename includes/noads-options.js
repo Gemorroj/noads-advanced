@@ -244,7 +244,7 @@ var options = {
     showPreferences: function (domain) {
         if (!document.body) return;
         var global = domain ? false : true;
-        var press = function (e) { if (e.keyCode == 27) options.stop(global) };
+        var press = function (e) { if (e.keyCode == 27) options.stop(global); };
 
         var overlay = document.getElementById('noads_overlay');
         if (overlay) { overlay.close(); return }
@@ -299,10 +299,9 @@ var options = {
         };
         win.appendChild(img);
         win.createMenu = function () {
-            var menu = document.createElement('ul');
+            var menu = document.createElement('ul'), list;
             menu.className = 'noads_menu';
-            menu.id = 'noads_menu',
-            list;
+            menu.id = 'noads_menu';
             for (var i = 0, item; item = arguments[i]; i++) {
                 list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
@@ -422,7 +421,10 @@ var options = {
                 input.className = 'noads_customurl';
                 input.type = 'text';
                 input.value = url;
-                input.onkeyup = function () { this.previousElementSibling.checked = true; setValue('noads_custom_url', this.value); };
+                input.onkeyup = function () {
+                    this.previousElementSibling.checked = true;
+                    setValue('noads_custom_url', this.value);
+                };
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(txt));
             }
@@ -432,53 +434,53 @@ var options = {
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
-            this.appendChild(this.createCheckbox('noads_userlist',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val);
-                options.setWhiteList('noads_userlist' + '_white', val);
+                options.setWhiteList('noads_userlist_white', val);
              }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showCSSList = function (pos) {
             this.clear(pos);
-            this.appendChild(this.createTextarea('noads_css_textarea',lng.pCSS, 'noads_list'));
-            this.appendChild(this.createCheckbox('noads_list',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
+            this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val);
-                options.setWhiteList('noads_list' + '_white', val);
+                options.setWhiteList('noads_list_white', val);
             }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showMagicList = function (pos) {
             this.clear(pos);
-            this.appendChild(this.createTextarea('noads_magic_textarea',lng.pMK, 'noads_magiclist'));
-            this.appendChild(this.createCheckbox('noads_magiclist',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
+            this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_magiclist', val);
                 options.setWhiteList('noads_magiclist_white', val);
             }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
-            this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea',lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_userurlfilterlist',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
+            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
@@ -486,16 +488,16 @@ var options = {
                 postMsg({ type: 'reload_rules', global: false });
             }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showURLfilters = function (pos) {
             this.clear(pos);
-            this.appendChild(this.createTextarea('noads_urlfilterlist_textarea',lng.pURLfilters, 'noads_urlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_urlfilterlist',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
+            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
@@ -503,58 +505,58 @@ var options = {
                 postMsg({ type: 'reload_rules', global: true });
             }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
-            this.appendChild(this.createTextarea('noads_scriptlist_textarea',lng.pScripts, 'noads_scriptlist'));
-            this.appendChild(this.createCheckbox('noads_scriptlist',lng.pEnabled,'positive right',lng.pDisabled,'negative unchecked right'));
-            this.appendChild(this.createCheckbox('noads_button',lng.pHideButton,'positive right-second',lng.pShowButton,'negative unchecked right-second'));
-            this.appendChild(this.createButton('noads_button_save',lng.pSave, function () {
+            this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
+            this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_scriptlist', val);
                 options.setWhiteList('noads_scriptlist_white', val);
             }, 'positive', imageTick));
             
-            this.appendChild(this.createButton('noads_button_export',lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,'+window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
         area.showSitePreferences = function (pos) {
             this.clear(pos);
-            log('opened settings for '+domain);
+            log('opened settings for ' + domain);
             
-            var textucss = this.createTextarea('noads_usercss_textarea',lng.pUCSS, 'noads_userlist');
+            var textucss = this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist');
             this.appendChild(textucss);
             var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_userlist',lng.pEnabled,'positive right',lng.pDisabled,'negative right',null,
+            inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null,
                 function() {document.getElementById('noads_usercss_textarea').disabled = options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);}));
-            inlinearea.appendChild(this.createButton('noads_button_save_usercss',lng.pSave, function () {
+            inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val, domain);
                 options.setWhiteList('noads_userlist_white', val);
                 
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);
-            
-            var textcss = this.createTextarea('noads_css_textarea',lng.pCSS, 'noads_list');
+
+            var textcss = this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list');
             this.appendChild(textcss);
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_list',lng.pEnabled,'positive right',lng.pDisabled,'negative right',null,
+            inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null,
                 function() {document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);}));
-            inlinearea.appendChild(this.createButton('noads_button_save_css',lng.pSave, function () {
+            inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val, domain);
                 options.setWhiteList('noads_list_white', val);
             }, 'right-second', imageTick));
               this.appendChild(inlinearea);
-             
+
             // add to white list textarea
             var button = document.createElement('button');
             button.type = 'button';
@@ -571,9 +573,9 @@ var options = {
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
-            
+
             // add to white list
-            this.appendChild(this.createButton('noads_button_save',lng.pAddToWhite, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pAddToWhite, function () {
                 var textarea = document.getElementById('noads_jsblocks_textarea');
                 var val = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).replace(/^\s+|\r|\s+$/g, '');
                 if (val) {
@@ -621,7 +623,7 @@ var options = {
                 textarea.disabled = !currentstate;
                 this.setAttribute('checked', currentstate);
                 options.setForSite(window.location.hostname, currentstate);
-                log('set whitelisted for <'+window.location.hostname+'> to '+options.getForSite(window.location.hostname));
+                log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
             };
             this.appendChild(checkbox);
         };
@@ -654,11 +656,11 @@ var options = {
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
             
-            this.appendChild(this.createCheckbox('noads_allrules',lng.pAllRules,'right positive','','right negative unchecked'));
-            this.appendChild(this.createCheckbox('noads_addrules',lng.pAddRules,'right-second positive','','right-second negative unchecked'));
+            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
+            this.appendChild(this.createCheckbox('noads_addrules', lng.pAddRules, 'right-second positive', '', 'right-second negative unchecked'));
             //this.appendChild(this.createCheckbox('noads_subscription',lng.pEnabled,'positive right',lng.pDisabled,'positive right unchecked'));
 
-            this.appendChild(this.createButton('noads_dlsubscription',lng.pDownload, function () {
+            this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
                 if (document.getElementById('noads_dlsubscription').disabled === true) {
                     return;
                 } else {
@@ -684,31 +686,38 @@ var options = {
             p.className = 'noads_help';
             p.appendChild(document.createTextNode(lng.pAbout));
             this.appendChild(p);
-            
-            this.appendChild(this.createCheckbox('noads_debug_enabled',lng.pDebug,'right inline-clean',lng.pDebug,'right unchecked inline-clean'));
-            this.appendChild(this.createCheckbox('noads_tb_enabled',lng.pToolbarButton,'right-second inline-clean',lng.pToolbarButton,'right-second unchecked inline-clean'));
+
+            this.appendChild(this.createCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
+            this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
         };
 
-        if(domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0) }]);
-        else win.createMenu( [lng.mUCSS, function () { area.showUserCSSList(0) }], 
-            [lng.mCSS, function () { area.showCSSList(1) }], 
-            [lng.mScripts, function () { area.showScriptWhitelist(2) }], 
-            [lng.mMK, function () { area.showMagicList(3) }],
-            [lng.mUserURLfilters, function () { area.showUserURLfilters(4)}],
-            [lng.mURLfilters, function () { area.showURLfilters(5)}],
-            [lng.mSubscriptions, function () { area.showSubscriptions(6)}],
-            [lng.mHelp, function () { area.showHelp(7)}]
+        if (domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0); }]);
+        else win.createMenu( [lng.mUCSS, function () { area.showUserCSSList(0); }], 
+            [lng.mCSS, function () { area.showCSSList(1); }], 
+            [lng.mScripts, function () { area.showScriptWhitelist(2); }], 
+            [lng.mMK, function () { area.showMagicList(3); }],
+            [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
+            [lng.mURLfilters, function () { area.showURLfilters(5); }],
+            [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
+            [lng.mHelp, function () { area.showHelp(7); }]
         );
         content.appendChild(area);
         win.appendChild(content);
-        if(domain) area.showSitePreferences(0); else area.showUserCSSList(0);
-        try { document.body.appendChild(overlay); } 
-        catch(ex) {
-                run.updateCSS(domain);
-                delEle(overlay.clearStyle);
-                document.removeEventListener('keypress', press, false);
-                run.stop = null;
-                delEle(overlay);
+
+        if (domain) {
+            area.showSitePreferences(0);
+        } else {
+            area.showUserCSSList(0);
+        }
+
+        try {
+            document.body.appendChild(overlay);
+        } catch(ex) {
+            run.updateCSS(domain);
+            delEle(overlay.clearStyle);
+            document.removeEventListener('keypress', press, false);
+            run.stop = null;
+            delEle(overlay);
         }
     }
 };
