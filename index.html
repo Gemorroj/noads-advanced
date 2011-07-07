@@ -177,8 +177,8 @@ opera.extension.onmessage = function (e) {
                             length: rulesN,
                         }));
                         else e.source.postMessage(encodeMessage({
-                            type: 'file error',
-                            status: 'good',
+                            type: 'noads_import_status',
+                            status: 'file error',
                             url: message.url,
                             length: rulesN,
                         }));
