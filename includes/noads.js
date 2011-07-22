@@ -17,7 +17,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if(typeof storage === undefined || !storage)  { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return };
+    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; };
     var blockingText = '', domain = window.location.hostname;
 
     // Set subscription listener
@@ -51,7 +51,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 ret = (ret == 'NaN') ? null : ret;
                 if (j[0].match(/^function/i)) {
                     // blocking functions
-                    blockedFuncs += ','+j[1];
+                    blockedFuncs += ',' + j[1];
                     
                   /*if (~j[1].indexOf('.')) {                   
                      if (window[j[1].split('.')[0]]) {
@@ -61,37 +61,39 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                      // also must be parsed on BeforeScript event as class sometimes unavailible before
                      } else {*/
                         (function(name, debug) {
-                            window.opera.defineMagicFunction(j[1], function(){ if(debug) window.opera.postError('[NoAdsAdvanced] function '+name+' is void'); return; }); 
+                            window.opera.defineMagicFunction(j[1], function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }); 
                         })(j[1], bDebug);
                     //}
 
                     (function(name, debug) {
-                        window[name] = function(){ if(debug) window.opera.postError('[NoAdsAdvanced] function '+name+' is void'); return; }; 
+                        window[name] = function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }; 
                     })(j[1], bDebug);
                 } //blocking variables
                 else if (j[0].match(/^var/i)) {
-                        blockedVars += ','+j[1];
+                        blockedVars += ',' + j[1];
                         window[j[1]] = ret;
-                        window.opera.defineMagicVariable(j[1], function(){
+                        window.opera.defineMagicVariable(j[1], function () {
                             return null;
                         }, null);
                 }
             }
             //log('functions blocked: ' + blockedFuncs.slice(1)+'\nvariables blocked: ' + blockedVars.slice(1));
         }
-    };
-    
+    }
+
     // Enumerate backgrounds for helper
-    window.opera.addEventListener('BeforeCSS', function(userJSEvent){
+    window.opera.addEventListener('BeforeCSS', function (userJSEvent) {
         //alert(userJSEvent);
-        var append = function(str, p1, offset, s){  bgImages += p1 + '; '}
+        var append = function (str, p1, offset, s) {
+            bgImages += p1 + '; ';
+        };
         userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, append);
     }, false);
 
     // Block external scripts
     if (options.checkEnabled('noads_scriptlist_state') && (reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true))) {
         blockingText += ', external scripts';
-        window.opera.addEventListener('BeforeExternalScript', function(e){
+        window.opera.addEventListener('BeforeExternalScript', function (e) {
             var src = e.element.src;
             if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
             var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
@@ -102,39 +104,42 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 log('blocked script -> ' + src + ' for <' + site + '>');
             }
         }, false);
-        
+
         if (reBlock = options.getReScriptBlock('noads_scriptlist')) {
-            window.opera.addEventListener('BeforeScript', function(e){
-                if (reBlock.test(e.element.text)) { e.preventDefault(); inlineScripts++ };
+            window.opera.addEventListener('BeforeScript', function (e) {
+                if (reBlock.test(e.element.text)) {
+                    e.preventDefault();
+                    inlineScripts++;
+                }
             }, false);
         }
-    };
-    
-    var showButton = function(e){
+    }
+
+    var showButton = function (e) {
         var docEle;
 
-        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement
+        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
         else docEle = document.body;
         if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 70) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
         }
-    }
+    };
  
-    var onCSSAllowed = function(){
+    var onCSSAllowed = function () {
         // Add CSS rules
         if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) {
             sCSS = options.getRules('noads_list', domain);
             if (sCSS) sStyle = addStyle(sCSS + none, 'sCSS');
             blockingText += ', ads by CSS';
-        };
-        
+        }
+
         // Add custom CSS rules
         if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) {
             uCSS = options.getRules('noads_userlist', domain);
             if (uCSS) uStyle = addStyle(uCSS + none, 'uCSS');
             blockingText += ', ads by user CSS';
-        };
-        
+        }
+
         // Create the quick button
         if (window.top === window.self) { // don't want that in a frames
             //window.removeEventListener('mousemove', showButton, false); 
@@ -144,8 +149,8 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 window.addEventListener('mousemove', showButton, false);
             }
         }
-    }
-    
+    };
+
     try { onCSSAllowed(); }
     catch(ex) { window.opera.addEventListener('BeforeCSS', function(event) {
         window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
@@ -185,7 +190,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
         }, false);
         
         // Create menu messaging channel and parse background messages
-        opera.extension.onmessage = function(e){
+        opera.extension.onmessage = function (e) {
             var message = decodeMessage(e.data);
             if (message.type == 'noads_bg_port') {
                 var channel = new MessageChannel();
@@ -195,10 +200,10 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                 }), [channel.port2]);
                 channel.port1.onmessage = onPopupMessageHandler;
             }
-        }
-        
+        };
+
         // Parse menu messages
-        function onPopupMessageHandler(e){
+        function onPopupMessageHandler (e) {
             var message = decodeMessage(e.data);
             if (message.type) {
                 switch (message.type) {
@@ -230,10 +235,10 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
             }
         }
     }
-    
+
     // In case we did something unneeded
-    window.addEventListener('DOMContentLoaded', function() {
-        if(!(document.documentElement instanceof window.HTMLHtmlElement)) {
+    window.addEventListener('DOMContentLoaded', function () {
+        if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
             delEle(document.getElementById('sCSS'));
             delEle(document.getElementById('uCSS'));
             delEle(document.getElementById('qbCSS'));
