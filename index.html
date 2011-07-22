@@ -203,56 +203,6 @@ window.addEventListener('load', function () {
                         }));
                     }
                 }
-<<<<<<< HEAD
-                arraySubscription = null;
-                break;
-
-            case 'unblock_address':
-                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) break;
-                log('user URL-filter unblocked url -> ' + message.url);
-                filter.block.remove(message.url);
-                for (var i = 0; i < arrayUserFilters.length; i++) {
-                    if (arrayUserFilters[i] == message.url) {
-                        arrayUserFilters.splice(i, 1);
-                        break;
-                    }
-=======
-                xmlhttp.open("GET", message.url, true);
-                xmlhttp.send();
-            }
-            catch (ex) {
-                log('URL filter import error -> ' + ex);
-                e.source.postMessage(encodeMessage({
-                        type: 'noads_import_status',
-                        status: 'download failed',
-                        url: message.url, }));
-            }
-        else try {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function(){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        var rulesN = importer.importSubscription(xmlhttp.responseText, message.url, message.allRules, message.addRules);
-                        if (rulesN) e.source.postMessage(encodeMessage({
-                            type: 'noads_import_status',
-                            status: 'good',
-                            url: message.url,
-                            length: rulesN,
-                        }));
-                        else e.source.postMessage(encodeMessage({
-                            type: 'noads_import_status',
-                            status: 'file error',
-                            url: message.url,
-                            length: rulesN,
-                        }));
-                    } else if (xmlhttp.readyState >= 4) {
-                        e.source.postMessage(encodeMessage({
-                            type: 'noads_import_status',
-                            status: 'download failed',
-                            url: message.url,
-                        }));
-                     }
->>>>>>> 1cf747522a29e16b0326b3f32812be9e85b869fb
-                }
                 if (arrayUserFilters.length) setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
                 else setValue('noads_urlfilterlist', '');
                 break;
