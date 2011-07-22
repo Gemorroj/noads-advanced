@@ -199,9 +199,17 @@ window.addEventListener('load', function () {
                         e.source.postMessage(encodeMessage({
                             type: 'noads_import_status',
                             status: 'download failed',
-                            url: message.url
-                        }));
-                    }
+                        url: message.url, }));
+                	}
+                }
+                break;
+
+            case 'unblock_address':
+                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) break;
+                log('user URL-filter unblocked url -> ' + message.url);
+                filter.block.remove(message.url);
+                for (var i = 0; i < arrayUserFilters.length; i++) {
+                    if (arrayUserFilters[i] == message.url) { arrayUserFilters.splice(i, 1); break; }
                 }
                 if (arrayUserFilters.length) setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
                 else setValue('noads_urlfilterlist', '');
