@@ -111,6 +111,15 @@ window.addEventListener('load', function () {
         switch (message.type) {
             case 'get_filters':
                 if (!e.source) return;
+                if (!message.url) {
+                    log('URL/CSS filter import error -> invalid URL.');
+                    e.source.postMessage(encodeMessage({
+                            type: 'noads_import_status',
+                            status: 'download failed',
+                            url: 'unknown'
+                    }));
+                    return;
+                }
                 if (~message.url.indexOf('.ini')) {
                     try {
                         var xmlhttp = new XMLHttpRequest();
@@ -123,7 +132,7 @@ window.addEventListener('load', function () {
                                     realoadRules(true, true);
                                     if (!message.addRules && arrayFilters.length) arrayFilters = new Array();
 
-                                    for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
+                                    for (var i = 0; i < arraySubscription.length; i++) {
                                         arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
                                         if (arraySubscription[i] != '' && arraySubscription[i].indexOf('#') != 0 && arraySubscription[i].length > 4) { //not empty or comment or too short
                                             log('URL filter added -> ' + arraySubscription[i]);
@@ -199,7 +208,8 @@ window.addEventListener('load', function () {
                         e.source.postMessage(encodeMessage({
                             type: 'noads_import_status',
                             status: 'download failed',
-                        url: message.url, }));
+                            url: message.url
+                        }));
                 	}
                 }
                 break;

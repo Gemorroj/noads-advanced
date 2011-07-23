@@ -3,7 +3,7 @@ var importer = {
     // import subscription to a local storage
     getHidingRulesLength: function(arr){
 		var rule, pos, len = 0;
-		for (var i = 0, l = arr.length; i < l; i++) {
+		for (var i = 0; i < arr.length; i++) {
 			rule = arr[i];
 			pos = rule.indexOf('##');
 			if (pos != -1 && rule.length > pos + 2) 
@@ -25,8 +25,8 @@ var importer = {
 						additional += '[' + rule + ']';
 					}
 					else {
-						if (id) { return '' }
-						else { id = rule }
+						if (id) { return ''; }
+						else { id = rule; }
 					}
 				}
 			}
@@ -40,14 +40,14 @@ var importer = {
 			}
 		};
 		var isValidSelector = function(selector){
-			if (document.querySelectorAll) try { document.querySelectorAll(selector) } catch (e) { return false }
+			if (document.querySelectorAll) try { document.querySelectorAll(selector) } catch (e) { return false; }
 			return true;
 		};
 		var getHidingRules = function(list, all, script){
-			var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|\@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
+			var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
 			if (list) {
 				var rule, domains, tagName, attrRules, selector, arr = list.split('\n'), i;
-				for (i = 0, l = arr.length; i < l; i++) {
+				for (i = 0; i < arr.length; i++) {
 					rule = arr[i].replace(reTrim, '');
 					if (!reBlank.test(rule) && reElemHide.test(rule)) {
 						domains = RegExp.$1;
@@ -57,9 +57,9 @@ var importer = {
 						if (selector) {
 							if (selector.indexOf('$$') != 0) {
 								if (isValidSelector(selector) && (all || isSiteOnly(domains))) {
-									rez.push([domains, selector])
+									rez.push([domains, selector]);
 								}
-							} else { if (script) scriptList.push(domains + '##' + selector) }
+							} else { if (script) scriptList.push(domains + '##' + selector); }
 						}
 					}
 				}
@@ -73,7 +73,7 @@ var importer = {
 						rez.splice(i, 1);
 					}
 					else {
-						rez[i] = rez[i][0] + '##' + rez[i][1]
+						rez[i] = rez[i][0] + '##' + rez[i][1];
 					}
 				}
 			}

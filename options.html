@@ -13,9 +13,11 @@ opera.extension.onmessage = function (e) {
         if (message.status === 'good') {
             alert(TRANSLATE().iSubs.replace('%url', message.url).replace('%d', message.length));
         } else {
-            alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\n URL: ' + message.url);
+            alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\nURL: ' + message.url);
         }
-        document.getElementById('noads_dlsubscription').disabled = false;
+        var btn = document.getElementById("noads_dlsubscription");
+        btn.childNodes[0].src = imgRefresh;
+        btn.disabled = false;
     }
 };
 

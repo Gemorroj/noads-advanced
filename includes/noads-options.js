@@ -51,6 +51,7 @@ var imageTick = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8
 var imageCross = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIhSURBVDjLlZPrThNRFIWJicmJz6BWiYbIkYDEG0JbBiitDQgm0PuFXqSAtKXtpE2hNuoPTXwSnwtExd6w0pl2OtPlrphKLSXhx07OZM769qy19wwAGLhM1ddC184+d18QMzoq3lfsD3LZ7Y3XbE5DL6Atzuyilc5Ciyd7IHVfgNcDYTQ2tvDr5crn6uLSvX+Av2Lk36FFpSVENDe3OxDZu8apO5rROJDLo30+Nlvj5RnTlVNAKs1aCVFr7b4BPn6Cls21AWgEQlz2+Dl1h7IdA+i97A/geP65WhbmrnZZ0GIJpr6OqZqYAd5/gJpKox4Mg7pD2YoC2b0/54rJQuJZdm6Izcgma4TW1WZ0h+y8BfbyJMwBmSxkjw+VObNanp5h/adwGhaTXF4NWbLj9gEONyCmUZmd10pGgf1/vwcgOT3tUQE0DdicwIod2EmSbwsKE1P8QoDkcHPJ5YESjgBJkYQpIEZ2KEB51Y6y3ojvY+P8XEDN7uKS0w0ltA7QGCWHCxSWWpwyaCeLy0BkA7UXyyg8fIzDoWHeBaDN4tQdSvAVdU1Aok+nsNTipIEVnkywo/FHatVkBoIhnFisOBoZxcGtQd4B0GYJNZsDSiAEadUBCkstPtN3Avs2Msa+Dt9XfxoFSNYF/Bh9gP0bOqHLAm2WUF1YQskwrVFYPWkf3h1iXwbvqGfFPSGW9Eah8HSS9fuZDnS32f71m8KFY7xs/QZyu6TH2+2+FAAAAABJRU5ErkJggg==';
 var imgRefresh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAI/SURBVDjLjZPbS9NhHMYH+zNidtCSQrqwQtY5y2QtT2QGrTZf13TkoYFlzsWa/tzcoR3cSc2xYUlGJfzAaIRltY0N12H5I+jaOxG8De+evhtdOP1hu3hv3sPzPO/z4SsBIPnfuvG8cbBlWiEVO5OUItA0VS8oxi9EdhXo+6yV3V3UGHRvVXHNfNv6zRfNuBZVoiFcB/3LdnQ8U+Gk+bhPVKB3qUOuf6/muaQR/qwDkZ9BRFdCmMr5EPz6BN7lMYylLGgNNaKqt3K0SKDnQ7us690t3rNsxeyvaUz+8OJpzo/QNzd8WTtcaQ7WlBmPvxhx1V2Pg7oDziIBimwwf3qAGWESkVwQ7owNujk1ztvk+cg4NnAUTT4FrrjqUKHdF9jxBfXr1rgjaSk4OlMcLrnOrJ7latxbL1V2lgvlbG9MtMTrMw1r1PImtfyn1n5q47TlBLf90n5NmalMtUdKZoyQMkLKlIGLjMyYhFpmlz3nGEVmFJlRZNaf7pIaEndM24XIjCOzjX9mm2S2JsqdkMYIqbB1j5C6yWzVk7YRFTsGFu7l+4nveExIA9aMCcOJh6DIoMigyOh+o4UryRWQOtIjaJtoziM1FD0mpE4uZcTc72gBaUyYKEI6khgqINXO3saR7kM8IZUVCRDS0Ucf+xFbCReQhr97MZ51wpWxYnhpCD3zOrT4lTisr+AJqVx0Fiiyr4/vhP4VyyMFIUWNqRrV96vWKXKckBoIqWzXYcoPDrUslDJoopuEVEpIB0sR+AuErIiZ6OqMKAAAAABJRU5ErkJggg==';
 var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH+SURBVBgZBcE9i11VGAbQtc/sO0OCkqhghEREAwpWAWUg8aMVf4KFaJEqQtAipTZWViKiCGOh2Ap2gmJhlSIWFsFOxUK0EsUM3pl79n4f12qHb3z3Fh7D83gC95GOJsDe0ixLk5Qq/+xv/Lw9Xd+78/HLX3Y8fXTr2nWapy4eCFKxG7Fby97SnDlYtMbxthyfzHO//nl85fNvfvnk8MbX5xa8IHx1518Vkrj54Q+qQms2vVmWZjdiu5ZR2rT01166/NCZg/2PFjwSVMU6yjoC1oq+x6Y3VbHdlXWExPd379nf7Nmejv2Os6OC2O4KLK0RNn3RNCdr2Z5GJSpU4o+/TkhaJ30mEk5HwNuvX7Hpi76wzvjvtIwqVUSkyjqmpHS0mki8+9mPWmuWxqYvGkbFGCUAOH/+QevYI9GFSqmaHr5wkUYTAlGhqiRRiaqiNes6SOkwJwnQEqBRRRJEgkRLJGVdm6R0GLMQENE0EkmkSkQSVVMqopyuIaUTs0J455VLAAAAAODW0U/GiKT0pTWziEj44PZ1AAAAcPPqkTmH3QiJrlEVDXDt0qsAAAAAapa5BqUnyaw0Am7//gUAAAB49tEXzTmtM5KkV/y2G/X4M5fPao03n/sUAAAAwIX7y5yBv9vhjW/fT/IkuSp5gJKElKRISYoUiSRIyD1tufs/IXxui20QsKIAAAAASUVORK5CYII=';
+var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==';
 
 var options = {
     stop: null,
@@ -318,7 +319,7 @@ var options = {
         area.className = 'noads_area';
         area.clear = function (num) {
             while (this.firstChild) this.removeChild(this.firstChild);
-            if (arguments.length) for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
+            if (arguments.length) for (var i = 0, li = document.querySelectorAll('#noads_menu li'); i < li.length; i++) {
                 li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
                 li[i].style.borderBottomColor = (i == num) ? '#fafbfc' : '#aaaaaa';
             }
@@ -385,12 +386,12 @@ var options = {
             return checkbox;
         };
         area.createTextarea = function (sID, hTxt, sName) {
-            var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName+'_white', domain);
+            var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName + '_white', domain);
             var p = document.createElement('p');
             p.className = 'noads_input_help';
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
-            
+
             var textarea = document.createElement('textarea');
             textarea.style.height = (global ? '75%' : '200px');
             textarea.rows = global ? '30' : '10';
@@ -582,10 +583,10 @@ var options = {
                     val = val.replace(/[*+?^=!${}()|[\]\\]|\.(?!\w)/g, '\\$&').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
-                    alert(val+' is added to the script blocker exclusions.');
+                    alert(val + ' is added to the script blocker exclusions.');
                 }
             }, 'positive', imageTick));
-           
+
             var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
             var img = document.createElement('img');
@@ -655,25 +656,30 @@ var options = {
             this.createRadioButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
-            
+
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
             this.appendChild(this.createCheckbox('noads_addrules', lng.pAddRules, 'right-second positive', '', 'right-second negative unchecked'));
             //this.appendChild(this.createCheckbox('noads_subscription',lng.pEnabled,'positive right',lng.pDisabled,'positive right unchecked'));
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
-                if (document.getElementById('noads_dlsubscription').disabled === true) return;
-                else document.getElementById('noads_dlsubscription').disabled = true;
+                var dlsubscription = document.getElementById('noads_dlsubscription');
+                if (dlsubscription.disabled === true) return;
+                else dlsubscription.disabled = true;
 
                 var url = '', inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type == 'radio' && radioButton.checked) {
+                    if (radioButton.type === 'radio' && radioButton.checked === true) {
                         url = radioButton.nextElementSibling.href || radioButton.nextElementSibling.value;
                         break;
                     }
                 }
+
                 if (url) {
+                    dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url', url);
                     postMsg({ type: 'get_filters', url: url, addRules: document.getElementById('noads_addrules_toggle').checked === true, allRules: document.getElementById('noads_allrules_toggle').checked === true});
+                } else {
+                    postMsg({ type: 'get_filters', url: ''});
                 }
             }, '', imgRefresh));
         };
