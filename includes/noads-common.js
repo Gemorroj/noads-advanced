@@ -18,7 +18,7 @@ var extension = window.opera.extension;
 // Example: log('[NoAds]: test..');
 var decodeMessage = function(data) { return JSON.parse(data); };
 var encodeMessage = function(data) { return JSON.stringify(data); };
-var log = function(){ if (bDebug) opera.postError('[NoAdsAdvanced] '+Array.prototype.slice.call(arguments)); };
+var log = function(){ if (bDebug) opera.postError('[NoAdsAdvanced] ' + Array.prototype.slice.call(arguments)); };
 var extend = function(first, second){ for (var prop in second){ if(!first[prop]) first[prop] = second[prop];} };
 var getValue = function (name) { return storage[name] || ''; };
 var setValue = function (name, value) { storage[name] = value; };
@@ -30,7 +30,7 @@ var postMsg = function(msg){
     /*for (var i = 0, f = window.frames, l = f.length; i < l; i++) if (f[i]) f[i].postMessage(msg, '*');*/
     opera.extension.postMessage(encodeMessage(msg));
 };
-var delEle = function (ele) { if (ele && ele.parentNode) ele.parentNode.removeChild(ele) };
+var delEle = function (ele) { if (ele && ele.parentNode) ele.parentNode.removeChild(ele); };
 var addStyle = function (css, id) {
     if(!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
     var s = document.createElement('style');
@@ -59,10 +59,8 @@ var getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 };
 var unique = function(){
-    var a = [];
-    var l = this.length;
-    var j;
-    for(var i = 0; i < l; i++) {
+    var a = [], l = this.length, j;
+    for (var i = 0; i < l; i++) {
       for (j = i + 1; j < l; j++) if (this[i] === this[j]) j = ++i;
       a.push(this[i]);
     }
