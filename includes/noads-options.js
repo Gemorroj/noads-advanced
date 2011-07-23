@@ -675,7 +675,7 @@ var options = {
                 }
 
                 if (url) {
-                    document.getElementById("noads_dlsubscription").childNodes[0].src = imgLoad;
+                    dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url', url);
                     postMsg({ type: 'get_filters', url: url, addRules: document.getElementById('noads_addrules_toggle').checked === true, allRules: document.getElementById('noads_allrules_toggle').checked === true});
                 } else {
