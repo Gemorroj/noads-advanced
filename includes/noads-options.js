@@ -40,10 +40,9 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content input[type=radio]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;height:14px;padding:2px;width:14px}\
 .noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:2px 4px;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
-.noads_customurl{font-size:10px;width:400px;margin:2px;}\
+.noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_addrules{margin:2px 0 16px 5px;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -97,7 +96,7 @@ var options = {
         };
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
-            if (pos != -1) this.splice(pos, arr.length); //TODO: wtf?
+            if (pos != -1) this.splice(pos, arr.length);
         };
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [], i;
@@ -406,9 +405,9 @@ var options = {
             var label = document.createElement('label');
             label.className = 'noads_label_subscription'
             var input = document.createElement('input');
-            input.type = 'radio';
+            input.type = 'checkbox';
             input.name = 'subs';
-            if (url == getValue('noads_default_url')) input.checked = true;
+            if (url && ~getValue('noads_default_url2').indexOf(url)) input.checked = true;
             label.appendChild(input);
             if (!typein) {
                 label.appendChild(document.createTextNode(txt + ': '));
@@ -419,7 +418,7 @@ var options = {
                 label.appendChild(a);
             } else {
                 input = document.createElement('input');
-                input.className = 'noads_customurl';
+                input.className = 'noads_custom_url';
                 input.type = 'text';
                 input.value = url;
                 input.onkeyup = function () {
@@ -609,7 +608,7 @@ var options = {
             textcss.disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
 
             checkbox.onclick = function () {
-                var currentstate = (this.checked === false);
+                var currentstate = !(this.getAttribute('checked') == 'true');
                 if (currentstate) {
                     this.removeChild(disable); 
                     this.appendChild(enable);
@@ -622,7 +621,7 @@ var options = {
                 textucss.disabled = !currentstate;
                 textcss.disabled = !currentstate;
                 textarea.disabled = !currentstate;
-                this.checked = currentstate;
+                this.setAttribute('checked', currentstate);
                 options.setForSite(window.location.hostname, currentstate);
                 log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
             };
@@ -656,30 +655,21 @@ var options = {
             this.createRadioButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+            
+            this.appendChild(this.createCheckbox('noads_allrules',lng.pAllRules,'right positive','','right negative unchecked'));
 
-            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
-            this.appendChild(this.createCheckbox('noads_addrules', lng.pAddRules, 'right-second positive', '', 'right-second negative unchecked'));
-            //this.appendChild(this.createCheckbox('noads_subscription',lng.pEnabled,'positive right',lng.pDisabled,'positive right unchecked'));
-
-            this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
+            this.appendChild(this.createButton('noads_dlsubscription',lng.pDownload, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
-                if (dlsubscription.disabled === true) return;
-                else dlsubscription.disabled = true;
-
-                var url = '', inputs = area.getElementsByTagName('input');
+                if (dlsubscription.disabled === true) return; else dlsubscription.disabled = true;
+                
+                var url = Array(), inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type === 'radio' && radioButton.checked === true) {
-                        url = radioButton.nextElementSibling.href || radioButton.nextElementSibling.value;
-                        break;
-                    }
-                }
-
-                if (url) {
+                    if (radioButton.type == 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); };
+                };
+                if (url.length) {
                     dlsubscription.childNodes[0].src = imgLoad;
-                    setValue('noads_default_url', url);
-                    postMsg({ type: 'get_filters', url: url, addRules: document.getElementById('noads_addrules_toggle').checked === true, allRules: document.getElementById('noads_allrules_toggle').checked === true});
-                } else {
-                    postMsg({ type: 'get_filters', url: ''});
+                    setValue('noads_default_url2', url);
+                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true'});
                 }
             }, '', imgRefresh));
         };
@@ -694,7 +684,7 @@ var options = {
             this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
         };
 
-        if (domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0); }]);
+        if(domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0) }]);
         else win.createMenu( [lng.mUCSS, function () { area.showUserCSSList(0); }], 
             [lng.mCSS, function () { area.showCSSList(1); }], 
             [lng.mScripts, function () { area.showScriptWhitelist(2); }], 
@@ -706,18 +696,14 @@ var options = {
         );
         content.appendChild(area);
         win.appendChild(content);
-
-        if (domain) area.showSitePreferences(0);
-        else area.showUserCSSList(0);
-
-        try {
-            document.body.appendChild(overlay);
-        } catch(ex) {
-            run.updateCSS(domain);
-            delEle(overlay.clearStyle);
-            document.removeEventListener('keypress', press, false);
-            run.stop = null;
-            delEle(overlay);
-        }
+        if(domain) area.showSitePreferences(0); else area.showUserCSSList(0);
+        try { document.body.appendChild(overlay); } 
+        catch(ex) {
+                run.updateCSS(domain);
+                delEle(overlay.clearStyle);
+                document.removeEventListener('keypress', press, false);
+                run.stop = null;
+                delEle(overlay);
+        }    
     }
 };
