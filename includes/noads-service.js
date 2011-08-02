@@ -78,7 +78,7 @@ var noads = {
     },
     getNth: function (el) {
         var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n } }
+        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n } };
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
     },
     getCSSrule: function (el, wide) {
@@ -134,9 +134,9 @@ var noads = {
 var run = {
     stop: null,
     getSubscription: function () {
-        var url = getValue('noads_default_url');
-        if (url) {
-            postMsg({type: 'get_filters', url: url, addRules: false, allRules: true});
+        var url = getValue('noads_default_url2');
+        if (url.length) {
+            postMsg({ type: 'get_filters', url: url, allRules: true});
         }
         else alert(TRANSLATE().iNoDefSub);
     },
@@ -344,8 +344,8 @@ var run = {
                     if (rules) css = noads.clearCSSrules(rules + ',' + css);
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
-                    if (uStyle) {replaceStyle(uStyle, css + none);}
-                    else {uStyle = addStyle(css + none);}
+                    if (uStyle) { replaceStyle(uStyle, css + none); }
+                    else { uStyle = addStyle(css + none); }
                 }
                 remove();
             }
@@ -392,7 +392,10 @@ var run = {
         
         for (var i = arrCSS.length; i--;) {
             try { if (document.querySelectorAll(arrCSS[i]).length == 0) arrCSS.splice(i, 1); } 
-            catch (e) {log('invalid CSS encountered: ' + arrCSS[i]); return;}
+            catch (e) {
+                log('invalid CSS encountered: '+arrCSS[i]);
+                return;
+            }
         }
         css = arrCSS.join(',');
 
@@ -434,7 +437,7 @@ var run = {
                 this.setAttribute('style', 'right:-100px;');
                 delEle(this, this.offsetHeight * this.offsetWidth);
             }, false);
-            try {document.body.appendChild(b);} catch(e) {}
+            try {document.body.appendChild(b);} catch(e) {;}
         } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
@@ -548,9 +551,9 @@ var run = {
                 }
             }
 
-            if (content.childNodes.length) { hide.onclick = function () {content.hide();}; }
+            if (content.childNodes.length) { hide.onclick = function(){content.hide()} }
             else { hide.style.opacity = 0.5; }
-            close.onclick = function () { overlay.close(); };
+            close.onclick = function () { overlay.close(); }
             try {
                 (document.body || document.documentElement).appendChild(overlay);
                 this.blockEle();
