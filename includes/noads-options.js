@@ -270,10 +270,10 @@ var options = {
         overlay.close = function (global) {
             if (!global) {
                 run.updateCSS(domain);
-                delEle(this.clearStyle);
+                delElement(this.clearStyle);
                 document.removeEventListener('keypress', press, false);
                 run.stop = null;
-                delEle(this);
+                delElement(this);
             }
             else {
                 window.opener = 'extension';
@@ -700,10 +700,10 @@ var options = {
         try { document.body.appendChild(overlay); } 
         catch(ex) {
                 run.updateCSS(domain);
-                delEle(overlay.clearStyle);
+                delElement(overlay.clearStyle);
                 document.removeEventListener('keypress', press, false);
                 run.stop = null;
-                delEle(overlay);
+                delElement(overlay);
         }
     }
 };

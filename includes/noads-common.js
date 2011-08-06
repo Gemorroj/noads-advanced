@@ -30,7 +30,7 @@ var postMsg = function(msg){
     /*for (var i = 0, f = window.frames, l = f.length; i < l; i++) if (f[i]) f[i].postMessage(msg, '*');*/
     opera.extension.postMessage(encodeMessage(msg));
 };
-var delEle = function (ele) { if (ele && ele.parentNode) ele.parentNode.removeChild(ele); };
+var delElement = function (ele) { if (ele && ele.parentNode) ele.parentNode.removeChild(ele); };
 var addStyle = function (css, id) {
     if(!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
     var s = document.createElement('style');

@@ -25,9 +25,9 @@ background-position: 0px 0px !important;\
 z-index: 1001 !important;\
 }',
 contentHelperCSS = ' \
-.noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:1000001;}\
-.noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;}\
-.noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;}\
+.noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:10001;}\
+.noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
+.noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_helper_content{display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
 .noads_placeholder{display:block !important;width:auto;min-width:200px;max-width:900px;height:20px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
 ',
@@ -187,7 +187,7 @@ var run = {
             document.removeEventListener('click', click, false);
             document.removeEventListener('mousedown', rightclick, false);
             document.removeEventListener('keyup', press, false);
-            delEle(padCSS);
+            delElement(padCSS);
             run.stop = null;
         };
         var click = function (ev) {
@@ -254,7 +254,7 @@ var run = {
             document.addEventListener('keyup', press, false);
         }
     },
-    blockEle: function (wide) {
+    blockElement: function (wide) {
         var domain = window.location.hostname, protocol = window.location.protocol + '//';
         if (this.stop) this.stop();
         var css, tmpCSS, padCSS, ele = '', outline = '', bgColor = '', title = '';
@@ -265,8 +265,8 @@ var run = {
             document.removeEventListener('mousedown', rightclick, false);
             document.removeEventListener('click', click, false);
             document.removeEventListener('keyup', press, false);
-            delEle(tmpCSS);
-            delEle(padCSS);
+            delElement(tmpCSS);
+            delElement(padCSS);
             run.stop = null;
         };
         var over = function (ev) {
@@ -423,7 +423,7 @@ var run = {
                 }
                 if (run.noreload) {
                     run.toggleBlocking(!enabled);
-                    if (css && !blocked) { delEle(this); }
+                    if (css && !blocked) { delElement(this); }
                     else {
                         this.value = lng.reload;
                         this.style.width = 'auto';
@@ -435,7 +435,7 @@ var run = {
             //    this.setAttribute('style', 'visibility:hidden;');
             //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
                 this.setAttribute('style', 'right:-100px;');
-                delEle(this, this.offsetHeight * this.offsetWidth);
+                delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {document.body.appendChild(b);} catch(e) {;}
         } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
@@ -463,11 +463,10 @@ var run = {
             overlay.id = 'noads_helper';
             overlay.clearStyle = addStyle(contentHelperCSS);
             overlay.close = function () {
-                delEle(this.clearStyle);
+                delElement(this.clearStyle);
                 window.removeEventListener('resize', resize, false);
-                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) 
-                    delEle(imgs[i]);
-                delEle(this);
+                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) delElement(imgs[i]);
+                delElement(this);
             };
             window.addEventListener('resize', resize, false);
             
@@ -484,7 +483,8 @@ var run = {
             var close = document.createElement('div');
             close.title = TRANSLATE().pClose;
             close.setAttribute('servicenoads', 'true');
-            close.className = 'noads_button_close'
+            close.className = 'noads_button_close';
+            close.addEventListener('click', function () { overlay.close(); }, false);
             buttons.appendChild(close);
             
             overlay.appendChild(buttons);
@@ -498,7 +498,8 @@ var run = {
             for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
                 if (script.src && a.indexOf(script.src) == -1) { 
                     link = document.createElement('a');
-                    link.href = script.src;                    link.target = '_blank';
+                    link.href = script.src;
+                    link.target = '_blank';
                     img = document.createElement('img');
                     img.className = 'noads_placeholder';
                     img.setAttribute('style', '');
@@ -548,18 +549,21 @@ var run = {
                     content.appendChild(link);
                 }
             }
+            
+            if (content.childNodes.length) { 
+                hide.addEventListener('click', function () { content.hide(); }, false);
+            } else {
+                hide.style.opacity = 0.5;
+            }
 
-            if (content.childNodes.length) { hide.onclick = function () { content.hide(); } }
-            else { hide.style.opacity = 0.5; }
-            close.onclick = function () { overlay.close(); }
             try {
                 (document.body || document.documentElement).appendChild(overlay);
-                this.blockEle();
+                this.blockElement();
             } 
             catch (e) {
-                delEle(overlay.clearStyle);
+                delElement(overlay.clearStyle);
                 window.removeEventListener('resize', resize, false);
-                delEle(overlay);
+                delElement(overlay);
             }
         }
     }
