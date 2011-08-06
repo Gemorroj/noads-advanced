@@ -59,9 +59,9 @@ var options = {
     // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;
-        var str, arr = domains.split(','), inDomain = false, exDomain = false, i;
+        var str, arr = domains.split(','), inDomain = false, exDomain = false;
         while (domain) {
-            for (i = 0, l = arr.length; i < l; i++) {
+            for (var i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
                 if (str.charAt(0) != '~') { if (str == domain) { return true; } else { inDomain = true; } }
                 else { if (str.slice(1) == domain) { return false; } else { exDomain = true; } }
@@ -82,11 +82,11 @@ var options = {
         return rez.join(',');
     },
     setRules: function (name, domain, selector) {
-        var rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n');
+        var j, rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n');
         var rules = splitCSS(selector);
         rules.posArr = function (arr) {
-            var len = arr.length, j, i;
-            if (len) for (i = 0, l = this.length - len + 1; i < l; i++) {
+            var len = arr.length;
+            if (len) for (var i = 0, l = this.length - len + 1; i < l; i++) {
                 for (j = 0; j < len; j++) {
                     if (arr[j] != this[i + j]) break;
                 }
@@ -99,8 +99,8 @@ var options = {
             if (pos != -1) this.splice(pos, arr.length);
         };
         rules.getCorrected = function (arr) {
-            var rule, pos, len, stArr, currPos, nextPos, rez = [], i;
-            for (i = 0, l = arr.length - 1; i <= l; i++) {
+            var rule, pos, len, stArr, currPos, nextPos, rez = [];
+            for (var i = 0, l = arr.length - 1; i <= l; i++) {
                 rule = arr[i];
                 pos = rule.indexOf('##') + 2;
                 if (i < l) {
@@ -117,7 +117,7 @@ var options = {
             return rez;
         };
 
-        for (i = tmp.length; i--; ) {
+        for (var i = tmp.length; i--; ) {
             rule = tmp[i];
             pos = rule.indexOf('##');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
@@ -130,7 +130,7 @@ var options = {
             default: tmp = rules.getCorrected(arr).concat(tmp); break;
         }
         setValue(name, tmp.join('\n'));
-        for (i = 0, l = tmp.length; i < l; i++) {
+        for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule.slice(pos + 2));
@@ -149,10 +149,10 @@ var options = {
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
     },
     getRawRules: function (name, domain, global) {
-        var rez = [], tmp = getValue(name).split('\n'), rule, i;
+        var rez = [], tmp = getValue(name).split('\n'), rule = '';
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
-            for (i = 0, l = whitelist.length; i < l; i++) {
+            for (var i = 0, l = whitelist.length; i < l; i++) {
                 if (whitelist[i].indexOf('@@') == 0) rez.push(whitelist[i]);
             }
         }
@@ -167,15 +167,15 @@ var options = {
         return rez.join('\n\n');
     },
     setRawRules: function (name, value, domain) {
-        var rule, pos, rez = [], tmp = value.split('\n'), i;
-        for (i = 0, l = tmp.length; i < l; i++) {
+        var rule, pos, rez = [], tmp = value.split('\n');
+        for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
             if (pos != -1 && rule.length > pos + 2) rez.push(rule);
         }
         if (domain) {
             var tmp = getValue(name).split('\n');
-            for (i = tmp.length; i--; ) {
+            for (var i = tmp.length; i--; ) {
                 rule = tmp[i];
                 pos = rule.indexOf('##');
                 if (pos != -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) tmp.splice(i, 1);
@@ -662,7 +662,7 @@ var options = {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) return; else dlsubscription.disabled = true;
                 
-                var url = Array(), inputs = area.getElementsByTagName('input');
+                var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type == 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); };
                 };
@@ -704,6 +704,6 @@ var options = {
                 document.removeEventListener('keypress', press, false);
                 run.stop = null;
                 delEle(overlay);
-        }    
+        }
     }
 };

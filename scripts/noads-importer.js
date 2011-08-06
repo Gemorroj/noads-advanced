@@ -46,8 +46,8 @@ var importer = {
 		var getHidingRules = function(list, all, script){
 			var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
 			if (list) {
-				var rule, domains, tagName, attrRules, selector, arr = list.split('\n'), i;
-				for (i = 0; i < arr.length; i++) {
+				var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
+				for (var i = 0; i < arr.length; i++) {
 					rule = arr[i].replace(reTrim, '');
 					if (!reBlank.test(rule) && reElemHide.test(rule)) {
 						domains = RegExp.$1;
@@ -66,7 +66,7 @@ var importer = {
 				if (script) return scriptList;
 
 				rez.sort();
-				for (i = rez.length; i--;) {
+				for (var i = rez.length; i--;) {
 					if (i > 0 && rez[i][0] == rez[i - 1][0]) {
 						if (rez[i][1] != rez[i - 1][1]) 
 							rez[i - 1][1] += ',' + rez[i][1];

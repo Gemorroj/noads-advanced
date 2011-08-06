@@ -20,7 +20,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; };
     var blockingText = '', domain = window.location.hostname;
 
-    // Set subscription listener
+    // Set subscription listener here?
     //if(options.checkEnabled('noads_subscription_state')){};
     
     /* Add custom magic; yay Merlin!

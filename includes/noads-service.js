@@ -78,7 +78,7 @@ var noads = {
     },
     getNth: function (el) {
         var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n } };
+        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n; } }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
     },
     getCSSrule: function (el, wide) {
@@ -307,20 +307,20 @@ var run = {
             if (!ev.shiftKey) {
                 var lng = TRANSLATE();
                 // highlight elements marked for removing 
-                var backup = [], demo, i;
+                var backup = [], demo;
                 try {
                     demo = document.querySelectorAll(css);
-                    for (i = 0, backAttr = {}; i < demo.length; i++) {
+                    for (var i = 0, backAttr = {}; i < demo.length; i++) {
                          backAttr = {title: demo[i].title, outline: demo[i].style.outline, bgColor: demo[i].style.backgroundColor};
                          demo[i].style.outline = '1px solid #306EFF';
                          demo[i].style.backgroundColor =  '#C6DEFF';
                          backup.push(backAttr);
                     }
                 }
-                catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null;}
+                catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null; }
                 css = prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
-                    for (i =0; i < demo.length; i++) {
+                    for (var i = 0; i < demo.length; i++) {
                          demo[i].style.outline = backup[i].outline;
                          demo[i].style.backgroundColor = backup[i].bgColor;
                     }
@@ -336,7 +336,7 @@ var run = {
                     */
                     var arrCSS = css.split(/\s*,\s*/);
                     // trying to get links out of selectors
-                    for (i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
+                    for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
                         if (link) postMsg({type: 'block_address', url: link});
                     }
 
@@ -494,13 +494,11 @@ var run = {
             content.hide = function(){
                 this.style.visibility = (this.style.visibility != 'hidden') ? 'hidden' : 'visible';
             };
-
-            var i;
-            for (i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                if (script.src && a.indexOf(script.src) == -1) {
+            
+            for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
+                if (script.src && a.indexOf(script.src) == -1) { 
                     link = document.createElement('a');
-                    link.href = script.src;
-                    link.target = '_blank';
+                    link.href = script.src;                    link.target = '_blank';
                     img = document.createElement('img');
                     img.className = 'noads_placeholder';
                     img.setAttribute('style', '');
@@ -512,7 +510,7 @@ var run = {
                 }
             }
 
-            for (i = 0, img, source, link, alttext; i < objects.length; i++) {
+            for (var i = 0, img, source, link, alttext; i < objects.length; i++) {
                 source = objects[i].src || objects[i].value || objects[i].data;
                 if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
                     link = document.createElement('a');
@@ -536,7 +534,7 @@ var run = {
             img.setAttribute('servicenoads', 'true');
             overlay.appendChild(img);
 
-            for (i = 0, source, img, link, a = unique.call(bgImages.split('; ')); source = a[i]; i++) {
+            for (var i = 0, source, img, link, a = unique.call(bgImages.split('; ')); source = a[i]; i++) {
                 if (source.indexOf('data:') == -1) {
                     link = document.createElement('a');
                     link.href = source;
@@ -551,7 +549,7 @@ var run = {
                 }
             }
 
-            if (content.childNodes.length) { hide.onclick = function(){content.hide()} }
+            if (content.childNodes.length) { hide.onclick = function () { content.hide(); } }
             else { hide.style.opacity = 0.5; }
             close.onclick = function () { overlay.close(); }
             try {
