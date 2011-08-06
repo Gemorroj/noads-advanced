@@ -22,7 +22,7 @@ var TRANSLATE = function () {
             blockEle: 'Blokowanie element\u00f3w',
             unblockEle: 'Odblokuj...',
             unblockLatest: 'Odblokuj ostatni element',
-            preferences: 'Ustawienia',
+            preferences: 'Ustawienia strony',
             disableForSite: 'Wy\u0142\u0105cz blokowanie na tej stronie',
             contentBlockHelper: 'Pomocnik blokowania zawarto\u015bci'
         };
