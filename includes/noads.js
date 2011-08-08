@@ -171,16 +171,16 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                         run.editStyles();
                         break; // Edit styles with Alt+Shift+E
                     case 85:
-                        run.unblockEle();
+                        run.unblockElement();
                         break; // Unblock elements with Alt+Shift+U
                     case 66:
-                        run.blockEle();
+                        run.blockElement();
                         break; // Block element with Alt+Shift+B
                     case 76:
-                        run.unblockEle(true);
+                        run.unblockElement(true);
                         break; // Unblock latest element with Alt+Shift+L
                     case 65:
-                        run.blockEle(true);
+                        run.blockElement(true);
                         break; // Block elements (don't use nth-child) with Alt+Shift+A
                     case 80:
                         options.showPreferences(domain);
@@ -208,16 +208,16 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
             if (message.type) {
                 switch (message.type) {
                     case 'block_ads':
-                        run.blockEle(true);
+                        run.blockElement(true);
                         break;
                     case 'block_ele':
-                        run.blockEle();
+                        run.blockElement();
                         break;
                     case 'unblock_ele':
-                        run.unblockEle();
+                        run.unblockElement();
                         break;
                     case 'unblock_latest':
-                        run.unblockEle(true);
+                        run.unblockElement(true);
                         break;
                     case 'get_subscription':
                         run.getSubscription();
