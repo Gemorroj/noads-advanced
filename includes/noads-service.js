@@ -177,7 +177,7 @@ var run = {
         uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
         if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : '') } else if (uCSS) { uStyle = addStyle(uCSS + none); }
     },
-    unblockEle: function (latest) {
+    unblockElement: function (latest) {
         var domain = window.location.hostname, protocol = window.location.protocol + '//';
         if (this.stop) this.stop();
         var padCSS, css = options.getRules('noads_userlist', domain);
