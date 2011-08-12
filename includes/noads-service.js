@@ -141,7 +141,7 @@ var run = {
         else alert(TRANSLATE().iNoDefSub);
     },
     setStatus: function (value) {
-        if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) };
+        if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) }
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
@@ -437,7 +437,7 @@ var run = {
                 this.setAttribute('style', 'right:-100px;');
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
-            try {document.body.appendChild(b);} catch(e) {;}
+            try {document.body.appendChild(b);} catch(e) {}
         } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
@@ -477,7 +477,7 @@ var run = {
             var hide = document.createElement('div');
             hide.title = TRANSLATE().pHide;
             hide.setAttribute('servicenoads', 'true');
-            hide.className = 'noads_button_hide'
+            hide.className = 'noads_button_hide';
             buttons.appendChild(hide);
             
             var close = document.createElement('div');

@@ -77,7 +77,7 @@ var TRANSLATE = function () {
             pToolbarButton: '\u041a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430 \u0442\u0443\u043b\u0431\u0430\u0440\u0435',
             pCSSlinks: '\u0421\u0441\u044b\u043b\u043a\u0438, \u0432\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS',
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : '' },
@@ -132,7 +132,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'fr': return {
             _s: function (count) { return (count > 1) ? 's' : '' },
@@ -187,7 +187,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'pl': return {
             _s: function (count) { return (count > 4) ? '\u00f3w' : ((count > 1) ? 'y' : '') },
@@ -242,7 +242,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Przycisk na pasku',
             pCSSlinks: 'Linki osadzone w CSS',
             pDebug: 'Debuguj',
-            pInvalidSelector: 'Selektor CSS jest niepoprawny. Prosz\u0119 sprawdzi\u0107 sk\u0142adni\u0119.',
+            pInvalidSelector: 'Selektor CSS jest niepoprawny. Prosz\u0119 sprawdzi\u0107 sk\u0142adni\u0119.'
         };
         case 'zh-tw': return {
             _s: function (count) { return (count > 1) ? '' : '' },
@@ -297,7 +297,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'zh_TW': return {
             _s: function (count) { return (count > 1) ? '' : '' },
@@ -352,7 +352,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'zh-cn': return {
             _s: function (count) { return (count > 1) ? '' : '' },
@@ -407,7 +407,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'zh_CN': return {
             _s: function (count) { return (count > 1) ? '' : '' },
@@ -462,7 +462,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         case 'de': return {
             _s: function (count) { return (count > 1) ? 'e' : '' },
@@ -517,7 +517,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         };
         default: return {
             _s: function (count) { return (count > 1) ? 's' : '' },
@@ -572,7 +572,7 @@ var TRANSLATE = function () {
             pToolbarButton: 'Toolbar button',
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.'
         }
     }
 }; //TRANSLATION
