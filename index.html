@@ -84,7 +84,7 @@ window.addEventListener('load', function () {
     } else { button = {disabled: true}; } // lol, had problems with button if it was all in if(_state)
         
     function enableButton() {
-        button.disabled = !!opera.extension.tabs.getFocused();
+        button.disabled = !opera.extension.tabs.getFocused();
     }
     
     function onConnectHandler(e) {
