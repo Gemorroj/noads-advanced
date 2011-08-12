@@ -52,7 +52,6 @@ window.addEventListener('load', function () {
                     filter.block.add(arrayFilters[i]);
                 }
             }
-    
         } else {
             if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) return;
             rulesRaw = getValue('noads_userurlfilterlist');
@@ -85,7 +84,7 @@ window.addEventListener('load', function () {
     } else { button = {disabled: true}; } // lol, had problems with button if it was all in if(_state)
         
     function enableButton() {
-        if (opera.extension.tabs.getFocused() ) { button.disabled = false; } else { button.disabled = true; }
+        button.disabled = !!opera.extension.tabs.getFocused();
     }
     
     function onConnectHandler(e) {
@@ -103,127 +102,141 @@ window.addEventListener('load', function () {
     opera.extension.onmessage = function (e) {
         var message = decodeMessage(e.data);
         switch (message.type) {
-        case 'get_filters':
-            if(!e.source) return;
-            var message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
-            var addRules = false;
-            for(var subsc = 0; subsc < message.url.length; subsc++){
-                log('Start importing subscription nr: ' + (subsc + 1));
-                var url = message.url[subsc];
-                //if(0 < i) addRules = true;//?
-                addRules = subsc
-                if (~url.indexOf('.ini'))
-                    try {
-                        var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.onreadystatechange = function(){
-                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                var pos = xmlhttp.responseText.indexOf(EXCLUDE)
-                                if (~pos) {
-                                    var arraySubscription = xmlhttp.responseText.substring(pos + EXCLUDE.length).split('\n');
-                                    log('URL filters flushed...');
-                                    realoadRules(true, true);
-                                    if (!addRules && arrayFilters.length) {
-                                        arrayFilters = null;
-                                        arrayFilters = new Array();
-                                    }
-                                    
-                                    for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
-                                        arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
-                                        if (arraySubscription[i] != '' && arraySubscription[i].indexOf('#') != 0 && arraySubscription[i].length > 4) { //not empty or comment or too short
-                                            log('URL filter added -> ' + arraySubscription[i]);
-                                            arrayFilters.push(arraySubscription[i]);
+            case 'get_filters':
+                if (!e.source) return;
+
+                if (!message.url) {
+                    log('URL/CSS filter import error -> invalid URL.');
+                    e.source.postMessage(encodeMessage({
+                        type: 'noads_import_status',
+                        status: 'download failed',
+                        url: 'unknown'
+                    }));
+                    return;
+                }
+
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
+                var addRules = false;
+                for (var subsc = 0; subsc < message.url.length; subsc++) {
+                    log('Start importing subscription nr: ' + (subsc + 1));
+                    var url = message.url[subsc];
+                    //if(0 < i) addRules = true;//?
+                    addRules = subsc;
+                    if (~url.indexOf('.ini'))
+                        try {
+                            var xmlhttp = new XMLHttpRequest();
+                            xmlhttp.onreadystatechange = function () {
+                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                    var pos = xmlhttp.responseText.indexOf(EXCLUDE);
+                                    if (~pos) {
+                                        var arraySubscription = xmlhttp.responseText.substring(pos + EXCLUDE.length).split('\n');
+                                        log('URL filters flushed...');
+                                        realoadRules(true, true);
+                                        if (!addRules && arrayFilters.length) {
+                                            arrayFilters = null;
+                                            arrayFilters = new Array();
                                         }
+
+                                        for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
+                                            arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
+                                            if (arraySubscription[i] != '' && arraySubscription[i].indexOf('#') != 0 && arraySubscription[i].length > 4) { //not empty or comment or too short
+                                                log('URL filter added -> ' + arraySubscription[i]);
+                                                arrayFilters.push(arraySubscription[i]);
+                                            }
+                                        }
+
+                                        arrayFilters = unique.call(arrayFilters);
+                                        arrayFilters.sort();
+                                        setValue('noads_urlfilterlist', '##' + arrayFilters.join('\n##'));
+                                        realoadRules(true, false);
+                                        message_success.push(url);
+                                        message_rules += arrayFilters.length;
+                                    } else {
+                                        message_fileerror.push(url);
                                     }
-                                    
-                                    arrayFilters = unique.call(arrayFilters);
-                                    arrayFilters.sort();
-                                    setValue('noads_urlfilterlist', '##' + arrayFilters.join('\n##'));
-                                    realoadRules(true, false);
-                                    message_success.push(url);
-                                    message_rules += arrayFilters.length;
-                                } else {
-                                    message_fileerror.push(url);
+                                    log('End importing subscription nr: ' + (subsc + 1));
                                 }
-                                log('End importing subscription nr: ' + (subsc + 1));
-                            }
-                            else if (xmlhttp.readyState >= 4){
-                                message_error.push(url);
-                            }
+                                else if (xmlhttp.readyState >= 4){
+                                    message_error.push(url);
+                                }
+                            };
+                            xmlhttp.open("GET", url, false);
+                            xmlhttp.send();
                         }
-                        xmlhttp.open("GET", url, false);
-                        xmlhttp.send();
-                    } 
-                    catch (ex) {
-                        log('URL filter import error -> ' + ex);
+                        catch (ex) {
+                            log('URL filter import error -> ' + ex);
+                            message_error.push(url);
+                        }
+                    else try {
+                            var xmlhttp = new XMLHttpRequest();
+                            xmlhttp.onreadystatechange = function () {
+                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                    var rulesN = importer.importSubscription(xmlhttp.responseText, url, message.allRules, addRules);
+                                    if (rulesN) {
+                                        message_success.push(url);
+                                        message_rules += rulesN;
+                                    } else {
+                                        message_fileerror.push(url);
+                                    }
+                                    log('End importing subscription nr: ' + (subsc + 1))
+                                } else if (xmlhttp.readyState >= 4) {
+                                    message_error.push(url);
+                                }
+                            };
+                            xmlhttp.open("GET", url, false);
+                            xmlhttp.send();
+                    } catch(ex) {
+                        log('CSS filter import error -> ' + ex);
                         message_error.push(url);
                     }
-                else try {
-                        var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.onreadystatechange = function(){
-                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                var rulesN = importer.importSubscription(xmlhttp.responseText, url, message.allRules, addRules);
-                                if (rulesN) {
-                                    message_success.push(url);
-                                    message_rules += rulesN;
-                                } else {
-                                    message_fileerror.push(url);
-                                }
-                                log('End importing subscription nr: ' + (subsc + 1))
-                            } else if (xmlhttp.readyState >= 4){
-                                message_error.push(url);
-                            };
-                        }
-                        xmlhttp.open("GET", url, false);
-                        xmlhttp.send();
-                } catch(ex) {
-                    log('CSS filter import error -> ' + ex);
-                    message_error.push(url);
+                    //arraySubscription = null;
                 }
-                //arraySubscription = null;
-            }
-            if(message_success.length){
-                e.source.postMessage(encodeMessage({
-                    type: 'noads_import_status',
-                    status: 'good',
-                    url: '\n' + message_success.join('\n') + '\n',
-                    length: message_rules,
-                }));
-            }
-            if(message_fileerror.length){
-                e.source.postMessage(encodeMessage({
-                    type: 'noads_import_status',
-                    status: 'file error',
-                    url: '\n' + message_fileerror.join('\n') + '\n',
-                }));
-            }
-            if(message_error.length){
-                e.source.postMessage(encodeMessage({
-                    type: 'noads_import_status',
-                    status: 'download failed',
-                    url: '\n' + message_error.join('\n') + '\n',
-                }));
-            }
-            break;
-        case 'unblock_address':
-            if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) break;
-            log('user URL-filter unblocked url -> ' + message.url);
-            filter.block.remove(message.url);
-            for (var i = 0; i < arrayUserFilters.length; i++) {
-                if (arrayUserFilters[i] == message.url) { arrayUserFilters.splice(i, 1); break; }
-            }
-            if (arrayUserFilters.length) setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
-            else setValue('noads_urlfilterlist', '');
-            break;
-        case 'block_address':
-            if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) break;
-            log('user URL-filter blocked url -> ' + message.url);
-            filter.block.add(message.url);
-            arrayUserFilters.unshift(message.url);
-            setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
-            break;
-        case 'reload_rules':
-            realoadRules(message.global, false);
-            break;
+                if (message_success.length) {
+                    e.source.postMessage(encodeMessage({
+                        type: 'noads_import_status',
+                        status: 'good',
+                        url: '\n' + message_success.join('\n') + '\n',
+                        length: message_rules
+                    }));
+                }
+                if (message_fileerror.length) {
+                    e.source.postMessage(encodeMessage({
+                        type: 'noads_import_status',
+                        status: 'file error',
+                        url: '\n' + message_fileerror.join('\n') + '\n'
+                    }));
+                }
+                if (message_error.length) {
+                    e.source.postMessage(encodeMessage({
+                        type: 'noads_import_status',
+                        status: 'download failed',
+                        url: '\n' + message_error.join('\n') + '\n'
+                    }));
+                }
+                break;
+
+            case 'unblock_address':
+                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) break;
+                log('user URL-filter unblocked url -> ' + message.url);
+                filter.block.remove(message.url);
+                for (var i = 0; i < arrayUserFilters.length; i++) {
+                    if (arrayUserFilters[i] == message.url) { arrayUserFilters.splice(i, 1); break; }
+                }
+                if (arrayUserFilters.length) setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
+                else setValue('noads_urlfilterlist', '');
+                break;
+
+            case 'block_address':
+                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) break;
+                log('user URL-filter blocked url -> ' + message.url);
+                filter.block.add(message.url);
+                arrayUserFilters.unshift(message.url);
+                setValue('noads_userurlfilterlist', '##' + arrayUserFilters.join('\n##'));
+                break;
+
+            case 'reload_rules':
+                realoadRules(message.global, false);
+                break;
         }
     }
 }, false);

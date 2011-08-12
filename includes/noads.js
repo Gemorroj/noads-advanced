@@ -17,7 +17,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; };
+    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; }
     var blockingText = '', domain = window.location.hostname;
 
     // Set subscription listener here?
@@ -152,7 +152,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     };
 
     try { onCSSAllowed(); }
-    catch(ex) { window.opera.addEventListener('BeforeCSS', function(event) {
+    catch(ex) { window.opera.addEventListener('BeforeCSS', function (event) {
         window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
         onCSSAllowed();
     }, false); }
@@ -239,9 +239,9 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     // In case we did something unneeded
     window.addEventListener('DOMContentLoaded', function () {
         if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
-            delEle(document.getElementById('sCSS'));
-            delEle(document.getElementById('uCSS'));
-            delEle(document.getElementById('qbCSS'));
+            delElement(document.getElementById('sCSS'));
+            delElement(document.getElementById('uCSS'));
+            delElement(document.getElementById('qbCSS'));
             window.removeEventListener('mousemove', showButton, false); 
         }
     },false);
