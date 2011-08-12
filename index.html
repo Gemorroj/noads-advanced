@@ -104,6 +104,17 @@ window.addEventListener('load', function () {
         switch (message.type) {
             case 'get_filters':
                 if (!e.source) return;
+
+                if (!message.url) {
+                    log('URL/CSS filter import error -> invalid URL.');
+                    e.source.postMessage(encodeMessage({
+                        type: 'noads_import_status',
+                        status: 'download failed',
+                        url: 'unknown'
+                    }));
+                    return;
+                }
+
                 var message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
                 var addRules = false;
                 for (var subsc = 0; subsc < message.url.length; subsc++) {

@@ -535,12 +535,11 @@ var options = {
             var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null,
-                function() {document.getElementById('noads_usercss_textarea').disabled = options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);}));
+                function() { document.getElementById('noads_usercss_textarea').disabled = options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain); }));
             inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val, domain);
                 options.setWhiteList('noads_userlist_white', val);
-                
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);
 
@@ -549,7 +548,7 @@ var options = {
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null,
-                function() {document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);}));
+                function() { document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain); }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val, domain);
@@ -569,7 +568,7 @@ var options = {
             textarea.rows = '10';
             textarea.cols = '100';
             textarea.style.height = '200px';
-            if(!disabled) textarea.value = blockedScripts.replace(/; /g, '\n');
+            if (!disabled) textarea.value = blockedScripts.replace(/; /g, '\n');
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
@@ -656,21 +655,21 @@ var options = {
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
             
-            this.appendChild(this.createCheckbox('noads_allrules',lng.pAllRules,'right positive','','right negative unchecked'));
+            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
 
-            this.appendChild(this.createButton('noads_dlsubscription',lng.pDownload, function () {
+            this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) return; else dlsubscription.disabled = true;
                 
                 var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type == 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); }
+                    if (radioButton.type === 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); }
                 }
                 if (url.length) {
                     dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url2', url);
-                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true'});
-                }
+                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true' });
+                } else postMsg({ type: 'get_filters', url: '' });
             }, '', imgRefresh));
         };
         area.showHelp = function (pos) {
@@ -684,7 +683,7 @@ var options = {
             this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
         };
 
-        if(domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0) }]);
+        if (domain) win.createMenu([lng.pSite, function () { area.showSitePreferences(0); }]);
         else win.createMenu( [lng.mUCSS, function () { area.showUserCSSList(0); }], 
             [lng.mCSS, function () { area.showCSSList(1); }], 
             [lng.mScripts, function () { area.showScriptWhitelist(2); }], 
@@ -696,14 +695,14 @@ var options = {
         );
         content.appendChild(area);
         win.appendChild(content);
-        if(domain) area.showSitePreferences(0); else area.showUserCSSList(0);
+        domain ? area.showSitePreferences(0) : area.showUserCSSList(0);
         try { document.body.appendChild(overlay); } 
         catch(ex) {
-                run.updateCSS(domain);
-                delElement(overlay.clearStyle);
-                document.removeEventListener('keypress', press, false);
-                run.stop = null;
-                delElement(overlay);
+            run.updateCSS(domain);
+            delElement(overlay.clearStyle);
+            document.removeEventListener('keypress', press, false);
+            run.stop = null;
+            delElement(overlay);
         }
     }
 };

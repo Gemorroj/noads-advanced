@@ -58,11 +58,11 @@ var getTLD = function (domain, full) {
     var a = domain.split('.'), l = a.length; if (l < 2) return domain;
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 };
-var unique = function(){
+var unique = function () {
     var a = [], l = this.length, j;
     for (var i = 0; i < l; i++) {
-      for (j = i + 1; j < l; j++) if (this[i] === this[j]) j = ++i;
-      a.push(this[i]);
+        for (j = i + 1; j < l; j++) if (this[i] === this[j]) j = ++i;
+        a.push(this[i]);
     }
     return a;
 };
