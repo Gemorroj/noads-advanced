@@ -248,6 +248,21 @@ var options = {
         tmp = null;
         return retRe ? new RegExp((rez.join('|').replace(/\/|\.(?=[\w\d])/g, '\\$&') || '^$'), 'i') : true;
     },
+    getLastUpdate: function () {
+        var lastUpdate = getValue('noads_last_update');
+        if (lastUpdate) {
+            var d = new Date(Number(lastUpdate));
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+        }
+        return '';
+    },
+    setLastUpdate: function (node) {
+        var lastUpdate = this.getLastUpdate();
+        if (lastUpdate) {
+            var lng = TRANSLATE();
+            node.nodeValue = lng.lUpdate + ' ' + lastUpdate;
+        }
+    },
     showPreferences: function (domain) {
         if (!document.body) return;
         var global = domain ? false : true;
@@ -296,7 +311,7 @@ var options = {
         if (!global) win.style.marginTop = '4%';
         overlay.appendChild(win);
         var img = document.createElement('div');
-        img.className = 'noads_close_window'
+        img.className = 'noads_close_window';
         img.title = lng.pClose;
         img.onclick = function () {
             if (global) {
@@ -410,7 +425,7 @@ var options = {
         };
         area.createRadioButton = function (txt, url, typein) {
             var label = document.createElement('label');
-            label.className = 'noads_label_subscription'
+            label.className = 'noads_label_subscription';
             var input = document.createElement('input');
             input.type = 'checkbox';
             input.name = 'subs';
@@ -661,13 +676,15 @@ var options = {
             this.createRadioButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
-            
+
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
+
+            var lastUpdatedNode = document.createTextNode('');
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) return; else dlsubscription.disabled = true;
-                
+
                 var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type === 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); }
@@ -675,9 +692,17 @@ var options = {
                 if (url.length) {
                     dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url2', url);
+                    setValue('noads_last_update', new Date().getTime());
+
                     postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true' });
+
+                    options.setLastUpdate(lastUpdatedNode);
                 } else postMsg({ type: 'get_filters', url: '' });
             }, '', imgRefresh));
+
+            this.appendChild(document.createElement('br'));
+            this.appendChild(lastUpdatedNode);
+            options.setLastUpdate(lastUpdatedNode);
         };
         area.showHelp = function (pos) {
             this.clear(pos);

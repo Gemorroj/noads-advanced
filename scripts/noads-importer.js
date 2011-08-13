@@ -1,7 +1,6 @@
-
 var importer = {
     // import subscription to a local storage
-    getHidingRulesLength: function(arr){
+    getHidingRulesLength: function (arr) {
 		var rule, pos, len = 0;
 		for (var i = 0; i < arr.length; i++) {
 			rule = arr[i];
@@ -11,7 +10,8 @@ var importer = {
 		}
 		return len;
 	},
-    importSubscription: function(list, url, allRules, addRules){
+
+    importSubscription: function (list, url, allRules, addRules) {
 		var convertOldRules = function(tagName, attrRules){
 			var rule, rules, sep, additional = '', id = null, reAttrRules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
 			if (tagName == '*') tagName = '';
@@ -81,7 +81,7 @@ var importer = {
 		};
 
 		var filterRulesList;
-		if (!addRules) { filterRulesList = getHidingRules(list, allRules) }
+		if (!addRules) { filterRulesList = getHidingRules(list, allRules); }
 		else {
 			filterRulesList = getValue('noads_list').split('\n').concat(getHidingRules(list, allRules));
 			filterRulesList = unique.call(filterRulesList);

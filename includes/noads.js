@@ -84,10 +84,9 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
     // Enumerate backgrounds for helper
     window.opera.addEventListener('BeforeCSS', function (userJSEvent) {
         //alert(userJSEvent);
-        var append = function (str, p1, offset, s) {
+        userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1, offset, s) {
             bgImages += p1 + '; ';
-        };
-        userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, append);
+        });
     }, false);
 
     // Block external scripts
@@ -100,7 +99,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
                 if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
                 var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
                 var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
-                if (getTLD(a ? a[2] : site, full) != getTLD(site, full)) {
+                if (a && getTLD(a[2], full) != getTLD(site, full)) {
                     e.preventDefault();
                     if (blockedScripts.indexOf(src) == -1) blockedScripts += blockedScripts ? '; ' + src : src;
                     log('blocked script -> ' + src + ' for <' + site + '>');
@@ -122,7 +121,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
     var showButton = function (e) {
         var docEle;
 
-        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
+        if (document && document.compatMode === 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
         else docEle = document.body;
         if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 70) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
@@ -146,7 +145,6 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
 
         // Create the quick button
         if (window.top === window.self) { // don't want that in a frames
-            //window.removeEventListener('mousemove', showButton, false); 
             if (options.checkEnabled('noads_button_state')) {
                 log('button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');
@@ -196,7 +194,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
         // Create menu messaging channel and parse background messages
         opera.extension.onmessage = function (e) {
             var message = decodeMessage(e.data);
-            if (message.type == 'noads_bg_port') {
+            if (message.type === 'noads_bg_port') {
                 var channel = new MessageChannel();
                 //background = e.source;
                 e.ports[0].postMessage(encodeMessage({

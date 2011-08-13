@@ -134,7 +134,7 @@ window.addEventListener('load', function () {
                                         realoadRules(true, true);
                                         if (!addRules && arrayFilters.length) {
                                             arrayFilters = null;
-                                            arrayFilters = new Array();
+                                            arrayFilters = [];
                                         }
 
                                         for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
