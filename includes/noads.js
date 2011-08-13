@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // global variables
-var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, reSkip, reBlock, sStyle, uStyle, sMagic = '', sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0;
+var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0;
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
@@ -60,12 +60,12 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                      }
                      // also must be parsed on BeforeScript event as class sometimes unavailible before
                      } else {*/
-                        (function(name, debug) {
+                        (function (name, debug) {
                             window.opera.defineMagicFunction(j[1], function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }); 
                         })(j[1], bDebug);
                     //}
 
-                    (function(name, debug) {
+                    (function (name, debug) {
                         window[name] = function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }; 
                     })(j[1], bDebug);
                 } //blocking variables
@@ -91,27 +91,31 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     }, false);
 
     // Block external scripts
-    if (options.checkEnabled('noads_scriptlist_state') && (reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true))) {
-        blockingText += ', external scripts';
-        window.opera.addEventListener('BeforeExternalScript', function (e) {
-            var src = e.element.src;
-            if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
-            var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
-            var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
-            if (getTLD(a ? a[2] : site, full) != getTLD(site, full)) {
-                e.preventDefault();
-                if (blockedScripts.indexOf(src) == -1) blockedScripts += blockedScripts ? '; ' + src : src;
-                log('blocked script -> ' + src + ' for <' + site + '>');
-            }
-        }, false);
-
-        if (reBlock = options.getReScriptBlock('noads_scriptlist')) {
-            window.opera.addEventListener('BeforeScript', function (e) {
-                if (reBlock.test(e.element.text)) {
+    if (options.checkEnabled('noads_scriptlist_state')) {
+        var reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true);
+        if (reSkip) {
+            blockingText += ', external scripts';
+            window.opera.addEventListener('BeforeExternalScript', function (e) {
+                var src = e.element.src;
+                if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
+                var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
+                var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
+                if (getTLD(a ? a[2] : site, full) != getTLD(site, full)) {
                     e.preventDefault();
-                    inlineScripts++;
+                    if (blockedScripts.indexOf(src) == -1) blockedScripts += blockedScripts ? '; ' + src : src;
+                    log('blocked script -> ' + src + ' for <' + site + '>');
                 }
             }, false);
+
+            var reBlock = options.getReScriptBlock('noads_scriptlist');
+            if (reBlock) {
+                window.opera.addEventListener('BeforeScript', function (e) {
+                    if (reBlock.test(e.element.text)) {
+                        e.preventDefault();
+                        inlineScripts++;
+                    }
+                }, false);
+            }
         }
     }
 

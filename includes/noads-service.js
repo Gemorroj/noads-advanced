@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // global variables
-var bDebug = true, reSkip, reBlock, sStyle, uStyle, sMagic = '', sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0;
+var bDebug = true, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
 var none = '{display: none !important;}', 
 highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}', 
 paddingCSS = 'iframe, embed, object {\

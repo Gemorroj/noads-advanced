@@ -52,6 +52,7 @@ var imgRefresh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf
 var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH+SURBVBgZBcE9i11VGAbQtc/sO0OCkqhghEREAwpWAWUg8aMVf4KFaJEqQtAipTZWViKiCGOh2Ap2gmJhlSIWFsFOxUK0EsUM3pl79n4f12qHb3z3Fh7D83gC95GOJsDe0ixLk5Qq/+xv/Lw9Xd+78/HLX3Y8fXTr2nWapy4eCFKxG7Fby97SnDlYtMbxthyfzHO//nl85fNvfvnk8MbX5xa8IHx1518Vkrj54Q+qQms2vVmWZjdiu5ZR2rT01166/NCZg/2PFjwSVMU6yjoC1oq+x6Y3VbHdlXWExPd379nf7Nmejv2Os6OC2O4KLK0RNn3RNCdr2Z5GJSpU4o+/TkhaJ30mEk5HwNuvX7Hpi76wzvjvtIwqVUSkyjqmpHS0mki8+9mPWmuWxqYvGkbFGCUAOH/+QevYI9GFSqmaHr5wkUYTAlGhqiRRiaqiNes6SOkwJwnQEqBRRRJEgkRLJGVdm6R0GLMQENE0EkmkSkQSVVMqopyuIaUTs0J455VLAAAAAODW0U/GiKT0pTWziEj44PZ1AAAAcPPqkTmH3QiJrlEVDXDt0qsAAAAAapa5BqUnyaw0Am7//gUAAAB49tEXzTmtM5KkV/y2G/X4M5fPao03n/sUAAAAwIX7y5yBv9vhjW/fT/IkuSp5gJKElKRISYoUiSRIyD1tufs/IXxui20QsKIAAAAASUVORK5CYII=';
 var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==';
 
+
 var options = {
     stop: null,
     checkEnabled: function (name) { return getValue(name) != 'disabled'; },
@@ -139,7 +140,9 @@ var options = {
         return rez.join(',');
     },
     getReScriptBlock: function (name) {
-        var rule, pos, rez = [], tmp = getValue(name).split('\n');
+        var rule, pos, rez = [], tmp = getValue(name);
+        if (!tmp) return false;
+        tmp.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
@@ -190,10 +193,10 @@ var options = {
     isWhiteListed: function (rule, domain) {
         var pos = rule.indexOf('$');
         if (pos != -1) rule = rule.slice(0, pos);
-        var end = rule.charAt(rule.length - 1) == '^';
+        var end = rule.charAt(rule.length - 1) === '^';
         if (end) rule = rule.slice(0, -1);
         pos = domain.indexOf(rule);
-        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) == '.') && (!end || pos + rule.length == domain.length);
+        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length);
     },
     setWhiteList: function (name, value) {
         var rule, rez = [], arr = value.split('\n');
@@ -206,11 +209,11 @@ var options = {
     },
     // create default white list
     setDefWhiteList: function () {
-        var whiteList = '~translate.google.com,~youtube.com,~metacafe.com,~lastfm.ru,~livegames.ru,~vkontakte.ru,~vk.com,~eurosport.ru,~imageshack.us,~britannica.com,~vimeo.com,~virustotal.com,~wikipedia.org,~newegg.com,~yahoo.com,~facebook.com,~deviantart.com,~hotmail.com,~picasaweb.google.com,~playset.ru,~molotok.ru,~megashare.by,~ya.ru,~acid3.acidtests.org,~mail.ru,~piter.fm,~kinozal.tv,~tvshack.net,~anonym.to,~twitter.com,~flickr.com,~myspace.com,~bbc.co.uk,~ebay.com,~opera.com,~imdb.com,~macromedia.com';
-        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^http://[0-9a-z-]+.gstatic.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|swfobject.js$|yahoo-dom-event.js$|bundle_github.js$|show_afs_search.js$|chart.js$|ajax.js$|widgets.js$|common.js$|AC_RunActiveContent.js$|ext[0-9a-z.-]*.js$|yui[0-9a-z.-]*.js$|jquery[0-9a-z.-]*.js$';
+        var whiteList = '~translate.google.com,~youtube.com,~metacafe.com,~lastfm.ru,~livegames.ru,~vkontakte.ru,~vk.com,~eurosport.ru,~imageshack.us,~britannica.com,~vimeo.com,~virustotal.com,~wikipedia.org,~newegg.com,~yahoo.com,~facebook.com,~deviantart.com,~hotmail.com,~picasaweb.google.com,~playset.ru,~molotok.ru,~megashare.by,~ya.ru,~acid3.acidtests.org,~mail.ru,~piter.fm,~kinozal.tv,~tvshack.net,~anonym.to,~twitter.com,~flickr.com,~myspace.com,~bbc.co.uk,~ebay.com,~opera.com,~imdb.com,~macromedia.com,~sprashivai.ru';
+        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|https?://apis.google.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^http://[0-9a-z-]+.gstatic.com|https?://ajax.aspnetcdn.com|https?://ajax.microsoft.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|https?://yandex.st|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|https?://platform.twitter.com/anywhere.js|^https?://vkontakte.ru/js/api/openapi.js|https?://api.odnoklassniki.ru/js/fapi.js|^https?://connect.facebook.net|^https?://[0-9a-z-]*.cloudfront.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|swfobject.js$|yahoo-dom-event.js$|bundle_github.js$|show_afs_search.js$|chart.js$|ajax.js$|widgets.js$|common.js$|AC_RunActiveContent.js$|ext[0-9a-z.-]*.js$|yui[0-9a-z.-]*.js$|jquery[0-9a-z.-]*.js$';
         var rez = [], arr = whiteList.split(',');
         for (var i = 0, rule; rule = arr[i]; i++) {
-            if (rule.charAt(0) == '~') rez.push('@@||' + rule.slice(1) + '^');
+            if (rule.charAt(0) === '~') rez.push('@@||' + rule.slice(1) + '^');
         }
         setValue('noads_scriptlist_white', rez.join('\n') + '\n@@==' + skipScripts);
         rez = null;
@@ -230,14 +233,18 @@ var options = {
         rez = null;
     },
     isActiveDomain: function (name, domain, retRe) {
-        //log('wtf is going on '+domain+' with '+name);
-        var rule, rez = [], tmp = getValue(name).split('\n');
+        var rule, rez = [], tmp = getValue(name);
+        if (!tmp) return retRe ? new RegExp('^$') : true;
+
+        tmp = tmp.split('\n');
+
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            if (rule.indexOf('@@||') == 0) { if (this.isWhiteListed(rule.slice(4), domain)) return false; } // @@|| - direct domain, @@== - RegExp domain
+            // @@|| - direct domain, @@== - RegExp domain
+            if (rule.indexOf('@@||') == 0) { if (this.isWhiteListed(rule.slice(4), domain)) return retRe ? new RegExp('^*$') : false; }
             else if (retRe && rule.indexOf('@@==') == 0) rez.push(rule.slice(4));
         }
-        //log((new RegExp(rez.join('|'))).toString());
+
         tmp = null;
         return retRe ? new RegExp((rez.join('|').replace(/\/|\.(?=[\w\d])/g, '\\$&') || '^$'), 'i') : true;
     },
