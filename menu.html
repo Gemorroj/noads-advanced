@@ -26,13 +26,12 @@ body {
     border-bottom: 1px solid #aaa !important;
 }
 </style>
-<script type='text/javascript' src='scripts/noads-menu-translation.js'></script>
+<script type='text/javascript' src='translations/noads-menu-translation.js'></script>
+<script type='text/javascript' src='includes/noads-common.js'></script>
 <script type='text/javascript'>
-var extension = window.opera.extension, lng = TRANSLATE(), theport, enabled = false;
-function decodeMessage(data) {return JSON.parse(data);}
-function encodeMessage(data) {return JSON.stringify(data);}
+var lng = new MENU_TRANSLATION(), theport, enabled = false;
 
-function onMessageHandler(e) {
+function onMessageHandler (e) {
     if (!e || !e.data) return;
     // if we want to interact with the menu from injected script
     var message = decodeMessage(e.data);

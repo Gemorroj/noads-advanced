@@ -1,17 +1,3 @@
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude widget:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
 /*
 The main idea is to convey the content, so do not be afraid to localize the original text with something different 
 (something that fits, of course). Read the original text, understand its content, and consider how you would formulate the text
@@ -22,7 +8,7 @@ in your language (without first having heard of the original text).
 var VERSION = widget.version;
 var EXTNAME = widget.name;
 var OPERA_VERSION = window.opera.version();
-var TRANSLATE = function () {
+var TRANSLATION = function () {
     switch (window.navigator.language) {
         case 'ru': return {
             _s: function (count) { return (count > 4) ? '\u043e\u0432' : ((count > 1) ? '\u0430' : ''); },

@@ -3,17 +3,19 @@
 <head>
 <meta charset="utf-8"/>
 <title id="widget-title">NoAds Advanced</title>
+<script type='text/javascript' src='translations/noads-translation.js'></script>
 <script type='text/javascript' src='includes/noads-common.js'></script>
 <script type='text/javascript' src='includes/noads-options.js'></script>
-<script type='text/javascript' src='includes/noads-translation.js'></script>
 <script type='text/javascript'>
 opera.extension.onmessage = function (e) {
     var message = decodeMessage(e.data);
     if (message.type === 'noads_import_status') {
+        var lng = new TRANSLATION();
+
         if (message.status === 'good') {
-            alert(TRANSLATE().iSubs.replace('%url', message.url).replace('%d', message.length));
+            alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
         } else {
-            alert(TRANSLATE().mSubscriptions + ' ' + TRANSLATE().pError + ': ' + message.status + '\n\nURL: ' + message.url);
+            alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
         }
         var btn = document.getElementById("noads_dlsubscription");
         btn.childNodes[0].src = imgRefresh;

@@ -1,16 +1,3 @@
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
 .noads_win{display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
@@ -55,7 +42,7 @@ var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoK
 
 var options = {
     stop: null,
-    checkEnabled: function (name) { return getValue(name) != 'disabled'; },
+    checkEnabled: function (name) { return getValue(name) !== 'disabled'; },
     setEnabled: function (name, value) { setValue(name, !value ? 'disabled' : 'enabled'); },
     // subscriptions
     isCorrectDomain: function (domain, domains) {
@@ -139,7 +126,7 @@ var options = {
         tmp = null;
         return rez.join(',');
     },
-    getReScriptBlock: function (name) {
+    getReScriptBlock: function (name, domain) {
         var rule, pos, rez = [], tmp = getValue(name);
         if (!tmp) return false;
         tmp.split('\n');
@@ -259,7 +246,7 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            var lng = TRANSLATE();
+            var lng = TRANSLATION();
             node.nodeValue = lng.lUpdate + ' ' + lastUpdate;
         }
     },
@@ -305,7 +292,7 @@ var options = {
         this.stop = function (global) { overlay.close(global); };
         document.addEventListener('keypress', press, false);
 
-        var lng = TRANSLATE();
+        var lng = TRANSLATION();
         var win = document.createElement('div');
         win.className = 'noads_win';
         if (!global) win.style.marginTop = '4%';

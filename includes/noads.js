@@ -1,27 +1,13 @@
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude widget:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
 // global variables
 var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0;
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; }
+    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATION().iNoQuota); alert(TRANSLATION().iNoQuota); return; }
     var blockingText = '', domain = window.location.hostname;
 
     // Set subscription listener here?
-    //if(options.checkEnabled('noads_subscription_state')){};
+    //if (options.checkEnabled('noads_subscription_state')) {};
     
     /* Add custom magic; yay Merlin!
      * 
@@ -106,7 +92,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), sStyle, uStyle, 
                 }
             }, false);
 
-            var reBlock = options.getReScriptBlock('noads_scriptlist');
+            var reBlock = options.getReScriptBlock('noads_scriptlist', domain);
             if (reBlock) {
                 window.opera.addEventListener('BeforeScript', function (e) {
                     if (reBlock.test(e.element.text)) {
