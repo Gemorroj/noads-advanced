@@ -42,8 +42,8 @@ var noads = {
     getAttrSelector: function (el, tags) {
         var rez = '';
         if (el.attributes) {
-            var r = new RegExp('^(' + tags + ')$'), n, a;
-            for (var i = 0; a = el.attributes[i]; i++) {
+            var r = new RegExp('^(' + tags + ')$'), n;
+            for (var i = 0, a; a = el.attributes[i]; i++) {
                 n = a.nodeName.toLowerCase();
                 if (r.test(n)) {
                    if (n === 'id') {
@@ -121,16 +121,16 @@ var run = {
     getSubscription: function () {
         var url = getValue('noads_default_url2');
         if (url.length) {
-            postMsg({ type: 'get_filters', url: url, allRules: true});
+            postMsg({ type: 'get_filters', url: url, allRules: true });
         }
-        else alert(TRANSLATION().iNoDefSub);
+        else alert(lng.iNoDefSub);
     },
     setStatus: function (value) {
-        if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) }
+        if (window.top === window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000); }
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
-        var domain = window.location.hostname, lng = TRANSLATION();
+        var domain = window.location.hostname;
         if (arguments.length ? !block : options.getForSite(domain)) {
             options.setForSite(domain, false);
             run.updateCSS(domain);
@@ -146,7 +146,6 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-        var lng = TRANSLATION();
         var domain = window.location.hostname;
         var rez = prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez != null) {
@@ -278,7 +277,7 @@ var run = {
                 else ele.removeAttribute('style');
             }
         };
-        var click = function(ev){
+        var click = function (ev) {
             if (ele.getAttribute('servicenoads')) return;
             ev.preventDefault();
             ev.stopPropagation();
@@ -286,11 +285,10 @@ var run = {
             var rules, rule = noads.getCSSrule(ele, !wide != !ev.altKey); // get CSS rule for current element
 
             css = css ? (css != (rules = noads.deleleCSSrule(css, rule)) ? (ev.shiftKey ? rules : css) : css + ',' + rule) : rule;
-            if (tmpCSS) { replaceStyle(tmpCSS, css + highlightCSS) }
+            if (tmpCSS) { replaceStyle(tmpCSS, css + highlightCSS); }
             else { tmpCSS = addStyle(css + highlightCSS); }
 
             if (!ev.shiftKey) {
-                var lng = TRANSLATION();
                 // highlight elements marked for removing 
                 var backup = [], demo;
                 try {
@@ -387,7 +385,6 @@ var run = {
 
         var sCount = blocked.split('; ').length;
         var eCount = arrCSS.length;
-        var lng = TRANSLATION();
         var txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
         var title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
 
@@ -403,7 +400,7 @@ var run = {
             b.addEventListener('click', function (e) {
                 if (e.ctrlKey && !e.shiftKey && !e.altKey) {
                     options.showPreferences(domain);
-                    return
+                    return;
                 }
                 if (run.noreload) {
                     run.toggleBlocking(!enabled);
@@ -441,8 +438,6 @@ var run = {
         };
         
         if (scripts.length || iframes.length || objects.length) {
-            var lng = TRANSLATION();
-
             window.scrollTo(0, 0);
             overlay = document.createElement('div');
             overlay.setAttribute('servicenoads', 'true');

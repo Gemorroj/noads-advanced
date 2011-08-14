@@ -51,7 +51,7 @@ var options = {
         while (domain) {
             for (var i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
-                if (str.charAt(0) != '~') { if (str == domain) { return true; } else { inDomain = true; } }
+                if (str.charAt(0) !== '~') { if (str == domain) { return true; } else { inDomain = true; } }
                 else { if (str.slice(1) == domain) { return false; } else { exDomain = true; } }
             }
             domain = domain.slice(domain.indexOf('.') + 1 || domain.length);
@@ -246,7 +246,6 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            var lng = TRANSLATION();
             node.nodeValue = lng.lUpdate + ' ' + lastUpdate;
         }
     },
@@ -292,7 +291,6 @@ var options = {
         this.stop = function (global) { overlay.close(global); };
         document.addEventListener('keypress', press, false);
 
-        var lng = TRANSLATION();
         var win = document.createElement('div');
         win.className = 'noads_win';
         if (!global) win.style.marginTop = '4%';

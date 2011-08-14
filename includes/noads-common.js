@@ -44,8 +44,8 @@ var splitCSS = function (css) {
 var getTLD = function (domain, full) {
     if (!domain) return '';
     var r = domain.match(/^((?:\d{1,3}\.){3})\d{1,3}$/); if (r) return r[1] + '0';
-    var a = domain.split('.');
-    var l = a.length; if (l < 2) return domain;
+    var a = domain.split('.'), l = a.length;
+    if (l < 2) return domain;
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 };
 var unique = function () {
