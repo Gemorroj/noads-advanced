@@ -151,7 +151,7 @@ var importer = {
     },
 
     _setFiler: function (rulesRaw) {
-        var out, filters = (rulesRaw === '') ? [] : rulesRaw.split('\n##');
+        var out = [], filters = (rulesRaw === '') ? [] : rulesRaw.split('\n##');
 
         if (filters.length) {
             filters[0] = filters[0].substring(2); // remove ## parser compatibility
