@@ -54,7 +54,7 @@ var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoK
 
 var options = {
     stop: null,
-    checkEnabled: function (name) { return getValue(name) != 'disabled'; },
+    checkEnabled: function (name) { return getValue(name) !== 'disabled'; },
     setEnabled: function (name, value) { setValue(name, !value ? 'disabled' : 'enabled'); },
     // subscriptions
     isCorrectDomain: function (domain, domains) {
@@ -190,10 +190,10 @@ var options = {
     isWhiteListed: function (rule, domain) {
         var pos = rule.indexOf('$');
         if (pos != -1) rule = rule.slice(0, pos);
-        var end = rule.charAt(rule.length - 1) == '^';
+        var end = rule.charAt(rule.length - 1) === '^';
         if (end) rule = rule.slice(0, -1);
         pos = domain.indexOf(rule);
-        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) == '.') && (!end || pos + rule.length == domain.length);
+        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length);
     },
     setWhiteList: function (name, value) {
         var rule, rez = [], arr = value.split('\n');
@@ -207,10 +207,10 @@ var options = {
     // create default white list
     setDefWhiteList: function () {
         var whiteList = '~translate.google.com,~youtube.com,~metacafe.com,~lastfm.ru,~livegames.ru,~vkontakte.ru,~vk.com,~eurosport.ru,~imageshack.us,~britannica.com,~vimeo.com,~virustotal.com,~wikipedia.org,~newegg.com,~yahoo.com,~facebook.com,~deviantart.com,~hotmail.com,~picasaweb.google.com,~playset.ru,~molotok.ru,~megashare.by,~ya.ru,~acid3.acidtests.org,~mail.ru,~piter.fm,~kinozal.tv,~tvshack.net,~anonym.to,~twitter.com,~flickr.com,~myspace.com,~bbc.co.uk,~ebay.com,~opera.com,~imdb.com,~macromedia.com';
-        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^http://[0-9a-z-]+.gstatic.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|swfobject.js$|yahoo-dom-event.js$|bundle_github.js$|show_afs_search.js$|chart.js$|ajax.js$|widgets.js$|common.js$|AC_RunActiveContent.js$|ext[0-9a-z.-]*.js$|yui[0-9a-z.-]*.js$|jquery[0-9a-z.-]*.js$';
+        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|^https?://apis.google.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^https?://[0-9a-z-]+.gstatic.com|^https?://ajax.aspnetcdn.com|^https?://ajax.microsoft.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|https?://yandex.st|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|swfobject.js$|yahoo-dom-event.js$|bundle_github.js$|show_afs_search.js$|chart.js$|ajax.js$|widgets.js$|common.js$|AC_RunActiveContent.js$|ext[0-9a-z.-]*.js$|yui[0-9a-z.-]*.js$|jquery[0-9a-z.-]*.js$';
         var rez = [], arr = whiteList.split(',');
         for (var i = 0, rule; rule = arr[i]; i++) {
-            if (rule.charAt(0) == '~') rez.push('@@||' + rule.slice(1) + '^');
+            if (rule.charAt(0) === '~') rez.push('@@||' + rule.slice(1) + '^');
         }
         setValue('noads_scriptlist_white', rez.join('\n') + '\n@@==' + skipScripts);
         rez = null;
@@ -234,7 +234,8 @@ var options = {
         var rule, rez = [], tmp = getValue(name).split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            if (rule.indexOf('@@||') == 0) { if (this.isWhiteListed(rule.slice(4), domain)) return false; } // @@|| - direct domain, @@== - RegExp domain
+            // @@|| - direct domain, @@== - RegExp domain
+            if (rule.indexOf('@@||') == 0) { if (this.isWhiteListed(rule.slice(4), domain)) return false; }
             else if (retRe && rule.indexOf('@@==') == 0) rez.push(rule.slice(4));
         }
         //log((new RegExp(rez.join('|'))).toString());
@@ -283,13 +284,13 @@ var options = {
         this.stop = function (global) { overlay.close(global); };
         document.addEventListener('keypress', press, false);
 
-        var lng = TRANSLATE();
+        var lng = TRANSLATION();
         var win = document.createElement('div');
         win.className = 'noads_win';
         if (!global) win.style.marginTop = '4%';
         overlay.appendChild(win);
         var img = document.createElement('div');
-        img.className = 'noads_close_window'
+        img.className = 'noads_close_window';
         img.title = lng.pClose;
         img.onclick = function () {
             if (global) {
@@ -403,7 +404,7 @@ var options = {
         };
         area.createRadioButton = function (txt, url, typein) {
             var label = document.createElement('label');
-            label.className = 'noads_label_subscription'
+            label.className = 'noads_label_subscription';
             var input = document.createElement('input');
             input.type = 'checkbox';
             input.name = 'subs';
@@ -654,13 +655,13 @@ var options = {
             this.createRadioButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
             this.appendChild(document.createElement('br'));
             this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
-            
+
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) return; else dlsubscription.disabled = true;
-                
+
                 var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type === 'checkbox' && radioButton.checked) { url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value); }

@@ -1,4 +1,4 @@
-var TRANSLATE = function () {
+var MENU_TRANSLATION = function () {
     switch (window.navigator.language) {
         case 'ru': return {
             blockAds: '\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u0431\u0449\u0435\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e',

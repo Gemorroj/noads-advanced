@@ -83,17 +83,17 @@ window.addEventListener('load', function () {
         opera.contexts.toolbar.addItem(button);
     } else { button = {disabled: true}; } // lol, had problems with button if it was all in if(_state)
         
-    function enableButton() {
+    function enableButton () {
         button.disabled = !opera.extension.tabs.getFocused();
     }
     
-    function onConnectHandler(e) {
+    function onConnectHandler (e) {
         if (e && e.origin && e.origin.indexOf('menu.html') > -1 && e.origin.indexOf('widget://') > -1) {
             var tab = opera.extension.tabs.getFocused();
             if (tab) tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
         } else enableButton();
     }
-        
+
     // Enable the button when a tab is ready.
     opera.extension.onconnect = onConnectHandler;
     opera.extension.tabs.onfocus = enableButton;

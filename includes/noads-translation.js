@@ -22,10 +22,10 @@ in your language (without first having heard of the original text).
 var VERSION = widget.version;
 var EXTNAME = widget.name;
 var OPERA_VERSION = window.opera.version();
-var TRANSLATE = function () {
+var TRANSLATION = function () {
     switch (window.navigator.language) {
         case 'ru': return {
-            _s: function (count) { return (count > 4) ? '\u043e\u0432' : ((count > 1) ? '\u0430' : '') },
+            _s: function (count) { return (count > 4) ? '\u043e\u0432' : ((count > 1) ? '\u0430' : ''); },
             unblock: '\u0420\u0430\u0437\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u0442\u044c: ',
             disabled: '\u0411\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0442\u043a\u043b\u044e\u0447\u0435\u043d\u043e',
             blocked: '\u0417\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u043e',
@@ -80,7 +80,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'tr': return {
-            _s: function (count) { return (count > 1) ? 's' : '' },
+            _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Serbest b\u0131rak: ',
             disabled: 'Engelleme durduruldu',
             blocked: 'Engellendi',
@@ -135,7 +135,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'fr': return {
-            _s: function (count) { return (count > 1) ? 's' : '' },
+            _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Debloquer : ',
             disabled: 'Blocage desactive',
             blocked: 'Bloque',
@@ -190,7 +190,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'pl': return {
-            _s: function (count) { return (count > 4) ? '\u00f3w' : ((count > 1) ? 'y' : '') },
+            _s: function (count) { return (count > 4) ? '\u00f3w' : ((count > 1) ? 'y' : ''); },
             unblock: 'Odblokuj',
             disabled: 'Blokowanie jest wy\u0142\u0105czone',
             blocked: 'Zablokowano',
@@ -245,7 +245,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'Selektor CSS jest niepoprawny. Prosz\u0119 sprawdzi\u0107 sk\u0142adni\u0119.',
         };
         case 'zh-tw': return {
-            _s: function (count) { return (count > 1) ? '' : '' },
+            _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u64CB: ',
             disabled: '\u505C\u6B62\u963B\u64CB',
             blocked: '\u5DF2\u963B\u64CB',
@@ -300,7 +300,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'zh_TW': return {
-            _s: function (count) { return (count > 1) ? '' : '' },
+            _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u64CB: ',
             disabled: '\u505C\u6B62\u963B\u64CB',
             blocked: '\u5DF2\u963B\u64CB',
@@ -355,7 +355,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'zh-cn': return {
-            _s: function (count) { return (count > 1) ? '' : '' },
+            _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u6321: ',
             disabled: '\u505C\u6B62\u963B\u6321',
             blocked: '\u5DF2\u963B\u6321',
@@ -410,7 +410,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'zh_CN': return {
-            _s: function (count) { return (count > 1) ? '' : '' },
+            _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u6321: ',
             disabled: '\u505C\u6B62\u963B\u6321',
             blocked: '\u5DF2\u963B\u6321',
@@ -465,7 +465,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         case 'de': return {
-            _s: function (count) { return (count > 1) ? 'e' : '' },
+            _s: function (count) { return (count > 1) ? 'e' : ''; },
             unblock: 'Deblockiere: ',
             disabled: 'Blockierung deaktiviert',
             blocked: 'Blockiert',
@@ -520,7 +520,7 @@ var TRANSLATE = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
         };
         default: return {
-            _s: function (count) { return (count > 1) ? 's' : '' },
+            _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Unblock',
             disabled: 'Blocking disabled',
             blocked: 'Blocked',
@@ -534,7 +534,7 @@ var TRANSLATE = function () {
             bElement: 'Input CSS selector(s) of element(s) to block (= euqals, ^= begins with; *= contains):',
             iSubs: 'Subscription from %url added %d rules.',
             iNoDefSub: 'Error: no default subscription.',
-            iNoQuota: 'Opera '+OPERA_VERSION+' does not support widget.preferences or storage quota is too small. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
+            iNoQuota: 'Opera ' + OPERA_VERSION + ' does not support widget.preferences or storage quota is too small. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
             pInfo: 'Information',
             pError: 'Error',
             pClose: 'Close',

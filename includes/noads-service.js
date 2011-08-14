@@ -60,15 +60,14 @@ var noads = {
             for (var i = 0, a; a = el.attributes[i]; i++) {
                 n = a.nodeName.toLowerCase();
                 if (r.test(n)) {
-                   if (n == 'id') { 
+                   if (n === 'id') {
                        if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
                        rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, ''); 
                        break; 
                    }
-                   else if (n == 'class') {
+                   else if (n === 'class') {
                        if (~a.nodeValue.indexOf(' ')){ rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
-                       else if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
-                       else { rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, ''); }
+                       else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, ''); } // check for unallowed values
                    }
                    else { rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
                 }
@@ -138,14 +137,14 @@ var run = {
         if (url.length) {
             postMsg({ type: 'get_filters', url: url, allRules: true});
         }
-        else alert(TRANSLATE().iNoDefSub);
+        else alert(TRANSLATION().iNoDefSub);
     },
     setStatus: function (value) {
         if (window.top == window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000) }
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
-        var domain = window.location.hostname, lng = TRANSLATE();
+        var domain = window.location.hostname, lng = TRANSLATION();
         if (arguments.length ? !block : options.getForSite(domain)) {
             options.setForSite(domain, false);
             run.updateCSS(domain);
@@ -161,7 +160,7 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-        var lng = TRANSLATE();
+        var lng = TRANSLATION();
         var domain = window.location.hostname;
         var rez = prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez != null) {
@@ -173,12 +172,12 @@ var run = {
     },
     updateCSS: function (domain) {
         sCSS = (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) ? options.getRules('noads_list', domain) : '';
-        if (sStyle) { replaceStyle(sStyle, sCSS ? sCSS + none : '') } else if (sCSS) { sStyle = addStyle(sCSS + none); }
+        if (sStyle) { replaceStyle(sStyle, sCSS ? sCSS + none : ''); } else if (sCSS) { sStyle = addStyle(sCSS + none); }
         uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
-        if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : '') } else if (uCSS) { uStyle = addStyle(uCSS + none); }
+        if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : ''); } else if (uCSS) { uStyle = addStyle(uCSS + none); }
     },
     unblockElement: function (latest) {
-        var domain = window.location.hostname, protocol = window.location.protocol + '//';
+        var domain = window.location.hostname;
         if (this.stop) this.stop();
         var padCSS, css = options.getRules('noads_userlist', domain);
         if (!uStyle || !css) return;
@@ -201,7 +200,7 @@ var run = {
             //if rule contains href^=link src*=link or data=link removing link from urlfilter
             var curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if(curLink) postMsg({ type: 'unblock_address', url:curLink});
+                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
             }
         
             //if rule is not in CSS then searching for more general rules?
@@ -209,14 +208,14 @@ var run = {
             if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if(curLink) postMsg({ type: 'unblock_address', url:curLink});
+                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
             }
             
             cssRule = noads.getCSSrule(ev.target, true);
             if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if(curLink) postMsg({ type: 'unblock_address', url:curLink});
+                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
             }
             
             // setting new rules
@@ -255,7 +254,7 @@ var run = {
         }
     },
     blockElement: function (wide) {
-        var domain = window.location.hostname, protocol = window.location.protocol + '//';
+        var domain = window.location.hostname;
         if (this.stop) this.stop();
         var css, tmpCSS, padCSS, ele = '', outline = '', bgColor = '', title = '';
 
@@ -305,7 +304,7 @@ var run = {
             else { tmpCSS = addStyle(css + highlightCSS); }
 
             if (!ev.shiftKey) {
-                var lng = TRANSLATE();
+                var lng = TRANSLATION();
                 // highlight elements marked for removing 
                 var backup = [], demo;
                 try {
@@ -334,7 +333,7 @@ var run = {
                     *  But there is certain setback as we can't block it for defined sites so blocked URL
                     *  will become totally! unavailible from adress-bar until manual unblocking via extension.
                     */
-                    var arrCSS = css.split(/\s*,\s*/);
+                    var arrCSS = css.split(/\s*, \s*/);
                     // trying to get links out of selectors
                     for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
                         if (link) postMsg({type: 'block_address', url: link});
@@ -358,8 +357,8 @@ var run = {
             ev.stopPropagation();
             if (ev.button == 2) run.stop();
             else {
-                // Filter onclick events for selected element and it's parents. 
-                // I know it's possibly brakes the page logic until reload but.. 
+                // Filter onclick events for selected element and it's parents.
+                // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
                 while (el) {
                     if (el.nodeType == 1) {
@@ -393,7 +392,7 @@ var run = {
         for (var i = arrCSS.length; i--;) {
             try { if (document.querySelectorAll(arrCSS[i]).length == 0) arrCSS.splice(i, 1); } 
             catch (e) {
-                log('invalid CSS encountered: '+arrCSS[i]);
+                log('invalid CSS encountered: ' + arrCSS[i]);
                 return;
             }
         }
@@ -403,7 +402,7 @@ var run = {
 
         var sCount = blocked.split('; ').length;
         var eCount = arrCSS.length;
-        var lng = TRANSLATE();
+        var lng = TRANSLATION();
         var txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
         var title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
 
@@ -442,9 +441,9 @@ var run = {
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
     },
-    contentBlockHelper: function(){
+    contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
-        if (overlay) { overlay.close(); return }
+        if (overlay) { overlay.close(); return; }
         
         var diffHeight = window.outerHeight - window.innerHeight;
         var scripts = document.getElementsByTagName('script');
@@ -453,10 +452,12 @@ var run = {
             if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) 
                 window.setTimeout(function () {
                     overlay.close()
-                }, 200)
+                }, 200);
         };
         
         if (scripts.length || iframes.length || objects.length) {
+            var lng = TRANSLATION();
+
             window.scrollTo(0, 0);
             overlay = document.createElement('div');
             overlay.setAttribute('servicenoads', 'true');
@@ -475,13 +476,13 @@ var run = {
             buttons.className = 'noads_button_placeholder';
             
             var hide = document.createElement('div');
-            hide.title = TRANSLATE().pHide;
+            hide.title = lng.pHide;
             hide.setAttribute('servicenoads', 'true');
             hide.className = 'noads_button_hide';
             buttons.appendChild(hide);
             
             var close = document.createElement('div');
-            close.title = TRANSLATE().pClose;
+            close.title = lng.pClose;
             close.setAttribute('servicenoads', 'true');
             close.className = 'noads_button_close';
             close.addEventListener('click', function () { overlay.close(); }, false);
@@ -491,7 +492,7 @@ var run = {
             var content = document.createElement('div');
             content.setAttribute('servicenoads', 'true');
             content.className = 'noads_helper_content';
-            content.hide = function(){
+            content.hide = function () {
                 this.style.visibility = (this.style.visibility != 'hidden') ? 'hidden' : 'visible';
             };
             
@@ -531,7 +532,7 @@ var run = {
 
             var img = document.createElement('img');
             img.className = 'noads_placeholder';
-            img.alt = TRANSLATE().pCSSlinks + ':';
+            img.alt = lng.pCSSlinks + ':';
             img.setAttribute('servicenoads', 'true');
             overlay.appendChild(img);
 

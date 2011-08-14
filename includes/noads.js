@@ -17,11 +17,11 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
 (function() {
     //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATE().iNoQuota); alert(TRANSLATE().iNoQuota); return; }
+    if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATION().iNoQuota); alert(TRANSLATION().iNoQuota); return; }
     var blockingText = '', domain = window.location.hostname;
 
     // Set subscription listener here?
-    //if(options.checkEnabled('noads_subscription_state')){};
+    //if (options.checkEnabled('noads_subscription_state')) {};
     
     /* Add custom magic; yay Merlin!
      * 
@@ -60,12 +60,12 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
                      }
                      // also must be parsed on BeforeScript event as class sometimes unavailible before
                      } else {*/
-                        (function(name, debug) {
+                        (function (name, debug) {
                             window.opera.defineMagicFunction(j[1], function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }); 
                         })(j[1], bDebug);
                     //}
 
-                    (function(name, debug) {
+                    (function (name, debug) {
                         window[name] = function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }; 
                     })(j[1], bDebug);
                 } //blocking variables
@@ -118,7 +118,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     var showButton = function (e) {
         var docEle;
 
-        if (document && document.compatMode == 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
+        if (document && document.compatMode === 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
         else docEle = document.body;
         if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 70) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
@@ -142,7 +142,6 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
         // Create the quick button
         if (window.top === window.self) { // don't want that in a frames
-            //window.removeEventListener('mousemove', showButton, false); 
             if (options.checkEnabled('noads_button_state')) {
                 log('button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');
@@ -192,7 +191,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
         // Create menu messaging channel and parse background messages
         opera.extension.onmessage = function (e) {
             var message = decodeMessage(e.data);
-            if (message.type == 'noads_bg_port') {
+            if (message.type === 'noads_bg_port') {
                 var channel = new MessageChannel();
                 //background = e.source;
                 e.ports[0].postMessage(encodeMessage({
