@@ -196,14 +196,105 @@ var options = {
     },
     // create default white list
     setDefWhiteList: function () {
-        var whiteList = '~translate.google.com,~youtube.com,~metacafe.com,~lastfm.ru,~livegames.ru,~vkontakte.ru,~vk.com,~eurosport.ru,~imageshack.us,~britannica.com,~vimeo.com,~virustotal.com,~wikipedia.org,~newegg.com,~yahoo.com,~facebook.com,~deviantart.com,~hotmail.com,~picasaweb.google.com,~playset.ru,~molotok.ru,~megashare.by,~ya.ru,~acid3.acidtests.org,~mail.ru,~piter.fm,~kinozal.tv,~tvshack.net,~anonym.to,~twitter.com,~flickr.com,~myspace.com,~bbc.co.uk,~ebay.com,~opera.com,~imdb.com,~macromedia.com,~sprashivai.ru';
-        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|https?://apis.google.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^https?://[0-9a-z-]+.gstatic.com|https?://ajax.aspnetcdn.com|https?://ajax.microsoft.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|https?://yandex.st|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|https?://platform.twitter.com|https?://(cdn.)?connect.mail.ru|^https?://vkontakte.ru/js/api/|https?://api.odnoklassniki.ru/js/fapi.js|^https?://connect.facebook.net|^https?://[0-9a-z-]*.cloudfront.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|^https?://[0-9a-z-]*.disqus.com|https?://st.drweb.com|swfobject.js|yahoo-dom-event.js|bundle_github.js|show_afs_search.js|chart.js|ajax.js|widgets.js|common.js|player.js|AC_RunActiveContent.js|ext[0-9a-z.-]*.js|yui[0-9a-z.-]*.js|jquery[0-9a-z.-]*.js';
-        var rez = [], arr = whiteList.split(',');
-        for (var i = 0, rule; rule = arr[i]; i++) {
-            if (rule.charAt(0) === '~') rez.push('@@||' + rule.slice(1) + '^');
-        }
-        setValue('noads_scriptlist_white', rez.join('\n') + '\n@@==' + skipScripts);
-        rez = null;
+        var whiteList = [
+            '@@||acid3.acidtests.org^',
+            '@@||anonym.to^',
+            '@@||bbc.co.uk^',
+            '@@||britannica.com^',
+            '@@||deviantart.com^',
+            '@@||ebay.com^',
+            '@@||eurosport.ru^',
+            '@@||facebook.com^',
+            '@@||flickr.com^',
+            '@@||hotmail.com^',
+            '@@||imageshack.us^',
+            '@@||imdb.com^',
+            '@@||kinozal.tv^',
+            '@@||lastfm.ru^',
+            '@@||livegames.ru^',
+            '@@||macromedia.com^',
+            '@@||mail.ru^',
+            '@@||megashare.by^',
+            '@@||metacafe.com^',
+            '@@||molotok.ru^',
+            '@@||myspace.com^',
+            '@@||newegg.com^',
+            '@@||opera.com^',
+            '@@||picasaweb.google.com^',
+            '@@||piter.fm^',
+            '@@||playset.ru^',
+            '@@||sprashivai.ru^',
+            '@@||translate.google.com^',
+            '@@||tvshack.net^',
+            '@@||twitter.com^',
+            '@@||vimeo.com^',
+            '@@||virustotal.com^',
+            '@@||vk.com^',
+            '@@||vkontakte.ru^',
+            '@@||wikipedia.org^',
+            '@@||ya.ru^',
+            '@@||yahoo.com^',
+            '@@||youtube.com^'
+        ];
+
+        var skipScripts = [
+            'AC_RunActiveContent.js',
+            '^data:',
+            '^http://[0-9a-z-]+.imgsmail.ru',
+            '^http://fastcache.gawkerassets.com',
+            '^http://fonts.gizmodo.com',
+            '^http://ipinfodb.com',
+            '^http://rutube.ru',
+            '^http://s\d+.addthis.com/js',
+            '^http://static.myopera.com',
+            '^http://yuilibrary.com',
+            '^https?://[0-9a-z-]*.cloudfront.net',
+            '^https?://[0-9a-z-]*.disqus.com',
+            '^https?://[0-9a-z-]*.googleapis.com',
+            '^https?://[0-9a-z-]*.yahooapis.com',
+            '^https?://[0-9a-z-]+.appspot.com',
+            '^https?://[0-9a-z-]+.gstatic.com',
+            '^https?://[0-9a-z-]+.hotmail.',
+            '^https?://[0-9a-z-]+.wlxrs.com',
+            '^https?://api-maps.yandex.ru',
+            '^https?://api.bit.ly',
+            '^https?://api.recaptcha.net',
+            '^https?://auth.tbn.ru',
+            '^https?://connect.facebook.net',
+            '^https?://css.yandex.net',
+            '^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$',
+            '^https?://maps.google.com',
+            '^https?://s\d+.ucoz.net/src/u.js',
+            '^https?://script.aculo.us',
+            '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
+            '^https?://sstatic.net',
+            '^https?://translate.googleusercontent.com',
+            '^https?://vkontakte.ru/js/api/',
+            '^https?://www.google.com/jsapi',
+            '^https?://www.google.com/recaptcha',
+            'ajax.js',
+            'bundle_github.js',
+            'chart.js',
+            'common.js',
+            'ext[0-9a-z.-]*.js',
+            'https?://(cdn.)?connect.mail.ru',
+            'https?://ajax.aspnetcdn.com',
+            'https?://ajax.microsoft.com',
+            'https?://api.odnoklassniki.ru/js/fapi.js',
+            'https?://apis.google.com',
+            'https?://platform.twitter.com',
+            'https?://st.drweb.com',
+            'https?://yandex.st',
+            'jquery[0-9a-z.-]*.js',
+            'player.js',
+            'show_afs_search.js',
+            'swfobject.js',
+            'widgets.js',
+            'yahoo-dom-event.js',
+            'yui[0-9a-z.-]*.js'
+        ];
+
+        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('|'));
     },
     setActiveDomain: function (name, domain, value) {
         var rez = getValue(name).split('\n');
