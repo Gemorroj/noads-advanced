@@ -16,6 +16,11 @@
   <preference name="noads_allrules_state" value="enabled"/>
   <preference name="noads_addrules_state" value="disabled"/>
   <preference name="noads_debug_enabled_state" value="disabled"/>
+  <preference name="noads_autoupdate_state" value="enabled"/>
+  <preference name="noads_autoupdate_notification_state" value="enabled"/>
+  <preference name="noads_autoupdate_interval" value="86400000"/>
+
+
   <!-- CSS selectors and URL filter subscription sites. -->
   <!--<access origin="*" subdomains="true"/>-->
   <access origin="https://easylist-downloads.adblockplus.org" subdomains="true"/>
@@ -38,7 +43,7 @@
   <access origin="https://ruadlist.googlecode.com" subdomains="true"/>
   <access origin="http://www.zoso.ro" subdomains="true"/>
   <access origin="http://www.wiltteri.net" subdomains="true"/>
-  <license>Licensed under the Apache License, Version 2.0 (the "License");
+  <license href="http://www.apache.org/licenses/LICENSE-2.0">Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 

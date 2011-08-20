@@ -4,9 +4,6 @@ window.addEventListener('load', function () {
     bDebug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
-    // adding URL filters on load
-    importer.reloadRules(true, false);
-    importer.reloadRules(false, false);
 
     var button;
     if (options.checkEnabled('noads_tb_enabled_state')) {
@@ -34,13 +31,9 @@ window.addEventListener('load', function () {
         } else enableButton();
     }
 
-    // Enable the button when a tab is ready.
-    opera.extension.onconnect = onConnectHandler;
-    opera.extension.tabs.onfocus = enableButton;
-    opera.extension.tabs.onblur = enableButton;
-
-    opera.extension.onmessage = function (e) {
+    function onMessageHandler (e) {
         var message = decodeMessage(e.data);
+        alert(message.type);
         switch (message.type) {
             case 'get_filters':
                 if (!e.source) return;
@@ -55,42 +48,20 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var rulesN = 0, message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
-                var addRules = false;
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
                 for (var subsc = 0; subsc < message.url.length; subsc++) {
-                    log('Start importing subscription nr: ' + (subsc + 1));
-                    var url = message.url[subsc];
-                    //if(0 < i) addRules = true;//?
-                    addRules = subsc;
-
                     try {
-                        var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.onreadystatechange = function () {
-                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                if (~url.indexOf('.ini')) {
-                                    rulesN = importer.importFilters(xmlhttp.responseText, addRules);
-                                } else {
-                                    rulesN = importer.importSubscriptions(xmlhttp.responseText, url, message.allRules, addRules);
-                                }
-
-                                if (rulesN) {
-                                    message_success.push(url);
-                                    message_rules += rulesN;
-                                } else {
-                                    message_fileerror.push(url);
-                                }
-                                log('End importing subscription nr: ' + (subsc + 1));
+                        importer.request(message.url[subsc], subsc, message.allRules, function (rulesN) {
+                            if (rulesN) {
+                                message_success.push(message.url[subsc]);
+                                message_rules += rulesN;
+                            } else {
+                                message_fileerror.push(message.url[subsc]);
                             }
-                            else if (xmlhttp.readyState >= 4) {
-                                message_error.push(url);
-                            }
-                        };
-                        xmlhttp.open("GET", url, false);
-                        xmlhttp.send();
-                    }
-                    catch (ex) {
+                        });
+                    } catch (ex) {
                         log('URL/CSS filter import error -> ' + ex);
-                        message_error.push(url);
+                        message_error.push(message.url[subsc]);
                     }
                 }
                 if (message_success.length) {
@@ -139,6 +110,41 @@ window.addEventListener('load', function () {
             case 'reload_rules':
                 importer.reloadRules(message.global, false);
                 break;
+
+            case 'noads_import_status':
+                if (message.status === 'good') {
+                    alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
+                } else {
+                    alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
+                }
+                break;
         }
     }
+
+
+    if (options.checkEnabled('noads_autoupdate_state')) {
+        var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
+        if (next_update < new Date().getTime()) {
+            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state');
+            for (var subsc = 0; subsc < url.length; subsc++) {
+                try {
+                    importer.request(url[subsc], subsc, allRules, function (rulesN) {
+                        //TODO:notification
+                    });
+                } catch (ex) {
+                    log('URL/CSS filter import error -> ' + ex);
+                }
+            }
+        }
+    }
+
+    // adding URL filters on load
+    importer.reloadRules(true, false);
+    importer.reloadRules(false, false);
+
+    // Enable the button when a tab is ready.
+    opera.extension.onconnect = onConnectHandler;
+    opera.extension.tabs.onfocus = enableButton;
+    opera.extension.tabs.onblur = enableButton;
+    opera.extension.onmessage = onMessageHandler;
 }, false);

@@ -20,6 +20,7 @@ opera.extension.onmessage = function (e) {
         var btn = document.getElementById("noads_dlsubscription");
         btn.childNodes[0].src = imgRefresh;
         btn.disabled = false;
+        options.setLastUpdate(btn.nextSibling.nextSibling);
     }
 };
 

@@ -224,9 +224,6 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                     case 'unblock_latest':
                         run.unblockElement(true);
                         break;
-                    case 'get_subscription':
-                        run.getSubscription();
-                        break;
                     case 'content_block_helper':
                         run.contentBlockHelper();
                         break;

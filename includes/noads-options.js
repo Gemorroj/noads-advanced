@@ -245,7 +245,7 @@ var options = {
             '^http://fonts.gizmodo.com',
             '^http://ipinfodb.com',
             '^http://rutube.ru',
-            '^http://s\d+.addthis.com/js',
+            '^http://s\\d+.addthis.com/js',
             '^http://static.myopera.com',
             '^http://yuilibrary.com',
             '^https?://[0-9a-z-]*.cloudfront.net',
@@ -264,7 +264,7 @@ var options = {
             '^https?://css.yandex.net',
             '^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$',
             '^https?://maps.google.com',
-            '^https?://s\d+.ucoz.net/src/u.js',
+            '^https?://s\\d+.ucoz.net/src/u.js',
             '^https?://script.aculo.us',
             '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
             '^https?://sstatic.net',
@@ -339,6 +339,20 @@ var options = {
         if (lastUpdate) {
             node.nodeValue = lng.lUpdate + ' ' + lastUpdate;
         }
+    },
+    getSubscriptions: function () {
+        var url = getValue('noads_default_url2'), custom_url = getValue('noads_custom_url');
+
+        if (url && custom_url) {
+            url = url.split('\n');
+            url.push(custom_url);
+        } else if (url) {
+            url = url.split('\n');
+        } else if (custom_url) {
+            url = new Array(custom_url);
+        }
+
+        return url;
     },
     showPreferences: function (domain) {
         if (!document.body) return;
@@ -768,11 +782,7 @@ var options = {
                 if (url.length) {
                     dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url2', url);
-                    setValue('noads_last_update', new Date().getTime());
-
                     postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true' });
-
-                    options.setLastUpdate(lastUpdatedNode);
                 } else postMsg({ type: 'get_filters', url: '' });
             }, '', imgRefresh));
 

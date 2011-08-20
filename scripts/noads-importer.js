@@ -4,7 +4,7 @@ var importer = {
     EXCLUDE: '[exclude]',
 
     // import subscription to a local storage
-    getHidingRulesLength: function (arr) {
+    _getHidingRulesLength: function (arr) {
 		var rule, pos, len = 0;
 		for (var i = 0; i < arr.length; i++) {
 			rule = arr[i];
@@ -15,7 +15,7 @@ var importer = {
 		return len;
 	},
 
-    importSubscriptions: function (list, url, allRules, addRules) {
+    _importSubscriptions: function (list, url, allRules, addRules) {
 		var convertOldRules = function (tagName, attrRules) {
 			var rule, rules, sep, additional = '', id = null, reAttrRules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
 			if (tagName === '*') tagName = '';
@@ -94,16 +94,16 @@ var importer = {
 		}
 		
 		if (filterRulesList.length) {
-			//if (confirm(lng.iSubs + url + '\n\n' + getHidingRulesLength(filterRulesList) + lng.iRules + filterRulesList.length + lng.iContinue)) {
+			//if (confirm(lng.iSubs + url + '\n\n' + _getHidingRulesLength(filterRulesList) + lng.iRules + filterRulesList.length + lng.iContinue)) {
 				setValue('noads_list', filterRulesList.join('\n'));
 				if (list.indexOf('##$$') != -1) setValue('noads_scriptlist', getHidingRules(list, true, true).join('\n'));
 			//}
 		}
-		else { return null; }
-		return this.getHidingRulesLength(filterRulesList);
+		else { return 0; }
+		return this._getHidingRulesLength(filterRulesList);
 	},
 
-    importFilters: function (list, addRules) {
+    _importFilters: function (list, addRules) {
         var pos = list.indexOf(importer.EXCLUDE);
         if (~pos) {
             var arraySubscription = list.substring(pos + importer.EXCLUDE.length).split('\n');
@@ -124,7 +124,7 @@ var importer = {
             importer.reloadRules(true, false);
             return importer.arrayFilters.length;
         } else {
-            return null;
+            return 0;
         }
     },
 
@@ -165,5 +165,25 @@ var importer = {
         }
 
         return out;
+    },
+
+    request: function (url, addRules, allRules, functionCallback) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                window.console.log('upd');
+                setValue('noads_last_update', new Date().getTime());
+
+                if (~url.indexOf('.ini')) {
+                    functionCallback(importer._importFilters(xmlhttp.responseText, addRules));
+                } else {
+                    functionCallback(importer._importSubscriptions(xmlhttp.responseText, url, allRules, addRules));
+                }
+            } else if (xmlhttp.readyState >= 4) {
+                return 0;
+            }
+        };
+        xmlhttp.open("GET", url, false);
+        xmlhttp.send();
     }
 };
