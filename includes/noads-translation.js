@@ -39,6 +39,7 @@ var TRANSLATION = function () {
             mMK:  '\u041c\u0430\u0433\u0438\u044f',
             mURLfilters: 'URL-\u0444\u0438\u043b\u044c\u0442\u0440\u044b',
             mUserURLfilters: '\u041f\u043e\u043b\u044c\u0437.URL-\u0444\u0438\u043b\u044c\u0442\u0440\u044b',
+            mUpdates: 'Updates',
             pSave: '\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c',
             pCSS: 'CSS \u0444\u0438\u043b\u044c\u0442\u0440\u044b:',
             pUCSS: '\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0435 CSS-\u0444\u0438\u043b\u044c\u0442\u0440\u044b:',
@@ -64,7 +65,8 @@ var TRANSLATION = function () {
             pCSSlinks: '\u0421\u0441\u044b\u043b\u043a\u0438, \u0432\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS',
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -99,6 +101,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: 'Aktifle\u015Ftirildi',
             pDisabled: 'Disabled',
             pScripts: 'Harici betikleri engelle. Beyaz Liste',
@@ -120,7 +123,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'fr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -155,6 +159,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: 'Active',
             pDisabled: 'Disabled',
             pScripts: 'Blocage de scripts externes. Liste blanche',
@@ -176,7 +181,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'pl': return {
             _s: function (count) { return (count > 4) ? '\u00f3w' : ((count > 1) ? 'y' : ''); },
@@ -209,6 +215,7 @@ var TRANSLATION = function () {
             mMK: 'Filtry magiczne',
             mURLfilters: 'Filtry URL',
             mUserURLfilters: 'Filtry URL u\u017Cytkownika',
+            mUpdates: 'Updates',
             mSubscriptions: 'Subskrypcje',
             mHelp: 'Pomoc',
             pEnabled: 'W\u0142\u0105czone',
@@ -232,7 +239,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Linki osadzone w CSS',
             pDebug: 'Debuguj',
             pInvalidSelector: 'Selektor CSS jest niepoprawny. Prosz\u0119 sprawdzi\u0107 sk\u0142adni\u0119.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh-tw': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -263,6 +271,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: '\u5132\u5B58',
             pCSS: 'CSS \u904E\u6FFE\u898F\u5247:',
             pUCSS: '\u4F7F\u7528\u8005 CSS \u904E\u6FFE\u898F\u5247:',
@@ -288,7 +297,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh_TW': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -319,6 +329,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: '\u5132\u5B58',
             pCSS: 'CSS \u904E\u6FFE\u898F\u5247:',
             pUCSS: '\u4F7F\u7528\u8005 CSS \u904E\u6FFE\u898F\u5247:',
@@ -344,7 +355,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh-cn': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -379,6 +391,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: '\u542F\u7528',
             pDisabled: 'Disabled',
             pScripts: '\u5916\u90E8\u811A\u672C\u767D\u540D\u5355 (\u4E0D\u8981\u963B\u6321\u8FD9\u4E9B\u5916\u90E8\u811A\u672C)',
@@ -400,7 +413,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh_CN': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -435,6 +449,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: '\u542F\u7528',
             pDisabled: 'Disabled',
             pScripts: '\u5916\u90E8\u811A\u672C\u767D\u540D\u5355 (\u4E0D\u8981\u963B\u6321\u8FD9\u4E9B\u5916\u90E8\u811A\u672C)',
@@ -456,7 +471,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'de': return {
             _s: function (count) { return (count > 1) ? 'e' : ''; },
@@ -487,6 +503,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: 'Speichern',
             pCSS: 'CSS Filter:',
             pUCSS: 'Benutzer CSS Filter:',
@@ -512,7 +529,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         default: return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -545,6 +563,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filters',
             mUserURLfilters: 'User URL-filters',
+            mUpdates: 'Updates',
             mSubscriptions: 'Subscriptions',
             mHelp: 'Help',
             pEnabled: 'Enabled',
@@ -568,7 +587,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            lUpdate: 'Last update:'
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         }
     }
 }; //TRANSLATION

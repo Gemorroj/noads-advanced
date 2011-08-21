@@ -171,7 +171,6 @@ var importer = {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                window.console.log('upd');
                 setValue('noads_last_update', new Date().getTime());
 
                 if (~url.indexOf('.ini')) {
