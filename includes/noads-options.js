@@ -24,8 +24,10 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .strikethrough{text-decoration: line-through;}\
 .noads_content .right{position:relative;float:right;margin-right:0px;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
-.noads_content input[type=radio]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;height:14px;padding:2px;width:14px}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
+.noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:2px 4px;}\
+.noads_label_subscription:hover{text-decoration: underline;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
