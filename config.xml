@@ -17,7 +17,7 @@
   <preference name="noads_addrules_state" value="disabled"/>
   <preference name="noads_debug_enabled_state" value="disabled"/>
   <preference name="noads_autoupdate_state" value="enabled"/>
-  <preference name="noads_autoupdate_notification_state" value="enabled"/>
+  <!-- <preference name="noads_autoupdate_notification_state" value="enabled"/> -->
   <preference name="noads_autoupdate_interval" value="86400000"/>
 
 

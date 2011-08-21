@@ -139,7 +139,7 @@ var options = {
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
     },
     getRawRules: function (name, domain, global) {
-        var rez = [], tmp = getValue(name).split('\n'), rule = '';
+        var pos, rez = [], tmp = getValue(name).split('\n'), rule = '';
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
@@ -206,6 +206,7 @@ var options = {
             '@@||eurosport.ru^',
             '@@||facebook.com^',
             '@@||flickr.com^',
+            '@@||guardian.co.uk^',
             '@@||hotmail.com^',
             '@@||imageshack.us^',
             '@@||imdb.com^',
@@ -406,6 +407,7 @@ var options = {
         var img = document.createElement('div');
         img.className = 'noads_close_window';
         img.title = lng.pClose;
+        img.setAttribute('alt', lng.pClose);
         img.onclick = function () {
             if (global) {
                 window.opener = 'extension';
@@ -445,6 +447,7 @@ var options = {
             if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
+                img.setAttribute('alt', sText);
                 button.appendChild(img);
             }
             if (sClass) button.className = sClass;
@@ -459,6 +462,7 @@ var options = {
             if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
+                img.setAttribute('alt', sName);
                 checkbox.appendChild(img);
             }
             var enable, disable, changetext = false;
@@ -473,15 +477,15 @@ var options = {
                 else { checkbox.appendChild(document.createTextNode(sName)); }
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
-            if (options.checkEnabled(sName + '_state')) checkbox.setAttribute('checked', 'true');
+            if (options.checkEnabled(sName + '_state')) checkbox.checked = true;
            
             checkbox.onclick = function (e) {
                 e.preventDefault();
                 if (sClickFn) sClickFn();
-                if (this.getAttribute('checked') == 'true') {
+                if (this.checked) {
                     options.setEnabled(sName + '_state', false);
                     this.className = classDisabled;
-                    this.setAttribute('checked','false');
+                    this.checked = false;
                     if (changetext) {
                         this.removeChild(enable);
                         this.appendChild(disable);
@@ -490,7 +494,7 @@ var options = {
                 else {
                     options.setEnabled(sName + '_state', true);
                     this.className = classEnabled;
-                    this.setAttribute('checked', 'true');
+                    this.checked = true;
                     if (changetext) {
                         this.removeChild(disable);
                         this.appendChild(enable);
@@ -704,13 +708,14 @@ var options = {
             checkbox.type = 'checkbox';
             var img = document.createElement('img');
             img.src = imageCross;
+            img.setAttribute('alt', '');
             checkbox.appendChild(img);
             var enable = document.createTextNode(lng.pBlockingDisable),
                 disable = document.createTextNode(lng.pBlockingEnable),
                 classEnabled = 'negative right',
                 classDisabled = 'positive right',
                 state = options.getForSite(domain);
-                checkbox.setAttribute('checked', state);
+                checkbox.checked = state;
             if (state) {
                 checkbox.appendChild(enable);
                 checkbox.className = classEnabled;
@@ -722,7 +727,7 @@ var options = {
             textcss.disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
 
             checkbox.onclick = function () {
-                var currentstate = !(this.getAttribute('checked') == 'true');
+                var currentstate = !this.checked;
                 if (currentstate) {
                     this.removeChild(disable); 
                     this.appendChild(enable);
@@ -735,7 +740,7 @@ var options = {
                 textucss.disabled = !currentstate;
                 textcss.disabled = !currentstate;
                 textarea.disabled = !currentstate;
-                this.setAttribute('checked', currentstate);
+                this.checked = currentstate;
                 options.setForSite(window.location.hostname, currentstate);
                 log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
             };
@@ -785,7 +790,7 @@ var options = {
                 if (url.length) {
                     dlsubscription.childNodes[0].src = imgLoad;
                     setValue('noads_default_url2', url);
-                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').getAttribute('checked') == 'true' });
+                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
                 } else postMsg({ type: 'get_filters', url: '' });
             }, '', imgRefresh));
 
