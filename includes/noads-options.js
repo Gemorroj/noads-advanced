@@ -13,7 +13,7 @@
 
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
+.noads_win{font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
 .noads_close_window{background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -37,8 +37,11 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .strikethrough{text-decoration: line-through;}\
 .noads_content .right{position:relative;float:right;margin-right:0px;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
-.noads_content input[type=radio]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;height:14px;padding:2px;width:14px}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
+.noads_content input[type="checkbox"]{height:14px;width:14px;}\
+.noads_content input[type="range"]{width:100%;}\
 .noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:2px 4px;}\
+.noads_label_subscription:hover{text-decoration: underline;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
@@ -63,7 +66,7 @@ var options = {
         while (domain) {
             for (var i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
-                if (str.charAt(0) != '~') { if (str == domain) { return true; } else { inDomain = true; } }
+                if (str.charAt(0) !== '~') { if (str == domain) { return true; } else { inDomain = true; } }
                 else { if (str.slice(1) == domain) { return false; } else { exDomain = true; } }
             }
             domain = domain.slice(domain.indexOf('.') + 1 || domain.length);
@@ -140,6 +143,7 @@ var options = {
     },
     getReScriptBlock: function (name) {
         var rule, pos, rez = [], tmp = getValue(name).split('\n');
+        if (!tmp) return false;
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
@@ -149,7 +153,7 @@ var options = {
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
     },
     getRawRules: function (name, domain, global) {
-        var rez = [], tmp = getValue(name).split('\n'), rule = '';
+        var pos, rez = [], tmp = getValue(name).split('\n'), rule = '';
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
@@ -206,14 +210,108 @@ var options = {
     },
     // create default white list
     setDefWhiteList: function () {
-        var whiteList = '~translate.google.com,~youtube.com,~metacafe.com,~lastfm.ru,~livegames.ru,~vkontakte.ru,~vk.com,~eurosport.ru,~imageshack.us,~britannica.com,~vimeo.com,~virustotal.com,~wikipedia.org,~newegg.com,~yahoo.com,~facebook.com,~deviantart.com,~hotmail.com,~picasaweb.google.com,~playset.ru,~molotok.ru,~megashare.by,~ya.ru,~acid3.acidtests.org,~mail.ru,~piter.fm,~kinozal.tv,~tvshack.net,~anonym.to,~twitter.com,~flickr.com,~myspace.com,~bbc.co.uk,~ebay.com,~opera.com,~imdb.com,~macromedia.com';
-        var skipScripts = '^data:|^https?://[0-9a-z-]*.googleapis.com|^https?://apis.google.com|^https?://translate.googleusercontent.com|^https?://[0-9a-z-]*.yahooapis.com|^http://yuilibrary.com|^https?://www.google.com/jsapi|^https?://maps.google.com|^https?://www.google.com/recaptcha|^https?://[0-9a-z-]+.gstatic.com|^https?://ajax.aspnetcdn.com|^https?://ajax.microsoft.com|^https?://[0-9a-z-]+.appspot.com|^https?://yui.yahooapis.com|^https?://script.aculo.us|^https?://api.bit.ly|^http://static.myopera.com|^http://ipinfodb.com|^http://fonts.gizmodo.com|^http://fastcache.gawkerassets.com|^https?://api.recaptcha.net|^http://rutube.ru|https?://yandex.st|^https?://css.yandex.net|^https?://api-maps.yandex.ru|^https?://sstatic.net|^http://s\\d+.addthis.com/js|^https?://s\\d+.ucoz.net/src/u.js|^http://[0-9a-z-]+.imgsmail.ru|^https?://[0-9a-z-]+.hotmail.|^https?://[0-9a-z-]+.wlxrs.com|^https?://auth.tbn.ru|^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$|^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$|swfobject.js$|yahoo-dom-event.js$|bundle_github.js$|show_afs_search.js$|chart.js$|ajax.js$|widgets.js$|common.js$|AC_RunActiveContent.js$|ext[0-9a-z.-]*.js$|yui[0-9a-z.-]*.js$|jquery[0-9a-z.-]*.js$';
-        var rez = [], arr = whiteList.split(',');
-        for (var i = 0, rule; rule = arr[i]; i++) {
-            if (rule.charAt(0) === '~') rez.push('@@||' + rule.slice(1) + '^');
-        }
-        setValue('noads_scriptlist_white', rez.join('\n') + '\n@@==' + skipScripts);
-        rez = null;
+        var whiteList = [
+            // Testing suites
+            '@@||acid3.acidtests.org^',
+            // Popular and non-intrusive sites
+            '@@||vimeo.com^',
+            '@@||youtube.com^',
+            '@@||wikipedia.org^',
+            '@@||virustotal.com^',
+            '@@||bbc.co.uk^',
+            '@@||guardian.co.uk^',
+            '@@||ebay.com^',
+            '@@||yahoo.com^',
+            '@@||britannica.com^',
+            '@@||deviantart.com^',
+            '@@||flickr.com^',
+            '@@||hotmail.com^',
+            '@@||opera.com^',
+            '@@||imdb.com^',
+            '@@||macromedia.com^',
+            '@@||anonym.to^',
+            '@@||metacafe.com^',
+            '@@||myspace.com^',
+            '@@||mail.ru^',
+            '@@||translate.google.com^',
+            '@@||picasaweb.google.com^',
+            '@@||facebook.com^',
+            '@@||vk.com^',
+            '@@||vkontakte.ru^',
+            '@@||twitter.com^',
+            '@@||molotok.ru^',
+            '@@||ya.ru^',
+            '@@||kinozal.tv^',
+            '@@||eurosport.ru^',
+            '@@||lastfm.ru^',
+            '@@||livegames.ru^',
+        ];
+
+        var skipScripts = [
+            'AC_RunActiveContent.js',
+            '^data:',
+            // Known non-intrusive scripts and platforms
+            '^https?://[0-9a-z-]*.cloudfront.net',
+            '^https?://[0-9a-z-]*.disqus.com',
+            '^https?://[0-9a-z-]*.yahooapis.com',
+            '^https?://[0-9a-z-]+.appspot.com',
+            '^https?://[0-9a-z-]+.gstatic.com',
+            '^https?://[0-9a-z-]+.hotmail.',
+            '^https?://[0-9a-z-]+.imgsmail.ru',
+            '^https?://[0-9a-z-]+.wlxrs.com',
+            '^https?://ajax.aspnetcdn.com',
+            '^https?://ajax.microsoft.com',
+            '^https?://yuilibrary.com',
+            '^https?://api.bit.ly',
+            '^https?://api.recaptcha.net',
+            '^https?://apis.google.com',
+            '^https?://[0-9a-z-]*.googleapis.com',
+            '^https?://translate.googleusercontent.com',
+            '^https?://www.google.com/jsapi',
+            '^https?://www.google.com/recaptcha',
+            '^https?://auth.tbn.ru',
+            '^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$',
+            '^https?://fastcache.gawkerassets.com',
+            '^https?://fonts.gizmodo.com',
+            '^https?://maps.google.com',
+            '^https?://api-maps.yandex.ru',
+            '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
+            '^https?://sstatic.net',
+            '^https?://st.drweb.com',
+            '^https?://static.myopera.com',
+            /* // Add this on you own
+            '^https?://rutube.ru',
+            '^https?://script.aculo.us',
+            '^https?://s\\d+.addthis.com/js',
+            '^https?://s\\d+.ucoz.net/src/u.js',
+            '^https?://(cdn.)?connect.mail.ru',
+            '^https?://platform.twitter.com',
+            '^https?://api.odnoklassniki.ru/js/fapi.js',
+            '^https?://connect.facebook.net',
+            '^https?://vkontakte.ru/js/api/',
+            '^https?://yandex.st',
+            '^https?://css.yandex.net',
+            '^https?://ipinfodb.com',
+            */
+            // Popular names of a framework scripts
+            'bundle_github.js',
+            'ajax.js',
+            'chart.js',
+            'common.js',
+            'dojo.js',
+            'ext[0-9a-z.-]*.js',
+            'jquery[0-9a-z.-]*.js',
+            'mootools[0-9a-z-.]*.js',
+            'yui[0-9a-z.-]*.js',
+            'player.js',
+            'prototype.js',
+            'show_afs_search.js',
+            'swfobject.js',
+            'widgets.js',
+            'yahoo-dom-event.js',
+        ];
+
+        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('|'));
     },
     setActiveDomain: function (name, domain, value) {
         var rez = getValue(name).split('\n');
@@ -230,15 +328,15 @@ var options = {
         rez = null;
     },
     isActiveDomain: function (name, domain, retRe) {
-        //log('wtf is going on '+domain+' with '+name);
         var rule, rez = [], tmp = getValue(name).split('\n');
+        if (!tmp) return retRe ? new RegExp('^$') : true;
+
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') == 0) { if (this.isWhiteListed(rule.slice(4), domain)) return false; }
             else if (retRe && rule.indexOf('@@==') == 0) rez.push(rule.slice(4));
         }
-        //log((new RegExp(rez.join('|'))).toString());
         tmp = null;
         return retRe ? new RegExp((rez.join('|').replace(/\/|\.(?=[\w\d])/g, '\\$&') || '^$'), 'i') : true;
     },
@@ -292,6 +390,7 @@ var options = {
         var img = document.createElement('div');
         img.className = 'noads_close_window';
         img.title = lng.pClose;
+        img.setAttribute('alt', lng.pClose);
         img.onclick = function () {
             if (global) {
                 window.opener = 'extension';
@@ -331,6 +430,7 @@ var options = {
             if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
+                img.setAttribute('alt', sText);
                 button.appendChild(img);
             }
             if (sClass) button.className = sClass;
@@ -345,6 +445,7 @@ var options = {
             if (imgData) {
                 var img = document.createElement('img');
                 img.src = imgData;
+                img.setAttribute('alt', sName);
                 checkbox.appendChild(img);
             }
             var enable, disable, changetext = false;
@@ -402,7 +503,7 @@ var options = {
             else { textarea.className = 'overflow'; }
             return textarea;
         };
-        area.createRadioButton = function (txt, url, typein) {
+        area.createCheckboxButton = function (txt, url, typein) {
             var label = document.createElement('label');
             label.className = 'noads_label_subscription';
             var input = document.createElement('input');
@@ -590,6 +691,7 @@ var options = {
             checkbox.type = 'checkbox';
             var img = document.createElement('img');
             img.src = imageCross;
+            img.setAttribute('alt', '');
             checkbox.appendChild(img);
             var enable = document.createTextNode(lng.pBlockingDisable),
                 disable = document.createTextNode(lng.pBlockingEnable),
@@ -629,32 +731,32 @@ var options = {
         };
         area.showSubscriptions = function (pos) {
             this.clear(pos);
-            this.createRadioButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createRadioButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
-            this.createRadioButton('EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
-            this.createRadioButton('EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
-            this.createRadioButton('EasyList french', 'http://lian.info.tm/liste_fr.txt');
-            this.createRadioButton('EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
-            this.createRadioButton('EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
-            this.createRadioButton('EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
-            this.createRadioButton('EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
-            this.createRadioButton('EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
-            this.createRadioButton('EasyList finish', 'http://www.wiltteri.net/wiltteri.txt');
-            this.createRadioButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
+            this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
+            this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
+            this.createCheckboxButton('EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
+            this.createCheckboxButton('EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
+            this.createCheckboxButton('EasyList french', 'http://lian.info.tm/liste_fr.txt');
+            this.createCheckboxButton('EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
+            this.createCheckboxButton('EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
+            this.createCheckboxButton('EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
+            this.createCheckboxButton('EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
+            this.createCheckboxButton('EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
+            this.createCheckboxButton('EasyList finish', 'http://www.wiltteri.net/wiltteri.txt');
+            this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             this.appendChild(document.createElement('br'));
-            this.createRadioButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-            this.createRadioButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
-            this.createRadioButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createRadioButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createRadioButton('FanBoy portuguese/spanish', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createRadioButton('FanBoy czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createRadioButton('FanBoy japanese ', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createRadioButton('FanBoy turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createRadioButton('FanBoy polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createRadioButton('FanBoy vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createRadioButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
+            this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
+            this.createCheckboxButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
+            this.createCheckboxButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
+            this.createCheckboxButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
+            this.createCheckboxButton('FanBoy portuguese/spanish', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
+            this.createCheckboxButton('FanBoy czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
+            this.createCheckboxButton('FanBoy japanese ', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
+            this.createCheckboxButton('FanBoy turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
+            this.createCheckboxButton('FanBoy polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
+            this.createCheckboxButton('FanBoy vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
+            this.createCheckboxButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
             this.appendChild(document.createElement('br'));
-            this.createRadioButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+            this.createCheckboxButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
 
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
 

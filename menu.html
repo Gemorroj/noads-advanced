@@ -16,6 +16,7 @@ body {
 .menu div {
     font-size: 11px;
     padding: 4px;
+    cursor: pointer;
 }
 .menu div:hover {
     background-color: #316AC5;
@@ -27,10 +28,9 @@ body {
 }
 </style>
 <script type='text/javascript' src='scripts/noads-menu-translation.js'></script>
+<script type='text/javascript' src='includes/noads-common.js'></script>
 <script type='text/javascript'>
-var extension = window.opera.extension, lng = new MENU_TRANSLATION(), theport, enabled = false;
-function decodeMessage(data) {return JSON.parse(data);}
-function encodeMessage(data) {return JSON.stringify(data);}
+var lng = new MENU_TRANSLATION(), theport, enabled = false;
 
 function onMessageHandler (e) {
     if (!e || !e.data) return;

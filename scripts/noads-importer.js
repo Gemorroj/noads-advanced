@@ -1,7 +1,7 @@
 
 var importer = {
     // import subscription to a local storage
-    getHidingRulesLength: function(arr){
+    getHidingRulesLength: function (arr) {
 		var rule, pos, len = 0;
 		for (var i = 0; i < arr.length; i++) {
 			rule = arr[i];
@@ -11,10 +11,10 @@ var importer = {
 		}
 		return len;
 	},
-    importSubscription: function(list, url, allRules, addRules){
-		var convertOldRules = function(tagName, attrRules){
+    importSubscriptions: function (list, url, allRules, addRules) {
+		var convertOldRules = function (tagName, attrRules) {
 			var rule, rules, sep, additional = '', id = null, reAttrRules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
-			if (tagName == '*') tagName = '';
+			if (tagName === '*') tagName = '';
 			if (attrRules) {
 				rules = attrRules.match(reAttrRules);
 				for (var i = 0, l = rules.length; i < l; i++) {
@@ -33,17 +33,17 @@ var importer = {
 			if (id) { return tagName + '.' + id + additional + ',' + tagName + '#' + id + additional; }
 			else { return (tagName || additional) ? tagName + additional : ''; }
 		};
-		var isSiteOnly = function(domains){
+		var isSiteOnly = function (domains) {
 			if (domains) {
 				var arr = domains.split(',');
-				for (var i = 0, l = arr.length; i < l; i++) { if (arr[i].charAt(0) != '~') return true; }
+				for (var i = 0, l = arr.length; i < l; i++) { if (arr[i].charAt(0) !== '~') return true; }
 			}
 		};
-		var isValidSelector = function(selector){
-			if (document.querySelectorAll) try { document.querySelectorAll(selector) } catch (e) { return false; }
+		var isValidSelector = function (selector) {
+			if (document.querySelectorAll) try { document.querySelectorAll(selector); } catch (e) { return false; }
 			return true;
 		};
-		var getHidingRules = function(list, all, script){
+		var getHidingRules = function (list, all, script) {
 			var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
 			if (list) {
 				var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
@@ -81,7 +81,7 @@ var importer = {
 		};
 
 		var filterRulesList;
-		if (!addRules) { filterRulesList = getHidingRules(list, allRules) }
+		if (!addRules) { filterRulesList = getHidingRules(list, allRules); }
 		else {
 			filterRulesList = getValue('noads_list').split('\n').concat(getHidingRules(list, allRules));
 			filterRulesList = unique.call(filterRulesList);
@@ -95,7 +95,7 @@ var importer = {
 				if (list.indexOf('##$$') != -1) setValue('noads_scriptlist', getHidingRules(list, true, true).join('\n'));
 			//}
 		}
-		else { return null; }
+		else { return 0; }
 		return this.getHidingRulesLength(filterRulesList);
 	}
 };

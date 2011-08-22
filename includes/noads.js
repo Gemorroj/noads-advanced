@@ -16,13 +16,10 @@
 var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, reSkip, reBlock, sStyle, uStyle, sMagic = '', sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0;
 
 (function() {
-    //if(document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
+    //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
     if (typeof storage === undefined || !storage) { run.setStatus(TRANSLATION().iNoQuota); alert(TRANSLATION().iNoQuota); return; }
     var blockingText = '', domain = window.location.hostname;
 
-    // Set subscription listener here?
-    //if (options.checkEnabled('noads_subscription_state')) {};
-    
     /* Add custom magic; yay Merlin!
      * 
      * Magical formulae:
@@ -34,7 +31,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
     */
     if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
         blockingText += ', magic';
-        
+
         var sMagic = getValue('noads_magiclist').split('\n');
         if (sMagic) {
             var blockedFuncs = '', blockedVars = '';
@@ -83,10 +80,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
 
     // Enumerate backgrounds for helper
     window.opera.addEventListener('BeforeCSS', function (userJSEvent) {
-        //alert(userJSEvent);
-        var append = function (str, p1, offset, s) {
-            bgImages += p1 + '; ';
-        };
+        var append = function (str, p1, offset, s) { bgImages += p1 + '; '; };
         userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, append);
     }, false);
 
@@ -98,7 +92,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
             if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
             var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
             var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
-            if (getTLD(a ? a[2] : site, full) != getTLD(site, full)) {
+            if (a && getTLD(a ? a[2] : site, full) != getTLD(site, full)) {
                 e.preventDefault();
                 if (blockedScripts.indexOf(src) == -1) blockedScripts += blockedScripts ? '; ' + src : src;
                 log('blocked script -> ' + src + ' for <' + site + '>');
@@ -243,5 +237,5 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'), currentdomain, r
             delElement(document.getElementById('qbCSS'));
             window.removeEventListener('mousemove', showButton, false); 
         }
-    },false);
+    }, false);
 })();
