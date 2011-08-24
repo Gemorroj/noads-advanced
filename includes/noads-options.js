@@ -288,6 +288,7 @@ var options = {
             '^https?://www.google.com/recaptcha',
             '^https?://yandex.st',
             '^https?://yuilibrary.com',
+            '^https?://[a-z-]+.cdn.turner.com',
             'ajax.js',
             'bundle_github.js',
             'chart.js',
@@ -299,7 +300,7 @@ var options = {
             'player.js',
             'prototype.js',
             'show_afs_search.js',
-            'swfobject.js',
+            'swfobject[0-9-.]*.js',
             'widgets.js',
             'yahoo-dom-event.js',
             'yui[0-9a-z.-]*.js'
@@ -355,10 +356,10 @@ var options = {
         var url = getValue('noads_default_url2'), custom_url = getValue('noads_custom_url');
 
         if (url && custom_url) {
-            url = url.split('\n');
+            url = url.split(',');
             url.push(custom_url);
         } else if (url) {
-            url = url.split('\n');
+            url = url.split(',');
         } else if (custom_url) {
             url = new Array(custom_url);
         }
