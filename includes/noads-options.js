@@ -279,7 +279,7 @@ var options = {
             '^https?://s\\d+.ucoz.net/src/u.js',
             '^https?://script.aculo.us',
             '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
-            '^https?://sstatic.net',
+            '^https?://(cdn.)?sstatic.net',
             '^https?://st.drweb.com',
             '^https?://static.myopera.com',
             '^https?://translate.googleusercontent.com',
