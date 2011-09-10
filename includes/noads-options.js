@@ -309,7 +309,7 @@ var options = {
             'prototype.js',
             'show_afs_search.js',
             'swfobject[0-9-.]*.js',
-            'widgets.js',
+            'widgets?.js',
             'yahoo-dom-event.js',
             'yui[0-9a-z.-]*.js'
         ];
