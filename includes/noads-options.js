@@ -280,7 +280,7 @@ var options = {
             '^https?://fonts.gizmodo.com',
             '^https?://ipinfodb.com',
             '^https?://maps.google.com',
-            '^https?://platform.twitter.com',
+            '^https?://(search|platform)+.twitter.com',
             '^https?://rutube.ru',
             '^https?://s\\d+.addthis.com/js',
             '^https?://s\\d+.ucoz.net',
