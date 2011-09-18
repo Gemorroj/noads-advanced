@@ -16,13 +16,13 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.positive:hover{background-color:#E6EFC2;border:1px solid #C6D880;color:#529214;}\
 .noads_content button.negative{color:#d12f19;}\
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
-.noads_content p{clear:both;text-align:left;padding-top:10px;margin:0;padding:0}\
+.noads_content p{clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
 .noads_area{padding: 0 15px 0 15px; margin:0; width:auto;}\
 .noads_content textarea{box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",arial,tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;box-shadow:none !important;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .strikethrough{text-decoration: line-through;}\
-.noads_content .right{position:relative;float:right;margin-right:0px;}\
+.noads_content .right{position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
