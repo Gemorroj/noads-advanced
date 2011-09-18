@@ -861,7 +861,11 @@ var options = {
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
-                if (dlsubscription.disabled === true) return;
+                if (dlsubscription.disabled === true) {
+                    return;
+                } else {
+                    dlsubscription.disabled = true;
+                }
 
                 var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
