@@ -16,15 +16,16 @@
 var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0, lng = {};
 
 (function() {
-    bDebug = options.checkEnabled('noads_debug_enabled_state');
+    bDebug = options.checkEnabled('noads_debug_enabled_state'),
     lng = new TRANSLATION();
 
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if (typeof storage === undefined || !storage) { run.setStatus(lng.iNoQuota); alert(lng.iNoQuota); return; }
+    if (typeof storage === undefined || !storage) {
+        run.setStatus(lng.iNoQuota);
+        alert(lng.iNoQuota);
+        return;
+    }
     var blockingText = '', domain = window.location.hostname;
-
-    // Set subscription listener here?
-    //if (options.checkEnabled('noads_subscription_state')) {};
 
     /* Add custom magic; yay Merlin!
      * 
@@ -75,13 +76,13 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                             if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
                         };
                     })(j[1], bDebug);
-                } //blocking variables
-                else if (j[0].match(/^var/i)) {
-                        blockedVars += ',' + j[1];
-                        window[j[1]] = ret;
-                        window.opera.defineMagicVariable(j[1], function () {
-                            return null;
-                        }, null);
+                } else if (j[0].match(/^var/i)) {
+                    //blocking variables
+                    blockedVars += ',' + j[1];
+                    window[j[1]] = ret;
+                    window.opera.defineMagicVariable(j[1], function () {
+                        return null;
+                    }, null);
                 }
             }
             //log('functions blocked: ' + blockedFuncs.slice(1)+'\nvariables blocked: ' + blockedVars.slice(1));
@@ -139,9 +140,8 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
         if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 40) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
         }
-    };
- 
-    var onCSSAllowed = function () {
+    },
+    onCSSAllowed = function () {
         // Add CSS rules
         if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) {
             sCSS = options.getRules('noads_list', domain);
@@ -177,7 +177,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
     // don't want that in a frames
     if (window.top === window.self) {
         log('on ' + window.location.hostname + ' blocking:' + blockingText.substring(1) + '...');
-   
+
         // Setup hotkeys
         window.addEventListener('keydown', function (e) {
             if (e.shiftKey && !e.ctrlKey && e.altKey) {
@@ -206,7 +206,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                 }
             }
         }, false);
-        
+
         // Create menu messaging channel and parse background messages
         opera.extension.onmessage = function (e) {
             var message = decodeMessage(e.data);

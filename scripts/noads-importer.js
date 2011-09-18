@@ -63,7 +63,11 @@ var importer = {
             return true;
         };
         var getHidingRules = function (list, all, script) {
-            var rez = [], scriptList = [], reTrim = /^\s+|\s+$/g, reBlank = /^(?:$|[\[!@]|\/.*\/$)/, reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
+            var rez = [],
+                scriptList = [],
+                reTrim = /^\s+|\s+$/g,
+                reBlank = /^(?:$|[\[!@]|\/.*\/$)/,
+                reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
             if (list) {
                 var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
                 for (var i = 0; i < arr.length; i++) {
@@ -109,8 +113,7 @@ var importer = {
         if (!addRules) {
             filterRulesList = getHidingRules(list, allRules);
         } else {
-            filterRulesList = getValue('noads_list').split('\n').concat(getHidingRules(list, allRules));
-            filterRulesList = unique.call(filterRulesList);
+            filterRulesList = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, allRules)));
             filterRulesList.sort();
             for (var i = filterRulesList.length; i--;) {
                 if (filterRulesList[i].indexOf('##') == -1) {

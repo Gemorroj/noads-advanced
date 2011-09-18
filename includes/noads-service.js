@@ -29,16 +29,29 @@ var noads = {
         var a = splitCSS(css), rule, j;
         for (var i = a.length; i--; ) {
             rule = a[i] + '>';
-            for (j = a.length; j--; ) if (a[j].indexOf(rule) == 0) a.splice(j, 1);
+            for (j = a.length; j--; ) {
+                if (a[j].indexOf(rule) == 0) {
+                    a.splice(j, 1);
+                }
+            }
         }
         return a.join(',');
     },
+
     deleleCSSrule: function (css, del) {
         var a = splitCSS(css);
-        if (del) { for (var i = a.length; i--; ) if (del.indexOf(a[i]) == 0) a.splice(i, 1) }
-        else { a.pop(); }
+        if (del) {
+            for (var i = a.length; i--; ) {
+                if (del.indexOf(a[i]) == 0) {
+                    a.splice(i, 1)
+                }
+            }
+        } else {
+            a.pop();
+        }
         return a.join(',');
     },
+
     getAttrSelector: function (el, tags) {
         var rez = '';
         if (el.attributes) {
@@ -50,39 +63,58 @@ var noads = {
                        if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
                        rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, ''); 
                        break; 
+                   } else if (n === 'class') {
+                       if (~a.nodeValue.indexOf(' ')){
+                           rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
+                       } else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { // check for unallowed values
+                           rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, '');
+                       }
+                   } else {
+                       rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
                    }
-                   else if (n === 'class') {
-                       if (~a.nodeValue.indexOf(' ')){ rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
-                       else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, ''); } // check for unallowed values
-                   }
-                   else { rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]'; }
                 }
             }
         }
         return rez;
     },
+
     getNth: function (el) {
         var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) { if (c.nodeType == 1) { n++; if (c == el) nth = n; } }
+        for (var i = 0, c; c = p.childNodes[i]; i++) {
+            if (c.nodeType === 1) {
+                n++;
+                if (c === el) nth = n;
+            }
+        }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
     },
+
     getCSSrule: function (el, wide) {
         var att, single, tag, rez = [];
         while (el) {
-            if (el.nodeType == 1) {
+            if (el.nodeType === 1) {
                 tag = el.nodeName;
                 if (/^(html|body)$/i.test(tag)) break;
                 att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
                 if (att) {
-                    if (this.getAttrSelector(el, 'noads')) {tag = ''} // for blocker helper
-                    if (~att.indexOf('://')) rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
-                    else rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
+                    if (this.getAttrSelector(el, 'noads')) {
+                        // for blocker helper
+                        tag = '';
+                    }
+                    if (~att.indexOf('://')) {
+                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
+                    } else {
+                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
+                    }
                     break;
-                }
-                else {
+                } else {
                     att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
-                    rez.unshift(tag + att + ((wide != false || /^(html|body)$/i.test(tag)) ? '' : this.getNth(el)));
-                    try { single = (document.querySelectorAll(tag + att).length == 1); } catch (e) {break;}
+                    rez.unshift(tag + att + ((wide !== false || /^(html|body)$/i.test(tag)) ? '' : this.getNth(el)));
+                    try {
+                        single = (document.querySelectorAll(tag + att).length === 1);
+                    } catch (e) {
+                        break;
+                    }
                     if (wide && att && single) break;
                 }
             }
@@ -90,36 +122,54 @@ var noads = {
         }
         return rez.join('>');
     },
-    getFilterLink: function(css, domain){
+
+    getFilterLink: function (css, domain) {
         if (~css.indexOf('not(')) return;
         var ruleURL = css.match(/(?:src|href|data)\s*\^=\s*"([^"]+)"/i);
-        if (ruleURL && ruleURL[1]) { ruleURL[1] += '*' }
-        else {
+        if (ruleURL && ruleURL[1]) {
+            ruleURL[1] += '*';
+        } else {
             ruleURL = css.match(/(?:src|href|data)\s*\*=\s*"([^"]+)"/i);
-            if (ruleURL && ruleURL[1]) { if(ruleURL[1].length < 5) return; ruleURL[1] = '*' + ruleURL[1] + '*'; }
-            else { 
+            if (ruleURL && ruleURL[1]) {
+                if (ruleURL[1].length < 5) {
+                    return;
+                } else {
+                    ruleURL[1] = '*' + ruleURL[1] + '*';
+                }
+            } else {
                 ruleURL = css.match(/(?:src|href|data)\s*=\s*"([^"]+)"/i);
                 if (!ruleURL || !ruleURL[1]) return;
              }
         }
-        
+
         ruleURL[1] = ruleURL[1].replace(/^\.\/|\.\.\/?/g,'*'); // "../" or "./" -> *
         if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
         if (ruleURL[1].indexOf('http') == -1) {
             if (domain) {
-                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) == '/' || domain.charAt(domain.length - 1) == '/')) return domain + ruleURL[1];
-                else return domain + '/' + ruleURL[1];
+                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) == '/' || domain.charAt(domain.length - 1) == '/')) {
+                    return domain + ruleURL[1];
+                } else {
+                    return domain + '/' + ruleURL[1];
+                }
             }
+        } else {
+            return ruleURL[1];
         }
-        else{ return ruleURL[1]; }
     }
 };
+
 
 // Helper Objects
 var run = {
     stop: null,
     setStatus: function (value) {
-        if (window.top === window.self) { window.status = value; window.defaultStatus = value; window.setTimeout(function () { window.defaultStatus = ''; }, 4000); }
+        if (window.top === window.self) {
+            window.status = value;
+            window.defaultStatus = value;
+            window.setTimeout(function () {
+                window.defaultStatus = '';
+            }, 4000);
+        }
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
@@ -129,8 +179,7 @@ var run = {
             run.updateCSS(domain);
             this.setStatus(lng.nDisabled);
             //this.postMsg({ type: 'disable' });
-        }
-        else {
+        } else {
             options.setForSite(domain, true);
             run.updateCSS(domain);
             this.setStatus(lng.nEnabled);
@@ -141,19 +190,33 @@ var run = {
     editStyles: function () {
         var domain = window.location.hostname;
         var rez = prompt(lng.eStyles, options.getRules('noads_userlist', domain));
-        if (rez != null) {
+        if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
             if (rez) rez += none;
-            if (uStyle) { replaceStyle(uStyle, rez); } else { uStyle = addStyle(rez); }
+            if (uStyle) {
+                replaceStyle(uStyle, rez);
+            } else {
+                uStyle = addStyle(rez);
+            }
         }
     },
+
     updateCSS: function (domain) {
         sCSS = (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) ? options.getRules('noads_list', domain) : '';
-        if (sStyle) { replaceStyle(sStyle, sCSS ? sCSS + none : ''); } else if (sCSS) { sStyle = addStyle(sCSS + none); }
+        if (sStyle) {
+            replaceStyle(sStyle, sCSS ? sCSS + none : '');
+        } else if (sCSS) {
+            sStyle = addStyle(sCSS + none);
+        }
         uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
-        if (uStyle) { replaceStyle(uStyle, uCSS ? uCSS + none : ''); } else if (uCSS) { uStyle = addStyle(uCSS + none); }
+        if (uStyle) {
+            replaceStyle(uStyle, uCSS ? uCSS + none : '');
+        } else if (uCSS) {
+            uStyle = addStyle(uCSS + none);
+        }
     },
+
     unblockElement: function (latest) {
         var domain = window.location.hostname;
         if (this.stop) this.stop();
@@ -166,36 +229,36 @@ var run = {
             document.removeEventListener('keyup', press, false);
             delElement(padCSS);
             run.stop = null;
-        };
-        var click = function (ev) {
+        },
+        click = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-            
+
             var oldCSS = options.getRules('noads_userlist', domain);
             var cssRule = noads.getCSSrule(ev.target, false);
             var newCSS = noads.deleleCSSrule(oldCSS, cssRule);
-            
+
             //if rule contains href^=link src*=link or data=link removing link from urlfilter
             var curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({ type: 'unblock_address', url: curLink});
             }
-        
+
             //if rule is not in CSS then searching for more general rules?
             cssRule = noads.getCSSrule(ev.target, null);
             if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({ type: 'unblock_address', url: curLink});
             }
-            
+
             cssRule = noads.getCSSrule(ev.target, true);
             if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                if (curLink) postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({ type: 'unblock_address', url: curLink});
             }
-            
+
             // setting new rules
             if (newCSS != oldCSS) newCSS = options.setRules('noads_userlist', domain, newCSS);
 
@@ -203,26 +266,27 @@ var run = {
             replaceStyle(uStyle, newCSS ? newCSS + (ev.shiftKey ? highlightCSS : none) : '');
             if (!ev.shiftKey) remove();
             return false;
-        };
-        var rightclick = function (ev) {
+        },
+        rightclick = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
             if (ev.button && ev.button == 2) run.stop();
             return false;
+        },
+        press = function (ev) {
+            if (ev.keyCode == 27) run.stop();
         };
-        var press = function (ev) { if (ev.keyCode == 27) run.stop(); };
 
         if (latest) {
             //if last rule contains href^=link src*=link removing link from urlfilter
             var lastEl = noads.getFilterLink(splitCSS(css).pop());
             if (lastEl) postMsg({ type: 'unblock_address', url:lastEl});
-            
+
             css = noads.deleleCSSrule(css);
             css = options.setRules('noads_userlist', domain, css);
             uCSS = css;
             replaceStyle(uStyle, css ? css + none : '');
-        }
-        else {
+        } else {
             this.stop = function () {
                 var css = options.getRules('noads_userlist', domain);
                 replaceStyle(uStyle, css ? css + none : '');
@@ -235,6 +299,7 @@ var run = {
             document.addEventListener('keyup', press, false);
         }
     },
+
     blockElement: function (wide) {
         var domain = window.location.hostname;
         if (this.stop) this.stop();
@@ -249,32 +314,37 @@ var run = {
             delElement(tmpCSS);
             delElement(padCSS);
             run.stop = null;
-        };
-        var over = function (ev) {
+        },
+        over = function (ev) {
             if (!ev) return;
             ele = ev.target;
             title = ele.getAttribute('title');
             outline = ele.style.outline;
             bgColor = ele.style.backgroundColor;
-            
+
             if (!ele.getAttribute('servicenoads')) {
                 ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
                 ele.style.outline = '1px solid #306EFF';
                 ele.style.backgroundColor = '#C6DEFF';
             }
-        };
-        var out = function () {
+        },
+        out = function () {
             if (ele) {
                 // restore attributes
-                if (title) ele.title = title; else ele.removeAttribute('title');
+                if (title) {
+                    ele.title = title;
+                } else {
+                    ele.removeAttribute('title');
+                }
                 if (outline || bgColor) {
                     ele.style.outline = outline;
                     ele.style.backgroundColor = bgColor;
+                } else {
+                    ele.removeAttribute('style');
                 }
-                else ele.removeAttribute('style');
             }
-        };
-        var click = function (ev) {
+        },
+        click = function (ev) {
             if (ele.getAttribute('servicenoads')) return;
             ev.preventDefault();
             ev.stopPropagation();
@@ -282,8 +352,11 @@ var run = {
             var rules, rule = noads.getCSSrule(ele, !wide != !ev.altKey); // get CSS rule for current element
 
             css = css ? (css != (rules = noads.deleleCSSrule(css, rule)) ? (ev.shiftKey ? rules : css) : css + ',' + rule) : rule;
-            if (tmpCSS) { replaceStyle(tmpCSS, css + highlightCSS); }
-            else { tmpCSS = addStyle(css + highlightCSS); }
+            if (tmpCSS) {
+                replaceStyle(tmpCSS, css + highlightCSS);
+            } else {
+                tmpCSS = addStyle(css + highlightCSS);
+            }
 
             if (!ev.shiftKey) {
                 // highlight elements marked for removing 
@@ -296,8 +369,10 @@ var run = {
                          demo[i].style.backgroundColor =  '#C6DEFF';
                          backup.push(backAttr);
                     }
+                } catch (ex) {
+                    log('Invalid selector generated: ' + css);
+                    demo = null, backup = null;
                 }
-                catch (ex) {log('Invalid selector generated: ' + css); demo = null, backup = null; }
                 css = prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
                     for (var i = 0; i < demo.length; i++) {
@@ -306,7 +381,14 @@ var run = {
                     }
                     backup = null;
                 }
-                if (css) { try { document.querySelectorAll(css); } catch (ex) {alert(lng.pInvalidSelector); css = null;} }
+                if (css) {
+                    try {
+                        document.querySelectorAll(css);
+                    } catch (ex) {
+                        alert(lng.pInvalidSelector);
+                        css = null;
+                    }
+                }
                 if (css) {
                     /*
                     * if rule contains href^=link src*=link or data=link adding link to the urlfilter
@@ -324,20 +406,26 @@ var run = {
                     if (rules) css = noads.clearCSSrules(rules + ',' + css);
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
-                    if (uStyle) { replaceStyle(uStyle, css + none); }
-                    else { uStyle = addStyle(css + none); }
+                    if (uStyle) {
+                        replaceStyle(uStyle, css + none);
+                    } else {
+                        uStyle = addStyle(css + none);
+                    }
                 }
                 remove();
             }
             out();
             return false;
-        };
-        var press = function (ev) { if (ev.keyCode == 27) run.stop(); };
-        var rightclick = function (ev) {
+        },
+        press = function (ev) {
+            if (ev.keyCode == 27) run.stop();
+        },
+        rightclick = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-            if (ev.button == 2) run.stop();
-            else {
+            if (ev.button == 2) {
+                run.stop();
+            } else {
                 // Filter onclick events for selected element and it's parents.
                 // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
@@ -433,9 +521,13 @@ var run = {
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
     },
+
     contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
-        if (overlay) { overlay.close(); return; }
+        if (overlay) {
+            overlay.close();
+            return;
+        }
 
         var diffHeight = window.outerHeight - window.innerHeight;
         var scripts = document.getElementsByTagName('script');
@@ -478,7 +570,9 @@ var run = {
             close.title = lng.pClose;
             close.setAttribute('servicenoads', 'true');
             close.className = 'noads_button_close';
-            close.addEventListener('click', function () { overlay.close(); }, false);
+            close.addEventListener('click', function () {
+                overlay.close();
+            }, false);
             buttons.appendChild(close);
 
             overlay.appendChild(buttons);
