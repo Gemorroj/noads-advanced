@@ -223,7 +223,11 @@ var run = {
             replaceStyle(uStyle, css ? css + none : '');
         }
         else {
-            this.stop = function () { var css = options.getRules('noads_userlist', domain); replaceStyle(uStyle, css ? css + none : ''); remove(); };
+            this.stop = function () {
+                var css = options.getRules('noads_userlist', domain);
+                replaceStyle(uStyle, css ? css + none : '');
+                remove();
+            };
             padCSS = addStyle(paddingCSS);
             replaceStyle(uStyle, css + highlightCSS);
             document.addEventListener('click', click, false);
@@ -234,7 +238,7 @@ var run = {
     blockElement: function (wide) {
         var domain = window.location.hostname;
         if (this.stop) this.stop();
-        var css, tmpCSS, padCSS, ele = '', outline = '', bgColor = '', title = '';
+        var css, tmpCSS, padCSS, ele = null, outline = '', bgColor = '', title = '';
 
         var remove = function () {
             document.removeEventListener('mouseover', over, false);
@@ -337,8 +341,8 @@ var run = {
                 // Filter onclick events for selected element and it's parents.
                 // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
-                while (el) {
-                    if (el.nodeType == 1) {
+                while (el !== null) {
+                    if (el.nodeType === 1) {
                         if (/^(html)$/i.test(el.nodeName)) break;
                         el.removeAttribute('onclick');
                         el.onclick = null;
@@ -349,7 +353,10 @@ var run = {
             return false;
         };
 
-        this.stop = function () { out(); remove(); };
+        this.stop = function () {
+            out();
+            remove();
+        };
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);
@@ -364,14 +371,16 @@ var run = {
         var enabled = options.getForSite(domain);
         var arrCSS = splitCSS(css);
         if (this.stop) this.stop();
-        
-        for (var i = arrCSS.length; i--;) {
-            try { if (document.querySelectorAll(arrCSS[i]).length == 0) arrCSS.splice(i, 1); } 
-            catch (e) {
-                log('invalid CSS encountered: ' + arrCSS[i]);
-                return;
+
+        try {
+            for (var i = arrCSS.length; i--;) {
+                document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
             }
+        } catch (e) {
+            log('invalid CSS encountered: ' + arrCSS[i]);
+            return;
         }
+
         css = arrCSS.join(',');
 
         if (enabled && this.noreload && !blocked && !css) return;
@@ -397,13 +406,16 @@ var run = {
                 }
                 if (run.noreload) {
                     run.toggleBlocking(!enabled);
-                    if (css && !blocked) { delElement(this); }
-                    else {
+                    if (css && !blocked) {
+                        delElement(this);
+                    } else {
                         this.value = lng.reload;
                         this.style.width = 'auto';
                         run.noreload = false;
                     }
-                } else { window.location.reload(); }
+                } else {
+                    window.location.reload();
+                }
             }, false);
             b.addEventListener('mouseout', function () {
             //    this.setAttribute('style', 'visibility:hidden;');
@@ -411,26 +423,32 @@ var run = {
                 this.setAttribute('style', 'right:-100px;');
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
-            try {document.body.appendChild(b);} catch(e) {}
-        } else { b.setAttribute('value', txt); b.setAttribute('title', title); }
+            try {
+                document.body.appendChild(b);
+            } catch(e) {}
+        } else {
+            b.setAttribute('value', txt);
+            b.setAttribute('title', title);
+        }
        // b.style.visibility = 'visible';
         b.setAttribute('style', 'right:0px;');
     },
     contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
         if (overlay) { overlay.close(); return; }
-        
+
         var diffHeight = window.outerHeight - window.innerHeight;
         var scripts = document.getElementsByTagName('script');
         var objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video');
         var resize = function () {
-            if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) 
+            if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
                 window.setTimeout(function () {
-                    overlay.close()
+                    overlay.close();
                 }, 200);
+            }
         };
-        
-        if (scripts.length || iframes.length || objects.length) {
+
+        if (scripts.length || objects.length) {
             window.scrollTo(0, 0);
             overlay = document.createElement('div');
             overlay.setAttribute('servicenoads', 'true');
@@ -439,36 +457,38 @@ var run = {
             overlay.close = function () {
                 delElement(this.clearStyle);
                 window.removeEventListener('resize', resize, false);
-                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) delElement(imgs[i]);
+                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) {
+                    delElement(imgs[i]);
+                }
                 delElement(this);
             };
             window.addEventListener('resize', resize, false);
-            
+
             var buttons = document.createElement('div');
             buttons.setAttribute('servicenoads', 'true');
             buttons.className = 'noads_button_placeholder';
-            
+
             var hide = document.createElement('div');
             hide.title = lng.pHide;
             hide.setAttribute('servicenoads', 'true');
             hide.className = 'noads_button_hide';
             buttons.appendChild(hide);
-            
+
             var close = document.createElement('div');
             close.title = lng.pClose;
             close.setAttribute('servicenoads', 'true');
             close.className = 'noads_button_close';
             close.addEventListener('click', function () { overlay.close(); }, false);
             buttons.appendChild(close);
-            
+
             overlay.appendChild(buttons);
             var content = document.createElement('div');
             content.setAttribute('servicenoads', 'true');
             content.className = 'noads_helper_content';
             content.hide = function () {
-                this.style.visibility = (this.style.visibility != 'hidden') ? 'hidden' : 'visible';
+                this.style.visibility = (this.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
-            
+
             for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
                 if (script.src && a.indexOf(script.src) == -1) { 
                     link = document.createElement('a');
@@ -503,7 +523,7 @@ var run = {
             }
             overlay.appendChild(content);
 
-            var img = document.createElement('img');
+            img = document.createElement('img');
             img.className = 'noads_placeholder';
             img.alt = lng.pCSSlinks + ':';
             img.setAttribute('servicenoads', 'true');
@@ -523,7 +543,7 @@ var run = {
                     content.appendChild(link);
                 }
             }
-            
+
             if (content.childNodes.length) { 
                 hide.addEventListener('click', function () { content.hide(); }, false);
             } else {
@@ -533,7 +553,7 @@ var run = {
             try {
                 (document.body || document.documentElement).appendChild(overlay);
                 this.blockElement();
-            } 
+            }
             catch (e) {
                 delElement(overlay.clearStyle);
                 window.removeEventListener('resize', resize, false);

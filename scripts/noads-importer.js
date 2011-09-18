@@ -72,8 +72,9 @@ var importer = {
 				rez.sort();
 				for (var i = rez.length; i--;) {
 					if (i > 0 && rez[i][0] == rez[i - 1][0]) {
-						if (rez[i][1] != rez[i - 1][1]) 
+						if (rez[i][1] != rez[i - 1][1]) {
 							rez[i - 1][1] += ',' + rez[i][1];
+                        }
 						rez.splice(i, 1);
 					}
 					else {
@@ -183,6 +184,6 @@ var importer = {
             }
         };
         xmlhttp.open("GET", url, false);
-        xmlhttp.send();
+        xmlhttp.send(null);
     }
 };

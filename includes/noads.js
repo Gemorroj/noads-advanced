@@ -46,12 +46,12 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                 jS = sMagic[i];
                 jS = jS.replace(/\/{2,}.*/gi, ''); // trim comments
                 jS = jS.replace(/^[\s\xa0]+|[\s\xa0]+$|[^#]+(?:function|var|eval)/g, ''); //trim leading/trailing spaces and keywords
-                jS = jS.replace(/[^\s\.\_\w\d]+/g, '');
+                jS = jS.replace(/[^\s\._\w\d]+/g, '');
                 jS = jS.replace(/[\s]+/g, ' '); //just to be sure
                 if (jS == '') continue;
                 j = jS.split(' ');
                 ret = parseInt(j[2], 10);
-                ret = (ret == 'NaN') ? null : ret;
+                ret = isNaN(ret) ? null : ret;
                 if (j[0].match(/^function/i)) {
                     // blocking functions
                     blockedFuncs += ',' + j[1];
@@ -64,12 +64,16 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                      // also must be parsed on BeforeScript event as class sometimes unavailible before
                      } else {*/
                         (function (name, debug) {
-                            window.opera.defineMagicFunction(j[1], function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }); 
+                            window.opera.defineMagicFunction(j[1], function () {
+                                if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                            });
                         })(j[1], bDebug);
                     //}
 
                     (function (name, debug) {
-                        window[name] = function () { if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return; }; 
+                        window[name] = function () {
+                            if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                        };
                     })(j[1], bDebug);
                 } //blocking variables
                 else if (j[0].match(/^var/i)) {
@@ -86,7 +90,6 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
 
     // Enumerate backgrounds for helper
     window.opera.addEventListener('BeforeCSS', function (userJSEvent) {
-        //alert(userJSEvent);
         userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1, offset, s) {
             bgImages += p1 + '; ';
         });
@@ -99,12 +102,15 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
             blockingText += ', external scripts';
             window.opera.addEventListener('BeforeExternalScript', function (e) {
                 var src = e.element.src;
-                if (!src || reSkip.test(src) || e.element.isNoAdsSubscription) return;
-                var site = window.location.hostname, full = !/\.(com|[a-z]{2})$/i.test(site);
+                if (!src || reSkip.test(src)) return;
+                var site = window.location.hostname;
+                var full = !/\.(co|com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(site);
                 var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
-                if (a && getTLD(a[2], full) != getTLD(site, full)) {
+                if (a && getTLD(a[2], full) !== getTLD(site, full)) {
                     e.preventDefault();
-                    if (blockedScripts.indexOf(src) == -1) blockedScripts += blockedScripts ? '; ' + src : src;
+                    if (blockedScripts.indexOf(src) == -1) {
+                        blockedScripts += blockedScripts ? '; ' + src : src;
+                    }
                     log('blocked script -> ' + src + ' for <' + site + '>');
                 }
             }, false);
@@ -124,9 +130,13 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
     var showButton = function (e) {
         var docEle;
 
-        if (document && document.compatMode === 'CSS1Compat' && window.postMessage) docEle = document.documentElement;
-        else docEle = document.body;
-        if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 70) {
+        if (document && document.compatMode === 'CSS1Compat' && window.postMessage) {
+            docEle = document.documentElement;
+        } else {
+            docEle = document.body;
+        }
+
+        if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 40) {
             run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
         }
     };
@@ -147,26 +157,29 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
         }
 
         // Create the quick button
-        if (window.top === window.self) { // don't want that in a frames
-            if (options.checkEnabled('noads_button_state')) {
-                log('button is enabled...');
-                addStyle(quickButtonCSS, 'qbCSS');
-                window.addEventListener('mousemove', showButton, false);
-            }
+        // don't want that in a frames
+        if (window.top === window.self && options.checkEnabled('noads_button_state')) {
+            log('button is enabled...');
+            addStyle(quickButtonCSS, 'qbCSS');
+            window.addEventListener('mousemove', showButton, false);
         }
     };
 
-    try { onCSSAllowed(); }
-    catch(ex) { window.opera.addEventListener('BeforeCSS', function (event) {
-        window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
+    try {
         onCSSAllowed();
-    }, false); }
-  
-    if (window.top === window.self) { // don't want that in a frames
+    } catch(ex) {
+        window.opera.addEventListener('BeforeCSS', function (event) {
+            window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
+            onCSSAllowed();
+        }, false);
+    }
+
+    // don't want that in a frames
+    if (window.top === window.self) {
         log('on ' + window.location.hostname + ' blocking:' + blockingText.substring(1) + '...');
    
         // Setup hotkeys
-        window.addEventListener('keydown', function(e){
+        window.addEventListener('keydown', function (e) {
             if (e.shiftKey && !e.ctrlKey && e.altKey) {
                 switch (e.keyCode) {
                     case 68:
@@ -244,7 +257,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
             delElement(document.getElementById('sCSS'));
             delElement(document.getElementById('uCSS'));
             delElement(document.getElementById('qbCSS'));
-            window.removeEventListener('mousemove', showButton, false); 
+            window.removeEventListener('mousemove', showButton, false);
         }
     }, false);
 })();

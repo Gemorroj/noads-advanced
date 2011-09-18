@@ -73,8 +73,7 @@ var options = {
         return rez.join(',');
     },
     setRules: function (name, domain, selector) {
-        var j, rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n');
-        var rules = splitCSS(selector);
+        var j, rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n'), rules = splitCSS(selector);
         rules.posArr = function (arr) {
             var len = arr.length;
             if (len) for (var i = 0, l = this.length - len + 1; i < l; i++) {
@@ -182,8 +181,12 @@ var options = {
         setValue('noads_autoupdate_interval', interval);
         //options.setEnabled('noads_autoupdate_notification_state', notofication);
     },
-    getForSite: function (domain) { return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain); },
-    setForSite: function (domain, value) { this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value); },
+    getForSite: function (domain) {
+        return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain);
+    },
+    setForSite: function (domain, value) {
+        this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value);
+    },
     isWhiteListed: function (rule, domain) {
         var pos = rule.indexOf('$');
         if (pos != -1) rule = rule.slice(0, pos);

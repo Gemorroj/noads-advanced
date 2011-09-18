@@ -38,12 +38,15 @@ var replaceStyle = function (ele, css) {
 };
 var splitCSS = function (css) {
     var rez = [];
-    css.replace(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g, function (s, m) { rez.push(m.replace(/^\s+|\s+$/g, '')); });
+    css.replace(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g, function (s, m) {
+        rez.push(m.replace(/^\s+|\s+$/g, ''));
+    });
     return rez;
 };
 var getTLD = function (domain, full) {
     if (!domain) return '';
-    var r = domain.match(/^((?:\d{1,3}\.){3})\d{1,3}$/); if (r) return r[1] + '0';
+    var r = domain.match(/^((?:\d{1,3}\.){3})\d{1,3}$/);
+    if (r) return r[1] + '0';
     var a = domain.split('.'), l = a.length;
     if (l < 2) return domain;
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
@@ -51,7 +54,11 @@ var getTLD = function (domain, full) {
 var unique = function () {
     var a = [], l = this.length, j;
     for (var i = 0; i < l; i++) {
-        for (j = i + 1; j < l; j++) if (this[i] === this[j]) j = ++i;
+        for (j = i + 1; j < l; j++) {
+            if (this[i] === this[j]) {
+                j = ++i;
+            }
+        }
         a.push(this[i]);
     }
     return a;
