@@ -62,7 +62,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                          var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';
                          eval(evalFn); // I don't really want this x_x;
                      }
-                     // also must be parsed on BeforeScript event as class sometimes unavailible before
+                     // also must be parsed on BeforeScript event as class sometimes unavailable before
                      } else {*/
                         (function (name, debug) {
                             window.opera.defineMagicFunction(j[1], function () {
@@ -106,8 +106,8 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                 if (!src || reSkip.test(src)) return;
                 var site = window.location.hostname;
                 var full = !/\.(co|com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(site);
-                var a = src.match(/^https?:\/\/([^\/]+@)?([^:\/]+)/i);
-                if (a && getTLD(a[2], full) !== getTLD(site, full)) {
+                var a = src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1];
+                if (getTLD(a, full) !== getTLD(site, full)) {
                     e.preventDefault();
                     if (blockedScripts.indexOf(src) == -1) {
                         blockedScripts += blockedScripts ? '; ' + src : src;
