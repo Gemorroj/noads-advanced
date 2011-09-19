@@ -639,7 +639,9 @@ var run = {
             }
 
             if (content.childNodes.length) { 
-                hide.addEventListener('click', function () { content.hide(); }, false);
+                hide.addEventListener('click', function () {
+                    content.hide();
+                }, false);
             } else {
                 hide.style.opacity = 0.5;
             }
@@ -647,8 +649,7 @@ var run = {
             try {
                 (document.body || document.documentElement).appendChild(overlay);
                 this.blockElement();
-            }
-            catch (e) {
+            } catch (e) {
                 delElement(overlay.clearStyle);
                 window.removeEventListener('resize', resize, false);
                 delElement(overlay);

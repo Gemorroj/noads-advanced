@@ -89,12 +89,15 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
         }
     }
 
+
     // Enumerate backgrounds for helper
-    window.opera.addEventListener('BeforeCSS', function (userJSEvent) {
+    //TODO: http://operafan.net/forum/index.php?topic=14821.msg161093#msg161093
+    window.opera.addEventListener('AfterCSS', function (userJSEvent) {
         userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1, offset, s) {
             bgImages += p1 + '; ';
         });
     }, false);
+
 
     // Block external scripts
     if (options.checkEnabled('noads_scriptlist_state')) {
