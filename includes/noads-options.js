@@ -45,8 +45,12 @@ var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoK
 
 var options = {
     stop: null,
-    checkEnabled: function (name) { return getValue(name) !== 'disabled'; },
-    setEnabled: function (name, value) { setValue(name, !value ? 'disabled' : 'enabled'); },
+    checkEnabled: function (name) {
+        return getValue(name) === 'enabled';
+    },
+    setEnabled: function (name, value) {
+        setValue(name, value ? 'enabled' : 'disabled');
+    },
     // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;

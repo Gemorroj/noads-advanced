@@ -42,8 +42,8 @@ var importer = {
             } else {
                 return (tagName || additional) ? tagName + additional : '';
             }
-        };
-        var isSiteOnly = function (domains) {
+        },
+        isSiteOnly = function (domains) {
             if (domains) {
                 var arr = domains.split(',');
                 for (var i = 0, l = arr.length; i < l; i++) {
@@ -53,16 +53,16 @@ var importer = {
                 }
             }
             return false;
-        };
-        var isValidSelector = function (selector) {
+        },
+        isValidSelector = function (selector) {
             try {
                 document.querySelectorAll(selector);
             } catch (e) {
                 return false;
             }
             return true;
-        };
-        var getHidingRules = function (list, all, script) {
+        },
+        getHidingRules = function (list, all, script) {
             var rez = [],
                 scriptList = [],
                 reTrim = /^\s+|\s+$/g,
@@ -82,10 +82,8 @@ var importer = {
                                 if (isValidSelector(selector) && (all || isSiteOnly(domains))) {
                                     rez.push([domains, selector]);
                                 }
-                            } else {
-                                if (script) {
-                                    scriptList.push(domains + '##' + selector);
-                                }
+                            } else if (script) {
+                                scriptList.push(domains + '##' + selector);
                             }
                         }
                     }
@@ -107,9 +105,9 @@ var importer = {
                 }
             }
             return rez;
-        };
+        },
+        filterRulesList = [];
 
-        var filterRulesList;
         if (!addRules) {
             filterRulesList = getHidingRules(list, allRules);
         } else {
@@ -129,10 +127,10 @@ var importer = {
                     setValue('noads_scriptlist', getHidingRules(list, true, true).join('\n'));
                 }
             //}
-        } else {
-            return 0;
+            return this._getHidingRulesLength(filterRulesList);
         }
-        return this._getHidingRulesLength(filterRulesList);
+
+        return 0;
     },
 
     _importFilters: function (list, addRules) {
@@ -157,9 +155,9 @@ var importer = {
             setValue('noads_urlfilterlist', '##' + importer.arrayFilters.join('\n##'));
             importer.reloadRules(true, false);
             return importer.arrayFilters.length;
-        } else {
-            return 0;
         }
+
+        return 0;
     },
 
     reloadRules: function (global, clean) {
