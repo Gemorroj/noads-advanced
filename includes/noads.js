@@ -56,7 +56,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
                 if (j[0].match(/^function/i)) {
                     // blocking functions
                     blockedFuncs += ',' + j[1];
-                    
+
                   /*if (~j[1].indexOf('.')) {                   
                      if (window[j[1].split('.')[0]]) {
                          var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';

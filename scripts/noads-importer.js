@@ -42,27 +42,27 @@ var importer = {
             } else {
                 return (tagName || additional) ? tagName + additional : '';
             }
-        };
-        var isSiteOnly = function (domains) {
+        },
+        isSiteOnly = function (domains) {
             if (domains) {
                 var arr = domains.split(',');
                 for (var i = 0, l = arr.length; i < l; i++) {
-                    if (arr[i].charAt(0) !== '~') {
+                    if (arr[i][0] !== '~') {
                         return true;
                     }
                 }
             }
             return false;
-        };
-        var isValidSelector = function (selector) {
+        },
+        isValidSelector = function (selector) {
             try {
                 document.querySelectorAll(selector);
             } catch (e) {
                 return false;
             }
             return true;
-        };
-        var getHidingRules = function (list, all, script) {
+        },
+        getHidingRules = function (list, all, script) {
             var rez = [],
                 scriptList = [],
                 reTrim = /^\s+|\s+$/g,
@@ -82,10 +82,8 @@ var importer = {
                                 if (isValidSelector(selector) && (all || isSiteOnly(domains))) {
                                     rez.push([domains, selector]);
                                 }
-                            } else {
-                                if (script) {
-                                    scriptList.push(domains + '##' + selector);
-                                }
+                            } else if (script) {
+                                scriptList.push(domains + '##' + selector);
                             }
                         }
                     }
@@ -107,9 +105,9 @@ var importer = {
                 }
             }
             return rez;
-        };
+        },
+        filterRulesList = [];
 
-        var filterRulesList;
         if (!addRules) {
             filterRulesList = getHidingRules(list, allRules);
         } else {

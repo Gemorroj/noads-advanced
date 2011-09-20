@@ -383,7 +383,9 @@ var options = {
             rule = tmp[i];
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') == 0) {
-                if (this.isWhiteListed(rule.slice(4), domain)) return retRe ? new RegExp('^*$') : false;
+                if (this.isWhiteListed(rule.slice(4), domain)) {
+                    return (retRe ? new RegExp('^*$') : false);
+                }
             } else if (retRe && rule.indexOf('@@==') == 0) {
                 rez.push(rule.slice(4));
             }
