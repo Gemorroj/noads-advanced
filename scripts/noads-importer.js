@@ -146,7 +146,7 @@ var importer = {
 
             for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
                 arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
-                if (arraySubscription[i] != '' && arraySubscription[i].indexOf('#') != 0 && arraySubscription[i].length > 4) { //not empty or comment or too short
+                if (arraySubscription[i] != '' && arraySubscription[i][0] !== '#' && arraySubscription[i][0] !== ';' && arraySubscription[i].length > 4) { //not empty or comment or too short
                     log('URL filter added -> ' + arraySubscription[i]);
                     importer.arrayFilters.push(arraySubscription[i]);
                 }
