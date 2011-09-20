@@ -44,30 +44,30 @@
   <access origin="http://www.void.gr" subdomains="true"/>
   <access origin="http://sites.google.com" subdomains="true"/>
   <access origin="https://ruadlist.googlecode.com" subdomains="true"/>
-  <access orign="http://ruadlist.googlecode.com" subdomains="true"/>
+  <access origin="http://ruadlist.googlecode.com" subdomains="true"/>
   <access origin="http://www.zoso.ro" subdomains="true"/>
   <access origin="http://www.wiltteri.net" subdomains="true"/>
   <access origin="http://adversity.googlecode.com/" subdomains="true"/>
   <access origin="https://adversity.googlecode.com/" subdomains="true"/>
-  <access orign="http://malwaredomains.lanik.us" subdomains="true"/>
-  <access orign="http://rickrolldb.com" subdomains="true"/>
-  <access orign="http://ajnasz.hu" subdomains="true"/>
-  <access orign="http://mozilla.gfsolone.com" subdomains="true"/>
-  <access orign="http://adblock.oasis.org.ua" subdomains="true"/>
-  <access orign="http://adblock.schack.dk" subdomains="true"/>
-  <access orign="http://www.niecko.pl" subdomains="true"/>
-  <access orign="http://www.verzijlbergh.com" subdomains="true"/>
-  <access orign="http://www.photographer.neostrada.pl" subdomains="true"/>
+  <access origin="http://malwaredomains.lanik.us" subdomains="true"/>
+  <access origin="http://rickrolldb.com" subdomains="true"/>
+  <access origin="http://ajnasz.hu" subdomains="true"/>
+  <access origin="http://mozilla.gfsolone.com" subdomains="true"/>
+  <access origin="http://adblock.oasis.org.ua" subdomains="true"/>
+  <access origin="http://adblock.schack.dk" subdomains="true"/>
+  <access origin="http://www.niecko.pl" subdomains="true"/>
+  <access origin="http://www.verzijlbergh.com" subdomains="true"/>
+  <access origin="http://www.photographer.neostrada.pl" subdomains="true"/>
   <access origin="http://pete.teamlupus.hu" subdomains="true"/>
   <access origin="http://abp.mozilla-hispano.org" subdomains="true"/>
   <access origin="http://dutchmega.nl" subdomains="true"/>
   <access origin="http://adblock.dajbych.net" subdomains="true"/>
   <access origin="http://www.bsi.info.pl" subdomains="true"/>
   <access origin="http://adblockrules.org" subdomains="true"/>
-  <access orign="https://gitorious.org" subdomains="true"/>
-  <access orign="http://gitorious.org" subdomains="true"/>
-  <access orign="http://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
-  <access orign="https://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
+  <access origin="https://gitorious.org" subdomains="true"/>
+  <access origin="http://gitorious.org" subdomains="true"/>
+  <access origin="http://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
+  <access origin="https://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
   <access origin="http://abp-macedonian-list.googlecode.com" subdomains="true"/>
   <access origin="https://abp-macedonian-list.googlecode.com" subdomains="true"/>
 
