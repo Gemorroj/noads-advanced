@@ -9,6 +9,7 @@
   <description xml:lang="ru">Удаляет рекламу с сайтов.</description>
 
   <!-- Initial preferences -->
+  <preference name="noads_tb_enabled_state" value="enabled"/>
   <preference name="noads_userlist_state" value="enabled"/>
   <preference name="noads_list_state" value="enabled"/>
   <preference name="noads_magiclist_state" value="disabled"/>
@@ -22,7 +23,6 @@
   <preference name="noads_autoupdate_state" value="enabled"/>
   <!-- <preference name="noads_autoupdate_notification_state" value="enabled"/> -->
   <preference name="noads_autoupdate_interval" value="86400000"/>
-
 
   <!-- CSS selectors and URL filter subscription sites. -->
   <!-- <access origin="*" subdomains="true"/> -->
@@ -44,8 +44,33 @@
   <access origin="http://www.void.gr" subdomains="true"/>
   <access origin="http://sites.google.com" subdomains="true"/>
   <access origin="https://ruadlist.googlecode.com" subdomains="true"/>
+  <access origin="http://ruadlist.googlecode.com" subdomains="true"/>
   <access origin="http://www.zoso.ro" subdomains="true"/>
   <access origin="http://www.wiltteri.net" subdomains="true"/>
+  <access origin="http://adversity.googlecode.com/" subdomains="true"/>
+  <access origin="https://adversity.googlecode.com/" subdomains="true"/>
+  <access origin="http://malwaredomains.lanik.us" subdomains="true"/>
+  <access origin="http://rickrolldb.com" subdomains="true"/>
+  <access origin="http://ajnasz.hu" subdomains="true"/>
+  <access origin="http://mozilla.gfsolone.com" subdomains="true"/>
+  <access origin="http://adblock.oasis.org.ua" subdomains="true"/>
+  <access origin="http://adblock.schack.dk" subdomains="true"/>
+  <access origin="http://www.niecko.pl" subdomains="true"/>
+  <access origin="http://www.verzijlbergh.com" subdomains="true"/>
+  <access origin="http://www.photographer.neostrada.pl" subdomains="true"/>
+  <access origin="http://pete.teamlupus.hu" subdomains="true"/>
+  <access origin="http://abp.mozilla-hispano.org" subdomains="true"/>
+  <access origin="http://dutchmega.nl" subdomains="true"/>
+  <access origin="http://adblock.dajbych.net" subdomains="true"/>
+  <access origin="http://www.bsi.info.pl" subdomains="true"/>
+  <access origin="http://adblockrules.org" subdomains="true"/>
+  <access origin="https://gitorious.org" subdomains="true"/>
+  <access origin="http://gitorious.org" subdomains="true"/>
+  <access origin="http://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
+  <access origin="https://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
+  <access origin="http://abp-macedonian-list.googlecode.com" subdomains="true"/>
+  <access origin="https://abp-macedonian-list.googlecode.com" subdomains="true"/>
+
   <license href="http://www.apache.org/licenses/LICENSE-2.0">Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

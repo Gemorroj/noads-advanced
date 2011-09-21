@@ -127,10 +127,10 @@ var importer = {
                     setValue('noads_scriptlist', getHidingRules(list, true, true).join('\n'));
                 }
             //}
-        } else {
-            return 0;
+            return this._getHidingRulesLength(filterRulesList);
         }
-        return this._getHidingRulesLength(filterRulesList);
+
+        return 0;
     },
 
     _importFilters: function (list, addRules) {
@@ -155,9 +155,9 @@ var importer = {
             setValue('noads_urlfilterlist', '##' + importer.arrayFilters.join('\n##'));
             importer.reloadRules(true, false);
             return importer.arrayFilters.length;
-        } else {
-            return 0;
         }
+
+        return 0;
     },
 
     reloadRules: function (global, clean) {
