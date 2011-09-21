@@ -219,7 +219,10 @@ var run = {
 
     unblockElement: function (latest) {
         var domain = window.location.hostname;
-        if (this.stop) this.stop();
+        if (this.stop) {
+            this.stop();
+            return;
+        }
         var padCSS, css = options.getRules('noads_userlist', domain);
         if (!uStyle || !css) return;
 
@@ -300,9 +303,12 @@ var run = {
         }
     },
 
-    blockElement: function (wide) {
+    blockElement: function (wide, noremove) {
         var domain = window.location.hostname;
-        if (this.stop) this.stop();
+        if (this.stop) {
+            this.stop();
+            return;
+        }
         var css, tmpCSS, padCSS, ele = null, outline = '', bgColor = '', title = '';
 
         var remove = function () {
@@ -323,7 +329,9 @@ var run = {
             bgColor = ele.style.backgroundColor;
 
             if (!ele.getAttribute('servicenoads')) {
-                ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
+                if (ele.className !== 'noads_placeholder') {
+                    ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
+                }
                 ele.style.outline = '1px solid #306EFF';
                 ele.style.backgroundColor = '#C6DEFF';
             }
@@ -412,7 +420,7 @@ var run = {
                         uStyle = addStyle(css + none);
                     }
                 }
-                remove();
+                if (!noremove) remove();
             }
             out();
             return false;
@@ -458,7 +466,10 @@ var run = {
         var domain = window.location.hostname;
         var enabled = options.getForSite(domain);
         var arrCSS = splitCSS(css);
-        if (this.stop) this.stop();
+        if (this.stop) {
+            this.stop();
+            return;
+        }
 
         try {
             for (var i = arrCSS.length; i--;) {
@@ -525,6 +536,7 @@ var run = {
     contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
         if (overlay) {
+            this.blockElement(); //stop
             overlay.close();
             return;
         }
@@ -595,7 +607,7 @@ var run = {
             };
 
             for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                if (script.src && a.indexOf(script.src) == -1) { 
+                if (script.src && a.indexOf(script.src) == -1) {
                     link = document.createElement('a');
                     link.href = script.src;
                     link.target = '_blank';
@@ -628,17 +640,7 @@ var run = {
             }
             overlay.appendChild(content);
 
-            link = document.createElement('a');
-            link.href = '';
-            link.title = lng.pCSSlinks + ':';
-            img = document.createElement('img');
-            img.className = 'noads_placeholder';
-            img.src = '';
-            img.alt = lng.pCSSlinks + ':';
-            img.setAttribute('noads', 'true');
-            content.appendChild(img);
-            link.appendChild(img);
-            content.appendChild(link);
+            content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
             overlay.appendChild(content);
 
             // @see noads.js
@@ -664,6 +666,7 @@ var run = {
                     content.appendChild(link);
                 }
             }
+            overlay.appendChild(content);
 
             if (content.childNodes.length) { 
                 hide.addEventListener('click', function () {
@@ -675,7 +678,7 @@ var run = {
 
             try {
                 (document.body || document.documentElement).appendChild(overlay);
-                this.blockElement();
+                this.blockElement(false, true);
             } catch (e) {
                 delElement(overlay.clearStyle);
                 window.removeEventListener('resize', resize, false);

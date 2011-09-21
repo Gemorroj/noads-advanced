@@ -6,9 +6,6 @@
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
 // ==/UserScript==
 
 
@@ -22,7 +19,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
     if (typeof storage === undefined || !storage) {
         run.setStatus(lng.iNoQuota);
-        alert(lng.iNoQuota);
+        window.alert(lng.iNoQuota);
         return;
     }
     var blockingText = '', domain = window.location.hostname;
@@ -51,13 +48,13 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                 jS = jS.replace(/[\s]+/g, ' '); //just to be sure
                 if (jS == '') continue;
                 j = jS.split(' ');
-                ret = parseInt(j[2], 10);
-                ret = isNaN(ret) ? null : ret;
+                ret = window.parseInt(j[2], 10);
+                ret = window.isNaN(ret) ? null : ret;
                 if (j[0].match(/^function/i)) {
                     // blocking functions
                     blockedFuncs += ',' + j[1];
 
-                  /*if (~j[1].indexOf('.')) {                   
+                  /*if (~j[1].indexOf('.')) {
                      if (window[j[1].split('.')[0]]) {
                          var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';
                          eval(evalFn); // I don't really want this x_x;
@@ -89,7 +86,6 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
         }
     }
 
-
     /**
      * Enumerate backgrounds for helper
      * 
@@ -101,8 +97,6 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     //        bgImages += p1 + '; ';
     //    });
     //}, false);
-
-
 
 
     // Block external scripts
