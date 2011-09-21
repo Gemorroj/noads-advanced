@@ -15,7 +15,7 @@ contentHelperCSS = ' \
 .noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_helper_content{display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
-.noads_placeholder{display:block !important;width:auto;min-width:200px;max-width:900px;height:20px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
+.noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;height:20px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
 ',
 quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
@@ -538,6 +538,17 @@ var run = {
                     overlay.close();
                 }, 200);
             }
+        },
+        getStyleSheet = function () {
+            var css = '';
+            for (var i = 0; i < document.styleSheets.length; i++) {
+                try {
+                    for (var j = 0; j < document.styleSheets[i].cssRules.length; j++) {
+                        css += document.styleSheets[i].cssRules[j].cssText;
+                    }
+                } catch (e) {}
+            }
+            return css;
         };
 
         if (scripts.length || objects.length) {
@@ -617,21 +628,37 @@ var run = {
             }
             overlay.appendChild(content);
 
+            link = document.createElement('a');
+            link.href = '';
+            link.title = lng.pCSSlinks + ':';
             img = document.createElement('img');
             img.className = 'noads_placeholder';
+            img.src = '';
             img.alt = lng.pCSSlinks + ':';
-            img.setAttribute('servicenoads', 'true');
-            overlay.appendChild(img);
+            img.setAttribute('noads', 'true');
+            content.appendChild(img);
+            link.appendChild(img);
+            content.appendChild(link);
+            overlay.appendChild(content);
 
-            for (var i = 0, source, img, link, a = unique.call(bgImages.split('; ')); source = a[i]; i++) {
-                if (source.indexOf('data:') == -1) {
-                    link = document.createElement('a');
-                    link.href = source;
+            // @see noads.js
+            //bgImages = bgImages.split('; ');
+
+            var bgImages = [];
+            getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
+                bgImages.push(p1);
+            });
+            bgImages = unique.call(bgImages);
+
+            for (var i in bgImages) {
+                if (bgImages[i].indexOf('data:') == -1) {
+                    var link = document.createElement('a');
+                    link.href = bgImages[i];
                     link.target = '_blank';
-                    img = document.createElement('img');
+                    var img = document.createElement('img');
                     img.className = 'noads_placeholder';
-                    img.src = source;
-                    img.alt = 'url( ' + source.replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
+                    img.src = bgImages[i];
+                    img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
                     img.setAttribute('noads', 'true');
                     link.appendChild(img);
                     content.appendChild(link);

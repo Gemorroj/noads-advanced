@@ -13,7 +13,7 @@
 
 
 // global variables
-var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blockedScripts = '', inlineScripts = 0, lng = {};
+var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0, lng = {};
 
 (function() {
     bDebug = options.checkEnabled('noads_debug_enabled_state'),
@@ -90,13 +90,19 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', bgImages = '', blocked
     }
 
 
-    // Enumerate backgrounds for helper
-    //TODO: http://operafan.net/forum/index.php?topic=14821.msg161093#msg161093
-    window.opera.addEventListener('AfterCSS', function (userJSEvent) {
-        userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1, offset, s) {
-            bgImages += p1 + '; ';
-        });
-    }, false);
+    /**
+     * Enumerate backgrounds for helper
+     * 
+     * TODO:http://operafan.net/forum/index.php?topic=14821.msg161093#msg161093
+     * @see noads-service.js method contentBlockHelper variable getStyleSheet
+     */
+    //window.opera.addEventListener('AfterCSS', function (userJSEvent) {
+    //    userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1, offset, s) {
+    //        bgImages += p1 + '; ';
+    //    });
+    //}, false);
+
+
 
 
     // Block external scripts
