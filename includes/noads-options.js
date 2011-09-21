@@ -603,6 +603,7 @@ var options = {
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
+            textarea.spellcheck = false;
             if (!global) {
                 textarea.disabled = disabled;
             } else {

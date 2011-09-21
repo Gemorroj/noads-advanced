@@ -1,0 +1,22 @@
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 3px;
+    background-color: white;
+    color: black;
+    font-family: Tahoma, Sans-serif;
+    white-space: nowrap;
+}
+.menu div {
+    font-size: 11px;
+    padding: 4px;
+    cursor: pointer;
+}
+.menu div:hover {
+    background-color: #316AC5;
+    color: white;
+}
+.end {
+    padding-bottom: 6px !important;
+    border-bottom: 1px solid #aaa !important;
+}
