@@ -451,7 +451,7 @@ var options = {
         if (!global) {
             var elements = (document.all) ? document.all : document.getElementsByTagName('*');
             for (var z = 0; z < elements.length; z++) {
-                if (parseInt(window.getComputedStyle(elements[z], null).getPropertyValue('z-index'), 10) >= 1000000) {
+                if (window.parseInt(window.getComputedStyle(elements[z], null).getPropertyValue('z-index'), 10) >= 1000000) {
                     elements[z].style.setProperty('z-index', '999999', null);
                 }
             }

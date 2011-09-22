@@ -109,7 +109,7 @@ var noads = {
                     break;
                 } else {
                     att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
-                    rez.unshift(tag + att + ((wide !== false || /^(html|body)$/i.test(tag)) ? '' : this.getNth(el)));
+                    rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
                     try {
                         single = (document.querySelectorAll(tag + att).length === 1);
                     } catch (e) {
@@ -146,7 +146,7 @@ var noads = {
         if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
         if (ruleURL[1].indexOf('http') == -1) {
             if (domain) {
-                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) == '/' || domain.charAt(domain.length - 1) == '/')) {
+                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
                     return domain + ruleURL[1];
                 } else {
                     return domain + '/' + ruleURL[1];
@@ -189,7 +189,7 @@ var run = {
     // NoAds
     editStyles: function () {
         var domain = window.location.hostname;
-        var rez = prompt(lng.eStyles, options.getRules('noads_userlist', domain));
+        var rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
@@ -381,7 +381,7 @@ var run = {
                     log('Invalid selector generated: ' + css);
                     demo = null, backup = null;
                 }
-                css = prompt(lng.bElement, css); // ask user to fix selector
+                css = window.prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
                     for (var i = 0; i < demo.length; i++) {
                          demo[i].style.outline = backup[i].outline;
@@ -393,7 +393,7 @@ var run = {
                     try {
                         document.querySelectorAll(css);
                     } catch (ex) {
-                        alert(lng.pInvalidSelector);
+                        window.alert(lng.pInvalidSelector);
                         css = null;
                     }
                 }

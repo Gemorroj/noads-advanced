@@ -123,9 +123,9 @@ window.addEventListener('load', function () {
 
             case 'noads_import_status':
                 if (message.status === 'good') {
-                    alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
+                    window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
                 } else {
-                    alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
+                    window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
                 }
                 break;
         }
