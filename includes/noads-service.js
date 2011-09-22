@@ -594,6 +594,7 @@ var run = {
             close.setAttribute('servicenoads', 'true');
             close.className = 'noads_button_close';
             close.addEventListener('click', function () {
+                run.blockElement(); //stop
                 overlay.close();
             }, false);
             buttons.appendChild(close);
