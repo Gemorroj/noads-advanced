@@ -78,7 +78,14 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
 
 
     // workaround for http://nhl.com and other...
+    // BeforeEvent.load or BeforeEvent.DOMContentLoaded ???
+    var firstRun = false;
     window.opera.addEventListener('BeforeEvent.load', function (/*userJSEvent*/) {
+        if (firstRun === true) {
+            return;
+        }
+        firstRun = true;
+
         /* Add custom magic; yay Merlin!
          *
          * Magical formulae:
@@ -150,15 +157,13 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                 window.opera.addEventListener('BeforeExternalScript', function (e) {
                     var src = e.element.src;
                     if (!src || reSkip.test(src)) return;
-                    var site = window.location.hostname;
-                    var full = !/\.(co|com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(site);
-                    var a = src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1];
-                    if (getTLD(a, full) !== getTLD(site, full)) {
+                    var full = !/\.(co|com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(window.location.hostname);
+                    if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(window.location.hostname, full)) {
                         e.preventDefault();
                         if (blockedScripts.indexOf(src) == -1) {
                             blockedScripts += blockedScripts ? '; ' + src : src;
                         }
-                        log('blocked script -> ' + src + ' for <' + site + '>');
+                        log('blocked script -> ' + src + ' for <' + window.location.hostname + '>');
                     }
                 }, false);
 

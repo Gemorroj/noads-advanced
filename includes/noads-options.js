@@ -248,6 +248,7 @@ var options = {
             '@@||acid3.acidtests.org^',
             '@@||amazon.com^',
             '@@||anonym.to^',
+            '@@||asus.com^',
             '@@||bbc.co.uk^',
             '@@||bing.com^',
             '@@||britannica.com^',
@@ -285,7 +286,8 @@ var options = {
             '@@||wikipedia.org^',
             '@@||ya.ru^',
             '@@||yahoo.com^',
-            '@@||youtube.com^'
+            '@@||youtube.com^',
+            '@@||youtube-nocookie.com^'
         ];
 
         var skipScripts = [
