@@ -5,8 +5,8 @@
   <author>Dither (based on NoAds by Alexey Ruzanov), gwarser, Gemorroj</author>
   <icon src="icons/icon64.png" width="64" height="64" />
   <icon src="icons/icon18.png" width="18" height="18" />
-  <description xml:lang="en">Removes advertisements from sites.</description>
-  <description xml:lang="ru">Удаляет рекламу с сайтов.</description>
+  <description xml:lang="en">Advertisement blocking filter.</description>
+  <description xml:lang="ru">Блокировщик рекламы.</description>
 
   <!-- Initial preferences -->
   <preference name="noads_tb_enabled_state" value="enabled"/>
