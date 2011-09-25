@@ -325,6 +325,7 @@ var options = {
             '^https?://fonts.gizmodo.com',
             '^https?://ipinfodb.com',
             '^https?://live.nhle.com',
+            '^https?://mat1.gtimg.com',
             '^https?://[a-z.]+.twitter.com',
             '^https?://rutube.ru',
             '^https?://s\\d+.addthis.com/js',
@@ -462,7 +463,7 @@ var options = {
         overlay.className = 'noads_overlay';
         overlay.id = 'noads_overlay';
         //if(!global) overlay.clearStyle = addStyle(optionsCSS);
-        //else  
+        //else
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
         overlay.close = function (global) {
             if (!global) {
@@ -520,7 +521,9 @@ var options = {
         area.className = 'noads_area';
 
         area.clear = function (num) {
-            while (this.firstChild) this.removeChild(this.firstChild);
+            while (this.firstChild) {
+                this.removeChild(this.firstChild);
+            }
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'); i < li.length; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
@@ -560,11 +563,7 @@ var options = {
                 options.checkEnabled(sName + '_state') ? checkbox.appendChild(enable) : checkbox.appendChild(disable) ;
                 changetext = true;
             } else {
-                if (textEnabled != '') {
-                    checkbox.appendChild(document.createTextNode(textEnabled));
-                } else {
-                    checkbox.appendChild(document.createTextNode(sName));
-                }
+                checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
             if (options.checkEnabled(sName + '_state')) checkbox.checked = true;
@@ -814,7 +813,7 @@ var options = {
                 checkbox.appendChild(enable);
                 checkbox.className = classEnabled;
             } else {
-                checkbox.appendChild(disable); 
+                checkbox.appendChild(disable);
                 checkbox.className = classDisabled;
             }
             textucss.disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
@@ -823,7 +822,7 @@ var options = {
             checkbox.onclick = function () {
                 var currentstate = !this.checked;
                 if (currentstate) {
-                    this.removeChild(disable); 
+                    this.removeChild(disable);
                     this.appendChild(enable);
                     this.className = classEnabled;
                 } else {

@@ -1,5 +1,5 @@
 /*
-The main idea is to convey the content, so do not be afraid to localize the original text with something different 
+The main idea is to convey the content, so do not be afraid to localize the original text with something different
 (something that fits, of course). Read the original text, understand its content, and consider how you would formulate the text
 in your language (without first having heard of the original text).
 */

@@ -1,7 +1,7 @@
 // global variables
 var sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
-var none = '{display: none !important;}', 
-highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}', 
+var none = '{display: none !important;}',
+highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}',
 paddingCSS = 'iframe, embed, object {\
 padding-left: 15px !important;\
 background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAAc0lEQVQY02P4z4AfMlBPAQMzAzNWNlwIRPEygAA7mM3JgGYCL5gSgUrrMCgwsKEqYABKwjg6DGog09AVMDCIgZmmEGlMBexwjiREPaoCmN3GULegKoD6AmI3xC0C6CZwMijD7AZKamLzBRsQwgCYTZ24AAD8Zqzk4ASGSwAAAABJRU5ErkJggg=="),\
@@ -21,7 +21,7 @@ quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
 #noads_button:hover{-o-transition: right 1s}\
 ';
-  
+
 
 // NoAds Advanced main
 var noads = {
@@ -59,19 +59,23 @@ var noads = {
             for (var i = 0, a; a = el.attributes[i]; i++) {
                 n = a.nodeName.toLowerCase();
                 if (r.test(n)) {
-                   if (n === 'id') {
-                       if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { continue; } // check for unallowed values
-                       rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, ''); 
-                       break; 
-                   } else if (n === 'class') {
-                       if (~a.nodeValue.indexOf(' ')){
-                           rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
-                       } else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) { // check for unallowed values
-                           rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, '');
-                       }
-                   } else {
-                       rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
-                   }
+                    if (n === 'id') {
+                        if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) {
+                            // check for unallowed values
+                            continue;
+                        }
+                        rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, '');
+                        break;
+                    } else if (n === 'class') {
+                        if (~a.nodeValue.indexOf(' ')) {
+                            rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
+                        } else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) {
+                            // check for unallowed values
+                            rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, '');
+                        }
+                    } else {
+                        rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
+                    }
                 }
             }
         }
@@ -249,21 +253,27 @@ var run = {
 
             //if rule is not in CSS then searching for more general rules?
             cssRule = noads.getCSSrule(ev.target, null);
-            if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
+            if (newCSS == oldCSS) {
+                newCSS = noads.deleleCSSrule(oldCSS, cssRule);
+            }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
                 postMsg({ type: 'unblock_address', url: curLink});
             }
 
             cssRule = noads.getCSSrule(ev.target, true);
-            if (newCSS == oldCSS) newCSS = noads.deleleCSSrule(oldCSS, cssRule);
+            if (newCSS == oldCSS) {
+                newCSS = noads.deleleCSSrule(oldCSS, cssRule);
+            }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
                 postMsg({ type: 'unblock_address', url: curLink});
             }
 
             // setting new rules
-            if (newCSS != oldCSS) newCSS = options.setRules('noads_userlist', domain, newCSS);
+            if (newCSS != oldCSS) {
+                newCSS = options.setRules('noads_userlist', domain, newCSS);
+            }
 
             uCSS = newCSS;
             replaceStyle(uStyle, newCSS ? newCSS + (ev.shiftKey ? highlightCSS : none) : '');
@@ -283,7 +293,9 @@ var run = {
         if (latest) {
             //if last rule contains href^=link src*=link removing link from urlfilter
             var lastEl = noads.getFilterLink(splitCSS(css).pop());
-            if (lastEl) postMsg({ type: 'unblock_address', url:lastEl});
+            if (lastEl) {
+                postMsg({ type: 'unblock_address', url:lastEl});
+            }
 
             css = noads.deleleCSSrule(css);
             css = options.setRules('noads_userlist', domain, css);
@@ -367,7 +379,7 @@ var run = {
             }
 
             if (!ev.shiftKey) {
-                // highlight elements marked for removing 
+                // highlight elements marked for removing
                 var backup = [], demo;
                 try {
                     demo = document.querySelectorAll(css);
@@ -392,7 +404,7 @@ var run = {
                 if (css) {
                     try {
                         document.querySelectorAll(css);
-                    } catch (ex) {
+                    } catch (e) {
                         window.alert(lng.pInvalidSelector);
                         css = null;
                     }
@@ -407,11 +419,15 @@ var run = {
                     var arrCSS = css.split(/\s*, \s*/);
                     // trying to get links out of selectors
                     for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
-                        if (link) postMsg({type: 'block_address', url: link});
+                        if (link) {
+                            postMsg({type: 'block_address', url: link});
+                        }
                     }
 
                     rules = options.getRules('noads_userlist', domain);
-                    if (rules) css = noads.clearCSSrules(rules + ',' + css);
+                    if (rules) {
+                        css = noads.clearCSSrules(rules + ',' + css);
+                    }
                     css = options.setRules('noads_userlist', domain, css);
                     uCSS = css;
                     if (uStyle) {
@@ -493,10 +509,10 @@ var run = {
         if (!b) {
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
-            b.setAttribute('type', 'button');
-            b.setAttribute('value', txt);
-            b.setAttribute('title', title);
-            b.setAttribute('style', 'right:-100px;');
+            b.type = 'button';
+            b.value = txt;
+            b.title = title;
+            b.style = 'right: -100px;';
             b.id = 'noads_button';
             b.addEventListener('click', function (e) {
                 if (e.ctrlKey && !e.shiftKey && !e.altKey) {
@@ -519,18 +535,18 @@ var run = {
             b.addEventListener('mouseout', function () {
             //    this.setAttribute('style', 'visibility:hidden;');
             //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
-                this.setAttribute('style', 'right:-100px;');
+                this.style = 'right: -100px;';
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {
                 document.body.appendChild(b);
             } catch(e) {}
         } else {
-            b.setAttribute('value', txt);
-            b.setAttribute('title', title);
+            b.value = txt;
+            b.title = title;
         }
        // b.style.visibility = 'visible';
-        b.setAttribute('style', 'right:0px;');
+        b.style = 'right: 0;';
     },
 
     contentBlockHelper: function () {
@@ -614,7 +630,6 @@ var run = {
                     link.target = '_blank';
                     img = document.createElement('img');
                     img.className = 'noads_placeholder';
-                    img.setAttribute('style', '');
                     img.src = script.src;
                     img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
                     img.setAttribute('noads', 'true');
@@ -669,7 +684,7 @@ var run = {
             }
             overlay.appendChild(content);
 
-            if (content.childNodes.length) { 
+            if (content.childNodes.length) {
                 hide.addEventListener('click', function () {
                     content.hide();
                 }, false);
