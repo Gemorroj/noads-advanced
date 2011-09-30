@@ -338,6 +338,7 @@ var options = {
             '^https?://script.aculo.us',
             '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
             '^https?://secure.gravatar.com',
+            '^https?://secure.skypeassets.com',
             '^https?://st.drweb.com',
             '^https?://static.ak.fbcdn.net',
             '^https?://static.chartbeat.com',
