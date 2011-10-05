@@ -340,6 +340,7 @@ var options = {
             '^https?://secure.gravatar.com',
             '^https?://secure.skypeassets.com',
             '^https?://st.drweb.com',
+            '^https?://static.addtoany.com',
             '^https?://static.ak.fbcdn.net',
             '^https?://static.chartbeat.com',
             '^https?://static.crowdscience.com',

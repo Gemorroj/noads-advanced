@@ -14,7 +14,7 @@ contentHelperCSS = ' \
 .noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:10001;}\
 .noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
-.noads_helper_content{display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
+.noads_helper_content{font-weight:bold;color:#e00;display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
 .noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
 ',
 quickButtonCSS = ' \
@@ -660,9 +660,6 @@ var run = {
             }
             overlay.appendChild(content);
 
-            content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
-            overlay.appendChild(content);
-
             // @see noads.js
             //bgImages = bgImages.split('; ');
 
@@ -672,21 +669,26 @@ var run = {
             });
             bgImages = unique.call(bgImages);
 
-            for (var i in bgImages) {
-                if (bgImages[i].indexOf('data:') == -1) {
-                    var link = document.createElement('a');
-                    link.href = bgImages[i];
-                    link.target = '_blank';
-                    var img = document.createElement('img');
-                    img.className = 'noads_placeholder';
-                    img.src = bgImages[i];
-                    img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                    img.setAttribute('noads', 'true');
-                    link.appendChild(img);
-                    content.appendChild(link);
+            if (bgImages.length) {
+                content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
+                overlay.appendChild(content);
+
+                for (var i in bgImages) {
+                    if (bgImages[i].indexOf('data:') == -1) {
+                        var link = document.createElement('a');
+                        link.href = bgImages[i];
+                        link.target = '_blank';
+                        var img = document.createElement('img');
+                        img.className = 'noads_placeholder';
+                        img.src = bgImages[i];
+                        img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
+                        img.setAttribute('noads', 'true');
+                        link.appendChild(img);
+                        content.appendChild(link);
+                    }
                 }
+                overlay.appendChild(content);
             }
-            overlay.appendChild(content);
 
             if (content.childNodes.length) {
                 hide.addEventListener('click', function () {
