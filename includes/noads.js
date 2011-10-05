@@ -2,6 +2,7 @@
 // @include http*
 // @exclude opera:*
 // @exclude about:*
+// @exclude widget:*
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*

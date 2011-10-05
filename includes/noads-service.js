@@ -15,7 +15,7 @@ contentHelperCSS = ' \
 .noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_helper_content{display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
-.noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;height:20px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
+.noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
 ',
 quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
@@ -641,6 +641,10 @@ var run = {
             for (var i = 0, img, source, link, alttext; i < objects.length; i++) {
                 source = objects[i].src || objects[i].value || objects[i].data;
                 if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
+                    if (alttext.indexOf('widget://') === 0) {
+                        continue;
+                    }
+
                     link = document.createElement('a');
                     link.href = source;
                     link.target = '_blank';
