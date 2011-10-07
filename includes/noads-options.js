@@ -352,6 +352,7 @@ var options = {
             '^https?://userapi.com',
             '^https?://vkontakte.ru',
             '^https?://www.bing.com',
+            '^https?://www.browserscope.org',
             '^https?://www.gamehive.ru',
             '^https?://www.google.com/(cse|jsapi|recaptcha|support|s2)+',
             '^https?://yandex.st',
