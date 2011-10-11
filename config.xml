@@ -7,6 +7,7 @@
   <icon src="icons/icon18.png" width="18" height="18" />
   <description xml:lang="en">Advertisement blocking filter.</description>
   <description xml:lang="ru">Блокировщик рекламы.</description>
+  <description xml:lang="es">Filtro para bloquear publicidad</description>
 
   <!-- Initial preferences -->
   <preference name="noads_tb_enabled_state" value="enabled"/>
