@@ -9,13 +9,29 @@ var MENU_TRANSLATION = function () {
             disableForSite: '\u041e\u0442\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u043d\u0430 \u044d\u0442\u043e\u043c \u0441\u0430\u0439\u0442\u0435',
             contentBlockHelper: '\u041f\u043e\u043c\u043e\u0449\u043d\u0438\u043a \u0434\u043b\u044f \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438'
         };
+    	case 'es-ES': return {
+            blockAds: 'Bloquear anuncio',
+            blockEle: 'Bloquear elemento',
+            unblockEle: 'Desbloquear...',
+            unblockLatest: 'Desbloquear \u00faltimo',
+            preferences: 'Preferencias',
+            contentBlockHelper: 'Auxiliar bloqueo de contenido'
+        };
+		case 'es-AR': return {
+            blockAds: 'Bloquear anuncio',
+            blockEle: 'Bloquear elemento',
+            unblockEle: 'Desbloquear...',
+            unblockLatest: 'Desbloquear \u00faltimo',
+            preferences: 'Preferencias',
+            contentBlockHelper: 'Auxiliar bloqueo de contenido'
+        };
         case 'es': return {
             blockAds: 'Bloquear anuncio',
             blockEle: 'Bloquear elemento',
             unblockEle: 'Desbloquear...',
             unblockLatest: 'Desbloquear \u00faltimo',
             preferences: 'Preferencias',
-            contentBlockHelper: 'Content block Helper'
+            contentBlockHelper: 'Auxiliar bloqueo de contenido'
         };
         case 'pl': return {
             blockAds: 'Blokowanie reklam',
