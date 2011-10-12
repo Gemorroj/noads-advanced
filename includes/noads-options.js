@@ -870,7 +870,7 @@ var options = {
             this.createCheckboxButton('EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
             this.createCheckboxButton('EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
             this.createCheckboxButton('EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
-            this.createCheckboxButton('EasyList finish', 'http://www.wiltteri.net/wiltteri.txt');
+            this.createCheckboxButton('EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
             this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
