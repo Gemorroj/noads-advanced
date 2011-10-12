@@ -354,7 +354,7 @@ var options = {
             '^https?://www.bing.com',
             '^https?://www.browserscope.org',
             '^https?://www.gamehive.ru',
-            '^https?://www.google.com/(cse|jsapi|recaptcha|support|s2)+',
+            '^https?://www.google.com/(uds|cse|jsapi|recaptcha|support|s2)+',
             '^https?://yandex.st',
             '^https?://yuilibrary.com',
             '[a-z0-9]+.jq.(full|min)+.js',
