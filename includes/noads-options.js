@@ -322,6 +322,7 @@ var options = {
             '^https?://(apis|maps)+.google.com',
             '^https?://auth.tbn.ru',
             '^https?://cdn.gigya.com',
+            '^https?://cdn.gradientbot.com',
             '^https?://connect.facebook.net',
             '^https?://css.yandex.net',
             '^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$',
