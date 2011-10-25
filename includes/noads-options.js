@@ -311,6 +311,7 @@ var options = {
             '^https?://[a-z]+.ignimgs.com',
             '^https?://[a-z-]+.stj.s-msn.com',
             '^https?://[0-9a-z-.]+.s-msft.com',
+            '^https?://a[0-9]+.e.fsimg.ru',
             '^https?://a.dolimg.com',
             '^https?://ajax.aspnetcdn.com',
             '^https?://ajax.microsoft.com',
