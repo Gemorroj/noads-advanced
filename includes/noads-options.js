@@ -333,6 +333,7 @@ var options = {
             '^https?://fonts.gizmodo.com',
             '^https?://js.gotophotels.ru',
             '^https?://i[0-9]+.services.social.microsoft.com',
+            '^https?://internal.immogames.cdnvideo.ru',
             '^https?://ipinfodb.com',
             '^https?://live.nhle.com',
             '^https?://mat1.gtimg.com',
