@@ -27,7 +27,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_content input[type="range"]{width:100%;}\
-.noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:2px 4px;}\
+.noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:0 4px;}\
 .noads_label_subscription:hover{text-decoration: underline;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
@@ -108,7 +108,9 @@ var options = {
         },
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
-            if (pos != -1) this.splice(pos, arr.length);
+            if (pos != -1) {
+                this.splice(pos, arr.length);
+            }
         },
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [];
@@ -123,7 +125,9 @@ var options = {
                 } else {
                     len = this.length;
                 }
-                if (len) rez.push(rule.slice(0, pos) + this.splice(0, len).join(','));
+                if (len) {
+                    rez.push(rule.slice(0, pos) + this.splice(0, len).join(','));
+                }
             }
             return rez;
         };
@@ -141,15 +145,29 @@ var options = {
             }
         }
         switch (arr.length) {
-            case 0: if (rules.length) tmp.unshift(domain + '##' + rules.join(',')); break;
-            case 1: if (rules.length) tmp.unshift(arr[0].slice(0, arr[0].indexOf('##') + 2) + rules.join(',')); break;
-            default: tmp = rules.getCorrected(arr).concat(tmp); break;
+            case 0:
+                if (rules.length) {
+                    tmp.unshift(domain + '##' + rules.join(','));
+                }
+                break;
+
+            case 1:
+                if (rules.length) {
+                    tmp.unshift(arr[0].slice(0, arr[0].indexOf('##') + 2) + rules.join(','));
+                }
+                break;
+
+            default:
+                tmp = rules.getCorrected(arr).concat(tmp);
+                break;
         }
         setValue(name, tmp.join('\n'));
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule.slice(pos + 2));
+            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+                rez.push(rule.slice(pos + 2));
+            }
         }
         tmp = null;
         return rez.join(',');
@@ -162,7 +180,9 @@ var options = {
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule.slice(pos + 4));
+            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+                rez.push(rule.slice(pos + 4));
+            }
         }
         tmp = null;
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
@@ -173,7 +193,9 @@ var options = {
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
-                if (whitelist[i].indexOf('@@') == 0) rez.push(whitelist[i]);
+                if (whitelist[i].indexOf('@@') == 0) {
+                    rez.push(whitelist[i]);
+                }
             }
         }
         for (i = 0, l = tmp.length; i < l; i++) {
@@ -187,7 +209,7 @@ var options = {
             }
         }
         tmp = null;
-        return rez.join('\n\n');
+        return rez.join('\n');
     },
 
     setRawRules: function (name, value, domain) {
@@ -202,7 +224,9 @@ var options = {
             for (var i = tmp.length; i--; ) {
                 rule = tmp[i];
                 pos = rule.indexOf('##');
-                if (pos != -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) tmp.splice(i, 1);
+                if (pos != -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+                    tmp.splice(i, 1);
+                }
             }
             rez = rez.concat(tmp);
         }
@@ -216,11 +240,13 @@ var options = {
     },
 
     getForSite: function (domain) {
-        return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain);
+        return (this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain));
     },
 
     setForSite: function (domain, value) {
-        this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value);
+        this.setActiveDomain('noads_list_white', domain, value);
+        this.setActiveDomain('noads_userlist_white', domain, value);
+        this.setActiveDomain('noads_scriptlist_white', domain, value);
     },
 
     isWhiteListed: function (rule, domain) {
@@ -229,14 +255,16 @@ var options = {
         var end = rule.charAt(rule.length - 1) === '^';
         if (end) rule = rule.slice(0, -1);
         pos = domain.indexOf(rule);
-        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length);
+        return ((pos == 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length));
     },
 
     setWhiteList: function (name, value) {
         var rule, rez = [], arr = value.split('\n');
         for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
-            if (rule.indexOf('@@') == 0 && rule.length > 4) rez.push(rule);
+            if (rule.indexOf('@@') == 0 && rule.length > 4) {
+                rez.push(rule);
+            }
         }
         arr = null;
         setValue(name, rez.join('\n'));
@@ -391,7 +419,9 @@ var options = {
         if (value) {
             for (var i = rez.length; i--; ) {
                 if (rez[i].indexOf('@@||') == 0) {
-                    if (this.isWhiteListed(rez[i].slice(4), domain)) rez.splice(i, 1);
+                    if (this.isWhiteListed(rez[i].slice(4), domain)) {
+                        rez.splice(i, 1);
+                    }
                 }
             }
         } else {
@@ -459,7 +489,9 @@ var options = {
         if (!document.body) return;
         var global = domain ? false : true;
         var press = function (e) {
-            if (e.keyCode == 27) options.stop(global);
+            if (e.keyCode == 27) {
+                options.stop(global);
+            }
         };
 
         var overlay = document.getElementById('noads_overlay');
@@ -506,7 +538,9 @@ var options = {
 
         var win = document.createElement('div');
         win.className = 'noads_win';
-        if (!global) win.style.marginTop = '4%';
+        if (!global) {
+            win.style.marginTop = '4%';
+        }
         overlay.appendChild(win);
         var img = document.createElement('div');
         img.className = 'noads_close_window';
@@ -588,11 +622,15 @@ var options = {
                 checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
-            if (options.checkEnabled(sName + '_state')) checkbox.checked = true;
+            if (options.checkEnabled(sName + '_state')) {
+                checkbox.checked = true;
+            }
 
             checkbox.onclick = function (e) {
                 e.preventDefault();
-                if (sClickFn) sClickFn();
+                if (sClickFn) {
+                    sClickFn();
+                }
                 if (this.checked) {
                     options.setEnabled(sName + '_state', false);
                     this.className = classDisabled;
@@ -640,7 +678,9 @@ var options = {
             var input = document.createElement('input');
             input.type = 'checkbox';
             input.name = 'subs';
-            if (url && ~getValue('noads_default_url2').indexOf(url)) input.checked = true;
+            if (url && ~getValue('noads_default_url2').indexOf(url)) {
+                input.checked = true;
+            }
             label.appendChild(input);
             if (!typein) {
                 label.appendChild(document.createTextNode(txt + ': '));
@@ -802,7 +842,9 @@ var options = {
             textarea.rows = '10';
             textarea.cols = '100';
             textarea.style.height = '200px';
-            if (!disabled) textarea.value = blockedScripts.replace(/; /g, '\n');
+            if (!disabled) {
+                textarea.value = blockedScripts.replace(/; /g, '\n');
+            }
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
@@ -909,7 +951,7 @@ var options = {
 
                 var url = [], inputs = area.getElementsByTagName('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type === 'checkbox' && radioButton.checked) {
+                    if (radioButton.type === 'checkbox' && radioButton.checked === true) {
                         url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value);
                     }
                 }
@@ -923,12 +965,16 @@ var options = {
             }, '', imgRefresh));
         },
         area.showUpdates = function (pos) {
-            this.clear(pos);
+            var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000;
 
-            this.appendChild(document.createTextNode(lng.uInterval));
+            this.clear(pos);
+            this.appendChild(document.createTextNode(lng.uInterval + " "));
+            var strong = document.createElement('strong');
+            strong.appendChild(document.createTextNode(defaultValue.toString()));
+            this.appendChild(strong);
+
             this.appendChild(document.createElement('br'));
 
-            var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000;
             var input = document.createElement('input');
             input.id = 'noads_autoupdate_interval';
             input.type = 'range';
@@ -936,19 +982,10 @@ var options = {
             input.max = 30;
             input.value = defaultValue;
             input.onchange = function () {
-                this.parentNode.previousSibling.childNodes[0].nodeValue = this.value;
+                this.parentNode.childNodes[1].childNodes[0].nodeValue = this.value;
             };
 
-            var table = document.createElement('table'), tr = document.createElement('tr'), td1 = document.createElement('td'), td2 = document.createElement('td');
-
-            td2.style.width = "100%";
-            table.appendChild(tr);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            td1.appendChild(document.createTextNode(defaultValue.toString()));
-            td2.appendChild(input);
-
-            this.appendChild(table);
+            this.appendChild(input);
             this.appendChild(document.createElement('br'));
 
             var lastUpdateNode = document.createTextNode('');
