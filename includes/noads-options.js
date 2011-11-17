@@ -343,6 +343,7 @@ var options = {
             '^https?://[a-z.]+.twitter.com',
             '^https?://a[0-9]+.e.fsimg.ru',
             '^https?://a.dolimg.com',
+            '^https?://a.fsdn.com',
             '^https?://ajax.aspnetcdn.com',
             '^https?://ajax.microsoft.com',
             '^https?://api-maps.yandex.ru',
