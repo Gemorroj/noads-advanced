@@ -158,7 +158,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                 window.opera.addEventListener('BeforeExternalScript', function (e) {
                     var src = e.element.src;
                     if (!src || reSkip.test(src)) return;
-                    var full = !/\.(co|com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(window.location.hostname);
+                    var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(window.location.hostname);
                     if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(window.location.hostname, full)) {
                         e.preventDefault();
                         if (blockedScripts.indexOf(src) == -1) {

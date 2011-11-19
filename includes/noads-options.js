@@ -860,7 +860,7 @@ var options = {
                     val = val.replace(/[*+?^=!${}()|[\]\\]|\.(?!\w)/g, '\\$&').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
-                    alert(val + ' is added to the script blocker exclusions.');
+                    alert(lng.pBlockedAdded + ' ' + val);
                 }
             }, 'positive', imageTick));
 

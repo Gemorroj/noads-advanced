@@ -67,13 +67,14 @@ var importer = {
                 scriptList = [],
                 reTrim = /^\s+|\s+$/g,
                 reBlank = /^(?:$|[\[!@]|\/.*\/$)/,
-                reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
+                reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/,
+                rePregecko = /(~pregecko2,|,~pregecko2)/; // Legacy rules (for Firefox 3 and similar Gecko 1 browsers)
             if (list) {
                 var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
                 for (var i = 0; i < arr.length; i++) {
                     rule = arr[i].replace(reTrim, '');
                     if (!reBlank.test(rule) && reElemHide.test(rule)) {
-                        domains = RegExp.$1;
+                        domains = (RegExp.$1).replace(rePregecko, '');
                         tagName = RegExp.$2;
                         attrRules = RegExp.$3;
                         selector = RegExp.$4 || convertOldRules(tagName, attrRules);
