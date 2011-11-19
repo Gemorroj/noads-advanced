@@ -14,7 +14,7 @@ window.addEventListener('load', function () {
             popup: {
                 href: 'menu.html',
                 width: 180,
-                height: 140
+                height: 155
             }
         });
         opera.contexts.toolbar.addItem(button);
@@ -30,7 +30,9 @@ window.addEventListener('load', function () {
     function onConnectHandler (e) {
         if (e && e.origin && e.origin.indexOf('menu.html') > -1 && e.origin.indexOf('widget://') > -1) {
             var tab = opera.extension.tabs.getFocused();
-            if (tab) tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
+            if (tab) {
+                tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
+            }
         } else {
             enableButton();
         }

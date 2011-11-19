@@ -248,7 +248,7 @@ var run = {
             //if rule contains href^=link src*=link or data=link removing link from urlfilter
             var curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({type: 'unblock_address', url: curLink});
             }
 
             //if rule is not in CSS then searching for more general rules?
@@ -258,7 +258,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({type: 'unblock_address', url: curLink});
             }
 
             cssRule = noads.getCSSrule(ev.target, true);
@@ -267,7 +267,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({ type: 'unblock_address', url: curLink});
+                postMsg({type: 'unblock_address', url: curLink});
             }
 
             // setting new rules
@@ -277,17 +277,23 @@ var run = {
 
             uCSS = newCSS;
             replaceStyle(uStyle, newCSS ? newCSS + (ev.shiftKey ? highlightCSS : none) : '');
-            if (!ev.shiftKey) remove();
+            if (!ev.shiftKey) {
+                remove();
+            }
             return false;
         },
         rightclick = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-            if (ev.button && ev.button == 2) run.stop();
+            if (ev.button && ev.button == 2) {
+                run.stop();
+            }
             return false;
         },
         press = function (ev) {
-            if (ev.keyCode == 27) run.stop();
+            if (ev.keyCode == 27) {
+                run.stop();
+            }
         };
 
         if (latest) {
@@ -562,9 +568,7 @@ var run = {
         var objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video');
         var resize = function () {
             if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
-                window.setTimeout(function () {
-                    overlay.close();
-                }, 200);
+                window.setTimeout(overlay.close, 200);
             }
         },
         getStyleSheet = function () {
@@ -691,9 +695,7 @@ var run = {
             }
 
             if (content.childNodes.length) {
-                hide.addEventListener('click', function () {
-                    content.hide();
-                }, false);
+                hide.addEventListener('click', content.hide, false);
             } else {
                 hide.style.opacity = 0.5;
             }

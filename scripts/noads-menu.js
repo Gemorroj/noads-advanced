@@ -13,7 +13,7 @@ function onMessageHandler (e) {
 
 if (opera.extension) {
     opera.extension.onmessage = function (e) {
-        if (decodeMessage(e.data). type === 'noads_tab_port') {
+        if (decodeMessage(e.data).type === 'noads_tab_port') {
             if (e.ports.length > 0) {
                 theport = e.ports[0];
                 theport.onmessage = onMessageHandler;
@@ -36,50 +36,43 @@ function sendCommand (message) {
 }
 
 
-window.addEventListener('load', function () {
-    var menu = document.createElement('div');
-    menu.className = 'menu';
-    menu.id = 'noads_toolbar_menu';
+window.addEventListener('DOMContentLoaded', function () {
+    var block_ads = document.getElementById('block_ads'),
+        block_ele = document.getElementById('block_ele'),
+        unblock_ele = document.getElementById('unblock_ele'),
+        unblock_latest = document.getElementById('unblock_latest'),
+        show_preferences = document.getElementById('show_preferences'),
+        content_block_helper = document.getElementById('content_block_helper');
 
-    var command = document.createElement('div');
-    command.onclick = function () {
+    block_ads.onclick = function () {
         sendCommand({type: 'block_ads'});
     };
-    command.appendChild(document.createTextNode(lng.blockAds));
-    menu.appendChild(command);
-    command = document.createElement('div');
-    command.onclick = function () {
+    block_ads.appendChild(document.createTextNode(lng.blockAds));
+
+    block_ele.onclick = function () {
         sendCommand({type: 'block_ele'});
     };
-    command.appendChild(document.createTextNode(lng.blockEle));
-    menu.appendChild(command);
-    command = document.createElement('div');
-    command.onclick = function () {
+    block_ele.appendChild(document.createTextNode(lng.blockEle));
+
+    unblock_ele.onclick = function () {
         sendCommand({type: 'unblock_ele'});
     };
-    command.appendChild(document.createTextNode(lng.unblockEle));
-    menu.appendChild(command);
-    command = document.createElement('div');
-    command.onclick = function () {
+    unblock_ele.appendChild(document.createTextNode(lng.unblockEle));
+
+    unblock_latest.onclick = function () {
         sendCommand({type: 'unblock_latest'});
     };
-    command.appendChild(document.createTextNode(lng.unblockLatest));
-    command.className = 'end';
-    menu.appendChild(command);
-    command = document.createElement('div');
-    command.onclick = function () {
+    unblock_latest.appendChild(document.createTextNode(lng.unblockLatest));
+
+    show_preferences.onclick = function () {
         sendCommand({type: 'show_preferences'});
     };
-    command.appendChild(document.createTextNode(lng.preferences));
-    command.className = 'end';
-    menu.appendChild(command);
-    command = document.createElement('div');
-    command.onclick = function () {
+    show_preferences.appendChild(document.createTextNode(lng.preferences));
+
+    content_block_helper.onclick = function () {
         sendCommand({type: 'content_block_helper'});
     };
-    command.appendChild(document.createTextNode(lng.contentBlockHelper));
-    menu.appendChild(command);
-    document.body.appendChild(menu);
+    content_block_helper.appendChild(document.createTextNode(lng.contentBlockHelper));
 
     if (theport) {
         try {
