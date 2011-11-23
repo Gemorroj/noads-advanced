@@ -286,6 +286,7 @@ var options = {
             '@@||facebook.com^',
             '@@||flickr.com^',
             '@@||guardian.co.uk^',
+            '@@||googleusercontent.com^',
             '@@||hotmail.com^',
             '@@||imageshack.us^',
             '@@||imdb.com^',
