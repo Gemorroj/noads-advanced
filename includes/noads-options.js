@@ -342,6 +342,7 @@ var options = {
             '^https?://[0-9a-z-.]+.s-msft.com',
             '^https?://[0-9a-z-]+.olark.com',
             '^https?://[a-z.]+.twitter.com',
+            '^https?://[a-z]+.xnimg.cn',
             '^https?://a[0-9]+.e.fsimg.ru',
             '^https?://a.dolimg.com',
             '^https?://a.fsdn.com',
