@@ -381,6 +381,7 @@ var options = {
             '^https?://st.drweb.com',
             '^https?://static.addtoany.com',
             '^https?://static.ak.fbcdn.net',
+            '^https?://static.allegrostatic.pl',
             '^https?://static.chartbeat.com',
             '^https?://static.crowdscience.com',
             '^https?://static.myopera.com',
