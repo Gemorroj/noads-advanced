@@ -389,6 +389,7 @@ var options = {
             '^https?://translate.googleusercontent.com',
             '^https?://onlywire.com',
             '^https?://userapi.com',
+            '^https?://login.vk.com',
             '^https?://vkontakte.ru',
             '^https?://www.bing.com',
             '^https?://www.browserscope.org',
