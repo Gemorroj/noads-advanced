@@ -42,15 +42,21 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
         // Add CSS rules
         if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', window.location.hostname)) {
             sCSS = options.getRules('noads_list', window.location.hostname);
-            if (sCSS) sStyle = addStyle(sCSS + none, 'sCSS');
-            blockingText += ', ads by CSS';
+            if (sCSS) {
+                sStyle = addStyle(sCSS + none, 'sCSS');
+                blockingText += ', ads by CSS';
+                log('blocked CSS for <' + window.location.hostname + '>');
+            }
         }
 
         // Add custom CSS rules
         if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', window.location.hostname)) {
             uCSS = options.getRules('noads_userlist', window.location.hostname);
-            if (uCSS) uStyle = addStyle(uCSS + none, 'uCSS');
-            blockingText += ', ads by user CSS';
+            if (uCSS) {
+                uStyle = addStyle(uCSS + none, 'uCSS');
+                blockingText += ', ads by user CSS';
+                log('blocked User CSS for <' + window.location.hostname + '>');
+            }
         }
 
         // Create the quick button
@@ -155,32 +161,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             channel.port1.onmessage = onPopupMessageHandler;
         }
     }
-
-
-
-    /**
-     * Enumerate backgrounds for helper
-     *
-     * TODO:http://operafan.net/forum/index.php?topic=14821.msg161093#msg161093
-     * @see noads-service.js method contentBlockHelper variable getStyleSheet
-     */
-    //window.opera.addEventListener('AfterCSS', function (userJSEvent) {
-    //    userJSEvent.cssText.replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
-    //        bgImages += p1 + '; ';
-    //    });
-    //}, false);
-
-
-
-    // workaround for http://nhl.com and other...
-    // BeforeEvent.load or BeforeEvent.DOMContentLoaded ???
-    var firstRun = false;
-    window.opera.addEventListener('BeforeEvent.load', function () {
-        if (firstRun === true) {
-            return;
-        }
-        firstRun = true;
-
+    function noadsHandler () {
         /* Add custom magic; yay Merlin!
          *
          * Magical formulae:
@@ -258,16 +239,21 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             }
         }
 
+
         // CSS
         try {
             onCSSAllowed();
         } catch(ex) {
-            window.opera.addEventListener('BeforeCSS', function (event) {
+            window.opera.addEventListener('BeforeCSS', function () {
                 window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
                 onCSSAllowed();
             }, false);
         }
-    }, true);
+    }
+
+
+
+    window.opera.addEventListener('BeforeEvent.DOMContentLoaded', noadsHandler, true);
 
 
     // don't want that in a frames
