@@ -54,17 +54,18 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [];
-                for (var subsc = 0; subsc < message.url.length; subsc++) {
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                importerCallback = function (rulesN) {
+                    if (rulesN) {
+                        message_success.push(message.url[subsc]);
+                        message_rules += rulesN;
+                    } else {
+                        message_fileerror.push(message.url[subsc]);
+                    }
+                };
+                for (var subsc = 0, l = message.url.length; subsc < l; subsc++) {
                     try {
-                        importer.request(message.url[subsc], subsc, message.allRules, function (rulesN) {
-                            if (rulesN) {
-                                message_success.push(message.url[subsc]);
-                                message_rules += rulesN;
-                            } else {
-                                message_fileerror.push(message.url[subsc]);
-                            }
-                        });
+                        importer.request(message.url[subsc], subsc, message.allRules, importerCallback);
                     } catch (ex) {
                         log('URL/CSS filter import error -> ' + ex);
                         message_error.push(message.url[subsc]);
@@ -95,16 +96,19 @@ window.addEventListener('load', function () {
                 break;
 
             case 'unblock_address':
-                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) break;
+                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) {
+                    break;
+                }
                 log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
-                for (var i = 0; i < importer.arrayUserFilters.length; i++) {
+                var l = importer.arrayUserFilters.length;
+                for (var i = 0; i < l; i++) {
                     if (importer.arrayUserFilters[i] == message.url) {
                         importer.arrayUserFilters.splice(i, 1);
                         break;
                     }
                 }
-                if (importer.arrayUserFilters.length) {
+                if (l) {
                     setValue('noads_userurlfilterlist', '##' + importer.arrayUserFilters.join('\n##'));
                 } else {
                     setValue('noads_urlfilterlist', '');
@@ -112,7 +116,9 @@ window.addEventListener('load', function () {
                 break;
 
             case 'block_address':
-                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) break;
+                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) {
+                    break;
+                }
                 log('user URL-filter blocked url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
                 importer.arrayUserFilters.unshift(message.url);
@@ -136,14 +142,15 @@ window.addEventListener('load', function () {
 
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
-        bDebug && window.console.log(next_update + ' - ' + new Date().getTime());
-        if (next_update < new Date().getTime()) {
-            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state');
-            for (var subsc = 0; subsc < url.length; subsc++) {
+        bDebug && window.console.log(next_update + ' - ' + (new Date()).getTime());
+        if (next_update < (new Date()).getTime()) {
+            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'),
+            importerCallback = function (rulesN) {
+                //TODO:notification
+            };
+            for (var subsc = 0, l = url.length; subsc < l; subsc++) {
                 try {
-                    importer.request(url[subsc], subsc, allRules, function (rulesN) {
-                        //TODO:notification
-                    });
+                    importer.request(url[subsc], subsc, allRules, importerCallback);
                 } catch (ex) {
                     log('URL/CSS filter import error -> ' + ex);
                 }

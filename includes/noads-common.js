@@ -26,18 +26,34 @@ delElement = function (ele) {
     if (ele && ele.parentNode) ele.parentNode.removeChild(ele);
 },
 addStyle = function (css, id) {
-    if (!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
+    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+        throw "Not an HTML page.";
+    }
     var s = document.createElement('style');
-    if (id) s.id = id;
-    s.setAttribute('type', 'text/css');
-    s.setAttribute('style', 'display: none !important;');
+    if (id) {
+        s.id = id;
+    }
+    s.type = 'text/css';
+    //s.style = 'display: none !important;'; //TODO:???
     s.appendChild(document.createTextNode(css));
-    return (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(s);
+    return (document.querySelectorAll('head')[0] || document.documentElement).appendChild(s);
 },
 replaceStyle = function (ele, css) {
     if (ele) {
-        if (!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
-        while (ele.firstChild) ele.removeChild(ele.firstChild);
+        if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+            throw "Not an HTML page.";
+        }
+
+
+        ele.innerHTML = "";
+        //TODO:???
+        /*
+        while (ele.firstChild) {
+            ele.removeChild(ele.firstChild);
+        }
+        */
+
+
         ele.appendChild(document.createTextNode(css));
     }
 },
@@ -57,9 +73,9 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 unique = function () {
-    var a = [], l = this.length, j;
-    for (var i = 0; i < l; i++) {
-        for (j = i + 1; j < l; j++) {
+    var a = [];
+    for (var i = 0, l = this.length; i < l; i++) {
+        for (var j = i + 1; j < l; j++) {
             if (this[i] === this[j]) {
                 j = ++i;
             }

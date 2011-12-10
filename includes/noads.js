@@ -18,49 +18,49 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     lng = new TRANSLATION();
 
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
-    if (typeof storage === undefined || !storage) {
+    if (typeof storage === "undefined" || !storage) {
         run.setStatus(lng.iNoQuota);
         window.alert(lng.iNoQuota);
         return;
     }
 
-    var blockingText = '';
-    var showButton = function (e) {
-        var docEle;
+    var blockingText = '',
+        showButton = function (e) {
+            var docEle;
 
-        if (document && document.compatMode === 'CSS1Compat' && window.postMessage) {
-            docEle = document.documentElement;
-        } else {
-            docEle = document.body;
-        }
+            if (document && document.compatMode === 'CSS1Compat' && window.postMessage) {
+                docEle = document.documentElement;
+            } else {
+                docEle = document.body;
+            }
 
-        if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 40) {
-            run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
-        }
-    };
-    var onCSSAllowed = function () {
-        // Add CSS rules
-        if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', window.location.hostname)) {
-            sCSS = options.getRules('noads_list', window.location.hostname);
-            if (sCSS) sStyle = addStyle(sCSS + none, 'sCSS');
-            blockingText += ', ads by CSS';
-        }
+            if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 40) {
+                run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
+            }
+        },
+        onCSSAllowed = function () {
+            // Add CSS rules
+            if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', window.location.hostname)) {
+                sCSS = options.getRules('noads_list', window.location.hostname);
+                if (sCSS) sStyle = addStyle(sCSS + none, 'sCSS');
+                blockingText += ', ads by CSS';
+            }
 
-        // Add custom CSS rules
-        if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', window.location.hostname)) {
-            uCSS = options.getRules('noads_userlist', window.location.hostname);
-            if (uCSS) uStyle = addStyle(uCSS + none, 'uCSS');
-            blockingText += ', ads by user CSS';
-        }
+            // Add custom CSS rules
+            if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', window.location.hostname)) {
+                uCSS = options.getRules('noads_userlist', window.location.hostname);
+                if (uCSS) uStyle = addStyle(uCSS + none, 'uCSS');
+                blockingText += ', ads by user CSS';
+            }
 
-        // Create the quick button
-        // don't want that in a frames
-        if (window.top === window.self && options.checkEnabled('noads_button_state')) {
-            log('button is enabled...');
-            addStyle(quickButtonCSS, 'qbCSS');
-            window.addEventListener('mousemove', showButton, false);
-        }
-    };
+            // Create the quick button
+            // don't want that in a frames
+            if (window.top === window.self && options.checkEnabled('noads_button_state')) {
+                log('button is enabled...');
+                addStyle(quickButtonCSS, 'qbCSS');
+                window.addEventListener('mousemove', showButton, false);
+            }
+        };
 
 
 
@@ -102,7 +102,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             var sMagic = getValue('noads_magiclist').split('\n');
             if (sMagic) {
                 var blockedFuncs = '', blockedVars = '';
-                for (var i = 0, jS, j, ret = null; i < sMagic.length; i++) {
+                for (var i = 0, jS, j, ret = null, l = sMagic.length; i < l; i++) {
                     // such parsing should mostly be when saving but...
                     jS = sMagic[i];
                     jS = jS.replace(/\/{2,}.*/gi, ''); // trim comments
@@ -161,7 +161,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                     var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(window.location.hostname);
                     if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(window.location.hostname, full)) {
                         e.preventDefault();
-                        if (blockedScripts.indexOf(src) == -1) {
+                        if (blockedScripts.indexOf(src) === -1) {
                             blockedScripts += blockedScripts ? '; ' + src : src;
                         }
                         log('blocked script -> ' + src + ' for <' + window.location.hostname + '>');

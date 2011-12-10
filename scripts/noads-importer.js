@@ -6,10 +6,10 @@ var importer = {
     // import subscription to a local storage
     _getHidingRulesLength: function (arr) {
         var rule, pos, len = 0;
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
             pos = rule.indexOf('##');
-            if (pos != -1 && rule.length > pos + 2) {
+            if (pos !== -1 && rule.length > pos + 2) {
                 len += rule.slice(pos + 2).match(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g).length;
             }
         }
@@ -19,7 +19,9 @@ var importer = {
     _importSubscriptions: function (list, url, allRules, addRules) {
         var convertOldRules = function (tagName, attrRules) {
             var rule, rules, sep, additional = '', id = null, reAttrRules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
-            if (tagName === '*') tagName = '';
+            if (tagName === '*') {
+                tagName = '';
+            }
             if (attrRules) {
                 rules = attrRules.match(reAttrRules);
                 for (var i = 0, l = rules.length; i < l; i++) {
@@ -71,7 +73,7 @@ var importer = {
                 rePregecko = /(~pregecko2,|,~pregecko2)/; // Legacy rules (for Firefox 3 and similar Gecko 1 browsers)
             if (list) {
                 var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
-                for (var i = 0; i < arr.length; i++) {
+                for (var i = 0, l = arr.length; i < l; i++) {
                     rule = arr[i].replace(reTrim, '');
                     if (!reBlank.test(rule) && reElemHide.test(rule)) {
                         domains = (RegExp.$1).replace(rePregecko, '');
@@ -79,7 +81,7 @@ var importer = {
                         attrRules = RegExp.$3;
                         selector = RegExp.$4 || convertOldRules(tagName, attrRules);
                         if (selector) {
-                            if (selector.indexOf('$$') != 0) {
+                            if (selector.indexOf('$$') !== 0) {
                                 if (isValidSelector(selector) && (all || isSiteOnly(domains))) {
                                     rez.push([domains, selector]);
                                 }
@@ -115,7 +117,7 @@ var importer = {
             filterRulesList = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, allRules)));
             filterRulesList.sort();
             for (var i = filterRulesList.length; i--;) {
-                if (filterRulesList[i].indexOf('##') == -1) {
+                if (filterRulesList[i].indexOf('##') === -1) {
                     filterRulesList.splice(i, 1);
                 }
             }
@@ -124,7 +126,7 @@ var importer = {
         if (filterRulesList.length) {
             //if (confirm(lng.iSubs + url + '\n\n' + _getHidingRulesLength(filterRulesList) + lng.iRules + filterRulesList.length + lng.iContinue)) {
                 setValue('noads_list', filterRulesList.join('\n'));
-                if (list.indexOf('##$$') != -1) {
+                if (list.indexOf('##$$') !== -1) {
                     setValue('noads_scriptlist', getHidingRules(list, true, true).join('\n'));
                 }
             //}
@@ -143,7 +145,7 @@ var importer = {
                 importer.arrayFilters = [];
             }
 
-            for (var i = 0, entries = arraySubscription.length; i < entries; i++) {
+            for (var i = 0, l = arraySubscription.length; i < l; i++) {
                 arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
                 if (arraySubscription[i] != '' && arraySubscription[i][0] !== '#' && arraySubscription[i][0] !== ';' && arraySubscription[i].length > 4) { //not empty or comment or too short
                     log('URL filter added -> ' + arraySubscription[i]);
@@ -165,19 +167,23 @@ var importer = {
         // empty rules
         importer._removeFilter(global ? importer.arrayFilters : importer.arrayUserFilters);
 
-        if (clean) return;
-
-        if (global) {
-            if (!options.checkEnabled('noads_urlfilterlist_state') /*&& options.isActiveDomain('noads_urlfilterlist_white')*/) return;
-            importer.arrayFilters = importer._setFiler(getValue('noads_urlfilterlist'));
-        } else {
-            if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) return;
-            importer.arrayUserFilters = importer._setFiler(getValue('noads_userurlfilterlist'));
+        if (!clean) {
+            if (global) {
+                if (!options.checkEnabled('noads_urlfilterlist_state') /*&& options.isActiveDomain('noads_urlfilterlist_white')*/) {
+                    return;
+                }
+                importer.arrayFilters = importer._setFiler(getValue('noads_urlfilterlist'));
+            } else {
+                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) {
+                    return;
+                }
+                importer.arrayUserFilters = importer._setFiler(getValue('noads_userurlfilterlist'));
+            }
         }
     },
 
     _removeFilter: function (rulesArr) {
-        for (var i = 0; i < rulesArr.length; i++) {
+        for (var i = 0, l = rulesArr.length; i < l; i++) {
             log('url removed on URL filter reload -> ' + rulesArr[i]);
             opera.extension.urlfilter.block.remove(rulesArr[i]);
         }
@@ -185,11 +191,12 @@ var importer = {
 
     _setFiler: function (rulesRaw) {
         var out = [], filters = (rulesRaw === '') ? [] : rulesRaw.split('\n##');
+        var l = filters.length;
 
-        if (filters.length) {
+        if (l) {
             filters[0] = filters[0].substring(2); // remove ## parser compatibility
-            for (var i = 0; i < filters.length; i++) {
-                if (filters[i].indexOf('##') == -1 && filters[i].indexOf('@@') == -1) { // check for unsupported "site##rule" format and whitlist
+            for (var i = 0; i < l; i++) {
+                if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
                     out.push(filters[i]);
                     log('url added on URL filter reload -> ' + filters[i]);
                     opera.extension.urlfilter.block.add(filters[i]);

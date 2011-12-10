@@ -30,7 +30,7 @@ var noads = {
         for (var i = a.length; i--; ) {
             rule = a[i] + '>';
             for (j = a.length; j--; ) {
-                if (a[j].indexOf(rule) == 0) {
+                if (a[j].indexOf(rule) === 0) {
                     a.splice(j, 1);
                 }
             }
@@ -42,7 +42,7 @@ var noads = {
         var a = splitCSS(css);
         if (del) {
             for (var i = a.length; i--; ) {
-                if (del.indexOf(a[i]) == 0) {
+                if (del.indexOf(a[i]) === 0) {
                     a.splice(i, 1)
                 }
             }
@@ -87,7 +87,9 @@ var noads = {
         for (var i = 0, c; c = p.childNodes[i]; i++) {
             if (c.nodeType === 1) {
                 n++;
-                if (c === el) nth = n;
+                if (c === el) {
+                    nth = n;
+                }
             }
         }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
@@ -148,9 +150,9 @@ var noads = {
 
         ruleURL[1] = ruleURL[1].replace(/^\.\/|\.\.\/?/g,'*'); // "../" or "./" -> *
         if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
-        if (ruleURL[1].indexOf('http') == -1) {
+        if (ruleURL[1].indexOf('http') === -1) {
             if (domain) {
-                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
+                if (ruleURL[1].indexOf('*') !== 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
                     return domain + ruleURL[1];
                 } else {
                     return domain + '/' + ruleURL[1];
@@ -192,8 +194,8 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-        var domain = window.location.hostname;
-        var rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
+        var domain = window.location.hostname,
+            rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
@@ -241,12 +243,11 @@ var run = {
             ev.preventDefault();
             ev.stopPropagation();
 
-            var oldCSS = options.getRules('noads_userlist', domain);
-            var cssRule = noads.getCSSrule(ev.target, false);
-            var newCSS = noads.deleleCSSrule(oldCSS, cssRule);
+            var oldCSS = options.getRules('noads_userlist', domain),
+                cssRule = noads.getCSSrule(ev.target, false),
+                newCSS = noads.deleleCSSrule(oldCSS, cssRule),
+                curLink = noads.getFilterLink(cssRule); //if rule contains href^=link src*=link or data=link removing link from urlfilter
 
-            //if rule contains href^=link src*=link or data=link removing link from urlfilter
-            var curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
                 postMsg({type: 'unblock_address', url: curLink});
             }
@@ -291,7 +292,7 @@ var run = {
             return false;
         },
         press = function (ev) {
-            if (ev.keyCode == 27) {
+            if (ev.keyCode === 27) {
                 run.stop();
             }
         };
@@ -300,11 +301,10 @@ var run = {
             //if last rule contains href^=link src*=link removing link from urlfilter
             var lastEl = noads.getFilterLink(splitCSS(css).pop());
             if (lastEl) {
-                postMsg({ type: 'unblock_address', url:lastEl});
+                postMsg({ type: 'unblock_address', url: lastEl});
             }
 
-            css = noads.deleleCSSrule(css);
-            css = options.setRules('noads_userlist', domain, css);
+            css = options.setRules('noads_userlist', domain, noads.deleleCSSrule(css));
             uCSS = css;
             replaceStyle(uStyle, css ? css + none : '');
         } else {
@@ -389,7 +389,7 @@ var run = {
                 var backup = [], demo;
                 try {
                     demo = document.querySelectorAll(css);
-                    for (var i = 0, backAttr = {}; i < demo.length; i++) {
+                    for (var i = 0, backAttr = {}, l = demo.length; i < l; i++) {
                          backAttr = {title: demo[i].title, outline: demo[i].style.outline, bgColor: demo[i].style.backgroundColor};
                          demo[i].style.outline = '1px solid #306EFF';
                          demo[i].style.backgroundColor =  '#C6DEFF';
@@ -401,7 +401,7 @@ var run = {
                 }
                 css = window.prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
-                    for (var i = 0; i < demo.length; i++) {
+                    for (var i = 0, l = demo.length; i < l; i++) {
                          demo[i].style.outline = backup[i].outline;
                          demo[i].style.backgroundColor = backup[i].bgColor;
                     }
@@ -424,7 +424,7 @@ var run = {
                     */
                     var arrCSS = css.split(/\s*, \s*/);
                     // trying to get links out of selectors
-                    for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
+                    for (var i = 0, link = noads.getFilterLink(arrCSS[i]), l = arrCSS.length; i < l; i++) {
                         if (link) {
                             postMsg({type: 'block_address', url: link});
                         }
@@ -448,7 +448,7 @@ var run = {
             return false;
         },
         press = function (ev) {
-            if (ev.keyCode == 27) run.stop();
+            if (ev.keyCode === 27) run.stop();
         },
         rightclick = function (ev) {
             ev.preventDefault();
@@ -485,9 +485,9 @@ var run = {
     // the quick button
     noreload: true,
     createButton: function (css, blocked) {
-        var domain = window.location.hostname;
-        var enabled = options.getForSite(domain);
-        var arrCSS = splitCSS(css);
+        var domain = window.location.hostname,
+            enabled = options.getForSite(domain),
+            arrCSS = splitCSS(css);
         if (this.stop) {
             this.stop();
             return;
@@ -506,12 +506,12 @@ var run = {
 
         if (enabled && this.noreload && !blocked && !css) return;
 
-        var sCount = blocked.split('; ').length;
-        var eCount = arrCSS.length;
-        var txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
-        var title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
+        var sCount = blocked.split('; ').length,
+            eCount = arrCSS.length,
+            txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload,
+            title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '',
+            b = document.getElementById('noads_button');
 
-        var b = document.getElementById('noads_button');
         if (!b) {
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
@@ -563,25 +563,25 @@ var run = {
             return;
         }
 
-        var diffHeight = window.outerHeight - window.innerHeight;
-        var scripts = document.getElementsByTagName('script');
-        var objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video');
-        var resize = function () {
-            if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
-                window.setTimeout(overlay.close, 200);
-            }
-        },
-        getStyleSheet = function () {
-            var css = '';
-            for (var i = 0; i < document.styleSheets.length; i++) {
-                try {
-                    for (var j = 0; j < document.styleSheets[i].cssRules.length; j++) {
-                        css += document.styleSheets[i].cssRules[j].cssText;
-                    }
-                } catch (e) {}
-            }
-            return css;
-        };
+        var diffHeight = window.outerHeight - window.innerHeight,
+            scripts = document.querySelectorAll('script'),
+            objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),
+            resize = function () {
+                if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
+                    window.setTimeout(overlay.close, 200);
+                }
+            },
+            getStyleSheet = function () {
+                var css = '';
+                for (var i = 0, l = document.styleSheets.length; i < l; i++) {
+                    try {
+                        for (var j = 0, len = document.styleSheets[i].cssRules.length; j < len; j++) {
+                            css += document.styleSheets[i].cssRules[j].cssText;
+                        }
+                    } catch (e) {}
+                }
+                return css;
+            };
 
         if (scripts.length || objects.length) {
             window.scrollTo(0, 0);
@@ -592,7 +592,7 @@ var run = {
             overlay.close = function () {
                 delElement(this.clearStyle);
                 window.removeEventListener('resize', resize, false);
-                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) {
+                for (var imgs = document.querySelectorAll('.noads_placeholder'), i = imgs.length; i--;) {
                     delElement(imgs[i]);
                 }
                 delElement(this);
@@ -627,36 +627,40 @@ var run = {
                 this.style.visibility = (this.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
 
-            for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                if (script.src && a.indexOf(script.src) == -1) {
-                    link = document.createElement('a');
+            for (var i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
+                if (script.src && a.indexOf(script.src) === -1) {
+                    var link = document.createElement('a'), img = document.createElement('img');
+
                     link.href = script.src;
                     link.target = '_blank';
-                    img = document.createElement('img');
+
                     img.className = 'noads_placeholder';
                     img.src = script.src;
                     img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
                     img.setAttribute('noads', 'true');
+
                     link.appendChild(img);
                     content.appendChild(link);
                 }
             }
 
-            for (var i = 0, img, source, link, alttext; i < objects.length; i++) {
-                source = objects[i].src || objects[i].value || objects[i].data;
+            for (var i = 0, alttext, l = objects.length; i < l; i++) {
+                var source = objects[i].src || objects[i].value || objects[i].data;
                 if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
                     if (alttext.indexOf('widget://') === 0) {
                         continue;
                     }
 
-                    link = document.createElement('a');
+                    var link = document.createElement('a'), img = document.createElement('img');
+
                     link.href = source;
                     link.target = '_blank';
-                    img = document.createElement('img');
+
                     img.className = 'noads_placeholder';
                     img.src = source;
                     img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
                     img.setAttribute('noads', 'true');
+
                     content.appendChild(img);
                     link.appendChild(img);
                     content.appendChild(link);
@@ -678,15 +682,17 @@ var run = {
                 overlay.appendChild(content);
 
                 for (var i in bgImages) {
-                    if (bgImages[i].indexOf('data:') == -1) {
-                        var link = document.createElement('a');
+                    if (bgImages[i].indexOf('data:') === -1) {
+                        var link = document.createElement('a'), img = document.createElement('img');
+
                         link.href = bgImages[i];
                         link.target = '_blank';
-                        var img = document.createElement('img');
+
                         img.className = 'noads_placeholder';
                         img.src = bgImages[i];
                         img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
                         img.setAttribute('noads', 'true');
+
                         link.appendChild(img);
                         content.appendChild(link);
                     }
