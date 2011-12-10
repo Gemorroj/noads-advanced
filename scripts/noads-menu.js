@@ -11,6 +11,16 @@ function onMessageHandler (e) {
     }
 }
 
+function sendCommand (message) {
+    if (theport && message) {
+        try {
+            theport.postMessage(encodeMessage(message));
+        } catch(e) {}
+    }
+    window.close();
+}
+
+
 if (opera.extension) {
     opera.extension.onmessage = function (e) {
         if (decodeMessage(e.data).type === 'noads_tab_port') {
@@ -25,16 +35,6 @@ if (opera.extension) {
         }
     };
 }
-
-function sendCommand (message) {
-    if (theport && message) {
-        try {
-            theport.postMessage(encodeMessage(message));
-        } catch(e) {}
-    }
-    window.close();
-}
-
 
 window.addEventListener('DOMContentLoaded', function () {
     var block_ads = document.getElementById('block_ads'),
