@@ -364,6 +364,7 @@ var options = {
             '^https?://api.recaptcha.net',
             '^https?://(apis|maps|plus)+.google.com',
             '^https?://auth.tbn.ru',
+            '^https?://[0-9a-z.]+.akamai.net',
             '^https?://cdn.gigya.com',
             '^https?://cdn.gradientbot.com',
             '^https?://connect.facebook.net',
