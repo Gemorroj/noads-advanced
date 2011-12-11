@@ -161,7 +161,11 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             channel.port1.onmessage = onPopupMessageHandler;
         }
     }
-    function noadsHandler () {
+    function noadsHandler (e) {
+        log('run NoAds handler ' + e.type + ' for <' + window.location.hostname + '>');
+        window.opera.removeEventListener('BeforeEvent.DOMContentLoaded', arguments.callee, true);
+        window.opera.removeEventListener('BeforeEvent.load', arguments.callee, true);
+
         /* Add custom magic; yay Merlin!
          *
          * Magical formulae:
@@ -252,8 +256,8 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     }
 
 
-
     window.opera.addEventListener('BeforeEvent.DOMContentLoaded', noadsHandler, true);
+    window.opera.addEventListener('BeforeEvent.load', noadsHandler, true);
 
 
     // don't want that in a frames
