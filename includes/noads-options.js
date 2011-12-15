@@ -379,6 +379,7 @@ var options = {
             '^https?://live.nhle.com',
             '^https?://mat1.gtimg.com',
             '^https?://n[0-9]+.static.lice-mer.ru',
+            '^https?://www.redditstatic.com',
             '^https?://rutube.ru',
             '^https?://s\\d+.addthis.com/js',
             '^https?://s\\d+.ucoz.net',
