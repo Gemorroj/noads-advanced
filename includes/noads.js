@@ -45,7 +45,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             if (sCSS) {
                 sStyle = addStyle(sCSS + none, 'sCSS');
                 blockingText += ', ads by CSS';
-                log('blocked CSS for <' + window.location.hostname + '>');
+                log('Blocked CSS for <' + window.location.hostname + '>');
             }
         }
 
@@ -55,14 +55,14 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             if (uCSS) {
                 uStyle = addStyle(uCSS + none, 'uCSS');
                 blockingText += ', ads by user CSS';
-                log('blocked User CSS for <' + window.location.hostname + '>');
+                log('Blocked User CSS for <' + window.location.hostname + '>');
             }
         }
 
         // Create the quick button
         // don't want that in a frames
         if (window.top === window.self && options.checkEnabled('noads_button_state')) {
-            log('button is enabled...');
+            log('Button is enabled...');
             addStyle(quickButtonCSS, 'qbCSS');
             window.addEventListener('mousemove', showButton, false);
         }
@@ -144,13 +144,14 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             if (blockedScripts.indexOf(src) === -1) {
                 blockedScripts += blockedScripts ? '; ' + src : src;
             }
-            log('blocked script -> ' + src + ' for <' + window.location.hostname + '>');
+            log('Blocked external script -> ' + src + ' for <' + window.location.hostname + '>');
         }
     }
     function onBeforeScriptHandler (e) {
         if (reBlock.test(e.element.text)) {
             e.preventDefault();
             inlineScripts++;
+            log('Blocked inline script -> ' + inlineScripts + ' for <' + window.location.hostname + '>');
         }
     }
     function onMessageHandler (e) {
@@ -161,10 +162,93 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             channel.port1.onmessage = onPopupMessageHandler;
         }
     }
-    function noadsHandler (e) {
-        log('run NoAds handler ' + e.type + ' for <' + window.location.hostname + '>');
-        window.opera.removeEventListener('BeforeEvent.DOMContentLoaded', arguments.callee, true);
-        window.opera.removeEventListener('BeforeEvent.load', arguments.callee, true);
+    function magicHandler () {
+        var sMagic = getValue('noads_magiclist').split('\n');
+        if (sMagic) {
+            blockingText += ', magic';
+
+            var blockedFuncs = '', blockedVars = '';
+            for (var i = 0, jS, j, ret = null, l = sMagic.length; i < l; i++) {
+                // such parsing should mostly be when saving but...
+                jS = sMagic[i];
+                jS = jS.replace(/\/{2,}.*/gi, ''); // trim comments
+                jS = jS.replace(/^[\s\xa0]+|[\s\xa0]+$|[^#]+(?:function|var|eval)/g, ''); //trim leading/trailing spaces and keywords
+                jS = jS.replace(/[^\s\._\w\d]+/g, '');
+                jS = jS.replace(/[\s]+/g, ' '); //just to be sure
+                if (jS == '') continue;
+                j = jS.split(' ');
+                ret = window.parseInt(j[2], 10);
+                ret = window.isNaN(ret) ? null : ret;
+                if (j[0].match(/^function/i)) {
+                    // blocking functions
+                    blockedFuncs += ',' + j[1];
+
+                  /*if (~j[1].indexOf('.')) {
+                     if (window[j[1].split('.')[0]]) {
+                         var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';
+                         eval(evalFn); // I don't really want this x_x;
+                     }
+                     // also must be parsed on BeforeScript event as class sometimes unavailable before
+                     } else {*/
+                        (function (name, debug) {
+                            window.opera.defineMagicFunction(j[1], function () {
+                                if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                            });
+                        })(j[1], bDebug);
+                    //}
+
+                    (function (name, debug) {
+                        window[name] = function () {
+                            if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                        };
+                    })(j[1], bDebug);
+                } else if (j[0].match(/^var/i)) {
+                    //blocking variables
+                    blockedVars += ',' + j[1];
+                    window[j[1]] = ret;
+                    window.opera.defineMagicVariable(j[1], function () {
+                        return null;
+                    }, null);
+                }
+            }
+            //log('functions blocked: ' + blockedFuncs.slice(1)+'\nvariables blocked: ' + blockedVars.slice(1));
+        }
+    }
+
+
+
+    // CSS
+    try {
+        onCSSAllowed();
+    } catch (e) {
+        window.opera.addEventListener('BeforeCSS', onCSSAllowed, false);
+    }
+
+
+    //function noadsHandler (e) {
+        // log('run NoAds handler ' + e.type + ' for <' + window.location.hostname + '>');
+        // window.opera.removeEventListener('BeforeEvent.DOMContentLoaded', arguments.callee, true);
+        // window.opera.removeEventListener('BeforeEvent.load', arguments.callee, true);
+
+
+
+        // Block external scripts
+        if (options.checkEnabled('noads_scriptlist_state')) {
+            reSkip = options.isActiveDomain('noads_scriptlist_white', window.location.hostname, true);
+            if (reSkip) {
+                blockingText += ', external scripts';
+                window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
+
+                // Block inline scripts
+                reBlock = options.getReScriptBlock('noads_scriptlist', window.location.hostname);
+                if (reBlock) {
+                    blockingText += ', inline scripts';
+                    window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
+                }
+            }
+        }
+
+
 
         /* Add custom magic; yay Merlin!
          *
@@ -176,103 +260,32 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
          * Function name filter: ;:)function,{}-+[]'"
         */
         if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', window.location.hostname)) {
-            blockingText += ', magic';
-
-            var sMagic = getValue('noads_magiclist').split('\n');
-            if (sMagic) {
-                var blockedFuncs = '', blockedVars = '';
-                for (var i = 0, jS, j, ret = null, l = sMagic.length; i < l; i++) {
-                    // such parsing should mostly be when saving but...
-                    jS = sMagic[i];
-                    jS = jS.replace(/\/{2,}.*/gi, ''); // trim comments
-                    jS = jS.replace(/^[\s\xa0]+|[\s\xa0]+$|[^#]+(?:function|var|eval)/g, ''); //trim leading/trailing spaces and keywords
-                    jS = jS.replace(/[^\s\._\w\d]+/g, '');
-                    jS = jS.replace(/[\s]+/g, ' '); //just to be sure
-                    if (jS == '') continue;
-                    j = jS.split(' ');
-                    ret = window.parseInt(j[2], 10);
-                    ret = window.isNaN(ret) ? null : ret;
-                    if (j[0].match(/^function/i)) {
-                        // blocking functions
-                        blockedFuncs += ',' + j[1];
-
-                      /*if (~j[1].indexOf('.')) {
-                         if (window[j[1].split('.')[0]]) {
-                             var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';
-                             eval(evalFn); // I don't really want this x_x;
-                         }
-                         // also must be parsed on BeforeScript event as class sometimes unavailable before
-                         } else {*/
-                            (function (name, debug) {
-                                window.opera.defineMagicFunction(j[1], function () {
-                                    if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
-                                });
-                            })(j[1], bDebug);
-                        //}
-
-                        (function (name, debug) {
-                            window[name] = function () {
-                                if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
-                            };
-                        })(j[1], bDebug);
-                    } else if (j[0].match(/^var/i)) {
-                        //blocking variables
-                        blockedVars += ',' + j[1];
-                        window[j[1]] = ret;
-                        window.opera.defineMagicVariable(j[1], function () {
-                            return null;
-                        }, null);
-                    }
-                }
-                //log('functions blocked: ' + blockedFuncs.slice(1)+'\nvariables blocked: ' + blockedVars.slice(1));
-            }
+            magicHandler();
         }
+    //}
 
 
-        // Block external scripts
-        if (options.checkEnabled('noads_scriptlist_state')) {
-            reSkip = options.isActiveDomain('noads_scriptlist_white', window.location.hostname, true);
-            if (reSkip) {
-                blockingText += ', external scripts';
-                window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
-
-                reBlock = options.getReScriptBlock('noads_scriptlist', window.location.hostname);
-                if (reBlock) {
-                    window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
-                }
-            }
-        }
+    // Scripts
+    //window.opera.addEventListener('BeforeEvent.DOMContentLoaded', noadsHandler, true);
+    //window.opera.addEventListener('BeforeEvent.load', noadsHandler, true);
 
 
-        // CSS
-        try {
-            onCSSAllowed();
-        } catch(ex) {
-            window.opera.addEventListener('BeforeCSS', function () {
-                window.opera.removeEventListener('BeforeCSS', arguments.callee, false);
-                onCSSAllowed();
-            }, false);
-        }
-    }
-
-
-    window.opera.addEventListener('BeforeEvent.DOMContentLoaded', noadsHandler, true);
-    window.opera.addEventListener('BeforeEvent.load', noadsHandler, true);
-
-
-    // don't want that in a frames
-    if (window.top === window.self) {
-        log('on ' + window.location.hostname + ' blocking:' + blockingText.substring(1) + '...');
-
-        // Setup hotkeys
-        window.addEventListener('keydown', onHotkeyHandler, false);
-
-        // Create menu messaging channel and parse background messages
-        opera.extension.onmessage = onMessageHandler;
-    }
 
     // In case we did something unneeded
     window.addEventListener('DOMContentLoaded', function () {
+        // don't want that in a frames
+        if (window.top === window.self) {
+            if (blockingText !== '') {
+                log('On ' + window.location.hostname + ' blocking:' + blockingText.substring(1));
+            }
+
+            // Setup hotkeys
+            window.addEventListener('keydown', onHotkeyHandler, false);
+
+            // Create menu messaging channel and parse background messages
+            opera.extension.onmessage = onMessageHandler;
+        }
+
         if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
             delElement(document.getElementById('sCSS'));
             delElement(document.getElementById('uCSS'));
