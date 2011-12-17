@@ -721,6 +721,7 @@ var options = {
                     this.previousElementSibling.checked = true;
                     setValue('noads_custom_url', this.value);
                 };
+                input.onchange = input.onkeyup;
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(txt));
             }
