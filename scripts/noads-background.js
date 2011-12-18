@@ -142,7 +142,6 @@ window.addEventListener('load', function () {
 
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
-        bDebug && window.console.log(next_update + ' - ' + (new Date()).getTime());
         if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'),
             importerCallback = function (rulesN) {

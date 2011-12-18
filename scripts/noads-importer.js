@@ -152,6 +152,7 @@ var importer = {
 
         return returnLength;
     },
+
     _setFilterRules: function () {
         importer.arrayFilters = unique.call(importer.arrayFilters);
         importer.arrayFilters.sort();
@@ -159,6 +160,7 @@ var importer = {
         importer.reloadRules(true, false);
         return importer.arrayFilters.length;
     },
+
     _importFilters: function (list, addRules) {
         var pos = list.indexOf(importer.EXCLUDE);
         if (~pos) {
@@ -214,17 +216,14 @@ var importer = {
     },
 
     _setFiler: function (rulesRaw) {
-        var out = [], filters = (rulesRaw === '') ? [] : rulesRaw.split('\n##');
-        var l = filters.length;
+        var out = [], filters = (rulesRaw === '') ? [] : rulesRaw.substring(2).split('\n##'); // remove ## parser compatibility
 
-        if (l) {
-            filters[0] = filters[0].substring(2); // remove ## parser compatibility
-            for (var i = 0; i < l; i++) {
-                if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
-                    out.push(filters[i]);
-                    log('url added on URL filter reload -> ' + filters[i]);
-                    opera.extension.urlfilter.block.add(filters[i]);
-                }
+        for (var i = 0, l = filters.length; i < l; i++) {
+            //TODO:???
+            if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
+                out.push(filters[i]);
+                log('url added on URL filter reload -> ' + filters[i]);
+                opera.extension.urlfilter.block.add(filters[i]);
             }
         }
 
