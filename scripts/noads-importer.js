@@ -137,8 +137,8 @@ var importer = {
                 }
             }
 
-            var urlFilters = getValue('noads_urlfilterlist').substring(2); // del first ##
-            importer.arrayFilters = unique.call(urlFilters.split('\n##').concat(getFilterRules(list)));
+            // del first ##
+            importer.arrayFilters = unique.call(getValue('noads_urlfilterlist').substring(2).split('\n##').concat(getFilterRules(list)));
             importer.arrayFilters.sort();
         }
 
