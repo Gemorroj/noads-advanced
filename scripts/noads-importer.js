@@ -68,12 +68,17 @@ var importer = {
             var rez = [];
             if (list) {
                 var arr = list.split('\n'),
-                    isFilter = /^\|\|[a-zA-Z0-9\.\-\/\?*\^\|]+$/;
+                    isFilter = /^[^#@!~\[][a-zA-Z0-9:\.\-\/\?*\^\|_&=~]+$/, // regexp not supported
+                    isFullRule = /^(?:http|ftp)s?:\/\/.+/,
+                    reMnemonics = /\||\^/g;
 
                 for (var i = 0, l = arr.length; i < l; i++) {
                     if (arr[i] && isFilter.test(arr[i])) {
-                        var rule = arr[i].substring(2).replace('|', '').replace('^', '');
-                        rule = '*' + rule + '*';
+                        var rule = arr[i].replace(reMnemonics, '');
+                        if (isFullRule.test(rule) === false) {
+                            rule = '*' + rule;
+                        }
+                        rule += '*';
                         rule.replace('**', '*');
                         rez.push(rule);
                     }
@@ -119,10 +124,10 @@ var importer = {
         },
         adblockRulesList = [],
         returnLength = 0;
-        importer.arrayFilters = getFilterRules(list);
 
         if (!addRules) {
             adblockRulesList = getHidingRules(list, allRules);
+            importer.arrayFilters = getFilterRules(list);
         } else {
             adblockRulesList = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, allRules)));
             adblockRulesList.sort();
@@ -131,6 +136,10 @@ var importer = {
                     adblockRulesList.splice(i, 1);
                 }
             }
+
+            var urlFilters = getValue('noads_urlfilterlist').substring(2); // del first ##
+            importer.arrayFilters = unique.call(urlFilters.split('\n##').concat(getFilterRules(list)));
+            importer.arrayFilters.sort();
         }
 
         if (adblockRulesList.length) {

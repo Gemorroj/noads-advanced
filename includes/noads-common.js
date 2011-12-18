@@ -73,23 +73,13 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 unique = function () {
-    var a = [];
-    for (var i = 0, l = this.length; i < l; i++) {
-        for (var j = i + 1; j < l; j++) {
-            if (this[i] === this[j]) {
-                j = ++i;
-            }
+    var u = {}, a = [];
+    for (var i = 0, l = this.length; i < l; ++i) {
+        if (this[i] in u) {
+            continue;
         }
         a.push(this[i]);
-    }
-    return a;
+        u[this[i]] = 1;
+   }
+   return a;
 };
-
-
-//var extend = function (first, second) { for (var prop in second) { if (!first[prop]) first[prop] = second[prop];} };
-/*
-function getFunctionName(func) {
-    if ( typeof func === "function" || typeof func === "object" )
-    var fName = (""+func).match(/function\s*([\w\$]*)\s*\(/); if ( fName !== null ) return fName[1];
-}
-*/
