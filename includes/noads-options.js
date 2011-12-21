@@ -109,13 +109,13 @@ var options = {
                 }
             }
             return -1;
-        },
+        };
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
             if (pos != -1) {
                 this.splice(pos, arr.length);
             }
-        },
+        };
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [];
             for (var i = 0, l = arr.length - 1; i <= l; i++) {
@@ -203,7 +203,8 @@ var options = {
             }
         }
         for (i = 0, l = tmp.length; i < l; i++) {
-            rule = tmp[i], pos = rule.indexOf('##');
+            rule = tmp[i];
+            pos = rule.indexOf('##');
             if (pos !== -1) {
                 if (global) {
                     rez.push(rule);
@@ -609,7 +610,7 @@ var options = {
                     li[i].style.borderBottomColor = (i == num) ? '#fafbfc' : '#aaaaaa';
                 }
             }
-        },
+        };
         area.createButton = function (sID, sText, sClickFn, sClass, imgData) {
             var button = document.createElement('button');
             button.type = 'button';
@@ -624,7 +625,7 @@ var options = {
             button.appendChild(document.createTextNode(sText));
             if (sClickFn) button.onclick = sClickFn;
             return button;
-        },
+        };
         area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
             var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
@@ -673,7 +674,7 @@ var options = {
                 }
             };
             return checkbox;
-        },
+        };
         area.createTextarea = function (sID, hTxt, sName) {
             var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName + '_white', domain),
                 p = document.createElement('p'),
@@ -695,7 +696,7 @@ var options = {
                 textarea.className = 'overflow';
             }
             return textarea;
-        },
+        };
         area.createCheckboxButton = function (txt, url, typein) {
             var label = document.createElement('label'), input = document.createElement('input');
             label.className = 'noads_label_subscription';
@@ -726,7 +727,7 @@ var options = {
                 label.appendChild(document.createTextNode(txt));
             }
             this.appendChild(label);
-        },
+        };
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
@@ -741,7 +742,7 @@ var options = {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
@@ -756,7 +757,7 @@ var options = {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
@@ -771,7 +772,7 @@ var options = {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
@@ -788,7 +789,7 @@ var options = {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
@@ -805,7 +806,7 @@ var options = {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
@@ -821,7 +822,7 @@ var options = {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showSitePreferences = function (pos) {
             this.clear(pos);
             log('opened settings for ' + domain);
@@ -929,7 +930,7 @@ var options = {
                 log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
             };
             this.appendChild(checkbox);
-        },
+        };
         area.showSubscriptions = function (pos) {
             this.clear(pos);
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
@@ -983,25 +984,25 @@ var options = {
                     }
                 }
                 if (url.length) {
-                    dlsubscription.childNodes[0].src = imgLoad;
+                    dlsubscription.firstChild.src = imgLoad;
                     setValue('noads_default_url2', url);
                     postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
                 } else {
                     postMsg({ type: 'get_filters', url: '' });
                 }
             }, '', imgRefresh));
-        },
+        };
         area.showUpdates = function (pos) {
             var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000,
-                strong = document.createElement('strong'),
+                output = document.createElement('output'),
                 input = document.createElement('input'),
                 lastUpdateNode = document.createTextNode('');
 
             this.clear(pos);
             this.appendChild(document.createTextNode(lng.uInterval + " "));
 
-            strong.appendChild(document.createTextNode(defaultValue.toString()));
-            this.appendChild(strong);
+            output.appendChild(document.createTextNode(defaultValue.toString()));
+            this.appendChild(output);
 
             this.appendChild(document.createElement('br'));
 
@@ -1011,7 +1012,7 @@ var options = {
             input.max = 30;
             input.value = defaultValue;
             input.onchange = function () {
-                this.parentNode.childNodes[1].childNodes[0].nodeValue = this.value;
+                this.parentNode.childNodes[1].firstChild.nodeValue = this.value;
             };
 
             this.appendChild(input);
@@ -1026,7 +1027,7 @@ var options = {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
             }, 'positive', imageTick));
-        },
+        };
         area.showHelp = function (pos) {
             this.clear(pos);
             var p = document.createElement('pre');

@@ -101,14 +101,14 @@ window.addEventListener('load', function () {
                 }
                 log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
-                var l = importer.arrayUserFilters.length;
-                for (var i = 0; i < l; i++) {
+                var filters = importer.arrayUserFilters.length;
+                for (var i = 0; i < filters; i++) {
                     if (importer.arrayUserFilters[i] == message.url) {
                         importer.arrayUserFilters.splice(i, 1);
                         break;
                     }
                 }
-                if (l) {
+                if (filters) {
                     setValue('noads_userurlfilterlist', '##' + importer.arrayUserFilters.join('\n##'));
                 } else {
                     setValue('noads_urlfilterlist', '');

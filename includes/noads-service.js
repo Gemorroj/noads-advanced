@@ -215,7 +215,7 @@ var run = {
         } else if (sCSS) {
             sStyle = addStyle(sCSS + none);
         }
-        uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
+        uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? options.getRules('noads_userlist', domain) : '';
         if (uStyle) {
             replaceStyle(uStyle, uCSS ? uCSS + none : '');
         } else if (uCSS) {
@@ -313,6 +313,7 @@ var run = {
                 replaceStyle(uStyle, css ? css + none : '');
                 remove();
             };
+            //TODO:???
             padCSS = addStyle(paddingCSS);
             replaceStyle(uStyle, css + highlightCSS);
             document.addEventListener('click', click, false);
@@ -392,12 +393,13 @@ var run = {
                     for (var i = 0, backAttr = {}, l = demo.length; i < l; i++) {
                          backAttr = {title: demo[i].title, outline: demo[i].style.outline, bgColor: demo[i].style.backgroundColor};
                          demo[i].style.outline = '1px solid #306EFF';
-                         demo[i].style.backgroundColor =  '#C6DEFF';
+                         demo[i].style.backgroundColor = '#C6DEFF';
                          backup.push(backAttr);
                     }
                 } catch (ex) {
                     log('Invalid selector generated: ' + css);
-                    demo = null, backup = null;
+                    demo = null;
+                    backup = null;
                 }
                 css = window.prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
@@ -475,6 +477,7 @@ var run = {
             out();
             remove();
         };
+        //TODO:???
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);
@@ -682,19 +685,21 @@ var run = {
                 overlay.appendChild(content);
 
                 for (var i in bgImages) {
-                    if (bgImages[i].indexOf('data:') === -1) {
-                        var link = document.createElement('a'), img = document.createElement('img');
+                    if (bgImages.hasOwnProperty(i)) {
+                        if (bgImages[i].indexOf('data:') === -1) {
+                            var link = document.createElement('a'), img = document.createElement('img');
 
-                        link.href = bgImages[i];
-                        link.target = '_blank';
+                            link.href = bgImages[i];
+                            link.target = '_blank';
 
-                        img.className = 'noads_placeholder';
-                        img.src = bgImages[i];
-                        img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                        img.setAttribute('noads', 'true');
+                            img.className = 'noads_placeholder';
+                            img.src = bgImages[i];
+                            img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
+                            img.setAttribute('noads', 'true');
 
-                        link.appendChild(img);
-                        content.appendChild(link);
+                            link.appendChild(img);
+                            content.appendChild(link);
+                        }
                     }
                 }
                 overlay.appendChild(content);

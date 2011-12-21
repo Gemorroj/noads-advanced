@@ -109,7 +109,7 @@ var importer = {
                 }
 
                 rez.sort();
-                for (var i = rez.length; i--;) {
+                for (i = rez.length; i--;) {
                     if (i > 0 && rez[i][0] == rez[i - 1][0]) {
                         if (rez[i][1] != rez[i - 1][1]) {
                             rez[i - 1][1] += ',' + rez[i][1];

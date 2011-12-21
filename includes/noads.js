@@ -14,7 +14,7 @@
 var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0, lng = {};
 
 (function() {
-    bDebug = options.checkEnabled('noads_debug_enabled_state'),
+    bDebug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;

@@ -9,7 +9,7 @@ opera.extension.onmessage = function (e) {
             window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
         }
         var btn = document.getElementById("noads_dlsubscription");
-        btn.childNodes[0].src = imgRefresh;
+        btn.firstChild.src = imgRefresh;
         btn.disabled = false;
     }
 };
