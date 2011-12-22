@@ -69,18 +69,30 @@ var importer = {
             if (list) {
                 var arr = list.split('\n'),
                     isFilter = /^[^#@!~\[][a-zA-Z0-9:\.\-\/\?*\^\|_&=~]+$/, // regexp not supported
-                    isFullRule = /^(?:http|ftp)s?:\/\/.+/,
-                    reMnemonics = /\||\^/g;
+                    reMnemonics = /\||\^/g, // ^ not supported
+                    reGlob = /\*\*/g,
+                    pushRule = function (inRule, outRule) {
+                        if (inRule.charAt(inRule.length - 1) !== '|') {
+                            outRule += '*';
+                        }
+                        if (inRule.charAt(0) !== '|') {
+                            outRule = '*' + outRule;
+                        }
+
+                        return outRule.replace(reGlob, '*');
+                    };
 
                 for (var i = 0, l = arr.length; i < l; i++) {
                     if (arr[i] && isFilter.test(arr[i])) {
                         var rule = arr[i].replace(reMnemonics, '');
-                        if (isFullRule.test(rule) === false) {
-                            rule = '*' + rule;
+
+                        if ((arr[i].charAt(0) + arr[i].charAt(1)) === '||') {
+                            rez.push(pushRule(arr[i], 'http://' + rule));
+                            rez.push(pushRule(arr[i], 'http://www.' + rule));
+                            rez.push(pushRule(arr[i], 'https://' + rule));
+                        } else {
+                            rez.push(pushRule(arr[i], rule));
                         }
-                        rule += '*';
-                        rule.replace('**', '*');
-                        rez.push(rule);
                     }
                 }
             }
