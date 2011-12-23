@@ -70,7 +70,6 @@ var importer = {
                 var arr = list.split('\n'),
                     isFilter = /^[^#@!~\[][a-zA-Z0-9:\.\-\/\?*\^\|_&=~]+$/, // regexp not supported
                     reMnemonics = /\||\^/g, // ^ not supported
-                    reGlob = /\*\*/g,
                     pushRule = function (inRule, outRule) {
                         if (inRule.charAt(inRule.length - 1) !== '|') {
                             outRule += '*';
@@ -79,17 +78,16 @@ var importer = {
                             outRule = '*' + outRule;
                         }
 
-                        return outRule.replace(reGlob, '*');
+                        return outRule.replace('**', '*');
                     };
 
                 for (var i = 0, l = arr.length; i < l; i++) {
                     if (arr[i] && isFilter.test(arr[i])) {
                         var rule = arr[i].replace(reMnemonics, '');
 
-                        if ((arr[i].charAt(0) + arr[i].charAt(1)) === '||') {
-                            rez.push(pushRule(arr[i], 'http://' + rule));
-                            rez.push(pushRule(arr[i], 'http://www.' + rule));
-                            rez.push(pushRule(arr[i], 'https://' + rule));
+                        if ((arr[i].charAt(0) === '|') && (arr[i].charAt(1) === '|')) {
+                            rez.push(pushRule(arr[i], '*.' + rule));
+                            rez.push(pushRule(arr[i], '*://' + rule));
                         } else {
                             rez.push(pushRule(arr[i], rule));
                         }
