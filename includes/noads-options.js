@@ -403,6 +403,7 @@ var options = {
             '^https?://www.bing.com',
             '^https?://www.browserscope.org',
             '^https?://www.gamehive.ru',
+            '^https?://www.paypalobjects.com',
             '^https?://www.google.com/(uds|cse|jsapi|recaptcha|support|s2)+',
             '^https?://yandex.st',
             '^https?://yuilibrary.com',
