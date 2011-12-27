@@ -827,24 +827,9 @@ var options = {
             this.clear(pos);
             log('opened settings for ' + domain);
 
-            var textucss = this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'),
-                inlinearea = document.createElement('div'),
-                textcss = this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'),
-                button = document.createElement('button'),
-                disabled = !options.checkEnabled('noads_scriptlist_state') || !options.isActiveDomain('noads_scriptlist_white', domain),
-                p = document.createElement('p'),
-                textarea = document.createElement('textarea'),
-                checkbox = document.createElement('button'),
-                img = document.createElement('img'),
-                enable = document.createTextNode(lng.pBlockingDisable),
-                disable = document.createTextNode(lng.pBlockingEnable),
-                classEnabled = 'negative right',
-                classDisabled = 'positive right',
-                state = options.getForSite(domain);
-
-
+            var textucss = this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist');
             this.appendChild(textucss);
-
+            var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_usercss_textarea').disabled = options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
@@ -856,6 +841,7 @@ var options = {
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);
 
+            var textcss = this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list');
             this.appendChild(textcss);
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
@@ -869,9 +855,14 @@ var options = {
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);
 
+            // add to white list textarea
+            var button = document.createElement('button');
             button.type = 'button';
+            var disabled = !options.checkEnabled('noads_scriptlist_state') || !options.isActiveDomain('noads_scriptlist_white', domain);
+            var p = document.createElement('p');
             p.appendChild(document.createTextNode(lng.pBlockedScripts));
             this.appendChild(p);
+            var textarea = document.createElement('textarea');
             textarea.id = 'noads_jsblocks_textarea';
             textarea.rows = '10';
             textarea.cols = '100';
@@ -895,12 +886,18 @@ var options = {
                 }
             }, 'positive', imageTick));
 
+            var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
+            var img = document.createElement('img');
             img.src = imageCross;
             img.setAttribute('alt', '');
             checkbox.appendChild(img);
-            checkbox.checked = state;
-
+            var enable = document.createTextNode(lng.pBlockingDisable),
+                disable = document.createTextNode(lng.pBlockingEnable),
+                classEnabled = 'negative right',
+                classDisabled = 'positive right',
+                state = options.getForSite(domain);
+                checkbox.checked = state;
             if (state) {
                 checkbox.appendChild(enable);
                 checkbox.className = classEnabled;
