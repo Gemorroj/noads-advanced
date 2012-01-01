@@ -380,7 +380,6 @@ var options = {
             '^https?://ipinfodb\\.com',
             '^https?://live\\.nhle\\.com',
             '^https?://mat1\\.gtimg\\.com',
-            '^https?://n[0-9]+\\.static\\.lice-mer\\.ru',
             '^https?://www\\.redditstatic\\.com',
             '^https?://rutube\\.ru',
             '^https?://s\\d+\\.addthis\\.com/js',
@@ -401,6 +400,7 @@ var options = {
             '^https?://userapi\\.com',
             '^https?://login\\.vk\\.com',
             '^https?://vkontakte\\.ru',
+            '^https?://vk\\.com',
             '^https?://www\\.bing\\.com',
             '^https?://www\\.browserscope\\.org',
             '^https?://www\\.gamehive\\.ru',
@@ -465,7 +465,7 @@ var options = {
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return (retRe ? new RegExp('^*$') : false);
+                    return (retRe ? new RegExp('^$') : false);
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
                 rez.push(rule.slice(4));
