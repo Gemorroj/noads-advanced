@@ -433,7 +433,7 @@ var options = {
             'yui[0-9a-z.-]*\\.js'
         ];
 
-        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('|'));
+        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('\n@@=='));
     },
 
     setActiveDomain: function (name, domain, value) {
@@ -473,7 +473,7 @@ var options = {
         }
 
         tmp = null;
-        return retRe ? new RegExp((rez.join('|').replace(/\/|\.(?=[\w\d])/g, '\\$&') || '^$'), 'i') : true;
+        return retRe ? new RegExp((rez.join('|') || '^$'), 'i') : true;
     },
 
     getLastUpdate: function () {
