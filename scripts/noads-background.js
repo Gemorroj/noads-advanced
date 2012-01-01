@@ -58,7 +58,7 @@ window.addEventListener('load', function () {
                 importerCallback = function (rulesN) {
                     if (rulesN) {
                         message_success.push(message.url[subsc]);
-                        message_rules += rulesN;
+                        message_rules = rulesN;
                     } else {
                         message_fileerror.push(message.url[subsc]);
                     }
