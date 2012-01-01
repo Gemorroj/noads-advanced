@@ -456,7 +456,7 @@ var options = {
 
     isActiveDomain: function (name, domain, retRe) {
         var rule, rez = [], tmp = getValue(name);
-        if (!tmp) return retRe ? new RegExp('^$') : true;
+        if (!tmp) return retRe ? new RegExp('^*$') : true;
 
         tmp = tmp.split('\n');
 
@@ -465,7 +465,7 @@ var options = {
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return (retRe ? new RegExp('^$') : false);
+                    return false;
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
                 rez.push(rule.slice(4));
