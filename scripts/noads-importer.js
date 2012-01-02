@@ -86,7 +86,7 @@ var importer = {
                         var rule = arr[i].replace(reMnemonics, '');
 
                         if ((arr[i].charAt(0) === '|') && (arr[i].charAt(1) === '|')) {
-                            rez.push(pushRule(arr[i], '*.' + rule));
+                            rez.push(pushRule(arr[i], '*://*.' + rule));
                             rez.push(pushRule(arr[i], '*://' + rule));
                         } else {
                             rez.push(pushRule(arr[i], rule));
