@@ -180,7 +180,7 @@ var options = {
     getReScriptBlock: function (name, domain) {
         var rule, pos, rez = [], tmp = getValue(name);
         if (!tmp) return false;
-        tmp.split('\n');
+        tmp = tmp.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
