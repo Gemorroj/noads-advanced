@@ -451,14 +451,14 @@ var run = {
         rightclick = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-            if (ev.button == 2) {
-                run.stop();
-            } else {
+
+            // middle and left mouse button
+            if (ev.button !== 2) {
                 // Filter onclick events for selected element and it's parents.
                 // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
                 while (el !== null) {
-                    if (/^(html)$/i.test(el.nodeName)) {
+                    if (el.nodeName.toLowerCase() === 'html') {
                         break;
                     }
                     el.removeAttribute('onclick');
