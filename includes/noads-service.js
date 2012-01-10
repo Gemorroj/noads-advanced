@@ -83,13 +83,11 @@ var noads = {
     },
 
     getNth: function (el) {
-        var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) {
-            if (c.nodeType === 1) {
-                n++;
-                if (c === el) {
-                    nth = n;
-                }
+        var nth, n = 0, p = el.parentElement;
+        for (var i = 0, c; c = p.children[i]; i++) {
+            n++;
+            if (c === el) {
+                nth = n;
             }
         }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
@@ -98,33 +96,31 @@ var noads = {
     getCSSrule: function (el, wide) {
         var att, single, tag, rez = [];
         while (el) {
-            if (el.nodeType === 1) {
-                tag = el.nodeName;
-                if (/^(html|body)$/i.test(tag)) break;
-                att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
-                if (att) {
-                    if (this.getAttrSelector(el, 'noads')) {
-                        // for blocker helper
-                        tag = '';
-                    }
-                    if (~att.indexOf('://')) {
-                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
-                    } else {
-                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
-                    }
-                    break;
-                } else {
-                    att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
-                    rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
-                    try {
-                        single = (document.querySelectorAll(tag + att).length === 1);
-                    } catch (e) {
-                        break;
-                    }
-                    if (wide && att && single) break;
+            tag = el.nodeName;
+            if (/^(html|body)$/i.test(tag)) break;
+            att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
+            if (att) {
+                if (this.getAttrSelector(el, 'noads')) {
+                    // for blocker helper
+                    tag = '';
                 }
+                if (~att.indexOf('://')) {
+                    rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
+                } else {
+                    rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
+                }
+                break;
+            } else {
+                att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
+                rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
+                try {
+                    single = (document.querySelectorAll(tag + att).length === 1);
+                } catch (e) {
+                    break;
+                }
+                if (wide && att && single) break;
             }
-            el = el.parentNode;
+            el = el.parentElement;
         }
         return rez.join('>');
     },
@@ -363,19 +359,19 @@ var run = {
                 } else {
                     ele.removeAttribute('title');
                 }
-                if (outline || bgColor) {
-                    ele.style.outline = outline;
-                    ele.style.backgroundColor = bgColor;
-                } else {
+
+                ele.style.outline = outline;
+                ele.style.backgroundColor = bgColor;
+                if (ele.style.length < 1) {
                     ele.removeAttribute('style');
                 }
             }
         },
         click = function (ev) {
-            if (ele.getAttribute('servicenoads')) return;
+            if (!ele || ele.getAttribute('servicenoads')) return;
             ev.preventDefault();
             ev.stopPropagation();
-            if (!ele) return;
+
             var rules, rule = noads.getCSSrule(ele, !wide != !ev.altKey); // get CSS rule for current element
 
             css = css ? (css != (rules = noads.deleleCSSrule(css, rule)) ? (ev.shiftKey ? rules : css) : css + ',' + rule) : rule;
@@ -462,12 +458,12 @@ var run = {
                 // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
                 while (el !== null) {
-                    if (el.nodeType === 1) {
-                        if (/^(html)$/i.test(el.nodeName)) break;
-                        el.removeAttribute('onclick');
-                        el.onclick = null;
+                    if (/^(html)$/i.test(el.nodeName)) {
+                        break;
                     }
-                    el = el.parentNode;
+                    el.removeAttribute('onclick');
+                    el.onclick = null;
+                    el = el.parentElement;
                 }
             }
             return false;
@@ -705,7 +701,7 @@ var run = {
                 overlay.appendChild(content);
             }
 
-            if (content.childNodes.length) {
+            if (content.childElementCount) {
                 hide.addEventListener('click', content.hide, false);
             } else {
                 hide.style.opacity = 0.5;
