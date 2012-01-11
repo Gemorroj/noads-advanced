@@ -538,7 +538,7 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-            uLastUpdate: 'Última actualizaci\u00F3n:',
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
 		};
     	case 'es-AR': return { // ARGENTINE SPANISH/Castilian
@@ -597,7 +597,7 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-            uLastUpdate: 'Última actualizaci\u00F3n:',
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
 		};
     	case 'es-ES': return { // Spain-Spanish (es-ES)
@@ -656,7 +656,7 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-            uLastUpdate: 'Última actualizaci\u00F3n:',
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
 		};
         case 'de': return {
@@ -718,6 +718,65 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):'
         };
+		case 'pt-BR': return { // Brazilian Portuguese (pt-BR) - Jonathan Soares: jnsoares@myopera.com
+			_s: function (count) { return (count > 1) ? 's' : ''; },
+			unblock: 'Desbloquear',
+            disabled: 'Bloqueio desabilitado',
+            blocked: 'Bloqueado',
+            script: 'script',
+            and: ' e ',
+            element: 'elemento',
+            reload: 'Esta p\u00E1gina precisa ser recarregada',
+            nDisabled: 'NoAds desabilitado',
+            nEnabled: 'NoAds habilitado',
+            eStyles: 'Por favor, edite os estilos:',
+            bElement: 'Insira o(s) seletor(es) CSS do(s) elemento(s) para bloquear (= igual, ^= come\u00E7a com; *= cont\u00E9m):',
+            iSubs: 'Inscri\u00E7\u00E3o de %url adicionou %d regras.',
+            iNoDefSub: 'Erro: n\u00E3o h\u00E1 inscri\u00E7\u00E3o default.',
+            iNoQuota: 'Opera ' + OPERA_VERSION + ' n\u00E3o suporta widget.preferences ou a cota de armazenamento \u00E9 muito pequena. \n\nConfigurar "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
+            pInfo: 'Informa\u00E7\u00E3o',
+            pError: 'Erro',
+            pClose: 'Fechar',
+            pGlobal: 'Prefer\u00EAncias Gerais',
+            pSite: 'Prefer\u00EAncias do Site',
+            pSave: 'Salvar',
+            pCSS: 'Filtros CSS:',
+            pUCSS: 'Filtros CSS de usu\u00E1rio:',
+            pMK: 'Filtros MagicFunction:',
+            mUCSS:  'CSS de Usu\u00E1rio',
+            mCSS:  'CSS',
+            mScripts:  'Scripts',
+            mMK:  'M\u00E1gico',
+            mURLfilters: 'Filtros-URL',
+            mUserURLfilters: 'Filtros-URL de usu\u00E1rio',
+            mUpdates: 'Atualiza\u00E7\u00F5es',
+            mSubscriptions: 'Inscri\u00E7\u00F5es',
+            mHelp: 'Ajuda',
+            pEnabled: 'Habilitado',
+            pDisabled: 'Desabilitado',
+            pScripts: 'Lista branca dos scripts externos:',
+            pAbout: EXTNAME + ' v' + VERSION + '\n\nSobre:\nExtens\u00E3o bloqueia scripts externos, fun\u00E7\u00F5es e vari\u00E1veis de um espec\u00EDfico script global, elementos de uma p\u00E1gina podem importar inscri\u00E7\u00F5es de CSS-block (formato Adblock Plus) ou o arquivos de filtro URL-block (urlfilter.ini). Enquanto estiver criando as regras gerais, voc\u00EA deve saber que ir\u00E1 haver a tend\u00EAncia de acontecer mais falsos positivos, enquanto os mais espec\u00EDficos ir\u00E3o falhar mais frequentemente. A mudan\u00E7a do bot\u00E3o da barra de menu ter\u00E1 efeito quando reiniciar o navegador.\n\nAtalhos:\nPrefer\u00EAncias do site - Alt+Shift+P\n\nCriar regra geral - Alt+Shift+A\nCriar regra espec\u00EDfica - Alt+Shift+B\nDesbloquear - Alt+Shift+U\nDesbloquear o \u00FAltimo elemento - Alt+Shift+L\n\nPara bloquear/desbloquear v\u00E1rios elementos use Shift+Click.',
+            pBlockingDisable: 'Desabilitar o bloqueio de CSS e JS para este site',
+            pBlockingEnable: 'Habilitar o bloqueio de CSS e JS para este site',
+            pBlockedScripts: 'Scripts externos bloqueados:',
+            pBlockedAdded: 'Adicionado às exclus\u00F5es do script bloqueador:',
+            pDownload: 'Baixar inscri\u00E7\u00E3o',
+            pAddToWhite: 'Adicionar selecionado a lista branca',
+            pAllRules: 'Adicionar Exclus\u00E3o e regras gerais',
+            pAddRules: 'Adicionar regras ao atual',
+            pShowButton: 'Mostrar bot\u00E3o de acesso r\u00E1pido',
+            pExport: 'Exportar',
+            pURLfilters: 'Filtro de URL:',
+            pUserURLfilters: 'Filtros URL de usu\u00E1rio:',
+            pHide: 'Ocultar',
+            pHideButton: 'Ocultar bot\u00E3o r\u00E1pido',
+            pToolbarButton: 'Bot\u00E3o da Barra de Menu',
+            pCSSlinks: 'Links embutidos no CSS',
+            pDebug: 'Depurar',
+            pInvalidSelector: 'O seletor CSS est\u00E1 inv\u00E1lido. Por favor, confira a sintaxe.',
+            uLastUpdate: '\u00FAltima atualiza\u00E7\u00E3o:',
+            uInterval: 'Intervalo (dias):'		
+		};
         default: return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Unblock',
@@ -730,7 +789,7 @@ var TRANSLATION = function () {
             nDisabled: 'NoAds disabled',
             nEnabled: 'NoAds enabled',
             eStyles: 'Please, edit styles:',
-            bElement: 'Input CSS selector(s) of element(s) to block (= euqals, ^= begins with; *= contains):',
+            bElement: 'Input CSS selector(s) of element(s) to block (= equals, ^= begins with; *= contains):',
             iSubs: 'Subscription from %url added %d rules.',
             iNoDefSub: 'Error: no default subscription.',
             iNoQuota: 'Opera ' + OPERA_VERSION + ' does not support widget.preferences or storage quota is too small. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
