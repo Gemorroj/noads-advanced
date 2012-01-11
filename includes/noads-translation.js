@@ -718,9 +718,9 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):'
         };
-		case 'pt-BR': return { // Brazilian Portuguese (pt-BR) - Jonathan Soares: jnsoares@myopera.com
-			_s: function (count) { return (count > 1) ? 's' : ''; },
-			unblock: 'Desbloquear',
+	case 'pt-BR': return { // Brazilian Portuguese (pt-BR) - Jonathan Soares: jnsoares@myopera.com
+	    _s: function (count) { return (count > 1) ? 's' : ''; },
+	    unblock: 'Desbloquear',
             disabled: 'Bloqueio desabilitado',
             blocked: 'Bloqueado',
             script: 'script',
@@ -776,7 +776,7 @@ var TRANSLATION = function () {
             pInvalidSelector: 'O seletor CSS está inválido. Por favor, confira a sintaxe.',
             uLastUpdate: 'Última atualização:',
             uInterval: 'Intervalo (dias):'		
-		};
+	};
         default: return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Unblock',
