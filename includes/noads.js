@@ -11,7 +11,7 @@
 
 
 // global variables
-var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0, lng = {};
+var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0, lng = {}, domain = window.location.hostname;
 
 (function() {
     bDebug = options.checkEnabled('noads_debug_enabled_state');
@@ -40,22 +40,22 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     }
     function onCSSAllowed () {
         // Add CSS rules
-        if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', window.location.hostname)) {
-            sCSS = options.getRules('noads_list', window.location.hostname);
+        if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) {
+            sCSS = options.getRules('noads_list', domain);
             if (sCSS) {
                 sStyle = addStyle(sCSS + none, 'sCSS');
                 blockingText += ', ads by CSS';
-                log('Blocked CSS for <' + window.location.hostname + '>');
+                log('Blocked CSS for <' + domain + '>');
             }
         }
 
         // Add custom CSS rules
-        if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', window.location.hostname)) {
-            uCSS = options.getRules('noads_userlist', window.location.hostname);
+        if (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) {
+            uCSS = options.getRules('noads_userlist', domain);
             if (uCSS) {
                 uStyle = addStyle(uCSS + none, 'uCSS');
                 blockingText += ', ads by user CSS';
-                log('Blocked User CSS for <' + window.location.hostname + '>');
+                log('Blocked User CSS for <' + domain + '>');
             }
         }
 
@@ -93,7 +93,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                     break;
 
                 case 'show_preferences':
-                    options.showPreferences(window.location.hostname);
+                    options.showPreferences(domain);
                     break;
 
                 case 'ask_menu_status':
@@ -130,7 +130,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
                     break; // Block elements (don't use nth-child) with Alt+Shift+A
 
                 case 80:
-                    options.showPreferences(window.location.hostname);
+                    options.showPreferences(domain);
                     break; // Show preferences with Alt+Shift+P
             }
         }
@@ -138,20 +138,20 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
     function onBeforeExternalScriptHandler (e) {
         var src = e.element.src;
         if (!src || reSkip.test(src)) return;
-        var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(window.location.hostname);
-        if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(window.location.hostname, full)) {
+        var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(domain);
+        if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(domain, full)) {
             e.preventDefault();
             if (blockedScripts.indexOf(src) === -1) {
                 blockedScripts += blockedScripts ? '; ' + src : src;
             }
-            log('Blocked external script -> ' + src + ' for <' + window.location.hostname + '>');
+            log('Blocked external script -> ' + src + ' for <' + domain + '>');
         }
     }
     function onBeforeScriptHandler (e) {
         if (reBlock.test(e.element.text)) {
             e.preventDefault();
             inlineScripts++;
-            log('Blocked inline script -> ' + inlineScripts + ' for <' + window.location.hostname + '>');
+            log('Blocked inline script -> ' + inlineScripts + ' for <' + domain + '>');
         }
     }
     function onMessageHandler (e) {
@@ -226,7 +226,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
 
 
     //function noadsHandler (e) {
-        // log('run NoAds handler ' + e.type + ' for <' + window.location.hostname + '>');
+        // log('run NoAds handler ' + e.type + ' for <' + domain + '>');
         // window.opera.removeEventListener('BeforeEvent.DOMContentLoaded', arguments.callee, true);
         // window.opera.removeEventListener('BeforeEvent.load', arguments.callee, true);
 
@@ -234,13 +234,13 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
 
         // Block external scripts
         if (options.checkEnabled('noads_scriptlist_state')) {
-            reSkip = options.isActiveDomain('noads_scriptlist_white', window.location.hostname, true);
+            reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true);
             if (reSkip) {
                 blockingText += ', external scripts';
                 window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
 
                 // Block inline scripts
-                reBlock = options.getReScriptBlock('noads_scriptlist', window.location.hostname);
+                reBlock = options.getReScriptBlock('noads_scriptlist', domain);
                 if (reBlock) {
                     blockingText += ', inline scripts';
                     window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
@@ -259,7 +259,7 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
          * Users can't define function body for a security considerations.
          * Function name filter: ;:)function,{}-+[]'"
         */
-        if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', window.location.hostname)) {
+        if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
             magicHandler();
         }
     //}
@@ -272,11 +272,11 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
 
 
     // In case we did something unneeded
-    window.addEventListener('DOMContentLoaded', function () {
+    //window.addEventListener('DOMContentLoaded', function () { // Does not always work. O_o
         // don't want that in a frames
         if (window.top === window.self) {
             if (blockingText !== '') {
-                log('On ' + window.location.hostname + ' blocking:' + blockingText.substring(1));
+                log('On ' + domain + ' blocking:' + blockingText.substring(1));
             }
 
             // Setup hotkeys
@@ -292,5 +292,5 @@ var bDebug = false, sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', i
             delElement(document.getElementById('qbCSS'));
             window.removeEventListener('mousemove', showButton, false);
         }
-    }, false);
+    //}, false);
 })();
