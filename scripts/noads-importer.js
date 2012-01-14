@@ -147,8 +147,7 @@ var importer = {
                 }
             }
 
-            // del first ##
-            importer.arrayFilters = unique.call(getValue('noads_urlfilterlist').substring(2).split('\n##').concat(getFilterRules(list)));
+            importer.arrayFilters = unique.call(getValue('noads_urlfilterlist').split('\n').concat(getFilterRules(list)));
             importer.arrayFilters.sort();
         }
 
@@ -166,9 +165,10 @@ var importer = {
     _setFilterRules: function () {
         importer.arrayFilters = unique.call(importer.arrayFilters);
         importer.arrayFilters.sort();
-        setValue('noads_urlfilterlist', '##' + importer.arrayFilters.join('\n##'));
+        setValue('noads_urlfilterlist', importer.arrayFilters.join('\n'));
         importer.reloadRules(true, false);
-        return importer.arrayFilters.length;
+
+        return importer._getHidingRulesLength(getValue('noads_list').split('\n')) + importer.arrayFilters.length;
     },
 
     _importFilters: function (list, addRules) {
@@ -205,14 +205,14 @@ var importer = {
 
         if (!clean) {
             if (global) {
-                if (!options.checkEnabled('noads_urlfilterlist_state') /*&& options.isActiveDomain('noads_urlfilterlist_white')*/) {
-                    return;
-                }
+                //if (!options.checkEnabled('noads_urlfilterlist_state') /*&& options.isActiveDomain('noads_urlfilterlist_white')*/) {
+                //    return;
+                //}
                 importer.arrayFilters = importer._setFiler(getValue('noads_urlfilterlist'));
             } else {
-                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) {
-                    return;
-                }
+                //if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) {
+                //    return;
+                //}
                 importer.arrayUserFilters = importer._setFiler(getValue('noads_userurlfilterlist'));
             }
         }
@@ -226,18 +226,18 @@ var importer = {
     },
 
     _setFiler: function (rulesRaw) {
-        var out = [], filters = (rulesRaw === '') ? [] : rulesRaw.substring(2).split('\n##'); // remove ## parser compatibility
+        var /*out = [], */filters = (rulesRaw === '') ? [] : rulesRaw.split('\n');
 
         for (var i = 0, l = filters.length; i < l; i++) {
             //TODO:???
-            if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
-                out.push(filters[i]);
+            //if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
+                //out.push(filters[i]);
                 log('url added on URL filter reload -> ' + filters[i]);
                 opera.extension.urlfilter.block.add(filters[i]);
-            }
+            //}
         }
 
-        return out;
+        return /* out */filters;
     },
 
     request: function (url, addRules, allRules, functionCallback) {

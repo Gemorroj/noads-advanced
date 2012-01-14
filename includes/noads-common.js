@@ -1,5 +1,6 @@
 var storage = widget.preferences; // var storage = window.opera.storage;
 var extension = window.opera.extension;
+var domain = window.location.hostname;
 
 // Helper Functions
 var decodeMessage = function (data) {

@@ -205,13 +205,13 @@ var options = {
         for (i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-            if (pos !== -1) {
+            //if (pos !== -1) {
                 if (global) {
                     rez.push(rule);
                 } else if (options.isCorrectDomain(domain, rule.slice(0, pos))) {
                     rez.push(rule);
                 }
-            }
+            //}
         }
         tmp = null;
         return rez.join('\n');
@@ -221,10 +221,10 @@ var options = {
         var rule, pos, rez = [], tmp = value.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
-            if (pos !== -1 && rule.length > pos + 2) {
+            //pos = rule.indexOf('##');
+            //if (pos !== -1 && rule.length > pos + 2) {
                 rez.push(rule);
-            }
+            //}
         }
         if (domain) {
             tmp = getValue(name).split('\n');
@@ -238,7 +238,7 @@ var options = {
             rez = rez.concat(tmp);
         }
         setValue(name, rez.join('\n'));
-        rez = tmp = null;
+        tmp = null;
     },
 
     setAutoupdate: function (interval, notofication) {
@@ -784,7 +784,7 @@ var options = {
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            //this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
@@ -801,7 +801,7 @@ var options = {
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            //this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
@@ -931,8 +931,8 @@ var options = {
                 textcss.disabled = !currentstate;
                 textarea.disabled = !currentstate;
                 this.checked = currentstate;
-                options.setForSite(window.location.hostname, currentstate);
-                log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
+                options.setForSite(domain, currentstate);
+                log('set whitelisted for <' + domain + '> to ' + options.getForSite(domain));
             };
             this.appendChild(checkbox);
         };

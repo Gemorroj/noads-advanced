@@ -175,7 +175,6 @@ var run = {
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
-        var domain = window.location.hostname;
         if (arguments.length ? !block : options.getForSite(domain)) {
             options.setForSite(domain, false);
             run.updateCSS(domain);
@@ -190,7 +189,6 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-        var domain = window.location.hostname,
             rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
@@ -220,7 +218,6 @@ var run = {
     },
 
     unblockElement: function (latest) {
-        var domain = window.location.hostname;
         if (this.stop) {
             this.stop();
             return;
@@ -319,7 +316,6 @@ var run = {
     },
 
     blockElement: function (wide, noremove) {
-        var domain = window.location.hostname;
         if (this.stop) {
             this.stop();
             return;
@@ -484,8 +480,7 @@ var run = {
     // the quick button
     noreload: true,
     createButton: function (css, blocked) {
-        var domain = window.location.hostname,
-            enabled = options.getForSite(domain),
+        var enabled = options.getForSite(domain),
             arrCSS = splitCSS(css);
         if (this.stop) {
             this.stop();

@@ -96,9 +96,9 @@ window.addEventListener('load', function () {
                 break;
 
             case 'unblock_address':
-                if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) {
-                    break;
-                }
+                //if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) {
+                //    break;
+                //}
                 log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
                 var filters = importer.arrayUserFilters.length;
@@ -109,20 +109,20 @@ window.addEventListener('load', function () {
                     }
                 }
                 if (filters) {
-                    setValue('noads_userurlfilterlist', '##' + importer.arrayUserFilters.join('\n##'));
+                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 } else {
                     setValue('noads_urlfilterlist', '');
                 }
                 break;
 
             case 'block_address':
-                if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) {
-                    break;
-                }
+                //if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) {
+                //    break;
+                //}
                 log('user URL-filter blocked url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
                 importer.arrayUserFilters.unshift(message.url);
-                setValue('noads_userurlfilterlist', '##' + importer.arrayUserFilters.join('\n##'));
+                setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 break;
 
             case 'reload_rules':

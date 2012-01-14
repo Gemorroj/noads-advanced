@@ -14,8 +14,8 @@
   <preference name="noads_userlist_state" value="enabled"/>
   <preference name="noads_list_state" value="enabled"/>
   <preference name="noads_magiclist_state" value="disabled"/>
-  <preference name="noads_userurlfilterlist_state" value="enabled"/>
-  <preference name="noads_urlfilterlist_state" value="enabled"/>
+  <!--<preference name="noads_userurlfilterlist_state" value="enabled"/>-->
+  <!--<preference name="noads_urlfilterlist_state" value="enabled"/>-->
   <preference name="noads_scriptlist_state" value="enabled"/>
   <preference name="noads_button_state" value="enabled"/>
   <preference name="noads_allrules_state" value="enabled"/>

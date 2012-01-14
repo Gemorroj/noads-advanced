@@ -16,7 +16,6 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'),
     sStyle, uStyle,
     sCSS = '', uCSS = '',
     blockedScripts = '', inlineScripts = 0,
-    domain = window.location.hostname,
     blockingText = '', reSkip, reBlock;
 
 
@@ -248,6 +247,7 @@ window.addEventListener('DOMContentLoaded', function () {
     } catch (e) {
         window.opera.addEventListener('BeforeCSS', onCSSAllowed, false);
     }
+
 
     // Block external scripts
     if (options.checkEnabled('noads_scriptlist_state')) {
