@@ -13,8 +13,8 @@ window.addEventListener('load', function () {
             icon: 'icons/icon18.png',
             popup: {
                 href: 'menu.html',
-                width: 180,
-                height: 155
+                width: lng.baseMenuWidth || 180,
+                height: lng.baseMenuHeight  || 155
             }
         });
         opera.contexts.toolbar.addItem(button);
@@ -96,9 +96,6 @@ window.addEventListener('load', function () {
                 break;
 
             case 'unblock_address':
-                //if (!options.checkEnabled('noads_userurlfilterlist_state')/* && options.isActiveDomain('noads_userurlfilterlist_white')*/) {
-                //    break;
-                //}
                 log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
                 var filters = importer.arrayUserFilters.length;
@@ -116,9 +113,6 @@ window.addEventListener('load', function () {
                 break;
 
             case 'block_address':
-                //if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white') ???*/) {
-                //    break;
-                //}
                 log('user URL-filter blocked url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
                 importer.arrayUserFilters.unshift(message.url);

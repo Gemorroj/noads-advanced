@@ -8,10 +8,6 @@ body {
     font-size: 12px;
 }
 .menu {
-    height: 138px;
-    position: absolute;
-    top: 50%;
-    margin-top: -70px;
 }
 .menu div {
     padding: 4px;

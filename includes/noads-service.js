@@ -1,3 +1,14 @@
+// ==UserScript==
+// @include http*
+// @exclude opera:*
+// @exclude about:*
+// @exclude widget:*
+// @exclude *://localhost*
+// @exclude *://192.168.*
+// @exclude *://0.0.0.0*
+// @exclude *dragonfly.opera.com*
+// ==/UserScript==
+
 // global variables
 var sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
 var none = '{display: none !important;}',

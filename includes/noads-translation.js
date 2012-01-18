@@ -1,7 +1,19 @@
+// ==UserScript==
+// @include http*
+// @exclude opera:*
+// @exclude about:*
+// @exclude widget:*
+// @exclude *://localhost*
+// @exclude *://192.168.*
+// @exclude *://0.0.0.0*
+// @exclude *dragonfly.opera.com*
+// ==/UserScript==
+
 /*
-The main idea is to convey the content, so do not be afraid to localize the original text with something different
-(something that fits, of course). Read the original text, understand its content, and consider how you would formulate the text
-in your language (without first having heard of the original text).
+The main idea is to convey the content, so do not be afraid to localize
+the original text with something different (something that fits, of course).
+Read the original text, understand its content, and consider how you would formulate
+the text in your language (without first having heard of the original text).
 */
 
 // translations
@@ -834,7 +846,9 @@ var TRANSLATION = function () {
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
-            uInterval: 'Interval (days):'
+            uInterval: 'Interval (days):',
+            baseMenuWidth: 145, 
+            baseMenuHeight: 150,
         }
     }
 }; //TRANSLATION
