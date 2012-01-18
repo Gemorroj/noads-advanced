@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude widget:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
-=======
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
 .noads_win{display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
@@ -100,11 +83,7 @@ var options = {
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-<<<<<<< HEAD
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-=======
             if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rez.push(rule.slice(pos + 2));
             }
         }
@@ -120,11 +99,6 @@ var options = {
             if (len) {
                 for (var i = 0, l = this.length - len + 1; i < l; i++) {
                     for (j = 0; j < len; j++) {
-<<<<<<< HEAD
-                        if (arr[j] != this[i + j]) break;
-                    }
-                    if (j == len) return i;
-=======
                         if (arr[j] != this[i + j]) {
                             break;
                         }
@@ -132,22 +106,16 @@ var options = {
                     if (j == len) {
                         return i;
                     }
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 }
             }
             return -1;
-        },
+        };
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
-<<<<<<< HEAD
-            if (pos != -1) this.splice(pos, arr.length);
-        },
-=======
             if (pos != -1) {
                 this.splice(pos, arr.length);
             }
         };
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [];
             for (var i = 0, l = arr.length - 1; i <= l; i++) {
@@ -171,13 +139,8 @@ var options = {
         for (var i = tmp.length; i--;) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-<<<<<<< HEAD
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                if (pos == 0) {
-=======
             if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
                 if (pos === 0) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     rules.delArr(splitCSS(rule.slice(pos + 2)));
                 } else {
                     arr.unshift(rule);
@@ -213,14 +176,9 @@ var options = {
         tmp = null;
         return rez.join(',');
     },
-<<<<<<< HEAD
-    getReScriptBlock: function (name, domain) {
-        var rule, pos, rez = [], tmp = getValue(name).split('\n');
-=======
 
     getReScriptBlock: function (name, domain) {
         var rule, pos, rez = [], tmp = getValue(name);
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (!tmp) return false;
         tmp = tmp.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
@@ -245,24 +203,15 @@ var options = {
             }
         }
         for (i = 0, l = tmp.length; i < l; i++) {
-<<<<<<< HEAD
-            rule = tmp[i], pos = rule.indexOf('##');
-            if (pos != -1) {
-=======
             rule = tmp[i];
             pos = rule.indexOf('##');
             //if (pos !== -1) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 if (global) {
                     rez.push(rule);
                 } else if (options.isCorrectDomain(domain, rule.slice(0, pos))) {
                     rez.push(rule);
                 }
-<<<<<<< HEAD
-            }
-=======
             //}
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         }
         tmp = null;
         return rez.join('\n');
@@ -279,11 +228,7 @@ var options = {
         }
         if (domain) {
             tmp = getValue(name).split('\n');
-<<<<<<< HEAD
-            for (var i = tmp.length; i--; ) {
-=======
             for (var i = 0, l = tmp.length; i < l; i++) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rule = tmp[i];
                 pos = rule.indexOf('##');
                 if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
@@ -295,15 +240,6 @@ var options = {
         setValue(name, rez.join('\n'));
         tmp = null;
     },
-<<<<<<< HEAD
-    getForSite: function (domain) {
-        return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain);
-    },
-
-    setForSite: function (domain, value) {
-        this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value);
-    },    isWhiteListed: function (rule, domain) {
-=======
 
     setAutoupdate: function (interval, notofication) {
         setValue('noads_autoupdate_interval', interval);
@@ -321,7 +257,6 @@ var options = {
     },
 
     isWhiteListed: function (rule, domain) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         var pos = rule.indexOf('$');
         if (pos !== -1) rule = rule.slice(0, pos);
         var end = rule.charAt(rule.length - 1) === '^';
@@ -393,82 +328,6 @@ var options = {
 
         var skipScripts = [
             '^data:',
-<<<<<<< HEAD
-            // Known non-intrusive scripts and platforms
-            '^https?://(cdn.)?connect.mail.ru',
-            '^https?://(cdn.)?sstatic.net',
-            '^https?://[0-9a-z-]*.cloudfront.net',
-            '^https?://[0-9a-z-]*.disqus.com',
-            '^https?://[0-9a-z-]*.googleapis.com',
-            '^https?://[0-9a-z-]*.yahooapis.com',
-            '^https?://[0-9a-z-]+.appspot.com',
-            '^https?://[0-9a-z-]+.gstatic.com',
-            '^https?://[0-9a-z-]+.hotmail.',
-            '^https?://[0-9a-z-]+.imgsmail.ru',
-            '^https?://[0-9a-z-]+.wlxrs.com',
-            '^https?://[0-9a-z-]+.ea.com',
-            '^https?://[a-z-]+.aolcdn.com',
-            '^https?://[a-z-]+.cdn.turner.com',
-            '^https?://[a-z]+.ignimgs.com',
-            '^https?://[a-z-]+.stj.s-msn.com',
-            '^https?://ajax.aspnetcdn.com',
-            '^https?://ajax.microsoft.com',
-            '^https?://yuilibrary.com',
-            '^https?://api.bit.ly',
-            '^https?://api.recaptcha.net',
-            '^https?://apis.google.com',
-            '^https?://[0-9a-z-]*.googleapis.com',
-            '^https?://translate.googleusercontent.com',
-            '^https?://www.google.com/jsapi',
-            '^https?://www.google.com/recaptcha',
-            '^https?://auth.tbn.ru',
-            '^https?://easylist-downloads.adblockplus.org/[a-z_+-]+.txt$',
-            '^https?://fastcache.gawkerassets.com',
-            '^https?://fonts.gizmodo.com',
-            '^https?://maps.google.com',
-            '^https?://api-maps.yandex.ru',
-            '^https?://secure.fanboy.co.nz/[a-z_+-]+.txt$',
-            '^https?://secure.gravatar.com',
-            '^https?://sstatic.net',
-            '^https?://st.drweb.com',
-            '^https?://static.myopera.com',
-            /* // Add this on you own
-            '^https?://rutube.ru',
-            '^https?://script.aculo.us',
-            '^https?://s\\d+.addthis.com/js',
-            '^https?://s\\d+.ucoz.net/src/u.js',
-            '^https?://(cdn.)?connect.mail.ru',
-            '^https?://platform.twitter.com',
-            '^https?://api.odnoklassniki.ru/js/fapi.js',
-            '^https?://connect.facebook.net',
-            '^https?://vkontakte.ru/js/api/',
-            '^https?://www.bing.com',
-            '^https?://www.google.com/(jsapi|recaptcha|support|s2)+',
-            '^https?://yandex.st',
-            '^https?://css.yandex.net',
-            '^https?://ipinfodb.com',
-            */
-            // Popular names of a framework scripts
-            'ajax.js',
-            'bundle_github.js',
-            'chart.js',
-            'common.js',
-            'config.js',
-            'core.js',
-            'dojo.js',
-            'ext[0-9a-z.-]*.js',
-            'jquery[0-9a-z.-]*.js',
-            'mootools[0-9a-z-.]*.js',
-            'yui[0-9a-z.-]*.js',
-            '[a-z0-9]+.jq.(full|min)+.js',
-            'ping.js',
-            'player.js',
-            'prototype.js',
-            'show_afs_search.js',
-            'swfobject[0-9-.]*.js',
-            'widgets?.js',
-            'yahoo-dom-event.js',
-=======
             '^opera:',
             '^widget:',
             '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
@@ -575,7 +434,6 @@ var options = {
             'widgets?\\.js',
             'yahoo-dom-event\\.js',
             'yui[0-9a-z.-]*\\.js'
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         ];
 
         setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('\n@@=='));
@@ -608,19 +466,11 @@ var options = {
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             // @@|| - direct domain, @@== - RegExp domain
-<<<<<<< HEAD
-            if (rule.indexOf('@@||') == 0) {
-                if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return (retRe ? new RegExp('^*$') : false);
-                }
-            } else if (retRe && rule.indexOf('@@==') == 0) {
-=======
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
                     return false;
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rez.push(rule.slice(4));
             }
         }
@@ -662,14 +512,6 @@ var options = {
 
     showPreferences: function (domain) {
         if (!document.body) return;
-<<<<<<< HEAD
-        var global = domain ? false : true;
-        var press = function (e) {
-            if (e.keyCode == 27) options.stop(global);
-        };
-
-        var overlay = document.getElementById('noads_overlay');
-=======
 
         var global = domain ? false : true,
             press = function (e) {
@@ -679,7 +521,6 @@ var options = {
             },
             overlay = document.getElementById('noads_overlay');
 
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (overlay) {
             overlay.close();
             return;
@@ -691,13 +532,8 @@ var options = {
 
         // fix z-order if site is trying to be funny and uses z-index above 1000000
         if (!global) {
-<<<<<<< HEAD
-            var elements = (document.all) ? document.all : document.getElementsByTagName('*');
-            for (var z = 0; z < elements.length; z++) {
-=======
             var elements = document.querySelectorAll('*');
             for (var z = 0, l = elements.length; z < l; z++) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 if (window.parseInt(window.getComputedStyle(elements[z], null).getPropertyValue('z-index'), 10) >= 1000000) {
                     elements[z].style.setProperty('z-index', '999999', null);
                 }
@@ -767,18 +603,6 @@ var options = {
         area.className = 'noads_area';
 
         area.clear = function (num) {
-<<<<<<< HEAD
-            while (this.firstChild) {
-                this.removeChild(this.firstChild);
-            }
-            if (arguments.length) {
-                for (var i = 0, li = document.querySelectorAll('#noads_menu li'); i < li.length; i++) {
-                    li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
-                    li[i].style.borderBottomColor = (i == num) ? '#fafbfc' : '#aaaaaa';
-                }
-            }
-        },
-=======
 
             this.innerHTML = "";
             //TODO:???
@@ -795,7 +619,6 @@ var options = {
                 }
             }
         };
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.createButton = function (sID, sText, sClickFn, sClass, imgData) {
             var button = document.createElement('button');
             button.type = 'button';
@@ -810,7 +633,7 @@ var options = {
             button.appendChild(document.createTextNode(sText));
             if (sClickFn) button.onclick = sClickFn;
             return button;
-        },
+        };
         area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
             var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
@@ -831,13 +654,9 @@ var options = {
                 checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
-<<<<<<< HEAD
-            if (options.checkEnabled(sName + '_state')) checkbox.setAttribute('checked', 'true');
-=======
             if (options.checkEnabled(sName + '_state')) {
                 checkbox.checked = true;
             }
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 
             checkbox.onclick = function (e) {
                 e.preventDefault();
@@ -863,7 +682,7 @@ var options = {
                 }
             };
             return checkbox;
-        },
+        };
         area.createTextarea = function (sID, hTxt, sName) {
             var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName + '_white', domain),
                 p = document.createElement('p'),
@@ -885,7 +704,7 @@ var options = {
                 textarea.className = 'overflow';
             }
             return textarea;
-        },
+        };
         area.createCheckboxButton = function (txt, url, typein) {
             var label = document.createElement('label'), input = document.createElement('input');
             label.className = 'noads_label_subscription';
@@ -916,11 +735,7 @@ var options = {
                 label.appendChild(document.createTextNode(txt));
             }
             this.appendChild(label);
-<<<<<<< HEAD
-        },
-=======
         };
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
@@ -935,7 +750,7 @@ var options = {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
@@ -950,7 +765,7 @@ var options = {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
@@ -965,7 +780,7 @@ var options = {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
@@ -982,7 +797,7 @@ var options = {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
@@ -999,7 +814,7 @@ var options = {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
@@ -1015,7 +830,7 @@ var options = {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
-        },
+        };
         area.showSitePreferences = function (pos) {
             this.clear(pos);
             log('opened settings for ' + domain);
@@ -1124,11 +939,7 @@ var options = {
         area.showSubscriptions = function (pos) {
             this.clear(pos);
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-<<<<<<< HEAD
-            this.createCheckboxButton('EasyList and EasyPrivacy', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
-=======
             this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
             this.createCheckboxButton('EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
             this.createCheckboxButton('EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
@@ -1142,11 +953,7 @@ var options = {
             this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-<<<<<<< HEAD
-            this.createCheckboxButton('Fanboy main + Spanish/Portuguese + Tracking ', 'https://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
-=======
             this.createCheckboxButton('Fanboy Main + Spanish/Portuguese + Tracking ', 'https://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             this.createCheckboxButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
             this.createCheckboxButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
             this.createCheckboxButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
@@ -1177,11 +984,7 @@ var options = {
 
                 var url = [], inputs = area.querySelectorAll('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-<<<<<<< HEAD
-                    if (radioButton.type === 'checkbox' && radioButton.checked) {
-=======
                     if (radioButton.type === 'checkbox' && radioButton.checked === true) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                         url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value);
                     }
                 }
@@ -1193,9 +996,6 @@ var options = {
                     postMsg({ type: 'get_filters', url: '' });
                 }
             }, '', imgRefresh));
-<<<<<<< HEAD
-        },
-=======
         };
         area.showUpdates = function (pos) {
             var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000,
@@ -1233,7 +1033,6 @@ var options = {
                 options.setAutoupdate(noads_autoupdate_interval);
             }, 'positive', imageTick));
         };
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.showHelp = function (pos) {
             this.clear(pos);
             var p = document.createElement('pre');
@@ -1249,18 +1048,6 @@ var options = {
             win.createMenu(
                 [lng.pSite, function () { area.showSitePreferences(0); }]
             );
-<<<<<<< HEAD
-        } else {        
-           win.createMenu( 
-               [lng.mUCSS, function () { area.showUserCSSList(0); }], 
-               [lng.mCSS, function () { area.showCSSList(1); }], 
-               [lng.mScripts, function () { area.showScriptWhitelist(2); }], 
-               [lng.mMK, function () { area.showMagicList(3); }],
-               [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
-               [lng.mURLfilters, function () { area.showURLfilters(5); }],
-               [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
-               [lng.mHelp, function () { area.showHelp(7); }]
-=======
         } else {
             win.createMenu(
                 [lng.mUCSS, function () { area.showUserCSSList(0); }],
@@ -1272,7 +1059,6 @@ var options = {
                 [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
                 [lng.mUpdates, function () { area.showUpdates(7); }],
                 [lng.mHelp, function () { area.showHelp(8); }]
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             );
         }
         content.appendChild(area);

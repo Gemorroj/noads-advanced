@@ -17,11 +17,7 @@ var MENU_TRANSLATION = function () {
             preferences: 'Preferencias',
             contentBlockHelper: 'Auxiliar bloqueo de contenido'
         };
-<<<<<<< HEAD
-	case 'es-AR': return {
-=======
 		case 'es-AR': return {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             blockAds: 'Bloquear anuncio',
             blockEle: 'Bloquear elemento',
             unblockEle: 'Desbloquear...',

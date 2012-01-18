@@ -66,11 +66,8 @@ var TRANSLATION = function () {
             pCSSlinks: '\u0421\u0441\u044b\u043b\u043a\u0438, \u0432\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS',
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
             pInvalidSelector: '\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 CSS \u0441\u0435\u043b\u0435\u043a\u0442\u043e\u0440. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0438\u043d\u0442\u0430\u043a\u0441\u0438\u0441.',
-<<<<<<< HEAD
-=======
             uLastUpdate: '\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435:',
             uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):'
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -516,10 +513,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
-<<<<<<< HEAD
-=======
             mUpdates: 'Actualizaciones',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -529,10 +523,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
-<<<<<<< HEAD
-=======
             pBlockedAdded: 'Added to the script blocker exclusions:',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -547,11 +538,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-<<<<<<< HEAD
-=======
             uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
     	case 'es-AR': return { // ARGENTINE SPANISH/Castilian
              _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -584,10 +572,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
-<<<<<<< HEAD
-=======
             mUpdates: 'Actualizaciones',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -597,10 +582,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
-<<<<<<< HEAD
-=======
             pBlockedAdded: 'Added to the script blocker exclusions:',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -615,11 +597,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-<<<<<<< HEAD
-=======
             uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
     	case 'es-ES': return { // Spain-Spanish (es-ES)
              _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -652,10 +631,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
-<<<<<<< HEAD
-=======
             mUpdates: 'Actualizaciones',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -665,10 +641,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
-<<<<<<< HEAD
-=======
             pBlockedAdded: 'Added to the script blocker exclusions:',
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -683,11 +656,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-<<<<<<< HEAD
-=======
             uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
         case 'de': return {
             _s: function (count) { return (count > 1) ? 'e' : ''; },

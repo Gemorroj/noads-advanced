@@ -30,11 +30,7 @@ var noads = {
         for (var i = a.length; i--; ) {
             rule = a[i] + '>';
             for (j = a.length; j--; ) {
-<<<<<<< HEAD
-                if (a[j].indexOf(rule) == 0) {
-=======
                 if (a[j].indexOf(rule) === 0) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     a.splice(j, 1);
                 }
             }
@@ -46,11 +42,7 @@ var noads = {
         var a = splitCSS(css);
         if (del) {
             for (var i = a.length; i--; ) {
-<<<<<<< HEAD
-                if (del.indexOf(a[i]) == 0) {
-=======
                 if (del.indexOf(a[i]) === 0) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     a.splice(i, 1)
                 }
             }
@@ -91,19 +83,11 @@ var noads = {
     },
 
     getNth: function (el) {
-<<<<<<< HEAD
-        var nth, n = 0, p = el.parentNode;
-        for (var i = 0, c; c = p.childNodes[i]; i++) {
-            if (c.nodeType === 1) {
-                n++;
-                if (c === el) nth = n;
-=======
         var nth, n = 0, p = el.parentElement;
         for (var i = 0, c; c = p.children[i]; i++) {
             n++;
             if (c === el) {
                 nth = n;
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             }
         }
         return (!nth || n < 2) ? '' : ':nth-child(' + nth + ')';
@@ -112,32 +96,6 @@ var noads = {
     getCSSrule: function (el, wide) {
         var att, single, tag, rez = [];
         while (el) {
-<<<<<<< HEAD
-            if (el.nodeType === 1) {
-                tag = el.nodeName;
-                if (/^(html|body)$/i.test(tag)) break;
-                att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
-                if (att) {
-                    if (this.getAttrSelector(el, 'noads')) {
-                        // for blocker helper
-                        tag = '';
-                    }
-                    if (~att.indexOf('://')) {
-                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
-                    } else {
-                        rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
-                    }
-                    break;
-                } else {
-                    att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
-                    rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
-                    try {
-                        single = (document.querySelectorAll(tag + att).length === 1);
-                    } catch (e) {
-                        break;
-                    }
-                    if (wide && att && single) break;
-=======
             tag = el.nodeName;
             if (/^(html|body)$/i.test(tag)) break;
             att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
@@ -150,7 +108,6 @@ var noads = {
                     rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
                 } else {
                     rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22[\/\.]*)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1*$2$3$4') : att));
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 }
                 break;
             } else {
@@ -191,11 +148,7 @@ var noads = {
         if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
         if (ruleURL[1].indexOf('http') === -1) {
             if (domain) {
-<<<<<<< HEAD
-                if (ruleURL[1].indexOf('*') != 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
-=======
                 if (ruleURL[1].indexOf('*') !== 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     return domain + ruleURL[1];
                 } else {
                     return domain + '/' + ruleURL[1];
@@ -222,10 +175,6 @@ var run = {
     },
     // disable and enable blocking
     toggleBlocking: function (block) {
-<<<<<<< HEAD
-        var domain = window.location.hostname;
-=======
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (arguments.length ? !block : options.getForSite(domain)) {
             options.setForSite(domain, false);
             run.updateCSS(domain);
@@ -240,12 +189,7 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-<<<<<<< HEAD
-        var domain = window.location.hostname;
-        var rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
-=======
             rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
@@ -265,11 +209,7 @@ var run = {
         } else if (sCSS) {
             sStyle = addStyle(sCSS + none);
         }
-<<<<<<< HEAD
-        uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? uCSS = options.getRules('noads_userlist', domain) : '';
-=======
         uCSS = (options.checkEnabled('noads_userlist_state') && options.isActiveDomain('noads_userlist_white', domain)) ? options.getRules('noads_userlist', domain) : '';
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (uStyle) {
             replaceStyle(uStyle, uCSS ? uCSS + none : '');
         } else if (uCSS) {
@@ -278,10 +218,6 @@ var run = {
     },
 
     unblockElement: function (latest) {
-<<<<<<< HEAD
-        var domain = window.location.hostname;
-=======
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (this.stop) {
             this.stop();
             return;
@@ -300,16 +236,6 @@ var run = {
             ev.preventDefault();
             ev.stopPropagation();
 
-<<<<<<< HEAD
-            var oldCSS = options.getRules('noads_userlist', domain);
-            var cssRule = noads.getCSSrule(ev.target, false);
-            var newCSS = noads.deleleCSSrule(oldCSS, cssRule);
-
-            //if rule contains href^=link src*=link or data=link removing link from urlfilter
-            var curLink = noads.getFilterLink(cssRule);
-            if (curLink && (newCSS != oldCSS)) {
-                postMsg({ type: 'unblock_address', url: curLink});
-=======
             var oldCSS = options.getRules('noads_userlist', domain),
                 cssRule = noads.getCSSrule(ev.target, false),
                 newCSS = noads.deleleCSSrule(oldCSS, cssRule),
@@ -317,7 +243,6 @@ var run = {
 
             if (curLink && (newCSS != oldCSS)) {
                 postMsg({type: 'unblock_address', url: curLink});
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             }
 
             //if rule is not in CSS then searching for more general rules?
@@ -327,11 +252,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-<<<<<<< HEAD
-                postMsg({ type: 'unblock_address', url: curLink});
-=======
                 postMsg({type: 'unblock_address', url: curLink});
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             }
 
             cssRule = noads.getCSSrule(ev.target, true);
@@ -340,11 +261,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-<<<<<<< HEAD
-                postMsg({ type: 'unblock_address', url: curLink});
-=======
                 postMsg({type: 'unblock_address', url: curLink});
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             }
 
             // setting new rules
@@ -368,31 +285,19 @@ var run = {
             return false;
         },
         press = function (ev) {
-<<<<<<< HEAD
-            if (ev.keyCode == 27) run.stop();
-=======
             if (ev.keyCode === 27) {
                 run.stop();
             }
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         };
 
         if (latest) {
             //if last rule contains href^=link src*=link removing link from urlfilter
             var lastEl = noads.getFilterLink(splitCSS(css).pop());
             if (lastEl) {
-<<<<<<< HEAD
-                postMsg({ type: 'unblock_address', url:lastEl});
-            }
-
-            css = noads.deleleCSSrule(css);
-            css = options.setRules('noads_userlist', domain, css);
-=======
                 postMsg({ type: 'unblock_address', url: lastEl});
             }
 
             css = options.setRules('noads_userlist', domain, noads.deleleCSSrule(css));
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             uCSS = css;
             replaceStyle(uStyle, css ? css + none : '');
         } else {
@@ -401,10 +306,7 @@ var run = {
                 replaceStyle(uStyle, css ? css + none : '');
                 remove();
             };
-<<<<<<< HEAD
-=======
             //TODO:???
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             padCSS = addStyle(paddingCSS);
             replaceStyle(uStyle, css + highlightCSS);
             document.addEventListener('click', click, false);
@@ -414,10 +316,6 @@ var run = {
     },
 
     blockElement: function (wide, noremove) {
-<<<<<<< HEAD
-        var domain = window.location.hostname;
-=======
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (this.stop) {
             this.stop();
             return;
@@ -457,27 +355,16 @@ var run = {
                 } else {
                     ele.removeAttribute('title');
                 }
-<<<<<<< HEAD
-                if (outline || bgColor) {
-                    ele.style.outline = outline;
-                    ele.style.backgroundColor = bgColor;
-                } else {
-=======
 
                 ele.style.outline = outline;
                 ele.style.backgroundColor = bgColor;
                 if (ele.style.length < 1) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     ele.removeAttribute('style');
                 }
             }
         },
         click = function (ev) {
-<<<<<<< HEAD
-            if (ele.getAttribute('servicenoads')) return;
-=======
             if (!ele || ele.getAttribute('servicenoads')) return;
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             ev.preventDefault();
             ev.stopPropagation();
 
@@ -503,12 +390,8 @@ var run = {
                     }
                 } catch (ex) {
                     log('Invalid selector generated: ' + css);
-<<<<<<< HEAD
-                    demo = null, backup = null;
-=======
                     demo = null;
                     backup = null;
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 }
                 css = window.prompt(lng.bElement, css); // ask user to fix selector
                 if (backup && demo && backup.length) {
@@ -535,11 +418,7 @@ var run = {
                     */
                     var arrCSS = css.split(/\s*, \s*/);
                     // trying to get links out of selectors
-<<<<<<< HEAD
-                    for (var i = 0, link = noads.getFilterLink(arrCSS[i]); i < arrCSS.length; i++) {
-=======
                     for (var i = 0, link = noads.getFilterLink(arrCSS[i]), l = arrCSS.length; i < l; i++) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                         if (link) {
                             postMsg({type: 'block_address', url: link});
                         }
@@ -563,37 +442,20 @@ var run = {
             return false;
         },
         press = function (ev) {
-<<<<<<< HEAD
-            if (ev.keyCode == 27) run.stop();
-=======
             if (ev.keyCode === 27) run.stop();
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         },
         rightclick = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-<<<<<<< HEAD
-            if (ev.button == 2) {
-                run.stop();
-            } else {
-=======
 
             // middle and left mouse button
             if (ev.button !== 2) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 // Filter onclick events for selected element and it's parents.
                 // I know it's possibly brakes the page logic until reload but..
                 var el = ele;
                 while (el !== null) {
-<<<<<<< HEAD
-                    if (el.nodeType === 1) {
-                        if (/^(html)$/i.test(el.nodeName)) break;
-                        el.removeAttribute('onclick');
-                        el.onclick = null;
-=======
                     if (el.nodeName.toLowerCase() === 'html') {
                         break;
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     }
                     el.removeAttribute('onclick');
                     el.onclick = null;
@@ -607,10 +469,7 @@ var run = {
             out();
             remove();
         };
-<<<<<<< HEAD
-=======
         //TODO:???
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);
@@ -621,14 +480,8 @@ var run = {
     // the quick button
     noreload: true,
     createButton: function (css, blocked) {
-<<<<<<< HEAD
-        var domain = window.location.hostname;
-        var enabled = options.getForSite(domain);
-        var arrCSS = splitCSS(css);
-=======
         var enabled = options.getForSite(domain),
             arrCSS = splitCSS(css);
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (this.stop) {
             this.stop();
             return;
@@ -647,18 +500,11 @@ var run = {
 
         if (enabled && this.noreload && !blocked && !css) return;
 
-<<<<<<< HEAD
-        var sCount = blocked.split('; ').length;
-        var eCount = arrCSS.length;
-        var txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
-        var title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
-=======
         var sCount = blocked.split('; ').length,
             eCount = arrCSS.length,
             txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload,
             title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '',
             b = document.getElementById('noads_button');
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 
         if (!b) {
             b = document.createElement('input');
@@ -711,29 +557,6 @@ var run = {
             return;
         }
 
-<<<<<<< HEAD
-        var diffHeight = window.outerHeight - window.innerHeight;
-        var scripts = document.getElementsByTagName('script');
-        var objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video');
-        var resize = function () {
-            if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
-                window.setTimeout(function () {
-                    overlay.close();
-                }, 200);
-            }
-        },
-        getStyleSheet = function () {
-            var css = '';
-            for (var i = 0; i < document.styleSheets.length; i++) {
-                try {
-                    for (var j = 0; j < document.styleSheets[i].cssRules.length; j++) {
-                        css += document.styleSheets[i].cssRules[j].cssText;
-                    }
-                } catch (e) {}
-            }
-            return css;
-        };
-=======
         var diffHeight = window.outerHeight - window.innerHeight,
             scripts = document.querySelectorAll('script'),
             objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),
@@ -753,7 +576,6 @@ var run = {
                 }
                 return css;
             };
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 
         if (scripts.length || objects.length) {
             window.scrollTo(0, 0);
@@ -764,11 +586,7 @@ var run = {
             overlay.close = function () {
                 delElement(this.clearStyle);
                 window.removeEventListener('resize', resize, false);
-<<<<<<< HEAD
-                for (var imgs = document.getElementsByClassName('noads_placeholder'), i = imgs.length; i--;) {
-=======
                 for (var imgs = document.querySelectorAll('.noads_placeholder'), i = imgs.length; i--;) {
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     delElement(imgs[i]);
                 }
                 delElement(this);
@@ -803,16 +621,10 @@ var run = {
                 this.style.visibility = (this.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
 
-<<<<<<< HEAD
-            for (var i = 0, script, img, link, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                if (script.src && a.indexOf(script.src) == -1) {
-                    link = document.createElement('a');
-=======
             for (var i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
                 if (script.src && a.indexOf(script.src) === -1) {
                     var link = document.createElement('a'), img = document.createElement('img');
 
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     link.href = script.src;
                     link.target = '_blank';
 
@@ -833,12 +645,8 @@ var run = {
                         continue;
                     }
 
-<<<<<<< HEAD
-                    link = document.createElement('a');
-=======
                     var link = document.createElement('a'), img = document.createElement('img');
 
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     link.href = source;
                     link.target = '_blank';
 
@@ -854,14 +662,6 @@ var run = {
             }
             overlay.appendChild(content);
 
-<<<<<<< HEAD
-            var bgImages = [];
-            getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
-                bgImages.push(p1);
-            });
-            bgImages = unique.call(bgImages);
-
-=======
             // @see noads.js
             //bgImages = bgImages.split('; ');
 
@@ -871,25 +671,11 @@ var run = {
             });
             bgImages = unique.call(bgImages);
 
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             if (bgImages.length) {
                 content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
                 overlay.appendChild(content);
 
                 for (var i in bgImages) {
-<<<<<<< HEAD
-                    if (bgImages[i].indexOf('data:') == -1) {
-                        var link = document.createElement('a');
-                        link.href = bgImages[i];
-                        link.target = '_blank';
-                        var img = document.createElement('img');
-                        img.className = 'noads_placeholder';
-                        img.src = bgImages[i];
-                        img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                        img.setAttribute('noads', 'true');
-                        link.appendChild(img);
-                        content.appendChild(link);
-=======
                     if (bgImages.hasOwnProperty(i)) {
                         if (bgImages[i].indexOf('data:') === -1) {
                             var link = document.createElement('a'), img = document.createElement('img');
@@ -905,21 +691,13 @@ var run = {
                             link.appendChild(img);
                             content.appendChild(link);
                         }
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     }
                 }
                 overlay.appendChild(content);
             }
 
-<<<<<<< HEAD
-            if (content.childNodes.length) {
-                hide.addEventListener('click', function () {
-                    content.hide();
-                }, false);
-=======
             if (content.childElementCount) {
                 hide.addEventListener('click', content.hide, false);
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             } else {
                 hide.style.opacity = 0.5;
             }

@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude widget:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
-=======
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 var storage = widget.preferences; // var storage = window.opera.storage;
 var extension = window.opera.extension;
 var domain = window.location.hostname;
@@ -44,13 +27,9 @@ delElement = function (ele) {
     if (ele && ele.parentNode) ele.parentNode.removeChild(ele);
 },
 addStyle = function (css, id) {
-<<<<<<< HEAD
-    if (!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
-=======
     if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
         throw "Not an HTML page.";
     }
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
     var s = document.createElement('style');
     if (id) {
         s.id = id;
@@ -58,11 +37,7 @@ addStyle = function (css, id) {
     s.type = 'text/css';
     //s.style = 'display: none !important;'; //TODO:???
     s.appendChild(document.createTextNode(css));
-<<<<<<< HEAD
-    return (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(s);
-=======
     return (document.querySelectorAll('head')[0] || document.documentElement).appendChild(s);
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 },
 replaceStyle = function (ele, css) {
     if (ele) {
@@ -99,19 +74,10 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 unique = function () {
-<<<<<<< HEAD
-    var a = [], l = this.length, j;
-    for (var i = 0; i < l; i++) {
-        for (j = i + 1; j < l; j++) {
-            if (this[i] === this[j]) {
-                j = ++i;
-            }
-=======
     var u = {}, a = [];
     for (var i = 0, l = this.length; i < l; ++i) {
         if (this[i] in u) {
             continue;
->>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         }
         a.push(this[i]);
         u[this[i]] = 1;
