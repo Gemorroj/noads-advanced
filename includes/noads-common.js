@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==UserScript==
 // @include http*
 // @exclude opera:*
@@ -12,8 +13,11 @@
 // @exclude *v8.googlecode.com*
 // ==/UserScript==
 
+=======
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 var storage = widget.preferences; // var storage = window.opera.storage;
 var extension = window.opera.extension;
+var domain = window.location.hostname;
 
 // Helper Functions
 var decodeMessage = function (data) {
@@ -40,18 +44,42 @@ delElement = function (ele) {
     if (ele && ele.parentNode) ele.parentNode.removeChild(ele);
 },
 addStyle = function (css, id) {
+<<<<<<< HEAD
     if (!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
+=======
+    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+        throw "Not an HTML page.";
+    }
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
     var s = document.createElement('style');
-    if (id) s.id = id;
-    s.setAttribute('type', 'text/css');
-    s.setAttribute('style', 'display: none !important;');
+    if (id) {
+        s.id = id;
+    }
+    s.type = 'text/css';
+    //s.style = 'display: none !important;'; //TODO:???
     s.appendChild(document.createTextNode(css));
+<<<<<<< HEAD
     return (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(s);
+=======
+    return (document.querySelectorAll('head')[0] || document.documentElement).appendChild(s);
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 },
 replaceStyle = function (ele, css) {
     if (ele) {
-        if (!(document.documentElement instanceof window.HTMLHtmlElement)) throw "Not an HTML page.";
-        while (ele.firstChild) ele.removeChild(ele.firstChild);
+        if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+            throw "Not an HTML page.";
+        }
+
+
+        ele.innerHTML = "";
+        //TODO:???
+        /*
+        while (ele.firstChild) {
+            ele.removeChild(ele.firstChild);
+        }
+        */
+
+
         ele.appendChild(document.createTextNode(css));
     }
 },
@@ -71,14 +99,22 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 unique = function () {
+<<<<<<< HEAD
     var a = [], l = this.length, j;
     for (var i = 0; i < l; i++) {
         for (j = i + 1; j < l; j++) {
             if (this[i] === this[j]) {
                 j = ++i;
             }
+=======
+    var u = {}, a = [];
+    for (var i = 0, l = this.length; i < l; ++i) {
+        if (this[i] in u) {
+            continue;
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         }
         a.push(this[i]);
-    }
-    return a;
+        u[this[i]] = 1;
+   }
+   return a;
 };

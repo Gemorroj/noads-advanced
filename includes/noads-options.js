@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==UserScript==
 // @include http*
 // @exclude opera:*
@@ -12,9 +13,11 @@
 // @exclude *v8.googlecode.com*
 // ==/UserScript==
 
+=======
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
+.noads_win{display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
 .noads_close_window{background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -30,18 +33,18 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.positive:hover{background-color:#E6EFC2;border:1px solid #C6D880;color:#529214;}\
 .noads_content button.negative{color:#d12f19;}\
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
-.noads_content p{clear:both;text-align:left;padding-top:10px;margin:0;padding:0}\
+.noads_content p{clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
 .noads_area{padding: 0 15px 0 15px; margin:0; width:auto;}\
 .noads_content textarea{box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",arial,tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;box-shadow:none !important;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .strikethrough{text-decoration: line-through;}\
-.noads_content .right{position:relative;float:right;margin-right:0px;}\
+.noads_content .right{position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_content input[type="range"]{width:100%;}\
-.noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:2px 4px;}\
+.noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:0 4px;}\
 .noads_label_subscription:hover{text-decoration: underline;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
@@ -56,6 +59,7 @@ var imgRefresh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf
 var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH+SURBVBgZBcE9i11VGAbQtc/sO0OCkqhghEREAwpWAWUg8aMVf4KFaJEqQtAipTZWViKiCGOh2Ap2gmJhlSIWFsFOxUK0EsUM3pl79n4f12qHb3z3Fh7D83gC95GOJsDe0ixLk5Qq/+xv/Lw9Xd+78/HLX3Y8fXTr2nWapy4eCFKxG7Fby97SnDlYtMbxthyfzHO//nl85fNvfvnk8MbX5xa8IHx1518Vkrj54Q+qQms2vVmWZjdiu5ZR2rT01166/NCZg/2PFjwSVMU6yjoC1oq+x6Y3VbHdlXWExPd379nf7Nmejv2Os6OC2O4KLK0RNn3RNCdr2Z5GJSpU4o+/TkhaJ30mEk5HwNuvX7Hpi76wzvjvtIwqVUSkyjqmpHS0mki8+9mPWmuWxqYvGkbFGCUAOH/+QevYI9GFSqmaHr5wkUYTAlGhqiRRiaqiNes6SOkwJwnQEqBRRRJEgkRLJGVdm6R0GLMQENE0EkmkSkQSVVMqopyuIaUTs0J455VLAAAAAODW0U/GiKT0pTWziEj44PZ1AAAAcPPqkTmH3QiJrlEVDXDt0qsAAAAAapa5BqUnyaw0Am7//gUAAAB49tEXzTmtM5KkV/y2G/X4M5fPao03n/sUAAAAwIX7y5yBv9vhjW/fT/IkuSp5gJKElKRISYoUiSRIyD1tufs/IXxui20QsKIAAAAASUVORK5CYII=';
 var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==';
 
+
 var options = {
     stop: null,
     checkEnabled: function (name) {
@@ -67,9 +71,9 @@ var options = {
     // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;
-        var str, arr = domains.split(','), inDomain = false, exDomain = false;
+        var str, arr = domains.split(','), inDomain = false, exDomain = false, l = arr.length;
         while (domain) {
-            for (var i = 0, l = arr.length; i < l; i++) {
+            for (var i = 0; i < l; i++) {
                 str = arr[i];
                 if (str.charAt(0) !== '~') {
                     if (str == domain) {
@@ -90,18 +94,24 @@ var options = {
         arr = null;
         return !inDomain && exDomain;
     },
+
     getRules: function (name, domain) {
         var rule, pos, rez = [], tmp = getValue(name).split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
+<<<<<<< HEAD
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+=======
+            if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rez.push(rule.slice(pos + 2));
             }
         }
         tmp = null;
         return rez.join(',');
     },
+
     setRules: function (name, domain, selector) {
         var j, rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n'), rules = splitCSS(selector);
 
@@ -110,17 +120,34 @@ var options = {
             if (len) {
                 for (var i = 0, l = this.length - len + 1; i < l; i++) {
                     for (j = 0; j < len; j++) {
+<<<<<<< HEAD
                         if (arr[j] != this[i + j]) break;
                     }
                     if (j == len) return i;
+=======
+                        if (arr[j] != this[i + j]) {
+                            break;
+                        }
+                    }
+                    if (j == len) {
+                        return i;
+                    }
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 }
             }
             return -1;
         },
         rules.delArr = function (arr) {
             var pos = this.posArr(arr);
+<<<<<<< HEAD
             if (pos != -1) this.splice(pos, arr.length);
         },
+=======
+            if (pos != -1) {
+                this.splice(pos, arr.length);
+            }
+        };
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         rules.getCorrected = function (arr) {
             var rule, pos, len, stArr, currPos, nextPos, rez = [];
             for (var i = 0, l = arr.length - 1; i <= l; i++) {
@@ -134,16 +161,23 @@ var options = {
                 } else {
                     len = this.length;
                 }
-                if (len) rez.push(rule.slice(0, pos) + this.splice(0, len).join(','));
+                if (len) {
+                    rez.push(rule.slice(0, pos) + this.splice(0, len).join(','));
+                }
             }
             return rez;
         };
 
-        for (var i = tmp.length; i--; ) {
+        for (var i = tmp.length; i--;) {
             rule = tmp[i];
             pos = rule.indexOf('##');
+<<<<<<< HEAD
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
                 if (pos == 0) {
+=======
+            if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+                if (pos === 0) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                     rules.delArr(splitCSS(rule.slice(pos + 2)));
                 } else {
                     arr.unshift(rule);
@@ -152,70 +186,116 @@ var options = {
             }
         }
         switch (arr.length) {
-            case 0: if (rules.length) tmp.unshift(domain + '##' + rules.join(',')); break;
-            case 1: if (rules.length) tmp.unshift(arr[0].slice(0, arr[0].indexOf('##') + 2) + rules.join(',')); break;
-            default: tmp = rules.getCorrected(arr).concat(tmp); break;
+            case 0:
+                if (rules.length) {
+                    tmp.unshift(domain + '##' + rules.join(','));
+                }
+                break;
+
+            case 1:
+                if (rules.length) {
+                    tmp.unshift(arr[0].slice(0, arr[0].indexOf('##') + 2) + rules.join(','));
+                }
+                break;
+
+            default:
+                tmp = rules.getCorrected(arr).concat(tmp);
+                break;
         }
         setValue(name, tmp.join('\n'));
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule.slice(pos + 2));
+            if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+                rez.push(rule.slice(pos + 2));
+            }
         }
         tmp = null;
         return rez.join(',');
     },
+<<<<<<< HEAD
     getReScriptBlock: function (name, domain) {
         var rule, pos, rez = [], tmp = getValue(name).split('\n');
+=======
+
+    getReScriptBlock: function (name, domain) {
+        var rule, pos, rez = [], tmp = getValue(name);
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (!tmp) return false;
+        tmp = tmp.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
-            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) rez.push(rule.slice(pos + 4));
+            if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
+                rez.push(rule.slice(pos + 4));
+            }
         }
         tmp = null;
         return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
     },
+
     getRawRules: function (name, domain, global) {
         var pos, rez = [], tmp = getValue(name).split('\n'), rule = '';
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
-                if (whitelist[i].indexOf('@@') == 0) rez.push(whitelist[i]);
+                if (whitelist[i].indexOf('@@') === 0) {
+                    rez.push(whitelist[i]);
+                }
             }
         }
         for (i = 0, l = tmp.length; i < l; i++) {
+<<<<<<< HEAD
             rule = tmp[i], pos = rule.indexOf('##');
             if (pos != -1) {
+=======
+            rule = tmp[i];
+            pos = rule.indexOf('##');
+            //if (pos !== -1) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 if (global) {
                     rez.push(rule);
                 } else if (options.isCorrectDomain(domain, rule.slice(0, pos))) {
                     rez.push(rule);
                 }
+<<<<<<< HEAD
             }
+=======
+            //}
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         }
         tmp = null;
-        return rez.join('\n\n');
+        return rez.join('\n');
     },
+
     setRawRules: function (name, value, domain) {
         var rule, pos, rez = [], tmp = value.split('\n');
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
-            if (pos != -1 && rule.length > pos + 2) rez.push(rule);
+            //pos = rule.indexOf('##');
+            //if (pos !== -1 && rule.length > pos + 2) {
+                rez.push(rule);
+            //}
         }
         if (domain) {
             tmp = getValue(name).split('\n');
+<<<<<<< HEAD
             for (var i = tmp.length; i--; ) {
+=======
+            for (var i = 0, l = tmp.length; i < l; i++) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rule = tmp[i];
                 pos = rule.indexOf('##');
-                if (pos != -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) tmp.splice(i, 1);
+                if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+                    tmp.splice(i, 1);
+                }
             }
             rez = rez.concat(tmp);
         }
         setValue(name, rez.join('\n'));
-        rez = tmp = null;
+        tmp = null;
     },
+<<<<<<< HEAD
     getForSite: function (domain) {
         return this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain);
     },
@@ -223,64 +303,97 @@ var options = {
     setForSite: function (domain, value) {
         this.setActiveDomain('noads_list_white', domain, value); this.setActiveDomain('noads_userlist_white', domain, value); this.setActiveDomain('noads_scriptlist_white', domain, value);
     },    isWhiteListed: function (rule, domain) {
+=======
+
+    setAutoupdate: function (interval, notofication) {
+        setValue('noads_autoupdate_interval', interval);
+        //options.setEnabled('noads_autoupdate_notification_state', notofication);
+    },
+
+    getForSite: function (domain) {
+        return (this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain));
+    },
+
+    setForSite: function (domain, value) {
+        this.setActiveDomain('noads_list_white', domain, value);
+        this.setActiveDomain('noads_userlist_white', domain, value);
+        this.setActiveDomain('noads_scriptlist_white', domain, value);
+    },
+
+    isWhiteListed: function (rule, domain) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         var pos = rule.indexOf('$');
-        if (pos != -1) rule = rule.slice(0, pos);
+        if (pos !== -1) rule = rule.slice(0, pos);
         var end = rule.charAt(rule.length - 1) === '^';
         if (end) rule = rule.slice(0, -1);
         pos = domain.indexOf(rule);
-        return (pos == 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length);
+        return ((pos === 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length));
     },
+
     setWhiteList: function (name, value) {
         var rule, rez = [], arr = value.split('\n');
         for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
-            if (rule.indexOf('@@') == 0 && rule.length > 4) rez.push(rule);
+            if (rule.indexOf('@@') === 0 && rule.length > 4) {
+                rez.push(rule);
+            }
         }
         arr = null;
         setValue(name, rez.join('\n'));
     },
+
     // create default white list
     setDefWhiteList: function () {
         var whiteList = [
-            // Testing suites
             '@@||acid3.acidtests.org^',
-            // Popular and non-intrusive sites
-            '@@||vimeo.com^',
-            '@@||youtube.com^',
-            '@@||wikipedia.org^',
-            '@@||virustotal.com^',
+            '@@||amazon.com^',
+            '@@||anonym.to^',
+            '@@||asus.com^',
             '@@||bbc.co.uk^',
-            '@@||guardian.co.uk^',
-            '@@||ebay.com^',
-            '@@||yahoo.com^',
+            '@@||bing.com^',
             '@@||britannica.com^',
             '@@||deviantart.com^',
-            '@@||flickr.com^',
-            '@@||hotmail.com^',
-            '@@||opera.com^',
-            '@@||imdb.com^',
-            '@@||macromedia.com^',
-            '@@||anonym.to^',
-            '@@||metacafe.com^',
-            '@@||myspace.com^',
-            '@@||mail.ru^',
-            '@@||translate.google.com^',
-            '@@||picasaweb.google.com^',
-            '@@||facebook.com^',
-            '@@||vk.com^',
-            '@@||vkontakte.ru^',
-            '@@||twitter.com^',
-            '@@||molotok.ru^',
-            '@@||ya.ru^',
-            '@@||kinozal.tv^',
+            '@@||ebay.com^',
             '@@||eurosport.ru^',
+            '@@||facebook.com^',
+            '@@||flickr.com^',
+            '@@||guardian.co.uk^',
+            '@@||googleusercontent.com^',
+            '@@||hotmail.com^',
+            '@@||imageshack.us^',
+            '@@||imdb.com^',
+            '@@||kinozal.tv^',
             '@@||lastfm.ru^',
             '@@||livegames.ru^',
+            '@@||macromedia.com^',
+            '@@||mail.ru^',
+            '@@||megashare.by^',
+            '@@||metacafe.com^',
+            '@@||molotok.ru^',
+            '@@||myspace.com^',
+            '@@||newegg.com^',
+            '@@||opera.com^',
+            '@@||picasaweb.google.com^',
+            '@@||piter.fm^',
+            '@@||playset.ru^',
+            '@@||sprashivai.ru^',
+            '@@||translate.google.com^',
+            '@@||tvshack.net^',
+            '@@||twitter.com^',
+            '@@||vimeo.com^',
+            '@@||virustotal.com^',
+            '@@||vk.com^',
+            '@@||vkontakte.ru^',
+            '@@||wikipedia.org^',
+            '@@||ya.ru^',
+            '@@||yahoo.com^',
+            '@@||youtube.com^',
+            '@@||youtube-nocookie.com^'
         ];
 
         var skipScripts = [
-            'AC_RunActiveContent.js',
             '^data:',
+<<<<<<< HEAD
             // Known non-intrusive scripts and platforms
             '^https?://(cdn.)?connect.mail.ru',
             '^https?://(cdn.)?sstatic.net',
@@ -355,16 +468,127 @@ var options = {
             'swfobject[0-9-.]*.js',
             'widgets?.js',
             'yahoo-dom-event.js',
+=======
+            '^opera:',
+            '^widget:',
+            '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
+            '^https?://(?:cdn\\.)?sstatic\\.net',
+            '^https?://[0-9a-z-]*\\.cloudfront\\.net',
+            '^https?://[0-9a-z-.]+\\.com\\.com',
+            '^https?://[0-9a-z-]*\\.disqus\\.com',
+            '^https?://[0-9a-z-]*\\.googleapis\\.com',
+            '^https?://[0-9a-z-]*\\.yahooapis\\.com',
+            '^https?://[0-9a-z-]+\\.appspot\\.com', 
+            '^https?://[0-9a-z-]+\\.github\\.com',
+            '^https?://[0-9a-z-]+\\.gstatic\\.com',
+            '^https?://[0-9a-z-]+\\.hotmail\\.',
+            '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
+            '^https?://[0-9a-z-]+\\.wlxrs\\.com',
+            '^https?://[0-9a-z-]+\\.ea\\.com',
+            '^https?://[a-z-]+\\.aolcdn\\.com',
+            '^https?://[a-z-]+\\.bitsontherun\\.com',
+            '^https?://[a-z-]+\\.cdn\\.turner\\.com',
+            '^https?://[a-z]+\\.ignimgs\\.com',
+            '^https?://[a-z-]+.stj\\.s-msn\\.com',
+            '^https?://[0-9a-z-.]+\\.s-msft\\.com',
+            '^https?://[0-9a-z-]+\\.olark\\.com',
+            '^https?://[a-z.]+\\.twitter\\.com',
+            '^https?://[a-z]+\\.xnimg\\.cn',
+            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
+            '^https?://a\\.dolimg\\.com',
+            '^https?://a\\.fsdn\\.com',
+            '^https?://ajax\\.aspnetcdn\\.com',
+            '^https?://ajax\\.microsoft\\.com',
+            '^https?://api-maps\\.yandex\\.ru',
+            '^https?://api-public\\.addthis\\.com',
+            '^https?://api\\.bit\\.ly',
+            '^https?://(?:api|api-read)\\.facebook\\.com',
+            '^https?://api\\.soundcloud\\.com',
+            '^https?://apps\\.skypeassets\\.com',
+            '^https?://(?:api|std)+\\.odnoklassniki\\.ru',
+            '^https?://api\\.recaptcha\\.net',
+            '^https?://(?:apis|maps|plus)+\\.google\\.com',
+            '^https?://auth\\.tbn\\.ru',
+            '^https?://[0-9a-z.]+\\.akamai\\.net',
+            '^https?://cdn\\.gigya\\.com',
+            '^https?://cdn\\.gradientbot\\.com',
+            '^https?://connect\\.facebook\\.net',
+            '^https?://connect\\.sensiolabs\\.com',
+            '^https?://css\\.yandex\\.net',
+            '^https?://fastcache\\.gawkerassets\\.com',
+            '^https?://fonts\\.gizmodo\\.com',
+            '^https?://js\\.gotophotels\\.ru',
+            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
+            '^https?://internal\\.immogames\\.cdnvideo\\.ru',
+            '^https?://ipinfodb\\.com',
+            '^https?://live\\.nhle\\.com',
+            '^https?://lp\\.longtailvideo\\.com',
+            '^https?://mat1\\.gtimg\\.com',
+            '^https?://www\\.redditstatic\\.com',
+            '^https?://rutube\\.ru',
+            '^https?://s\\d+\\.addthis\\.com/js',
+            '^https?://s\\d+\\.ucoz\\.net',
+            '^https?://script\\.aculo\\.us',
+            '^https?://secure\\.gravatar\\.com',
+            '^https?://secure\\.skypeassets\\.com',
+            '^https?://st\\.drweb\\.com',
+            '^https?://static\\.addtoany\\.com',
+            '^https?://static\\.ak\\.fbcdn\\.net',
+            '^https?://static\\.allegrostatic\\.pl',
+            '^https?://static\\.chartbeat\\.com',
+            '^https?://static\\.crowdscience\\.com',
+            '^https?://static\\.myopera\\.com',
+            '^https?://static\\.polldaddy\\.com',
+            '^https?://translate\\.googleusercontent\\.com',
+            '^https?://onlywire\\.com',
+            '^https?://userapi\\.com',
+            '^https?://login\\.vk\\.com',
+            '^https?://vkontakte\\.ru',
+            '^https?://vk\\.com',
+            '^https?://www\\.bing\\.com',
+            '^https?://www\\.browserscope\\.org',
+            '^https?://www\\.gamehive\\.ru',
+            '^https?://www\\.paypalobjects\\.com',
+            '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
+            '^https?://yandex\\.st',
+            '^https?://yuilibrary\\.com',
+            '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',
+            'AC_RunActiveContent\\.js',
+            'api\\.php',
+            'ajax\\.js',
+            'bundle_github\\.js',
+            'chart\\.js',
+            'common\\.js',
+            'config\\.js',
+            'core\\.js',
+            'dojo\\.js',
+            'ext[0-9a-z.-]*\\.js',
+            'home\\.js',
+            'feedback\\.js',
+            'jquery[0-9a-z.-]*\\.js',
+            'mootools[0-9a-z-.]*\\.js',
+            'ping\\.js',
+            'play(?:er)?\\.js',
+            'prototype[0-9a-z.-]*\\.js',
+            'show_afs_search\\.js',
+            'swfobject[0-9-.]*\\.js',
+            'widgets?\\.js',
+            'yahoo-dom-event\\.js',
+            'yui[0-9a-z.-]*\\.js'
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         ];
 
-        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('|'));
+        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('\n@@=='));
     },
+
     setActiveDomain: function (name, domain, value) {
         var rez = getValue(name).split('\n');
         if (value) {
-            for (var i = rez.length; i--; ) {
-                if (rez[i].indexOf('@@||') == 0) {
-                    if (this.isWhiteListed(rez[i].slice(4), domain)) rez.splice(i, 1);
+            for (var i = rez.length; i--;) {
+                if (rez[i].indexOf('@@||') === 0) {
+                    if (this.isWhiteListed(rez[i].slice(4), domain)) {
+                        rez.splice(i, 1);
+                    }
                 }
             }
         } else {
@@ -374,33 +598,88 @@ var options = {
         setValue(name, rez.join('\n'));
         rez = null;
     },
+
     isActiveDomain: function (name, domain, retRe) {
-        var rule, rez = [], tmp = getValue(name).split('\n');
-        if (!tmp) return retRe ? new RegExp('^$') : true;
+        var rule, rez = [], tmp = getValue(name);
+        if (!tmp) return retRe ? new RegExp('^*$') : true;
+
+        tmp = tmp.split('\n');
 
         for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             // @@|| - direct domain, @@== - RegExp domain
+<<<<<<< HEAD
             if (rule.indexOf('@@||') == 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
                     return (retRe ? new RegExp('^*$') : false);
                 }
             } else if (retRe && rule.indexOf('@@==') == 0) {
+=======
+            if (rule.indexOf('@@||') === 0) {
+                if (this.isWhiteListed(rule.slice(4), domain)) {
+                    return false;
+                }
+            } else if (retRe && rule.indexOf('@@==') === 0) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 rez.push(rule.slice(4));
             }
         }
 
         tmp = null;
-        return retRe ? new RegExp((rez.join('|').replace(/\/|\.(?=[\w\d])/g, '\\$&') || '^$'), 'i') : true;
+        return retRe ? new RegExp((rez.join('|') || '^$'), 'i') : true;
     },
+
+    getLastUpdate: function () {
+        var lastUpdate = getValue('noads_last_update');
+        if (lastUpdate) {
+            var d = new Date(Number(lastUpdate));
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+        }
+        return '';
+    },
+
+    setLastUpdate: function (node) {
+        var lastUpdate = this.getLastUpdate();
+        if (lastUpdate) {
+            node.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
+        }
+    },
+
+    getSubscriptions: function () {
+        var url = getValue('noads_default_url2'), custom_url = getValue('noads_custom_url');
+
+        if (url && custom_url) {
+            url = url.split(',');
+            url.push(custom_url);
+        } else if (url) {
+            url = url.split(',');
+        } else if (custom_url) {
+            url = new Array(custom_url);
+        }
+
+        return url;
+    },
+
     showPreferences: function (domain) {
         if (!document.body) return;
+<<<<<<< HEAD
         var global = domain ? false : true;
         var press = function (e) {
             if (e.keyCode == 27) options.stop(global);
         };
 
         var overlay = document.getElementById('noads_overlay');
+=======
+
+        var global = domain ? false : true,
+            press = function (e) {
+                if (e.keyCode === 27) {
+                    options.stop(global);
+                }
+            },
+            overlay = document.getElementById('noads_overlay');
+
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         if (overlay) {
             overlay.close();
             return;
@@ -409,11 +688,16 @@ var options = {
 
         if (this.stop) this.stop(global);
         overlay = document.createElement('div');
-        
+
         // fix z-order if site is trying to be funny and uses z-index above 1000000
         if (!global) {
+<<<<<<< HEAD
             var elements = (document.all) ? document.all : document.getElementsByTagName('*');
             for (var z = 0; z < elements.length; z++) {
+=======
+            var elements = document.querySelectorAll('*');
+            for (var z = 0, l = elements.length; z < l; z++) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                 if (window.parseInt(window.getComputedStyle(elements[z], null).getPropertyValue('z-index'), 10) >= 1000000) {
                     elements[z].style.setProperty('z-index', '999999', null);
                 }
@@ -444,12 +728,14 @@ var options = {
 
         var win = document.createElement('div');
         win.className = 'noads_win';
-        if (!global) win.style.marginTop = '4%';
+        if (!global) {
+            win.style.marginTop = '4%';
+        }
         overlay.appendChild(win);
         var img = document.createElement('div');
         img.className = 'noads_close_window';
         img.title = lng.pClose;
-        img.setAttribute('alt', lng.pClose);
+        img.alt = lng.pClose;
         img.onclick = function () {
             if (global) {
                 window.opener = 'extension';
@@ -460,11 +746,11 @@ var options = {
         };
         win.appendChild(img);
         win.createMenu = function () {
-            var menu = document.createElement('ul'), list;
+            var menu = document.createElement('ul');
             menu.className = 'noads_menu';
             menu.id = 'noads_menu';
             for (var i = 0, item; item = arguments[i]; i++) {
-                list = document.createElement('li');
+                var list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
                 list.style.backgroundColor = (i === 0) ? '#fafbfc' : '#edeeef';
@@ -473,11 +759,15 @@ var options = {
             }
             this.appendChild(menu);
         };
+
         var content = document.createElement('div');
         content.className = 'noads_content';
+
         var area = document.createElement('div');
         area.className = 'noads_area';
+
         area.clear = function (num) {
+<<<<<<< HEAD
             while (this.firstChild) {
                 this.removeChild(this.firstChild);
             }
@@ -488,6 +778,24 @@ var options = {
                 }
             }
         },
+=======
+
+            this.innerHTML = "";
+            //TODO:???
+            /*
+            while (this.firstChild) {
+                this.removeChild(this.firstChild);
+            }
+            */
+
+            if (arguments.length) {
+                for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
+                    li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
+                    li[i].style.borderBottomColor = (i == num) ? '#fafbfc' : '#aaaaaa';
+                }
+            }
+        };
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.createButton = function (sID, sText, sClickFn, sClass, imgData) {
             var button = document.createElement('button');
             button.type = 'button';
@@ -523,15 +831,23 @@ var options = {
                 checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
             }
             checkbox.className = options.checkEnabled(sName + '_state') ? (classEnabled || '') : (classDisabled || '');
+<<<<<<< HEAD
             if (options.checkEnabled(sName + '_state')) checkbox.setAttribute('checked', 'true');
+=======
+            if (options.checkEnabled(sName + '_state')) {
+                checkbox.checked = true;
+            }
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 
             checkbox.onclick = function (e) {
                 e.preventDefault();
-                if (sClickFn) sClickFn();
-                if (this.getAttribute('checked') == 'true') {
+                if (sClickFn) {
+                    sClickFn();
+                }
+                if (this.checked === true) {
                     options.setEnabled(sName + '_state', false);
                     this.className = classDisabled;
-                    this.setAttribute('checked','false');
+                    this.checked = false;
                     if (changetext) {
                         this.removeChild(enable);
                         this.appendChild(disable);
@@ -539,7 +855,7 @@ var options = {
                 } else {
                     options.setEnabled(sName + '_state', true);
                     this.className = classEnabled;
-                    this.setAttribute('checked', 'true');
+                    this.checked = true;
                     if (changetext) {
                         this.removeChild(disable);
                         this.appendChild(enable);
@@ -549,13 +865,14 @@ var options = {
             return checkbox;
         },
         area.createTextarea = function (sID, hTxt, sName) {
-            var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName + '_white', domain);
-            var p = document.createElement('p');
+            var disabled = global ? !options.checkEnabled(sName + '_state') : !options.isActiveDomain(sName + '_white', domain),
+                p = document.createElement('p'),
+                textarea = document.createElement('textarea');
+
             p.className = 'noads_input_help';
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            var textarea = document.createElement('textarea');
             textarea.style.height = (global ? '75%' : '200px');
             textarea.rows = global ? '30' : '10';
             textarea.cols = '100';
@@ -570,12 +887,13 @@ var options = {
             return textarea;
         },
         area.createCheckboxButton = function (txt, url, typein) {
-            var label = document.createElement('label');
+            var label = document.createElement('label'), input = document.createElement('input');
             label.className = 'noads_label_subscription';
-            var input = document.createElement('input');
             input.type = 'checkbox';
             input.name = 'subs';
-            if (url && ~getValue('noads_default_url2').indexOf(url)) input.checked = true;
+            if (url && ~getValue('noads_default_url2').indexOf(url)) {
+                input.checked = true;
+            }
             label.appendChild(input);
             if (!typein) {
                 label.appendChild(document.createTextNode(txt + ': '));
@@ -593,11 +911,16 @@ var options = {
                     this.previousElementSibling.checked = true;
                     setValue('noads_custom_url', this.value);
                 };
+                input.onchange = input.onkeyup;
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(txt));
             }
             this.appendChild(label);
+<<<<<<< HEAD
         },
+=======
+        };
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
@@ -646,7 +969,7 @@ var options = {
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            //this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
@@ -663,7 +986,7 @@ var options = {
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            //this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
@@ -737,7 +1060,9 @@ var options = {
             textarea.rows = '10';
             textarea.cols = '100';
             textarea.style.height = '200px';
-            if (!disabled) textarea.value = blockedScripts.replace(/; /g, '\n');
+            if (!disabled) {
+                textarea.value = blockedScripts.replace(/; /g, '\n');
+            }
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
@@ -750,7 +1075,7 @@ var options = {
                     val = val.replace(/[*+?^=!${}()|[\]\\]|\.(?!\w)/g, '\\$&').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
-                    alert(val + ' is added to the script blocker exclusions.');
+                    alert(lng.pBlockedAdded + ' ' + val);
                 }
             }, 'positive', imageTick));
 
@@ -765,21 +1090,21 @@ var options = {
                 classEnabled = 'negative right',
                 classDisabled = 'positive right',
                 state = options.getForSite(domain);
-                checkbox.setAttribute('checked', state);
+                checkbox.checked = state;
             if (state) {
                 checkbox.appendChild(enable);
                 checkbox.className = classEnabled;
             } else {
-                checkbox.appendChild(disable); 
+                checkbox.appendChild(disable);
                 checkbox.className = classDisabled;
             }
             textucss.disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
             textcss.disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
 
             checkbox.onclick = function () {
-                var currentstate = !(this.getAttribute('checked') == 'true');
+                var currentstate = !this.checked;
                 if (currentstate) {
-                    this.removeChild(disable); 
+                    this.removeChild(disable);
                     this.appendChild(enable);
                     this.className = classEnabled;
                 } else {
@@ -790,16 +1115,20 @@ var options = {
                 textucss.disabled = !currentstate;
                 textcss.disabled = !currentstate;
                 textarea.disabled = !currentstate;
-                this.setAttribute('checked', currentstate);
-                options.setForSite(window.location.hostname, currentstate);
-                log('set whitelisted for <' + window.location.hostname + '> to ' + options.getForSite(window.location.hostname));
+                this.checked = currentstate;
+                options.setForSite(domain, currentstate);
+                log('set whitelisted for <' + domain + '> to ' + options.getForSite(domain));
             };
             this.appendChild(checkbox);
         };
         area.showSubscriptions = function (pos) {
             this.clear(pos);
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
+<<<<<<< HEAD
             this.createCheckboxButton('EasyList and EasyPrivacy', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+=======
+            this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
             this.createCheckboxButton('EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
             this.createCheckboxButton('EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
@@ -813,7 +1142,11 @@ var options = {
             this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
+<<<<<<< HEAD
             this.createCheckboxButton('Fanboy main + Spanish/Portuguese + Tracking ', 'https://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
+=======
+            this.createCheckboxButton('Fanboy Main + Spanish/Portuguese + Tracking ', 'https://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             this.createCheckboxButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
             this.createCheckboxButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
             this.createCheckboxButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
@@ -824,6 +1157,11 @@ var options = {
             this.createCheckboxButton('FanBoy polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
             this.createCheckboxButton('FanBoy vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
             this.createCheckboxButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
+            this.appendChild(document.createElement('br'));
+            this.createCheckboxButton('AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
+            this.createCheckboxButton('Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
+            this.createCheckboxButton('MalwarePatrol', 'http://www.malwarepatrol.net/cgi/submit?action=list_adblock');
+            this.createCheckboxButton('Peter Lowes list', 'http://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&mimetype=plaintext');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
 
@@ -837,21 +1175,65 @@ var options = {
                     dlsubscription.disabled = true;
                 }
 
-                var url = [], inputs = area.getElementsByTagName('input');
+                var url = [], inputs = area.querySelectorAll('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
+<<<<<<< HEAD
                     if (radioButton.type === 'checkbox' && radioButton.checked) {
+=======
+                    if (radioButton.type === 'checkbox' && radioButton.checked === true) {
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
                         url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value);
                     }
                 }
                 if (url.length) {
-                    dlsubscription.childNodes[0].src = imgLoad;
+                    dlsubscription.firstChild.src = imgLoad;
                     setValue('noads_default_url2', url);
                     postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
                 } else {
                     postMsg({ type: 'get_filters', url: '' });
                 }
             }, '', imgRefresh));
+<<<<<<< HEAD
         },
+=======
+        };
+        area.showUpdates = function (pos) {
+            var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000,
+                output = document.createElement('output'),
+                input = document.createElement('input'),
+                lastUpdateNode = document.createTextNode('');
+
+            this.clear(pos);
+            this.appendChild(document.createTextNode(lng.uInterval + " "));
+
+            output.appendChild(document.createTextNode(defaultValue.toString()));
+            this.appendChild(output);
+
+            this.appendChild(document.createElement('br'));
+
+            input.id = 'noads_autoupdate_interval';
+            input.type = 'range';
+            input.min = 1;
+            input.max = 30;
+            input.value = defaultValue;
+            input.onchange = function () {
+                this.parentNode.childNodes[1].firstChild.nodeValue = this.value;
+            };
+
+            this.appendChild(input);
+            this.appendChild(document.createElement('br'));
+
+            this.appendChild(lastUpdateNode);
+            options.setLastUpdate(lastUpdateNode);
+            this.appendChild(document.createElement('br'));
+
+            this.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+                var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
+                options.setAutoupdate(noads_autoupdate_interval);
+            }, 'positive', imageTick));
+        };
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         area.showHelp = function (pos) {
             this.clear(pos);
             var p = document.createElement('pre');
@@ -867,6 +1249,7 @@ var options = {
             win.createMenu(
                 [lng.pSite, function () { area.showSitePreferences(0); }]
             );
+<<<<<<< HEAD
         } else {        
            win.createMenu( 
                [lng.mUCSS, function () { area.showUserCSSList(0); }], 
@@ -877,6 +1260,19 @@ var options = {
                [lng.mURLfilters, function () { area.showURLfilters(5); }],
                [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
                [lng.mHelp, function () { area.showHelp(7); }]
+=======
+        } else {
+            win.createMenu(
+                [lng.mUCSS, function () { area.showUserCSSList(0); }],
+                [lng.mCSS, function () { area.showCSSList(1); }],
+                [lng.mScripts, function () { area.showScriptWhitelist(2); }],
+                [lng.mMK, function () { area.showMagicList(3); }],
+                [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
+                [lng.mURLfilters, function () { area.showURLfilters(5); }],
+                [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
+                [lng.mUpdates, function () { area.showUpdates(7); }],
+                [lng.mHelp, function () { area.showHelp(8); }]
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             );
         }
         content.appendChild(area);

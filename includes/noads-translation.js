@@ -1,17 +1,3 @@
-// ==UserScript==
-// @include http*
-// @exclude opera:*
-// @exclude about:*
-// @exclude widget:*
-// @exclude *://localhost*
-// @exclude *://192.168.*
-// @exclude *://0.0.0.0*
-// @exclude *dragonfly.opera.com*
-// @exclude *acid3.acidtests.org*
-// @exclude *.futuremark.com*
-// @exclude *v8.googlecode.com*
-// ==/UserScript==
-
 /*
 The main idea is to convey the content, so do not be afraid to localize the original text with something different
 (something that fits, of course). Read the original text, understand its content, and consider how you would formulate the text
@@ -53,6 +39,7 @@ var TRANSLATION = function () {
             mMK:  '\u041c\u0430\u0433\u0438\u044f',
             mURLfilters: 'URL-\u0444\u0438\u043b\u044c\u0442\u0440\u044b',
             mUserURLfilters: '\u041f\u043e\u043b\u044c\u0437.URL-\u0444\u0438\u043b\u044c\u0442\u0440\u044b',
+            mUpdates: '\u041e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435',
             pSave: '\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c',
             pCSS: 'CSS \u0444\u0438\u043b\u044c\u0442\u0440\u044b:',
             pUCSS: '\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0435 CSS-\u0444\u0438\u043b\u044c\u0442\u0440\u044b:',
@@ -64,6 +51,7 @@ var TRANSLATION = function () {
             pBlockingDisable: '\u041e\u0442\u043a\u043b\u044e\u0447\u0438\u0442\u044c CSS \u0438 JS \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043d\u0430 \u0441\u0430\u0439\u0442\u0435',
             pBlockingEnable: '\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c CSS \u0438 JS \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043d\u0430 \u0441\u0430\u0439\u0442\u0435',
             pBlockedScripts: '\u0417\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0435 \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u0441\u043a\u0440\u0438\u043f\u0442\u044b:',
+            pBlockedAdded: '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0431\u0435\u043b\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a:',
             pDownload: '\u0421\u043a\u0430\u0447\u0430\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443',
             pAddToWhite: '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u044b\u0434\u0435\u043b\u0435\u043d\u043d\u043e\u0435 \u0432 \u0431\u0435\u043b\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a',
             pAllRules: '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043e\u0431\u0449\u0438\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u0430 \u0438 \u0438\u0441\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f',
@@ -78,6 +66,11 @@ var TRANSLATION = function () {
             pCSSlinks: '\u0421\u0441\u044b\u043b\u043a\u0438, \u0432\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS',
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
             pInvalidSelector: '\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 CSS \u0441\u0435\u043b\u0435\u043a\u0442\u043e\u0440. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0438\u043d\u0442\u0430\u043a\u0441\u0438\u0441.',
+<<<<<<< HEAD
+=======
+            uLastUpdate: '\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435:',
+            uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):'
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -112,6 +105,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: 'Aktifle\u015Ftirildi',
             pDisabled: 'Disabled',
             pScripts: 'Harici betikleri engelle. Beyaz Liste',
@@ -119,6 +113,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: 'Harici betikler engellendi',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: 'Filtre indir',
             pAddToWhite: 'Add selected to white list',
             pAllRules: 'Import all rules (maybe slow)',
@@ -133,6 +128,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'fr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -167,6 +164,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: 'Active',
             pDisabled: 'Disabled',
             pScripts: 'Blocage de scripts externes. Liste blanche',
@@ -174,6 +172,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: 'Scripts externes bloques',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: 'Telecharger une liste',
             pAddToWhite: 'Ajouter la selection a la liste blanche',
             pAllRules: 'Importer toutes les regles (parfois lent)',
@@ -188,6 +187,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'pl': return {
             _s: function (count) { return (count > 4) ? '\u00f3w' : ((count > 1) ? 'y' : ''); },
@@ -220,6 +221,7 @@ var TRANSLATION = function () {
             mMK: 'Filtry magiczne',
             mURLfilters: 'Filtry URL',
             mUserURLfilters: 'Filtry URL u\u017Cytkownika',
+            mUpdates: 'Updates',
             mSubscriptions: 'Subskrypcje',
             mHelp: 'Pomoc',
             pEnabled: 'W\u0142\u0105czone',
@@ -229,6 +231,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Wy\u0142\u0105cz blokowanie CSS i JS na tej stronie',
             pBlockingEnable: 'W\u0142\u0105cz blokowanie CSS i JS na tej stronie',
             pBlockedScripts: 'Zablokowane zewn\u0119trzne skrypty:',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: 'Pobierz subskrypcj\u0119',
             pAddToWhite: 'Dodaj zaznaczone do bia\u0142ej listy',
             pAllRules: 'Zaimportuj wykluczenia i regu\u0142y globalne',
@@ -243,6 +246,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Linki osadzone w CSS',
             pDebug: 'Debuguj',
             pInvalidSelector: 'Selektor CSS jest niepoprawny. Prosz\u0119 sprawdzi\u0107 sk\u0142adni\u0119.',
+            uLastUpdate: 'Ostatnia aktualizacja:',
+            uInterval: 'Czas (w dniach):'
         };
         case 'zh-tw': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -273,6 +278,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: '\u5132\u5B58',
             pCSS: 'CSS \u904E\u6FFE\u898F\u5247:',
             pUCSS: '\u4F7F\u7528\u8005 CSS \u904E\u6FFE\u898F\u5247:',
@@ -284,6 +290,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: '\u5DF2\u963B\u64CB\u7684\u5916\u90E8\u8173\u672C',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: '\u4E0B\u8F09\u8A02\u95B1\u6E05\u55AE',
             pAddToWhite: '\u5C07\u6240\u9078\u5167\u5BB9\u52A0\u5165\u767D\u540D\u55AE',
             pAllRules: '\u532F\u5165\u6240\u6709\u7684\u898F\u5247 (\u53EF\u80FD\u6703\u5F88\u6162)',
@@ -298,6 +305,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh_TW': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -328,6 +337,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: '\u5132\u5B58',
             pCSS: 'CSS \u904E\u6FFE\u898F\u5247:',
             pUCSS: '\u4F7F\u7528\u8005 CSS \u904E\u6FFE\u898F\u5247:',
@@ -339,6 +349,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: '\u5DF2\u963B\u64CB\u7684\u5916\u90E8\u8173\u672C',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: '\u4E0B\u8F09\u8A02\u95B1\u6E05\u55AE',
             pAddToWhite: '\u5C07\u6240\u9078\u5167\u5BB9\u52A0\u5165\u767D\u540D\u55AE',
             pAllRules: '\u532F\u5165\u6240\u6709\u7684\u898F\u5247 (\u53EF\u80FD\u6703\u5F88\u6162)',
@@ -353,6 +364,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh-cn': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -387,6 +400,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: '\u542F\u7528',
             pDisabled: 'Disabled',
             pScripts: '\u5916\u90E8\u811A\u672C\u767D\u540D\u5355 (\u4E0D\u8981\u963B\u6321\u8FD9\u4E9B\u5916\u90E8\u811A\u672C)',
@@ -394,6 +408,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: '\u5DF2\u963B\u6321\u7684\u5916\u90E8\u811A\u672C',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: '\u4E0B\u8F7D\u8BA2\u9605\u6E05\u5355',
             pAddToWhite: '\u5C06\u6240\u9009\u5185\u5BB9\u52A0\u5165\u767D\u540D\u5355',
             pAllRules: '\u6C47\u5165\u6240\u6709\u7684\u89C4\u5219 (\u53EF\u80FD\u4F1A\u5F88\u6162)',
@@ -408,6 +423,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
         case 'zh_CN': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
@@ -442,6 +459,7 @@ var TRANSLATION = function () {
             pMK: 'MagicFunction filters:',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pEnabled: '\u542F\u7528',
             pDisabled: 'Disabled',
             pScripts: '\u5916\u90E8\u811A\u672C\u767D\u540D\u5355 (\u4E0D\u8981\u963B\u6321\u8FD9\u4E9B\u5916\u90E8\u811A\u672C)',
@@ -449,6 +467,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: '\u5DF2\u963B\u6321\u7684\u5916\u90E8\u811A\u672C',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: '\u4E0B\u8F7D\u8BA2\u9605\u6E05\u5355',
             pAddToWhite: '\u5C06\u6240\u9009\u5185\u5BB9\u52A0\u5165\u767D\u540D\u5355',
             pAllRules: '\u6C47\u5165\u6240\u6709\u7684\u89C4\u5219 (\u53EF\u80FD\u4F1A\u5F88\u6162)',
@@ -463,6 +482,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
     	case 'es': return { //  (neutral Spanish (es)) (international Spanish)
              _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -495,6 +516,10 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
+<<<<<<< HEAD
+=======
+            mUpdates: 'Actualizaciones',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -504,6 +529,10 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
+<<<<<<< HEAD
+=======
+            pBlockedAdded: 'Added to the script blocker exclusions:',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -518,6 +547,11 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
+<<<<<<< HEAD
+=======
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
+            uInterval: 'Frecuencia (d\u00EDas):'
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
     	case 'es-AR': return { // ARGENTINE SPANISH/Castilian
              _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -550,6 +584,10 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
+<<<<<<< HEAD
+=======
+            mUpdates: 'Actualizaciones',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -559,6 +597,10 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
+<<<<<<< HEAD
+=======
+            pBlockedAdded: 'Added to the script blocker exclusions:',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -573,6 +615,11 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
+<<<<<<< HEAD
+=======
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
+            uInterval: 'Frecuencia (d\u00EDas):'
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
     	case 'es-ES': return { // Spain-Spanish (es-ES)
              _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -605,6 +652,10 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'Filtros URL',
             mUserURLfilters: 'Filtros URL Del Usuario',
+<<<<<<< HEAD
+=======
+            mUpdates: 'Actualizaciones',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             mSubscriptions: 'Suscripciones',
             mHelp: 'Ayuda',
             pEnabled: 'Activado',
@@ -614,6 +665,10 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
             pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
             pBlockedScripts: 'Scripts Externos Bloqueados:',
+<<<<<<< HEAD
+=======
+            pBlockedAdded: 'Added to the script blocker exclusions:',
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
             pDownload: 'Descargar Suscripci\u00F3n ',
             pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
             pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
@@ -628,6 +683,11 @@ var TRANSLATION = function () {
             pCSSlinks: 'Enlaces incrustados en el CSS',
             pDebug: 'Depurar',
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
+<<<<<<< HEAD
+=======
+            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
+            uInterval: 'Frecuencia (d\u00EDas):'
+>>>>>>> 3716c3327a445d93298410c276055e452322ef3a
 		};
         case 'de': return {
             _s: function (count) { return (count > 1) ? 'e' : ''; },
@@ -658,6 +718,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filter',
             mUserURLfilters: 'User URL-filter',
+            mUpdates: 'Updates',
             pSave: 'Speichern',
             pCSS: 'CSS Filter:',
             pUCSS: 'Benutzer CSS Filter:',
@@ -669,6 +730,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: 'Externe Scripts blockiert:',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: 'Lade Subskription herunter',
             pAddToWhite: 'F\u00FCge ausgew\u00E4hltes zur wei\u00DFen Liste hinzu...',
             pAllRules: 'Importiere alle Regeln (kann eine weile dauern)',
@@ -683,7 +745,68 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         };
+		case 'pt-BR': return { // Brazilian Portuguese (pt-BR) - Jonathan Soares: jnsoares@myopera.com
+			_s: function (count) { return (count > 1) ? 's' : ''; },
+			unblock: 'Desbloquear',
+            disabled: 'Bloqueio desabilitado',
+            blocked: 'Bloqueado',
+            script: 'script',
+            and: ' e ',
+            element: 'elemento',
+            reload: 'Esta p\u00E1gina precisa ser recarregada',
+            nDisabled: 'NoAds desabilitado',
+            nEnabled: 'NoAds habilitado',
+            eStyles: 'Por favor, edite os estilos:',
+            bElement: 'Insira o(s) seletor(es) CSS do(s) elemento(s) para bloquear (= igual, ^= come\u00E7a com; *= cont\u00E9m):',
+            iSubs: 'Inscri\u00E7\u00E3o de %url adicionou %d regras.',
+            iNoDefSub: 'Erro: n\u00E3o h\u00E1 inscri\u00E7\u00E3o default.',
+            iNoQuota: 'Opera ' + OPERA_VERSION + ' n\u00E3o suporta widget.preferences ou a cota de armazenamento \u00E9 muito pequena. \n\nConfigurar "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
+            pInfo: 'Informa\u00E7\u00E3o',
+            pError: 'Erro',
+            pClose: 'Fechar',
+            pGlobal: 'Prefer\u00EAncias Gerais',
+            pSite: 'Prefer\u00EAncias do Site',
+            pSave: 'Salvar',
+            pCSS: 'Filtros CSS:',
+            pUCSS: 'Filtros CSS de usu\u00E1rio:',
+            pMK: 'Filtros MagicFunction:',
+            mUCSS:  'CSS de Usu\u00E1rio',
+            mCSS:  'CSS',
+            mScripts:  'Scripts',
+            mMK:  'M\u00E1gico',
+            mURLfilters: 'Filtros-URL',
+            mUserURLfilters: 'Filtros-URL de usu\u00E1rio',
+            mUpdates: 'Atualiza\u00E7\u00F5es',
+            mSubscriptions: 'Inscri\u00E7\u00F5es',
+            mHelp: 'Ajuda',
+            pEnabled: 'Habilitado',
+            pDisabled: 'Desabilitado',
+            pScripts: 'Lista branca dos scripts externos:',
+            pAbout: EXTNAME + ' v' + VERSION + '\n\nSobre:\nExtens\u00E3o bloqueia scripts externos, fun\u00E7\u00F5es e vari\u00E1veis de um espec\u00EDfico script global, elementos de uma p\u00E1gina podem importar inscri\u00E7\u00F5es de CSS-block (formato Adblock Plus) ou o arquivos de filtro URL-block (urlfilter.ini). Enquanto estiver criando as regras gerais, voc\u00EA deve saber que ir\u00E1 haver a tend\u00EAncia de acontecer mais falsos positivos, enquanto os mais espec\u00EDficos ir\u00E3o falhar mais frequentemente. A mudan\u00E7a do bot\u00E3o da barra de menu ter\u00E1 efeito quando reiniciar o navegador.\n\nAtalhos:\nPrefer\u00EAncias do site - Alt+Shift+P\n\nCriar regra geral - Alt+Shift+A\nCriar regra espec\u00EDfica - Alt+Shift+B\nDesbloquear - Alt+Shift+U\nDesbloquear o \u00FAltimo elemento - Alt+Shift+L\n\nPara bloquear/desbloquear v\u00E1rios elementos use Shift+Click.',
+            pBlockingDisable: 'Desabilitar o bloqueio de CSS e JS para este site',
+            pBlockingEnable: 'Habilitar o bloqueio de CSS e JS para este site',
+            pBlockedScripts: 'Scripts externos bloqueados:',
+            pBlockedAdded: 'Adicionado às exclus\u00F5es do script bloqueador:',
+            pDownload: 'Baixar inscri\u00E7\u00E3o',
+            pAddToWhite: 'Adicionar selecionado a lista branca',
+            pAllRules: 'Adicionar Exclus\u00E3o e regras gerais',
+            pAddRules: 'Adicionar regras ao atual',
+            pShowButton: 'Mostrar bot\u00E3o de acesso r\u00E1pido',
+            pExport: 'Exportar',
+            pURLfilters: 'Filtro de URL:',
+            pUserURLfilters: 'Filtros URL de usu\u00E1rio:',
+            pHide: 'Ocultar',
+            pHideButton: 'Ocultar bot\u00E3o r\u00E1pido',
+            pToolbarButton: 'Bot\u00E3o da Barra de Menu',
+            pCSSlinks: 'Links embutidos no CSS',
+            pDebug: 'Depurar',
+            pInvalidSelector: 'O seletor CSS est\u00E1 inv\u00E1lido. Por favor, confira a sintaxe.',
+            uLastUpdate: '\u00FAltima atualiza\u00E7\u00E3o:',
+            uInterval: 'Intervalo (dias):'		
+		};
         default: return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Unblock',
@@ -696,7 +819,7 @@ var TRANSLATION = function () {
             nDisabled: 'NoAds disabled',
             nEnabled: 'NoAds enabled',
             eStyles: 'Please, edit styles:',
-            bElement: 'Input CSS selector(s) of element(s) to block (= euqals, ^= begins with; *= contains):',
+            bElement: 'Input CSS selector(s) of element(s) to block (= equals, ^= begins with; *= contains):',
             iSubs: 'Subscription from %url added %d rules.',
             iNoDefSub: 'Error: no default subscription.',
             iNoQuota: 'Opera ' + OPERA_VERSION + ' does not support widget.preferences or storage quota is too small. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
@@ -715,6 +838,7 @@ var TRANSLATION = function () {
             mMK:  'Magic',
             mURLfilters: 'URL-filters',
             mUserURLfilters: 'User URL-filters',
+            mUpdates: 'Updates',
             mSubscriptions: 'Subscriptions',
             mHelp: 'Help',
             pEnabled: 'Enabled',
@@ -724,6 +848,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Disable CSS and JS blocking for site',
             pBlockingEnable: 'Enable CSS and JS blocking for site',
             pBlockedScripts: 'Blocked external scripts:',
+            pBlockedAdded: 'Added to the script blocker exclusions:',
             pDownload: 'Download subscription',
             pAddToWhite: 'Add selected to white list',
             pAllRules: 'Add exclusion and global rules',
@@ -738,6 +863,8 @@ var TRANSLATION = function () {
             pCSSlinks: 'Links embedded in CSS',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
+            uLastUpdate: 'Last update:',
+            uInterval: 'Interval (days):'
         }
     }
 }; //TRANSLATION
