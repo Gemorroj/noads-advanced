@@ -4,7 +4,6 @@ window.addEventListener('load', function () {
     bDebug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
-
     var button;
     if (options.checkEnabled('noads_tb_enabled_state')) {
         button = opera.contexts.toolbar.createItem({
@@ -14,13 +13,19 @@ window.addEventListener('load', function () {
             popup: {
                 href: 'menu.html',
                 width: lng.baseMenuWidth || 180,
-                height: lng.baseMenuHeight  || 155
+                height: lng.baseMenuHeight || 155
+            },
+            badge : {
+                display: 'none',
+                textContent : '0',
+                color : 'white',
+                backgroundColor : 'rgba(211, 0, 4, 1)'
             }
         });
         opera.contexts.toolbar.addItem(button);
     } else {
-        // lol, had problems with button if it was all in if(_state)
-        button = {disabled: true};
+        // had problems with button if it was all in if(_state)
+        button = { disabled: true };
     }
 
     function enableButton () {
@@ -31,7 +36,7 @@ window.addEventListener('load', function () {
         if (e && e.origin && e.origin.indexOf('menu.html') > -1 && e.origin.indexOf('widget://') > -1) {
             var tab = opera.extension.tabs.getFocused();
             if (tab) {
-                tab.postMessage(encodeMessage({type: 'noads_bg_port'}), [e.source]);
+                tab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
             }
         } else {
             enableButton();
@@ -41,6 +46,10 @@ window.addEventListener('load', function () {
     function onMessageHandler (e) {
         var message = decodeMessage(e.data);
         switch (message.type) {
+            //case 'set_badge':
+            //    button.badge.display = "block";
+            //    button.badge.textContent = message.blocked || '0';
+            //    theButton.badge.color = "white";
             case 'get_filters':
                 if (!e.source) return;
 
@@ -54,13 +63,11 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
-                importerCallback = function (rulesN) {
-                    if (rulesN) {
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [], importerCallback = function(rulesN) {
+                    if(rulesN) {
                         message_success.push(message.url[subsc]);
                         message_rules = rulesN;
-                    } else {
-                        message_fileerror.push(message.url[subsc]);
+                    } else {                        message_fileerror.push(message.url[subsc]);
                     }
                 };
                 for (var subsc = 0, l = message.url.length; subsc < l; subsc++) {
@@ -94,9 +101,7 @@ window.addEventListener('load', function () {
                     }));
                 }
                 break;
-
-            case 'unblock_address':
-                log('user URL-filter unblocked url -> ' + message.url);
+            case 'unblock_address':                log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
                 var filters = importer.arrayUserFilters.length;
                 for (var i = 0; i < filters; i++) {
@@ -111,20 +116,14 @@ window.addEventListener('load', function () {
                     setValue('noads_urlfilterlist', '');
                 }
                 break;
-
-            case 'block_address':
-                log('user URL-filter blocked url -> ' + message.url);
+            case 'block_address':                log('user URL-filter blocked url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
                 importer.arrayUserFilters.unshift(message.url);
                 setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 break;
-
-            case 'reload_rules':
-                importer.reloadRules(message.global, false);
+            case 'reload_rules':                importer.reloadRules(message.global, false);
                 break;
-
-            case 'noads_import_status':
-                if (message.status === 'good') {
+            case 'noads_import_status':                if (message.status === 'good') {
                     window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
                 } else {
                     window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
@@ -133,12 +132,9 @@ window.addEventListener('load', function () {
         }
     }
 
-
-    if (options.checkEnabled('noads_autoupdate_state')) {
-        var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
-        if (next_update < (new Date()).getTime()) {
-            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'),
-            importerCallback = function (rulesN) {
+    if(options.checkEnabled('noads_autoupdate_state')) {
+        var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));        if (next_update < (new Date()).getTime()) {
+            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
                 //TODO:notification
             };
             for (var subsc = 0, l = url.length; subsc < l; subsc++) {
