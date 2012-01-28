@@ -1,3 +1,15 @@
+// ==UserScript==
+// @include http*
+// @exclude opera:*
+// @exclude about:*
+// @exclude widget:*
+// @exclude *://localhost*
+// @exclude *://192.168.*
+// @exclude *://0.0.0.0*
+// @exclude *dragonfly.opera.com*
+// ==/UserScript==
+
+
 // global variables
 var sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
 var none = '{display: none !important;}',
@@ -566,11 +578,11 @@ var run = {
                 }
             },
             getStyleSheet = function () {
-                var css = '';
-                for (var i = 0, l = document.styleSheets.length; i < l; i++) {
+                var css = '', styles = document.styleSheets;
+                for (var i = 0, l = styles.length; i < l; i++) {
                     try {
-                        for (var j = 0, len = document.styleSheets[i].cssRules.length; j < len; j++) {
-                            css += document.styleSheets[i].cssRules[j].cssText;
+                        for (var j = 0, len = styles[i].cssRules.length; j < len; j++) {
+                            css += styles[i].cssRules[j].cssText;
                         }
                     } catch (e) {}
                 }

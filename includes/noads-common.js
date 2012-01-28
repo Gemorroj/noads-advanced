@@ -1,3 +1,15 @@
+// ==UserScript==
+// @include http*
+// @exclude opera:*
+// @exclude about:*
+// @exclude widget:*
+// @exclude *://localhost*
+// @exclude *://192.168.*
+// @exclude *://0.0.0.0*
+// @exclude *dragonfly.opera.com*
+// ==/UserScript==
+
+
 var storage = widget.preferences; // var storage = window.opera.storage;
 var extension = window.opera.extension;
 var domain = window.location.hostname;
