@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
             //case 'set_badge':
             //    button.badge.display = "block";
             //    button.badge.textContent = message.blocked || '0';
-            //    theButton.badge.color = "white";
+            //    button.badge.color = "white";
             case 'get_filters':
                 if (!e.source) return;
 
@@ -63,11 +63,13 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [], importerCallback = function(rulesN) {
-                    if(rulesN) {
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                importerCallback = function (rulesN) {
+                    if (rulesN) {
                         message_success.push(message.url[subsc]);
                         message_rules = rulesN;
-                    } else {                        message_fileerror.push(message.url[subsc]);
+                    } else {
+                        message_fileerror.push(message.url[subsc]);
                     }
                 };
                 for (var subsc = 0, l = message.url.length; subsc < l; subsc++) {
@@ -132,7 +134,7 @@ window.addEventListener('load', function () {
         }
     }
 
-    if(options.checkEnabled('noads_autoupdate_state')) {
+    if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));        if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
                 //TODO:notification

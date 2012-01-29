@@ -10,7 +10,12 @@
 // ==/UserScript==
 
 // global variables
-var bDebug = options.checkEnabled('noads_debug_enabled_state'), lng = new TRANSLATION(), sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '', inlineScripts = 0, blockingText = '', reSkip, reBlock;
+var bDebug = options.checkEnabled('noads_debug_enabled_state'),
+    lng = new TRANSLATION(),
+    sStyle, uStyle,
+    sCSS = '', uCSS = '',
+    blockedScripts = '', inlineScripts = 0,
+    blockingText = '', reSkip, reBlock;
 
 var quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\

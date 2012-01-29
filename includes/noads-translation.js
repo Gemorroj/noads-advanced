@@ -848,7 +848,7 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):',
             baseMenuWidth: 145, 
-            baseMenuHeight: 150,
+            baseMenuHeight: 150
         }
     }
 }; //TRANSLATION

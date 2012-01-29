@@ -9,6 +9,7 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
+
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
 .noads_win{font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
@@ -18,7 +19,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content{background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;height:95%;overflow:hidden;width:97%;margin:0 5px 5px;padding:5px;}\
 .noads_content .inline{position:relative;display:inline-block;float:right;margin-top:-48px;margin-right:-10px;}\
 .noads_content .inline-clean{position:relative;display:inline-block;margin-top:-28px;}\
-.noads_content button{background-image:none !important;width:auto;height:auto;display:inline-block;float:left;background-color:#f5f5f5 !important;border:1px solid #dedede;border-top:1px solid #eee;border-left:1px solid #eee;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:100%;line-height:130%;text-decoration:none;text-transform:none;vertical-align:middle;font-weight:700;color:#565656;cursor:pointer !important;opacity:1;z-index:1000005 !important;margin:10px 10px 5px 0;padding:5px 10px 6px 7px;}\
+.noads_content button{background-image:none !important;width:auto;height:auto;display:inline-block;float:left;background-color:#f5f5f5 !important;border:1px solid #dedede;border-top:1px solid #eee;border-left:1px solid #eee;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:100%;line-height:130%;text-decoration:none;vertical-align:middle;font-weight:700;color:#565656;cursor:pointer !important;opacity:1;z-index:1000005 !important;margin:10px 10px 5px 0;padding:5px 10px 6px 7px;}\
 .noads_content button.unchecked{opacity:0.5;}\
 .noads_content button img{display: inline-block;border:none;width:16px;height:16px;margin:0 3px -3px 0 !important;padding:0;}\
 .noads_content button:hover{background-color:#dff4ff;border:1px solid #c2e1ef;color:#369;}\
@@ -29,18 +30,18 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
 .noads_area{padding: 0 15px 0 15px; margin:0; width:auto;}\
-.noads_content textarea{box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",arial,tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;box-shadow:none !important;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
+.noads_content textarea{box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",arial,tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .strikethrough{text-decoration: line-through;}\
 .noads_content .right{position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
-.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_content input[type="range"]{width:100%;}\
 .noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:0 4px;}\
 .noads_label_subscription:hover{text-decoration: underline;}\
-.noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;text-transform:none;margin:0;padding:0;}\
+.noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
@@ -344,7 +345,7 @@ var options = {
             '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
             '^https?://(?:cdn\\.)?sstatic\\.net',
             '^https?://[0-9a-z-]*\\.cloudfront\\.net',
-            '^https?://[0-9a-z-.]+\\.com\\.com',
+            '^https?://[0-9a-z-\\.]+\\.com\\.com',
             '^https?://[0-9a-z-]*\\.disqus\\.com',
             '^https?://[0-9a-z-]*\\.googleapis\\.com',
             '^https?://[0-9a-z-]*\\.yahooapis\\.com',
@@ -359,10 +360,10 @@ var options = {
             '^https?://[a-z-]+\\.bitsontherun\\.com',
             '^https?://[a-z-]+\\.cdn\\.turner\\.com',
             '^https?://[a-z]+\\.ignimgs\\.com',
-            '^https?://[a-z-]+.stj\\.s-msn\\.com',
-            '^https?://[0-9a-z-.]+\\.s-msft\\.com',
+            '^https?://[a-z-]+\\.stj\\.s-msn\\.com',
+            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
             '^https?://[0-9a-z-]+\\.olark\\.com',
-            '^https?://[a-z.]+\\.twitter\\.com',
+            '^https?://[a-z\\.]+\\.twitter\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
             '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
             '^https?://a\\.dolimg\\.com',
@@ -379,7 +380,7 @@ var options = {
             '^https?://api\\.recaptcha\\.net',
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://auth\\.tbn\\.ru',
-            '^https?://[0-9a-z.]+\\.akamai\\.net',
+            '^https?://[0-9a-z\\.]+\\.akamai\\.net',
             '^https?://cdn\\.gigya\\.com',
             '^https?://cdn\\.gradientbot\\.com',
             '^https?://connect\\.facebook\\.net',
@@ -392,7 +393,8 @@ var options = {
             '^https?://internal\\.immogames\\.cdnvideo\\.ru',
             '^https?://ipinfodb\\.com',
             '^https?://live\\.nhle\\.com',
-            '^https?://lp\\.longtailvideo\\.com',
+            '^https?://[0-9a-z\\.]+\\.longtailvideo\\.com',
+            '^https?://[0-9a-z\\.]\\.edgecastcdn\\.net',
             '^https?://mat1\\.gtimg\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://rutube\\.ru',
@@ -432,19 +434,19 @@ var options = {
             'config\\.js',
             'core\\.js',
             'dojo\\.js',
-            'ext[0-9a-z.-]*\\.js',
+            'ext[0-9a-z\\.-]*\\.js',
             'home\\.js',
             'feedback\\.js',
-            'jquery[0-9a-z.-]*\\.js',
-            'mootools[0-9a-z-.]*\\.js',
+            'jquery[0-9a-z\\.-]*\\.js',
+            'mootools[0-9a-z-\\.]*\\.js',
             'ping\\.js',
             'play(?:er)?\\.js',
-            'prototype[0-9a-z.-]*\\.js',
+            'prototype[0-9a-z\\.-]*\\.js',
             'show_afs_search\\.js',
-            'swfobject[0-9-.]*\\.js',
+            'swfobject[0-9-\\.]*\\.js',
             'widgets?\\.js',
             'yahoo-dom-event\\.js',
-            'yui[0-9a-z.-]*\\.js'
+            'yui[0-9a-z\\.-]*\\.js'
         ];
 
         setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('\n@@=='));
@@ -479,7 +481,7 @@ var options = {
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return (retRe ? new RegExp('^*$') : false);
+                    return false;//(retRe ? new RegExp('^*$') : false);
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
                 rez.push(rule.slice(4));
