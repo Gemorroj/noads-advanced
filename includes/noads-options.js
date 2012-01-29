@@ -12,7 +12,7 @@
 
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
+.noads_win{font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:95%;margin:5% auto;padding:5px;}\
 .noads_close_window{background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -66,9 +66,9 @@ var options = {
     // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;
-        var str, arr = domains.split(','), inDomain = false, exDomain = false, l = arr.length;
+        var str, arr = domains.split(','), inDomain = false, exDomain = false;
         while (domain) {
-            for (var i = 0; i < l; i++) {
+            for (var i = 0, l = arr.length; i < l; i++) {
                 str = arr[i];
                 if (str.charAt(0) !== '~') {
                     if (str == domain) {
@@ -240,7 +240,7 @@ var options = {
         }
         if (domain) {
             tmp = getValue(name).split('\n');
-            for (var i = 0, l = tmp.length; i < l; i++) {
+            for (var i = tmp.length; i--; ) {
                 rule = tmp[i];
                 pos = rule.indexOf('##');
                 if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
@@ -481,7 +481,7 @@ var options = {
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return false;
+                    return false;//(retRe ? new RegExp('^*$') : false);
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
                 rez.push(rule.slice(4));
@@ -489,7 +489,7 @@ var options = {
         }
 
         tmp = null;
-        return retRe ? new RegExp((rez.join('|') || '^$'), 'i') : true;
+        return retRe ? new RegExp((rez.join('|') || '^$'), 'i') : true; //.replace(/\/|\.(?=[\w\d])/g, '\\$&')
     },
 
     getLastUpdate: function () {
@@ -598,8 +598,8 @@ var options = {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
             menu.id = 'noads_menu';
-            for (var i = 0, item; item = arguments[i]; i++) {
-                var list = document.createElement('li');
+            for (var item, list, i = 0; item = arguments[i]; i++) {
+                list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
                 list.style.backgroundColor = (i === 0) ? '#fafbfc' : '#edeeef';

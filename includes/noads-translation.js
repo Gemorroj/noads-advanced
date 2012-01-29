@@ -9,7 +9,6 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
-
 /*
 The main idea is to convey the content, so do not be afraid to localize
 the original text with something different (something that fits, of course).
@@ -847,7 +846,9 @@ var TRANSLATION = function () {
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
-            uInterval: 'Interval (days):'
+            uInterval: 'Interval (days):',
+            baseMenuWidth: 145, 
+            baseMenuHeight: 150
         }
     }
 }; //TRANSLATION

@@ -9,7 +9,6 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
-
 var storage = widget.preferences; // var storage = window.opera.storage;
 var extension = window.opera.extension;
 var domain = window.location.hostname;

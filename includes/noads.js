@@ -9,7 +9,6 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
-
 // global variables
 var bDebug = options.checkEnabled('noads_debug_enabled_state'),
     lng = new TRANSLATION(),
@@ -18,8 +17,12 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'),
     blockedScripts = '', inlineScripts = 0,
     blockingText = '', reSkip, reBlock;
 
+var quickButtonCSS = ' \
+#noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
+#noads_button:hover{-o-transition: right 1s}\
+';
 
-function showButton (e) {
+function showQuickButton(e) {
     var docEle;
 
     if (document.compatMode === 'CSS1Compat' && window.postMessage) {
@@ -32,7 +35,8 @@ function showButton (e) {
         run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
     }
 }
-function onCSSAllowed () {
+
+function setupFiltersCSS() {
     // Add CSS rules
     if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) {
         sCSS = options.getRules('noads_list', domain);
@@ -52,16 +56,9 @@ function onCSSAllowed () {
             log('Blocked User CSS for <' + domain + '>');
         }
     }
-
-    // Create the quick button
-    // don't want that in a frames
-    if (window.top === window.self && options.checkEnabled('noads_button_state')) {
-        log('Button is enabled...');
-        addStyle(quickButtonCSS, 'qbCSS');
-        window.addEventListener('mousemove', showButton, false);
-    }
 }
-function onPopupMessageHandler (e) {
+
+function onPopupMessageHandler(e) {
     // Parse menu messages
     var message = decodeMessage(e.data);
     if (message.type) {
@@ -69,67 +66,57 @@ function onPopupMessageHandler (e) {
             case 'block_ads':
                 run.blockElement(true);
                 break;
-
             case 'block_ele':
                 run.blockElement();
                 break;
-
             case 'unblock_ele':
                 run.unblockElement();
                 break;
-
             case 'unblock_latest':
                 run.unblockElement(true);
                 break;
-
             case 'content_block_helper':
                 run.contentBlockHelper();
                 break;
-
             case 'show_preferences':
                 options.showPreferences(domain);
                 break;
-
             case 'ask_menu_status':
                 e.source.postMessage(encodeMessage({type: 'menu_status_enable'}));
                 break;
         }
     }
 }
-function onHotkeyHandler (e) {
+
+function onHotkeyHandler(e) {
     if (e.shiftKey && !e.ctrlKey && e.altKey) {
         switch (e.keyCode) {
             case 68:
-                run.toggleBlocking();
-                break; // permanent unblock/block for the site with Alt+Shift+D
-
+                run.toggleBlocking(); // permanent unblock/block for the site with Alt+Shift+D
+                break;
             case 69:
-                run.editStyles();
-                break; // Edit styles with Alt+Shift+E
-
+                run.editStyles(); // Edit styles with Alt+Shift+E
+                break;
             case 85:
-                run.unblockElement();
-                break; // Unblock elements with Alt+Shift+U
-
+                run.unblockElement(); // Unblock elements with Alt+Shift+U
+                break;
             case 66:
-                run.blockElement();
-                break; // Block element with Alt+Shift+B
-
+                run.blockElement(); // Block element with Alt+Shift+B
+                break;
             case 76:
-                run.unblockElement(true);
-                break; // Unblock latest element with Alt+Shift+L
-
+                run.unblockElement(true); // Unblock latest element with Alt+Shift+L
+                break;
             case 65:
-                run.blockElement(true);
-                break; // Block elements (don't use nth-child) with Alt+Shift+A
-
+                run.blockElement(true); // Block elements (don't use nth-child) with Alt+Shift+A
+                break;
             case 80:
-                options.showPreferences(domain);
-                break; // Show preferences with Alt+Shift+P
+                options.showPreferences(domain); // Show preferences with Alt+Shift+P
+                break;
         }
     }
 }
-function onBeforeExternalScriptHandler (e) {
+
+function onBeforeExternalScriptHandler(e) {
     var src = e.element.src;
     if (!src || reSkip.test(src)) return;
     var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(domain);
@@ -141,14 +128,16 @@ function onBeforeExternalScriptHandler (e) {
         log('Blocked external script -> ' + src + ' for <' + domain + '>');
     }
 }
-function onBeforeScriptHandler (e) {
+
+function onBeforeScriptHandler(e) {
     if (reBlock.test(e.element.text)) {
         e.preventDefault();
         inlineScripts++;
         log('Blocked inline script -> ' + inlineScripts + ' for <' + domain + '>');
     }
 }
-function onMessageHandler (e) {
+
+function onMessageHandler(e) {
     var message = decodeMessage(e.data);
     if (message.type === 'noads_bg_port') {
         var channel = new MessageChannel();
@@ -156,7 +145,17 @@ function onMessageHandler (e) {
         channel.port1.onmessage = onPopupMessageHandler;
     }
 }
-function magicHandler () {
+
+/* Add custom magic; yay Merlin!
+ *
+ * Magical formulae:
+ *   ##function Name
+ *   ##var Name
+ *
+ * Users can't define function body for a security considerations.
+ * Function name filter: ;:)function,{}-+[]'"
+ */
+function setupMagic() {
     var sMagic = getValue('noads_magiclist').split('\n');
     if (sMagic) {
         blockingText += ', magic';
@@ -186,14 +185,16 @@ function magicHandler () {
                  } else {*/
                 (function (name, debug) {
                     window.opera.defineMagicFunction(j[1], function () {
-                        if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                        if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
+                        return;
                     });
                 })(j[1], bDebug);
                 //}
 
                 (function (name, debug) {
                     window[name] = function () {
-                        if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void'); return;
+                        if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
+                        return;
                     };
                 })(j[1], bDebug);
             } else if (j[0].match(/^var/i)) {
@@ -209,31 +210,34 @@ function magicHandler () {
     }
 }
 
-// In case we did something unneeded
+// On document load
 window.addEventListener('DOMContentLoaded', function () {
-    // don't want that in a frames
-    if (window.top === window.self) {
-        if (blockingText !== '') {
-            log('On ' + domain + ' blocking:' + blockingText.substring(1));
-        }
-
-        // Setup hotkeys
-        window.addEventListener('keydown', onHotkeyHandler, false);
-
-        // Create menu messaging channel and parse background messages
-        opera.extension.onmessage = onMessageHandler;
-    }
-
     if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
         delElement(document.getElementById('sCSS'));
         delElement(document.getElementById('uCSS'));
         delElement(document.getElementById('qbCSS'));
-        window.removeEventListener('mousemove', showButton, false);
+        window.removeEventListener('mousemove', showQuickButton, false);
+        window.removeEventListener('keydown', onHotkeyHandler, false);
+    } else {
+        // don't want that in a frames
+        if (window.top === window.self) {
+            // Setup hotkeys
+            window.addEventListener('keydown', onHotkeyHandler, false);
+
+            // Create menu messaging channel and parse background messages
+            opera.extension.onmessage = onMessageHandler;
+
+            if (options.checkEnabled('noads_button_state')) {
+                log('Button is enabled...');
+                addStyle(quickButtonCSS, 'qbCSS');
+                window.addEventListener('mousemove', showQuickButton, false);
+            }
+        }
     }
 }, false);
 
-
-(function() {
+// Main body
+(function () {
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
     if (typeof storage === "undefined" || !storage) {
         run.setStatus(lng.iNoQuota);
@@ -243,11 +247,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // CSS
     try {
-        onCSSAllowed();
+        setupFiltersCSS();
     } catch (e) {
-        window.opera.addEventListener('BeforeCSS', onCSSAllowed, false);
+        window.opera.addEventListener('BeforeCSS', setupFiltersCSS, false);
     }
-
 
     // Block external scripts
     if (options.checkEnabled('noads_scriptlist_state')) {
@@ -265,16 +268,11 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    /* Add custom magic; yay Merlin!
-     *
-     * Magical formulae:
-     *   ##function Name
-     *   ##var Name
-     *
-     * Users can't define function body for a security considerations.
-     * Function name filter: ;:)function,{}-+[]'"
-    */
+    if (blockingText !== '') {
+        log('On ' + domain + ' blocking:' + blockingText.substring(1));
+    }
+
     if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
-        magicHandler();
+        setupMagic();
     }
 })();

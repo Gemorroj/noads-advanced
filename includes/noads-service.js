@@ -9,7 +9,6 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
-
 // global variables
 var sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
 var none = '{display: none !important;}',
@@ -499,6 +498,7 @@ var run = {
             return;
         }
 
+        // checking for invalid CSS in preferences and removing unused ones
         try {
             for (var i = arrCSS.length; i--;) {
                 document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
