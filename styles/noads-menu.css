@@ -1,13 +1,14 @@
 body {
     overflow: hidden;
     margin: 0;
-    padding: 3px;
+    padding: 0.2em;
     background-color: white;
     color: black;
     font-family: Tahoma, Sans-serif;
-    font-size: 12px;
+    font-size: 12px !important;
 }
 .menu {
+    padding-top: 0.5em;
 }
 .menu div {
     padding: 4px;

@@ -37,6 +37,21 @@ if (opera.extension) {
 }
 
 window.addEventListener('DOMContentLoaded', function () {
+    // fix for a higher font height settings, default font defined in CSS as 12px
+    var default_size = 12,
+        actual_font;
+    try {
+        actual_font = opera.extension.bgProcess.actual_font || parseInt(window.getComputedStyle(document.getElementById("id-menu"),null).getPropertyValue("font-size").replace(/[a-z]/gi,''),10);
+        if (!opera.extension.bgProcess.menu_resized && actual_font / default_size > 1) {
+            var height = opera.extension.bgProcess.button.popup.height,
+            width = opera.extension.bgProcess.button.popup.width;
+            opera.extension.bgProcess.button.popup.height = Math.round(height*actual_font/default_size);
+            opera.extension.bgProcess.button.popup.width = Math.round(width*actual_font/default_size);
+            opera.extension.bgProcess.menu_resized = true;
+            opera.extension.bgProcess.actual_font = actual_font;
+        }
+    } catch (bug) {}
+
     var block_ads = document.getElementById('block_ads'),
         block_ele = document.getElementById('block_ele'),
         unblock_ele = document.getElementById('unblock_ele'),

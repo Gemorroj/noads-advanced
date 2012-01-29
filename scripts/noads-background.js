@@ -1,10 +1,9 @@
-var bDebug = false, lng = {};
+var bDebug = false, lng = {}, button, menu_resized = false, actual_font = 0;
 
 window.addEventListener('load', function () {
     bDebug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
-    var button;
     if (options.checkEnabled('noads_tb_enabled_state')) {
         button = opera.contexts.toolbar.createItem({
             disabled: true,
@@ -103,7 +102,8 @@ window.addEventListener('load', function () {
                     }));
                 }
                 break;
-            case 'unblock_address':                log('user URL-filter unblocked url -> ' + message.url);
+            case 'unblock_address':
+                log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
                 var filters = importer.arrayUserFilters.length;
                 for (var i = 0; i < filters; i++) {
@@ -118,12 +118,14 @@ window.addEventListener('load', function () {
                     setValue('noads_urlfilterlist', '');
                 }
                 break;
-            case 'block_address':                log('user URL-filter blocked url -> ' + message.url);
-                opera.extension.urlfilter.block.add(message.url);
-                importer.arrayUserFilters.unshift(message.url);
-                setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
+            case 'block_address':
+                    log('user URL-filter blocked url -> ' + message.url);
+                    opera.extension.urlfilter.block.add(message.url);
+                    importer.arrayUserFilters.unshift(message.url);
+                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 break;
-            case 'reload_rules':                importer.reloadRules(message.global, false);
+            case 'reload_rules':
+                    importer.reloadRules(message.global, false);
                 break;
             case 'noads_import_status':                if (message.status === 'good') {
                     window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
