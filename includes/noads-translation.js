@@ -79,7 +79,9 @@ var TRANSLATION = function () {
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
             pInvalidSelector: '\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 CSS \u0441\u0435\u043b\u0435\u043a\u0442\u043e\u0440. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0438\u043d\u0442\u0430\u043a\u0441\u0438\u0441.',
             uLastUpdate: '\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435:',
-            uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):'
+            uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):',
+            baseMenuWidth: 180,
+            baseMenuHeight: 160
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
