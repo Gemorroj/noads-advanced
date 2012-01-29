@@ -63,12 +63,11 @@ var options = {
     setEnabled: function (name, value) {
         setValue(name, value ? 'enabled' : 'disabled');
     },
-    // subscriptions
     isCorrectDomain: function (domain, domains) {
         if (!domains) return true;
-        var str, arr = domains.split(','), inDomain = false, exDomain = false;
+        var str, arr = domains.split(','), inDomain = false, exDomain = false, l = arr.length;
         while (domain) {
-            for (var i = 0, l = arr.length; i < l; i++) {
+            for (var i = 0; i < l; i++) {
                 str = arr[i];
                 if (str.charAt(0) !== '~') {
                     if (str == domain) {
@@ -481,7 +480,7 @@ var options = {
             // @@|| - direct domain, @@== - RegExp domain
             if (rule.indexOf('@@||') === 0) {
                 if (this.isWhiteListed(rule.slice(4), domain)) {
-                    return false;//(retRe ? new RegExp('^*$') : false);
+                    return false;
                 }
             } else if (retRe && rule.indexOf('@@==') === 0) {
                 rez.push(rule.slice(4));
