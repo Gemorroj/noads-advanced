@@ -8,7 +8,6 @@
   <description xml:lang="en">Advertisement blocking filter.</description>
   <description xml:lang="ru">Блокировщик рекламы.</description>
   <description xml:lang="es">Filtro para bloquear publicidad</description>
-
   <!-- Initial preferences -->
   <preference name="noads_tb_enabled_state" value="enabled"/>
   <preference name="noads_userlist_state" value="enabled"/>
@@ -24,7 +23,6 @@
   <preference name="noads_autoupdate_state" value="enabled"/>
   <!-- <preference name="noads_autoupdate_notification_state" value="enabled"/> -->
   <preference name="noads_autoupdate_interval" value="86400000"/>
-
   <!-- CSS selectors and URL filter subscription sites. -->
   <access origin="*" subdomains="true"/>
   <!--

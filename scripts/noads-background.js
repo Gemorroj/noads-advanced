@@ -1,10 +1,9 @@
-var bDebug = false, lng = {};
+var bDebug = false, lng = {}, button, menu_resized = false, actual_font = 0;
 
 window.addEventListener('load', function () {
     bDebug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
-    var button;
     if (options.checkEnabled('noads_tb_enabled_state')) {
         button = opera.contexts.toolbar.createItem({
             disabled: true,
@@ -121,13 +120,13 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'block_address':
-                log('user URL-filter blocked url -> ' + message.url);
-                opera.extension.urlfilter.block.add(message.url);
-                importer.arrayUserFilters.unshift(message.url);
-                setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
+                    log('user URL-filter blocked url -> ' + message.url);
+                    opera.extension.urlfilter.block.add(message.url);
+                    importer.arrayUserFilters.unshift(message.url);
+                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 break;
             case 'reload_rules':
-                importer.reloadRules(message.global, false);
+                    importer.reloadRules(message.global, false);
                 break;
             case 'noads_import_status':
                 if (message.status === 'good') {
