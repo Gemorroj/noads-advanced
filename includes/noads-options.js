@@ -36,7 +36,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .strikethrough{text-decoration: line-through;}\
 .noads_content .right{position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{position:relative;float:right;margin-right:10px;}\
-.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_content input[type="range"]{width:100%;}\
 .noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:0 4px;}\
@@ -298,6 +298,7 @@ var options = {
             '@@||bbc.co.uk^',
             '@@||bing.com^',
             '@@||britannica.com^',
+            '@@||browserid.org^',
             '@@||deviantart.com^',
             '@@||ebay.com^',
             '@@||eurosport.ru^',
@@ -380,6 +381,7 @@ var options = {
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://auth\\.tbn\\.ru',
             '^https?://[0-9a-z\\.]+\\.akamai\\.net',
+            '^https?://[0-9a-z\\.]*\\.?browserid\\.org',
             '^https?://cdn\\.gigya\\.com',
             '^https?://cdn\\.gradientbot\\.com',
             '^https?://connect\\.facebook\\.net',
