@@ -223,10 +223,10 @@ window.addEventListener('DOMContentLoaded', function () {
         if (window.top === window.self) {
             // Setup hotkeys
             window.addEventListener('keydown', onHotkeyHandler, false);
-            
+
             // Create menu messaging channel and parse background messages
             opera.extension.onmessage = onMessageHandler;
-            
+
             if (options.checkEnabled('noads_button_state')) {
                 log('Button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');
@@ -267,7 +267,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    
+
     if (blockingText !== '') {
         log('On ' + domain + ' blocking:' + blockingText.substring(1));
     }

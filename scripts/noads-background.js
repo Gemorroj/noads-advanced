@@ -16,9 +16,9 @@ window.addEventListener('load', function () {
             },
             badge : {
                 display: 'none',
-                textContent : '0',
-                color : 'white',
-                backgroundColor : 'rgba(211, 0, 4, 1)'
+                textContent: '0',
+                color: 'white',
+                backgroundColor: 'rgba(211, 0, 4, 1)'
             }
         });
         opera.contexts.toolbar.addItem(button);
@@ -49,6 +49,7 @@ window.addEventListener('load', function () {
             //    button.badge.display = "block";
             //    button.badge.textContent = message.blocked || '0';
             //    button.badge.color = "white";
+            //    break;
             case 'get_filters':
                 if (!e.source) return;
 
@@ -127,7 +128,8 @@ window.addEventListener('load', function () {
             case 'reload_rules':
                     importer.reloadRules(message.global, false);
                 break;
-            case 'noads_import_status':                if (message.status === 'good') {
+            case 'noads_import_status':
+                if (message.status === 'good') {
                     window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
                 } else {
                     window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
@@ -137,7 +139,8 @@ window.addEventListener('load', function () {
     }
 
     if (options.checkEnabled('noads_autoupdate_state')) {
-        var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));        if (next_update < (new Date()).getTime()) {
+        var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
+        if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
                 //TODO:notification
             };
