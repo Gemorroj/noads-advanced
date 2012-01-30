@@ -472,7 +472,7 @@ var run = {
                     el.onclick = null;
                     el = el.parentElement;
                 }
-            }
+            } else { run.stop(); }
             return false;
         };
 
@@ -480,7 +480,7 @@ var run = {
             out();
             remove();
         };
-        //TODO:???
+
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);

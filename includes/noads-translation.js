@@ -13,7 +13,9 @@
 The main idea is to convey the content, so do not be afraid to localize
 the original text with something different (something that fits, of course).
 Read the original text, understand its content, and consider how you would formulate
-the text in your language (without first having heard of the original text).
+the text in your language (without first having heard of the original).
+
+All non-ascii text should be properjy JavaSript-escaped.
 */
 
 // translations
@@ -22,6 +24,8 @@ var EXTNAME = widget.name;
 var OPERA_VERSION = window.opera.version();
 var TRANSLATION = function () {
     switch (window.navigator.language) {
+        case 'ru-RU':
+        case 'ru_RU':
         case 'ru': return {
             _s: function (count) { return (count > 4) ? '\u043e\u0432' : ((count > 1) ? '\u0430' : ''); },
             unblock: '\u0420\u0430\u0437\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u0442\u044c: ',
@@ -260,65 +264,7 @@ var TRANSLATION = function () {
             uLastUpdate: 'Ostatnia aktualizacja:',
             uInterval: 'Czas (w dniach):'
         };
-        case 'zh-tw': return {
-            _s: function (count) { return (count > 1) ? '' : ''; },
-            unblock: '\u53D6\u6D88\u963B\u64CB: ',
-            disabled: '\u505C\u6B62\u963B\u64CB',
-            blocked: '\u5DF2\u963B\u64CB',
-            script: '\u8173\u672C',
-            and: ' \u53CA ',
-            element: '\u5143\u7D20',
-            reload: '\u672C\u9801\u9762\u5FC5\u9808\u91CD\u65B0\u8F09\u5165',
-            nDisabled: 'NoAds \u5DF2\u505C\u7528',
-            nEnabled: 'NoAds \u5DF2\u555F\u7528',
-            eStyles: '\u8ACB\u7DE8\u8F2F\u6A23\u5F0F\u898F\u5247:',
-            bElement: '\u662F\u5426\u8981\u963B\u64CB\u6B64\u5143\u7D20?',
-            iSubs: 'Subscription from %url added %d rules.',
-            iNoDefSub: '\u932F\u8AA4. \u6C92\u6709\u9810\u8A2D\u7684\u8A02\u95B1\u6E05\u55AE',
-            iNoQuota: '\u4F60\u7684\u700F\u89BD\u5668\u4E26\u4E0D\u652F\u63F4 widget.preferences \u6216\u8005\u662F\u672A\u6307\u5B9A\u5B58\u653E\u5BB9\u91CF. \n\n\u8ACB\u5C07 "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" \u8A2D\u81F3 2048 \u4EE5\u4E0A.',
-            pInfo: '\u8CC7\u8A0A',
-            pError: 'Error',
-            pClose: '\u95DC\u9589',
-            pGlobal: '\u5168\u57DF\u504F\u597D',
-            pSite: '\u7AD9\u53F0\u504F\u597D',
-            mSubscriptions: '\u8A02\u95B1\u6E05\u55AE',
-            mHelp: '\u8AAA\u660E',
-            mUCSS:  'UserCSS',
-            mCSS:  'CSS',
-            mScripts:  'Scripts',
-            mMK:  'Magic',
-            mURLfilters: 'URL-filter',
-            mUserURLfilters: 'User URL-filter',
-            mUpdates: 'Updates',
-            pSave: '\u5132\u5B58',
-            pCSS: 'CSS \u904E\u6FFE\u898F\u5247:',
-            pUCSS: '\u4F7F\u7528\u8005 CSS \u904E\u6FFE\u898F\u5247:',
-            pMK: 'MagicFunction filters:',
-            pEnabled: '\u555F\u7528',
-            pDisabled: 'Disabled',
-            pScripts: '\u5916\u90E8\u8173\u672C\u767D\u540D\u55AE (\u4E0D\u8981\u963B\u64CB\u9019\u4E9B\u5916\u90E8\u8173\u672C)',
-            pAbout: EXTNAME + ' v' + VERSION + '\u6B63\u5F0F\u7248\n\n\u529F\u80FD:\n\u963B\u64CB\u5916\u90E8\u8173\u672C, \u963B\u64CB\u9801\u9762\u5143\u7D20, \u4E26\u53EF\u5F9E AdBlock Plus EHH \u532F\u5165\u8A02\u95B1\u6E05\u55AE.\n\n\u71B1\u9375:\n\u504F\u597D\u8A2D\u5B9A - Alt+Shift+P\n\n\u963B\u64CB\u5EE3\u544A - Alt+Shift+A\n\u963B\u64CB\u5143\u7D20 - Alt+Shift+B\n\u53D6\u6D88\u963B\u64CB - Alt+Shift+U\n\u9084\u539F\u6700\u5F8C\u4E00\u500B\u963B\u64CB\u7684\u5143\u7D20 - Alt+Shift+L\n\n\u963B\u64CB\u6216\u53D6\u6D88\u963B\u64CB\u591A\u500B\u5143\u7D20 - \u6309\u4F4F Shift \u518D\u9EDE\u64CA',
-            pBlockingDisable: 'Disable CSS and JS blocking for site',
-            pBlockingEnable: 'Enable CSS and JS blocking for site',
-            pBlockedScripts: '\u5DF2\u963B\u64CB\u7684\u5916\u90E8\u8173\u672C',
-            pBlockedAdded: 'Added to the script blocker exclusions:',
-            pDownload: '\u4E0B\u8F09\u8A02\u95B1\u6E05\u55AE',
-            pAddToWhite: '\u5C07\u6240\u9078\u5167\u5BB9\u52A0\u5165\u767D\u540D\u55AE',
-            pAllRules: '\u532F\u5165\u6240\u6709\u7684\u898F\u5247 (\u53EF\u80FD\u6703\u5F88\u6162)',
-            pAddRules: '\u52A0\u5165\u5DF2\u6709\u7684\u898F\u5247 (\u53EF\u80FD\u6703\u5F88\u6162)',
-            pShowButton: '\u986F\u793A\u5FEB\u901F\u6309\u9215',
-            pExport: 'Export',
-            pURLfilters: 'URL filter',
-            pUserURLfilters: 'User URL filters:',
-            pHide: 'Hide',
-            pHideButton: 'Hide quick button',
-            pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
-            pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            uLastUpdate: 'Last update:',
-            uInterval: 'Interval (days):'
-        };
+        case 'zh-tw':
         case 'zh_TW': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u64CB: ',
@@ -378,65 +324,7 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):'
         };
-        case 'zh-cn': return {
-            _s: function (count) { return (count > 1) ? '' : ''; },
-            unblock: '\u53D6\u6D88\u963B\u6321: ',
-            disabled: '\u505C\u6B62\u963B\u6321',
-            blocked: '\u5DF2\u963B\u6321',
-            script: '\u811A\u672C',
-            and: ' \u53CA ',
-            element: '\u5143\u7D20',
-            reload: '\u672C\u9875\u9762\u5FC5\u987B\u91CD\u65B0\u8F7D\u5165',
-            nDisabled: 'NoAds \u5DF2\u505C\u7528',
-            nEnabled: 'NoAds \u5DF2\u542F\u7528',
-            eStyles: '\u8BF7\u7F16\u8F91\u6837\u5F0F\u89C4\u5219:',
-            bElement: '\u662F\u5426\u8981\u963B\u6321\u6B64\u5143\u7D20?',
-            iSubs: 'Subscription from %url added %d rules.',
-            iNoDefSub: '\u9519\u8BEF. \u6CA1\u6709\u9884\u8BBE\u7684\u8BA2\u9605\u6E05\u5355',
-            iNoQuota: '\u4F60\u7684\u6D4F\u89C8\u5668\u5E76\u4E0D\u652F\u63F4 widget.preferences \u6216\u8005\u662F\u672A\u6307\u5B9A\u5B58\u653E\u5BB9\u91CF. \n\n\u8BF7\u5C06 "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" \u8BBE\u81F3 2048 \u4EE5\u4E0A.',
-            pInfo: '\u8D44\u8BAF',
-            pError: 'Error',
-            pClose: '\u5173\u95ED',
-            pGlobal: '\u5168\u57DF\u504F\u597D',
-            pSite: '\u7AD9\u53F0\u504F\u597D',
-            mSubscriptions: '\u8BA2\u9605\u6E05\u5355',
-            mHelp: '\u8BF4\u660E',
-            mUCSS:  'UserCSS',
-            mCSS:  'CSS',
-            mScripts:  'Scripts',
-            mMK:  'Magic',
-            pSave: '\u50A8\u5B58',
-            pCSS: 'CSS \u8FC7\u6EE4\u89C4\u5219:',
-            pUCSS: '\u4F7F\u7528\u8005 CSS \u8FC7\u6EE4\u89C4\u5219:',
-            pMK: 'MagicFunction filters:',
-            mURLfilters: 'URL-filter',
-            mUserURLfilters: 'User URL-filter',
-            mUpdates: 'Updates',
-            pEnabled: '\u542F\u7528',
-            pDisabled: 'Disabled',
-            pScripts: '\u5916\u90E8\u811A\u672C\u767D\u540D\u5355 (\u4E0D\u8981\u963B\u6321\u8FD9\u4E9B\u5916\u90E8\u811A\u672C)',
-            pAbout: EXTNAME + ' v' + VERSION + '\u6B63\u5F0F\u7248\n\n\u529F\u80FD:\n\u963B\u6321\u5916\u90E8\u811A\u672C, \u963B\u6321\u9875\u9762\u5143\u7D20, \u5E76\u53EF\u4ECE AdBlock Plus EHH \u6C47\u5165\u8BA2\u9605\u6E05\u5355.\n\n\u70ED\u952E:\n\u504F\u597D\u8BBE\u5B9A - Alt+Shift+P\n\n\u963B\u6321\u5E7F\u544A - Alt+Shift+A\n\u963B\u6321\u5143\u7D20 - Alt+Shift+B\n\u53D6\u6D88\u963B\u6321 - Alt+Shift+U\n\u8FD8\u539F\u6700\u540E\u4E00\u4E2A\u963B\u6321\u7684\u5143\u7D20 - Alt+Shift+L\n\n\u963B\u6321\u6216\u53D6\u6D88\u963B\u6321\u591A\u4E2A\u5143\u7D20 - \u6309\u4F4F Shift \u518D\u70B9\u51FB',
-            pBlockingDisable: 'Disable CSS and JS blocking for site',
-            pBlockingEnable: 'Enable CSS and JS blocking for site',
-            pBlockedScripts: '\u5DF2\u963B\u6321\u7684\u5916\u90E8\u811A\u672C',
-            pBlockedAdded: 'Added to the script blocker exclusions:',
-            pDownload: '\u4E0B\u8F7D\u8BA2\u9605\u6E05\u5355',
-            pAddToWhite: '\u5C06\u6240\u9009\u5185\u5BB9\u52A0\u5165\u767D\u540D\u5355',
-            pAllRules: '\u6C47\u5165\u6240\u6709\u7684\u89C4\u5219 (\u53EF\u80FD\u4F1A\u5F88\u6162)',
-            pAddRules: '\u52A0\u5165\u5DF2\u6709\u7684\u89C4\u5219 (\u53EF\u80FD\u4F1A\u5F88\u6162)',
-            pShowButton: '\u663E\u793A\u5FEB\u901F\u6309\u94AE',
-            pExport: 'Export',
-            pURLfilters: 'URL filter',
-            pUserURLfilters: 'User URL filters:',
-            pHide: 'Hide',
-            pHideButton: 'Hide quick button',
-            pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
-            pDebug: 'Debug',
-            pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
-            uLastUpdate: 'Last update:',
-            uInterval: 'Interval (days):'
-        };
+        case 'zh-cn':
         case 'zh_CN': return {
             _s: function (count) { return (count > 1) ? '' : ''; },
             unblock: '\u53D6\u6D88\u963B\u6321: ',
@@ -496,7 +384,13 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):'
         };
-    	case 'es': return { //  (neutral Spanish (es)) (international Spanish)
+        // Neutral Spanish (es) / International Spanish
+        // Contributor: MarioLR
+        case 'es':
+        // Argentine Spanish/Castilian (es-AR)
+        case 'es-AR':
+        // Spain-Spanish (es-ES)
+        case 'es-ES':  return {
              _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Desbloquear',
             disabled: 'Bloqueo desactivado',
@@ -554,125 +448,9 @@ var TRANSLATION = function () {
             pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
             uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
             uInterval: 'Frecuencia (d\u00EDas):'
-		};
-    	case 'es-AR': return { // ARGENTINE SPANISH/Castilian
-             _s: function (count) { return (count > 1) ? 's' : ''; },
-            unblock: 'Desbloquear',
-            disabled: 'Bloqueo desactivado',
-            blocked: 'Bloqueado',
-            script: 'script',
-            and: ' y ',
-            element: 'Elemento',
-            reload: 'Esta p\u00E1gina debe recargarse',
-            nDisabled: 'NoAds desactivado',
-            nEnabled: 'NoAds activado',
-            eStyles: 'Por favor, editar estilos:',
-            bElement: 'Ingresar selector CSS (s) del elemento (s) a bloquear (= Igual, ^= inicia con; *= incluye):',
-            iSubs: 'Suscripci\u00F3n de %url  a\u00F1adida %d a las reglas.',
-            iNoDefSub: 'Error: ninguna suscripci\u00F3n predeterminada.',
-            iNoQuota: 'Opera ' + OPERA_VERSION + ' No soporta widget. Las preferencias o la cuota de almacenamiento son demasiado peque\u00F1as. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
-            pInfo: 'Informaci\u00F3n',
-            pError: 'Error',
-            pClose: 'Cerrar',
-            pGlobal: 'Preferencias globales',
-            pSite: 'Preferencias del sitio',
-            pSave: 'Guardar',
-            pCSS: 'Filtros CSS:',
-            pUCSS: 'Filtros CSS del usuario:',
-            pMK: 'Filtros MagicFunction:',
-            mUCSS:  'CSS del usuario',
-            mCSS:  'CSS',
-            mScripts:  'Scripts',
-            mMK:  'Magic',
-            mURLfilters: 'Filtros URL',
-            mUserURLfilters: 'Filtros URL Del Usuario',
-            mUpdates: 'Actualizaciones',
-            mSubscriptions: 'Suscripciones',
-            mHelp: 'Ayuda',
-            pEnabled: 'Activado',
-            pDisabled: 'Desactivado',
-            pScripts: 'Lista blanca de scripts externos (Permitidos):',
-            pAbout: EXTNAME + ' v' + VERSION + '\n\nAbout:\nExtension blocks external scripts, specific global script functions and variables, elements of a page and can import subscriptions from CSS-block (Adblock+ format) or URL-block (urlfilter.ini) filter files. While creating general rules you should know that they tend to generate more false-positives while accurate ones will fail more often. Toolbar button toggle taking effect after browser restart.\n\nHotkeys:\nSite preferences - Alt+Shift+P\n\nCreate general rule - Alt+Shift+A\nCreate accurate rule - Alt+Shift+B\nUnblock - Alt+Shift+U\nUnblock latest element - Alt+Shift+L\n\nTo block/unblock several elements use Shift+Click.',
-            pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
-            pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
-            pBlockedScripts: 'Scripts Externos Bloqueados:',
-            pBlockedAdded: 'Added to the script blocker exclusions:',
-            pDownload: 'Descargar Suscripci\u00F3n ',
-            pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
-            pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
-            pAddRules: 'Agregar reglas a las actuales',
-            pShowButton: 'Mostrar bot\u00F3n de acceso r\u00E1pido',
-            pExport: 'Exportar',
-            pURLfilters: 'Filtros URL:',
-            pUserURLfilters: 'Filtros URL del usuario:',
-            pHide: 'Ocultar',
-            pHideButton: 'Ocultar bot\u00F3n de acceso r\u00E1pido',
-            pToolbarButton: 'Bot\u00F3n de la barra de herramientas',
-            pCSSlinks: 'Enlaces incrustados en el CSS',
-            pDebug: 'Depurar',
-            pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
-            uInterval: 'Frecuencia (d\u00EDas):'
-		};
-    	case 'es-ES': return { // Spain-Spanish (es-ES)
-             _s: function (count) { return (count > 1) ? 's' : ''; },
-            unblock: 'Desbloquear',
-            disabled: 'Bloqueo desactivado',
-            blocked: 'Bloqueado',
-            script: 'script',
-            and: ' y ',
-            element: 'Elemento',
-            reload: 'Esta p\u00E1gina debe recargarse',
-            nDisabled: 'NoAds desactivado',
-            nEnabled: 'NoAds activado',
-            eStyles: 'Por favor, editar estilos:',
-            bElement: 'Ingresar selector CSS (s) del elemento (s) a bloquear (= Igual, ^= inicia con; *= incluye):',
-            iSubs: 'Suscripci\u00F3n de %url  a\u00F1adida %d a las reglas.',
-            iNoDefSub: 'Error: ninguna suscripci\u00F3n predeterminada.',
-            iNoQuota: 'Opera ' + OPERA_VERSION + ' No soporta widget. Las preferencias o la cuota de almacenamiento son demasiado peque\u00F1as. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',
-            pInfo: 'Informaci\u00F3n',
-            pError: 'Error',
-            pClose: 'Cerrar',
-            pGlobal: 'Preferencias globales',
-            pSite: 'Preferencias del sitio',
-            pSave: 'Guardar',
-            pCSS: 'Filtros CSS:',
-            pUCSS: 'Filtros CSS del usuario:',
-            pMK: 'Filtros MagicFunction:',
-            mUCSS:  'CSS del usuario',
-            mCSS:  'CSS',
-            mScripts:  'Scripts',
-            mMK:  'Magic',
-            mURLfilters: 'Filtros URL',
-            mUserURLfilters: 'Filtros URL Del Usuario',
-            mUpdates: 'Actualizaciones',
-            mSubscriptions: 'Suscripciones',
-            mHelp: 'Ayuda',
-            pEnabled: 'Activado',
-            pDisabled: 'Desactivado',
-            pScripts: 'Lista blanca de scripts externos (Permitidos):',
-            pAbout: EXTNAME + ' v' + VERSION + '\n\nAbout:\nExtension blocks external scripts, specific global script functions and variables, elements of a page and can import subscriptions from CSS-block (Adblock+ format) or URL-block (urlfilter.ini) filter files. While creating general rules you should know that they tend to generate more false-positives while accurate ones will fail more often. Toolbar button toggle taking effect after browser restart.\n\nHotkeys:\nSite preferences - Alt+Shift+P\n\nCreate general rule - Alt+Shift+A\nCreate accurate rule - Alt+Shift+B\nUnblock - Alt+Shift+U\nUnblock latest element - Alt+Shift+L\n\nTo block/unblock several elements use Shift+Click.',
-            pBlockingDisable: 'Desactivar el Bloqueo De CSS y JS para este sitio',
-            pBlockingEnable: 'Activar el Bloqueo De CSS y JS para este sitio',
-            pBlockedScripts: 'Scripts Externos Bloqueados:',
-            pBlockedAdded: 'Added to the script blocker exclusions:',
-            pDownload: 'Descargar Suscripci\u00F3n ',
-            pAddToWhite: 'A\u00F1adir seleccionados a la lista blanca',
-            pAllRules: 'Agregar Exclusi\u00F3n y reglas globales',
-            pAddRules: 'Agregar reglas a las actuales',
-            pShowButton: 'Mostrar bot\u00F3n de acceso r\u00E1pido',
-            pExport: 'Exportar',
-            pURLfilters: 'Filtros URL:',
-            pUserURLfilters: 'Filtros URL del usuario:',
-            pHide: 'Ocultar',
-            pHideButton: 'Ocultar bot\u00F3n de acceso r\u00E1pido',
-            pToolbarButton: 'Bot\u00F3n de la barra de herramientas',
-            pCSSlinks: 'Enlaces incrustados en el CSS',
-            pDebug: 'Depurar',
-            pInvalidSelector: 'El Selector CSS no es v\u00E1lido. Por favor, compruebe la sintaxis.',
-            uLastUpdate: '\u00DAltima actualizaci\u00F3n:',
-            uInterval: 'Frecuencia (d\u00EDas):'
-		};
+        };
+        // German (de)
+        // Contributor: ChaosWalksIn
         case 'de': return {
             _s: function (count) { return (count > 1) ? 'e' : ''; },
             unblock: 'Deblockiere: ',
@@ -732,9 +510,11 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Interval (days):'
         };
-		case 'pt-BR': return { // Brazilian Portuguese (pt-BR) - Jonathan Soares: jnsoares@myopera.com
-			_s: function (count) { return (count > 1) ? 's' : ''; },
-			unblock: 'Desbloquear',
+        // Brazilian Portuguese (pt-BR)
+        // Contributor: Jonathan Soares: jnsoares@myopera.com
+        case 'pt-BR': return {
+            _s: function (count) { return (count > 1) ? 's' : ''; },
+            unblock: 'Desbloquear',
             disabled: 'Bloqueio desabilitado',
             blocked: 'Bloqueado',
             script: 'script',
@@ -773,7 +553,7 @@ var TRANSLATION = function () {
             pBlockingDisable: 'Desabilitar o bloqueio de CSS e JS para este site',
             pBlockingEnable: 'Habilitar o bloqueio de CSS e JS para este site',
             pBlockedScripts: 'Scripts externos bloqueados:',
-            pBlockedAdded: 'Adicionado às exclus\u00F5es do script bloqueador:',
+            pBlockedAdded: 'Adicionado Г s exclus\u00F5es do script bloqueador:',
             pDownload: 'Baixar inscri\u00E7\u00E3o',
             pAddToWhite: 'Adicionar selecionado a lista branca',
             pAllRules: 'Adicionar Exclus\u00E3o e regras gerais',
@@ -789,8 +569,10 @@ var TRANSLATION = function () {
             pDebug: 'Depurar',
             pInvalidSelector: 'O seletor CSS est\u00E1 inv\u00E1lido. Por favor, confira a sintaxe.',
             uLastUpdate: '\u00FAltima atualiza\u00E7\u00E3o:',
-            uInterval: 'Intervalo (dias):'		
-		};
+            uInterval: 'Intervalo (dias):'        
+        };
+        // International English (en)
+        // Contributor: <author> <additional-info>
         default: return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
             unblock: 'Unblock',

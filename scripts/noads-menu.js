@@ -1,4 +1,7 @@
-var lng = new MENU_TRANSLATION(), theport, enabled = false;
+var theport, enabled = false;
+
+document.getElementsByTagName('html')[0].setAttribute('lang', window.navigator.language);
+document.getElementsByTagName('html')[0].setAttribute('xml:lang', window.navigator.language);
 
 function onMessageHandler (e) {
     if (!e || !e.data) return;
@@ -58,16 +61,7 @@ window.addEventListener('DOMContentLoaded', function () {
         unblock_latest = document.getElementById('unblock_latest'),
         show_preferences = document.getElementById('show_preferences'),
         content_block_helper = document.getElementById('content_block_helper');
-
-    if (window.navigator.language !== 'en') {
-        block_ads.replaceChild(document.createTextNode(lng.blockAds),block_ads.firstChild);
-        block_ele.replaceChild(document.createTextNode(lng.blockEle),block_ele.firstChild);
-        unblock_ele.replaceChild(document.createTextNode(lng.unblockEle),unblock_ele.firstChild);
-        unblock_latest.replaceChild(document.createTextNode(lng.unblockLatest),unblock_latest.firstChild);
-        show_preferences.replaceChild(document.createTextNode(lng.preferences),show_preferences.firstChild);
-        content_block_helper.replaceChild(document.createTextNode(lng.contentBlockHelper),content_block_helper.firstChild);
-    }
-    
+   
     block_ads.onclick = function () { sendCommand({type: 'block_ads'}); };
     block_ele.onclick = function () { sendCommand({type: 'block_ele'}); };
     unblock_ele.onclick = function () { sendCommand({type: 'unblock_ele'}); };
