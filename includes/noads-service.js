@@ -190,17 +190,17 @@ var run = {
             options.setForSite(domain, false);
             run.updateCSS(domain);
             this.setStatus(lng.nDisabled);
-            //this.postMsg({ type: 'disable' });
+            //this.sendMessage({ type: 'disable' });
         } else {
             options.setForSite(domain, true);
             run.updateCSS(domain);
             this.setStatus(lng.nEnabled);
-            //this.postMsg({ type: 'enable' });
+            //this.sendMessage({ type: 'enable' });
         }
     },
     // NoAds
     editStyles: function () {
-            rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
+        var rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
@@ -253,7 +253,7 @@ var run = {
                 curLink = noads.getFilterLink(cssRule); //if rule contains href^=link src*=link or data=link removing link from urlfilter
 
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({type: 'unblock_address', url: curLink});
+                sendMessage({type: 'unblock_address', url: curLink});
             }
 
             //if rule is not in CSS then searching for more general rules?
@@ -263,7 +263,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({type: 'unblock_address', url: curLink});
+                sendMessage({type: 'unblock_address', url: curLink});
             }
 
             cssRule = noads.getCSSrule(ev.target, true);
@@ -272,7 +272,7 @@ var run = {
             }
             curLink = noads.getFilterLink(cssRule);
             if (curLink && (newCSS != oldCSS)) {
-                postMsg({type: 'unblock_address', url: curLink});
+                sendMessage({type: 'unblock_address', url: curLink});
             }
 
             // setting new rules
@@ -305,7 +305,7 @@ var run = {
             //if last rule contains href^=link src*=link removing link from urlfilter
             var lastEl = noads.getFilterLink(splitCSS(css).pop());
             if (lastEl) {
-                postMsg({ type: 'unblock_address', url: lastEl});
+                sendMessage({ type: 'unblock_address', url: lastEl});
             }
 
             css = options.setRules('noads_userlist', domain, noads.deleleCSSrule(css));
@@ -431,7 +431,7 @@ var run = {
                     // trying to get links out of selectors
                     for (var i = 0, link = noads.getFilterLink(arrCSS[i]), l = arrCSS.length; i < l; i++) {
                         if (link) {
-                            postMsg({type: 'block_address', url: link});
+                            sendMessage({type: 'block_address', url: link});
                         }
                     }
 

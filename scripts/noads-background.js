@@ -23,7 +23,6 @@ window.addEventListener('load', function () {
         });
         opera.contexts.toolbar.addItem(button);
     } else {
-        // had problems with button if it was all in if(_state)
         button = { disabled: true };
     }
 
@@ -106,27 +105,27 @@ window.addEventListener('load', function () {
             case 'unblock_address':
                 log('user URL-filter unblocked url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
-                var filters = importer.arrayUserFilters.length;
-                for (var i = 0; i < filters; i++) {
-                    if (importer.arrayUserFilters[i] == message.url) {
-                        importer.arrayUserFilters.splice(i, 1);
+                var filters_length = importer.array_user_filters.length;
+                for (var i = 0; i < filters_length; i++) {
+                    if (importer.array_user_filters[i] == message.url) {
+                        importer.array_user_filters.splice(i, 1);
                         break;
                     }
                 }
-                if (filters) {
-                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
+                if (filters_length) {
+                    setValue('noads_userurlfilterlist', importer.array_user_filters.join('\n'));
                 } else {
                     setValue('noads_urlfilterlist', '');
                 }
                 break;
             case 'block_address':
-                    log('user URL-filter blocked url -> ' + message.url);
-                    opera.extension.urlfilter.block.add(message.url);
-                    importer.arrayUserFilters.unshift(message.url);
-                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
+                log('user URL-filter blocked url -> ' + message.url);
+                opera.extension.urlfilter.block.add(message.url);
+                importer.array_user_filters.unshift(message.url);
+                setValue('noads_userurlfilterlist', importer.array_user_filters.join('\n'));
                 break;
             case 'reload_rules':
-                    importer.reloadRules(message.global, false);
+                importer.reloadRules(message.global, message.clear);
                 break;
             case 'noads_import_status':
                 if (message.status === 'good') {
@@ -142,7 +141,8 @@ window.addEventListener('load', function () {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
-                //TODO:notification
+                //TODO:
+                // Notification.
             };
             for (var subsc = 0, l = url.length; subsc < l; subsc++) {
                 try {

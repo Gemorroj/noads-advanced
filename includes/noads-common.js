@@ -30,7 +30,7 @@ getValue = function (name) {
 setValue = function (name, value) {
     storage[name] = value;
 },
-postMsg = function (msg) {
+sendMessage = function (msg) {
     /*for (var i = 0, f = window.frames, l = f.length; i < l; i++) if (f[i]) f[i].postMessage(msg, '*');*/
     opera.extension.postMessage(encodeMessage(msg));
 },
@@ -56,16 +56,12 @@ replaceStyle = function (ele, css) {
             throw "Not an HTML page.";
         }
 
-
         ele.innerHTML = "";
-        //TODO:???
         /*
         while (ele.firstChild) {
             ele.removeChild(ele.firstChild);
         }
         */
-
-
         ele.appendChild(document.createTextNode(css));
     }
 },
