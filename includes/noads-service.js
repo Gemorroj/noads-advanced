@@ -200,7 +200,7 @@ var run = {
     },
     // NoAds
     editStyles: function () {
-            rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
+        var rez = window.prompt(lng.eStyles, options.getRules('noads_userlist', domain));
         if (rez !== null) {
             rez = options.setRules('noads_userlist', domain, rez);
             uCSS = rez;
@@ -472,7 +472,7 @@ var run = {
                     el.onclick = null;
                     el = el.parentElement;
                 }
-            }
+            } else { run.stop(); }
             return false;
         };
 
@@ -480,7 +480,7 @@ var run = {
             out();
             remove();
         };
-        //TODO:???
+
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);

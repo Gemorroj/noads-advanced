@@ -1,7 +1,9 @@
+@charset "UTF-8";
 body {
     overflow: hidden;
     margin: 0;
-    padding: 0.2em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
     background-color: white;
     color: black;
     font-family: Tahoma, Sans-serif;
@@ -22,3 +24,55 @@ body {
     padding-bottom: 6px !important;
     border-bottom: 1px solid #aaa !important;
 }
+
+#block_ads:lang(ru), #block_ads:lang(ru-RU) {content: '\0421 \043E \0437 \0434 \0430 \0442 \044C  \043E \0431 \0449 \0435 \0435  \043F \0440 \0430 \0432 \0438 \043B \043E '}
+#block_ele:lang(ru), #block_ele:lang(ru-RU) {content: '\0421 \043E \0437 \0434 \0430 \0442 \044C  \0447 \0430 \0441 \0442 \043D \043E \0435  \043F \0440 \0430 \0432 \0438 \043B \043E '}
+#unblock_ele:lang(ru), #unblock_ele:lang(ru-RU) {content: '\0420 \0430 \0437 \0431 \043B \043E \043A \0438 \0440 \043E \0432 \0430 \0442 \044C ...'}
+#unblock_latest:lang(ru), #unblock_latest:lang(ru-RU) {content: '\0420 \0430 \0437 \0431 \043B \043E \043A \0438 \0440 \043E \0432 \0430 \0442 \044C  \043F \043E \0441 \043B \0435 \0434 \043D \0435 \0435 '}
+#show_preferences:lang(ru), #show_preferences:lang(ru-RU) {content: '\041D \0430 \0441 \0442 \0440 \043E \0439 \043A \0438  \0441 \0430 \0439 \0442 \0430 '}
+#disable_for_site:lang(ru), #disable_for_site:lang(ru-RU) {content: '\041E \0442 \043A \043B \044E \0447 \0438 \0442 \044C  \043D \0430  \044D \0442 \043E \043C  \0441 \0430 \0439 \0442 \0435 '}
+#content_block_helper:lang(ru), #content_block_helper:lang(ru-RU) {content: '\041F \043E \043C \043E \0449 \043D \0438 \043A  \0434 \043B \044F  \0431 \043B \043E \043A \0438 \0440 \043E \0432 \043A \0438 '}
+
+#block_ads:lang(es), #block_ads:lang(es-AR), #block_ads:lang(es-AR) {content: 'Bloquear anuncio'}
+#block_ele:lang(es), #block_ele:lang(es-AR), #block_ele:lang(es-AR) {content: 'Bloquear elemento'}
+#unblock_ele:lang(es), #unblock_ele:lang(es-AR), #unblock_ele:lang(es-AR) {content: 'Desbloquear...'}
+#unblock_latest:lang(es), #unblock_latest:lang(es-AR), #unblock_latest:lang(es-AR) {content: 'Desbloquear \00FA ltimo'}
+#show_preferences:lang(es), #show_preferences:lang(es-AR), #show_preferences:lang(es-AR) {content: 'Preferencias'}
+#content_block_helper:lang(es), #content_block_helper:lang(es-AR), #content_block_helper:lang(es-AR) {content: 'Auxiliar bloqueo de contenido'}
+
+#block_ads:lang(pl) {content: 'Blokowanie reklam'}
+#block_ele:lang(pl) {content: 'Blokowanie element\00F3 w'}
+#unblock_ele:lang(pl) {content: 'Odblokuj...'}
+#unblock_latest:lang(pl) {content: 'Odblokuj ostatni element'}
+#show_preferences:lang(pl) {content: 'Ustawienia strony'}
+#disable_for_site:lang(pl) {content: 'Wy\0142 \0105 cz blokowanie na tej stronie'}
+#content_block_helper:lang(pl) {content: 'Pomocnik blokowania zawarto\015B ci'}
+
+#block_ads:lang(fr) {content: 'Bloquer pub. group\00E9 e'}
+#block_ele:lang(fr) {content: 'Bloquer par \00E9 l\00E9 ment'}
+#unblock_ele:lang(fr) {content: 'D\00E9 bloquer...'}
+#unblock_latest:lang(fr) {content: 'D\00E9 bloquer le dernier'}
+#show_preferences:lang(fr) {content: 'Pr\00E9 f\00E9 rences'}
+#disable_for_site:lang(fr) {content: 'D\00E9 sactiver pour ce site'}
+#content_block_helper:lang(fr) {content: 'Assistant contenus bloqu\00E9 s'}
+
+#block_ads:lang(de) {content: 'Blockiere werbung'}
+#block_ele:lang(de) {content: 'Blockiere element'}
+#unblock_ele:lang(de) {content: 'Deblockiere...'}
+#unblock_latest:lang(de) {content: 'Deblockiere letztes element'}
+#show_preferences:lang(de) {content: 'Einstellungen'}
+#disable_for_site:lang(de) {content: 'F\00FC r diese seite deaktivieren'}
+#content_block_helper:lang(de) {content: 'Inhalt blockieren helfer'}
+
+/* 
+ * Template: replace en to your language code and translate all strings.
+ * All non-ascii text should be properjy CSS-escaped.
+ *
+#block_ads:lang(en) {content: 'Create general enle'}
+#block_ele:lang(en) {content: 'Create accurate enle'}
+#unblock_ele:lang(en) {content: 'Unblock...'}
+#unblock_latest:lang(en) {content: 'Unblock latest'}
+#show_preferences:lang(en) {content: 'Site preferences'}
+#disable_for_site:lang(en) {content: 'Disable for the site'}
+#content_block_helper:lang(en) {content: 'Content block helper'}
+*/

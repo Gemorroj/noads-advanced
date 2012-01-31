@@ -1,4 +1,8 @@
-var lng = new MENU_TRANSLATION(), theport, enabled = false;
+var theport, enabled = false;
+
+var html = document.querySelector('html');
+html.setAttribute('lang', window.navigator.language);
+html.setAttribute('xml:lang', window.navigator.language);
 
 function onMessageHandler (e) {
     if (!e || !e.data) return;
@@ -58,36 +62,13 @@ window.addEventListener('DOMContentLoaded', function () {
         unblock_latest = document.getElementById('unblock_latest'),
         show_preferences = document.getElementById('show_preferences'),
         content_block_helper = document.getElementById('content_block_helper');
-
-    block_ads.onclick = function () {
-        sendCommand({type: 'block_ads'});
-    };
-    block_ads.appendChild(document.createTextNode(lng.blockAds));
-
-    block_ele.onclick = function () {
-        sendCommand({type: 'block_ele'});
-    };
-    block_ele.appendChild(document.createTextNode(lng.blockEle));
-
-    unblock_ele.onclick = function () {
-        sendCommand({type: 'unblock_ele'});
-    };
-    unblock_ele.appendChild(document.createTextNode(lng.unblockEle));
-
-    unblock_latest.onclick = function () {
-        sendCommand({type: 'unblock_latest'});
-    };
-    unblock_latest.appendChild(document.createTextNode(lng.unblockLatest));
-
-    show_preferences.onclick = function () {
-        sendCommand({type: 'show_preferences'});
-    };
-    show_preferences.appendChild(document.createTextNode(lng.preferences));
-
-    content_block_helper.onclick = function () {
-        sendCommand({type: 'content_block_helper'});
-    };
-    content_block_helper.appendChild(document.createTextNode(lng.contentBlockHelper));
+   
+    block_ads.onclick = function () { sendCommand({type: 'block_ads'}); };
+    block_ele.onclick = function () { sendCommand({type: 'block_ele'}); };
+    unblock_ele.onclick = function () { sendCommand({type: 'unblock_ele'}); };
+    unblock_latest.onclick = function () { sendCommand({type: 'unblock_latest'}); };
+    show_preferences.onclick = function () { sendCommand({type: 'show_preferences'}); };
+    content_block_helper.onclick = function () { sendCommand({type: 'content_block_helper'}); };
 
     if (theport) {
         try {
