@@ -228,28 +228,43 @@ var options = {
         return rez.join('\n');
     },
 
-    setRawRules: function (name, value, domain) {
-        var rule, pos, rez = [], tmp = value.split('\n');
-        for (var i = 0, l = tmp.length; i < l; i++) {
-            rule = tmp[i];
-            //pos = rule.indexOf('##');
-            //if (pos !== -1 && rule.length > pos + 2) {
+    setRawRules: function (name, value) {
+        var rule, rez = [], arr = value.split('\n');
+        for (var i = 0, l = arr.length; i < l; i++) {
+            rule = arr[i];
+            if (rule.indexOf('@@') !== 0 && rule.length > 2) {
                 rez.push(rule);
-            //}
-        }
-        if (domain) {
-            tmp = getValue(name).split('\n');
-            for (var i = tmp.length; i--; ) {
-                rule = tmp[i];
-                pos = rule.indexOf('##');
-                if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
-                    tmp.splice(i, 1);
-                }
             }
-            rez = rez.concat(tmp);
         }
+        arr = null;
         setValue(name, rez.join('\n'));
-        tmp = null;
+    },
+
+    setRawRulesSite: function (name, value, domain) {
+        var rule, pos, rez = [], tmp = getValue(name).split('\n');
+
+        for (var i = tmp.length; i--; ) {
+            rule = tmp[i];
+            pos = rule.indexOf('##');
+            if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+                tmp.splice(i, 1);
+            }
+        }
+        rez = rez.concat(tmp);
+
+        setValue(name, rez.join('\n'));
+    },
+
+    setWhiteList: function (name, value) {
+        var rule, rez = [], arr = value.split('\n');
+        for (var i = 0, l = arr.length; i < l; i++) {
+            rule = arr[i];
+            if (rule.indexOf('@@') === 0 && rule.length > 4) {
+                rez.push(rule);
+            }
+        }
+        arr = null;
+        setValue(name, rez.join('\n'));
     },
 
     setAutoupdate: function (interval, notofication) {
@@ -276,66 +291,54 @@ var options = {
         return ((pos === 0 || pos > 0 && domain.charAt(pos - 1) === '.') && (!end || pos + rule.length == domain.length));
     },
 
-    setWhiteList: function (name, value) {
-        var rule, rez = [], arr = value.split('\n');
-        for (var i = 0, l = arr.length; i < l; i++) {
-            rule = arr[i];
-            if (rule.indexOf('@@') === 0 && rule.length > 4) {
-                rez.push(rule);
-            }
-        }
-        arr = null;
-        setValue(name, rez.join('\n'));
-    },
-
     // create default white list
     setDefWhiteList: function () {
         var whiteList = [
-            '@@||acid3.acidtests.org^',
-            '@@||amazon.com^',
-            '@@||anonym.to^',
-            '@@||asus.com^',
-            '@@||bbc.co.uk^',
-            '@@||bing.com^',
-            '@@||britannica.com^',
-            '@@||browserid.org^',
-            '@@||deviantart.com^',
-            '@@||ebay.com^',
-            '@@||eurosport.ru^',
-            '@@||facebook.com^',
-            '@@||flickr.com^',
-            '@@||guardian.co.uk^',
-            '@@||googleusercontent.com^',
-            '@@||hotmail.com^',
-            '@@||imageshack.us^',
-            '@@||imdb.com^',
-            '@@||kinozal.tv^',
-            '@@||lastfm.ru^',
-            '@@||livegames.ru^',
-            '@@||macromedia.com^',
-            '@@||mail.ru^',
-            '@@||megashare.by^',
-            '@@||metacafe.com^',
-            '@@||molotok.ru^',
-            '@@||myspace.com^',
-            '@@||newegg.com^',
-            '@@||opera.com^',
-            '@@||picasaweb.google.com^',
-            '@@||piter.fm^',
-            '@@||playset.ru^',
-            '@@||sprashivai.ru^',
-            '@@||translate.google.com^',
-            '@@||tvshack.net^',
-            '@@||twitter.com^',
-            '@@||vimeo.com^',
-            '@@||virustotal.com^',
-            '@@||vk.com^',
-            '@@||vkontakte.ru^',
-            '@@||wikipedia.org^',
-            '@@||ya.ru^',
-            '@@||yahoo.com^',
-            '@@||youtube.com^',
-            '@@||youtube-nocookie.com^'
+            'acid3.acidtests.org^',
+            'amazon.com^',
+            'anonym.to^',
+            'asus.com^',
+            'bbc.co.uk^',
+            'bing.com^',
+            'britannica.com^',
+            'browserid.org^',
+            'deviantart.com^',
+            'ebay.com^',
+            'eurosport.ru^',
+            'facebook.com^',
+            'flickr.com^',
+            'guardian.co.uk^',
+            'googleusercontent.com^',
+            'hotmail.com^',
+            'imageshack.us^',
+            'imdb.com^',
+            'kinozal.tv^',
+            'lastfm.ru^',
+            'livegames.ru^',
+            'macromedia.com^',
+            'mail.ru^',
+            'megashare.by^',
+            'metacafe.com^',
+            'molotok.ru^',
+            'myspace.com^',
+            'newegg.com^',
+            'opera.com^',
+            'picasaweb.google.com^',
+            'piter.fm^',
+            'playset.ru^',
+            'sprashivai.ru^',
+            'translate.google.com^',
+            'tvshack.net^',
+            'twitter.com^',
+            'vimeo.com^',
+            'virustotal.com^',
+            'vk.com^',
+            'vkontakte.ru^',
+            'wikipedia.org^',
+            'ya.ru^',
+            'yahoo.com^',
+            'youtube.com^',
+            'youtube-nocookie.com^'
         ];
 
         var skipScripts = [
@@ -349,7 +352,7 @@ var options = {
             '^https?://[0-9a-z-]*\\.disqus\\.com',
             '^https?://[0-9a-z-]*\\.googleapis\\.com',
             '^https?://[0-9a-z-]*\\.yahooapis\\.com',
-            '^https?://[0-9a-z-]+\\.appspot\\.com', 
+            '^https?://[0-9a-z-]+\\.appspot\\.com',
             '^https?://[0-9a-z-]+\\.github\\.com',
             '^https?://[0-9a-z-]+\\.gstatic\\.com',
             '^https?://[0-9a-z-]+\\.hotmail\\.',
@@ -450,7 +453,7 @@ var options = {
             'yui[0-9a-z\\.-]*\\.js'
         ];
 
-        setValue('noads_scriptlist_white', whiteList.join('\n') + '\n@@==' + skipScripts.join('\n@@=='));
+        setValue('noads_scriptlist_white', '@@||' + whiteList.join('\n@@||') + '\n@@==' + skipScripts.join('\n@@=='));
     },
 
     setActiveDomain: function (name, domain, value) {
@@ -780,6 +783,22 @@ var options = {
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
+        area.showScriptWhitelist = function (pos) {
+            this.clear(pos);
+            this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
+            this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+                var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
+                options.setRawRules('noads_scriptlist', val);
+                options.setWhiteList('noads_scriptlist_white', val);
+            }, 'positive', imageTick));
+
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+                var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+            }, '', imgSave));
+        };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
@@ -829,22 +848,7 @@ var options = {
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
             }, '', imgSave));
         };
-        area.showScriptWhitelist = function (pos) {
-            this.clear(pos);
-            this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
-            this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
-                var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                options.setRawRules('noads_scriptlist', val);
-                options.setWhiteList('noads_scriptlist_white', val);
-            }, 'positive', imageTick));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
-                var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
-        };
         area.showSitePreferences = function (pos) {
             this.clear(pos);
             log('opened settings for ' + domain);
@@ -858,7 +862,7 @@ var options = {
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                options.setRawRules('noads_userlist', val, domain);
+                options.setRawRulesSite('noads_userlist', val, domain);
                 options.setWhiteList('noads_userlist_white', val);
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);
@@ -872,7 +876,7 @@ var options = {
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                options.setRawRules('noads_list', val, domain);
+                options.setRawRulesSite('noads_list', val, domain);
                 options.setWhiteList('noads_list_white', val);
             }, 'right-second', imageTick));
             this.appendChild(inlinearea);

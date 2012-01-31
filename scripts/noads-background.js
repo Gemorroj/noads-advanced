@@ -120,13 +120,13 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'block_address':
-                    log('user URL-filter blocked url -> ' + message.url);
-                    opera.extension.urlfilter.block.add(message.url);
-                    importer.arrayUserFilters.unshift(message.url);
-                    setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
+                log('user URL-filter blocked url -> ' + message.url);
+                opera.extension.urlfilter.block.add(message.url);
+                importer.arrayUserFilters.unshift(message.url);
+                setValue('noads_userurlfilterlist', importer.arrayUserFilters.join('\n'));
                 break;
             case 'reload_rules':
-                    importer.reloadRules(message.global, false);
+                importer.reloadRules(message.global, false);
                 break;
             case 'noads_import_status':
                 if (message.status === 'good') {
