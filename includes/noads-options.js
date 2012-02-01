@@ -38,13 +38,13 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .right-second{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:10px;}\
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
-.noads_content input[type="range"]{width:100%;}\
-.noads_label_subscription{display:block !important;font-size:14px;margin:2px 0;padding:0 4px;}\
-.noads_label_subscription:hover{text-decoration: underline;}\
+.noads_label_subscription{font-size:14px;margin:2px 0;padding:0 4px;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;margin:0;padding:0;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
+.noads_content input[type="range"] {height: 58%;width: 50px;top: 155px;right: 100px;float:right;text-align: right;position:absolute;}\
+#noads_autoupdate_label {top: 105px;right: 100px;float:right;text-align: right;position:absolute;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -105,7 +105,7 @@ var options = {
     setRules: function (name, domain, selector) {
         var j, rule, pos, arr = [], rez = [], tmp = getValue(name).split('\n'), rules = splitCSS(selector);
 
-        rules.posArr = function (arr) {
+        rules.arrayPosition = function (arr) {
             var len = arr.length;
             if (len) {
                 for (var i = 0, l = this.length - len + 1; i < l; i++) {
@@ -121,8 +121,8 @@ var options = {
             }
             return -1;
         };
-        rules.delArr = function (arr) {
-            var pos = this.posArr(arr);
+        rules.deleteSubarray = function (arr) {
+            var pos = this.arrayPosition(arr);
             if (pos != -1) {
                 this.splice(pos, arr.length);
             }
@@ -134,8 +134,8 @@ var options = {
                 pos = rule.indexOf('##') + 2;
                 if (i < l) {
                     stArr = splitCSS(rule.slice(pos));
-                    currPos = this.posArr(stArr);
-                    nextPos = this.posArr(splitCSS(arr[i + 1].slice(arr[i + 1].indexOf('##') + 2)));
+                    currPos = this.arrayPosition(stArr);
+                    nextPos = this.arrayPosition(splitCSS(arr[i + 1].slice(arr[i + 1].indexOf('##') + 2)));
                     len = currPos < nextPos ? nextPos : (currPos != -1 ? currPos + stArr.length : 0);
                 } else {
                     len = this.length;
@@ -152,7 +152,7 @@ var options = {
             pos = rule.indexOf('##');
             if (pos !== -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
                 if (pos === 0) {
-                    rules.delArr(splitCSS(rule.slice(pos + 2)));
+                    rules.deleteSubarray(splitCSS(rule.slice(pos + 2)));
                 } else {
                     arr.unshift(rule);
                     tmp.splice(i, 1);
@@ -165,13 +165,11 @@ var options = {
                     tmp.unshift(domain + '##' + rules.join(','));
                 }
                 break;
-
             case 1:
                 if (rules.length) {
                     tmp.unshift(arr[0].slice(0, arr[0].indexOf('##') + 2) + rules.join(','));
                 }
                 break;
-
             default:
                 tmp = rules.getCorrected(arr).concat(tmp);
                 break;
@@ -217,11 +215,11 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##');
             //if (pos !== -1) {
-                if (global) {
-                    rez.push(rule);
-                } else if (options.isCorrectDomain(domain, rule.slice(0, pos))) {
-                    rez.push(rule);
-                }
+            if (global) {
+                rez.push(rule);
+            } else if (options.isCorrectDomain(domain, rule.slice(0, pos))) {
+                rez.push(rule);
+            }
             //}
         }
         tmp = null;
@@ -273,7 +271,10 @@ var options = {
     },
 
     getForSite: function (domain) {
-        return (this.isActiveDomain('noads_list_white', domain) || this.isActiveDomain('noads_userlist_white', domain) || this.isActiveDomain('noads_scriptlist_white', domain));
+        return (this.isActiveDomain('noads_list_white', domain) ||
+                this.isActiveDomain('noads_userlist_white', domain) || 
+                this.isActiveDomain('noads_scriptlist_white', domain)
+        );
     },
 
     setForSite: function (domain, value) {
@@ -342,9 +343,13 @@ var options = {
         ];
 
         var skipScripts = [
+            // data scripts? o_O
             '^data:',
             '^opera:',
             '^widget:',
+            // TODO: 
+            // If we add all the sites this list will be endless shall we stop maybe?
+            // Propably should load from separate and(or) JSON file if Opera will allow that.
             '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
             '^https?://(?:cdn\\.)?sstatic\\.net',
             '^https?://[0-9a-z-]*\\.cloudfront\\.net',
@@ -398,7 +403,8 @@ var options = {
             '^https?://ipinfodb\\.com',
             '^https?://live\\.nhle\\.com',
             '^https?://[0-9a-z\\.]+\\.longtailvideo\\.com',
-            '^https?://[0-9a-z\\.]\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z\\.]+\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z\\.]+\\.cdnvideo\\.ru',
             '^https?://mat1\\.gtimg\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://rutube\\.ru',
@@ -428,6 +434,8 @@ var options = {
             '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
             '^https?://yandex\\.st',
             '^https?://yuilibrary\\.com',
+            // TODO:
+            // See comment before. That idea ends here.
             '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',
             'AC_RunActiveContent\\.js',
             'api\\.php',
@@ -508,7 +516,7 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            node.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
+            node.firstChild.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
         }
     },
 
@@ -530,13 +538,13 @@ var options = {
     showPreferences: function (domain) {
         if (!document.body) return;
 
-        var global = domain ? false : true,
-            press = function (e) {
+        var global = domain ? false : true;
+        var press = function (e) {
                 if (e.keyCode === 27) {
                     options.stop(global);
                 }
-            },
-            overlay = document.getElementById('noads_overlay');
+        };
+        var overlay = document.getElementById('noads_overlay');
 
         if (overlay) {
             overlay.close();
@@ -559,8 +567,6 @@ var options = {
 
         overlay.className = 'noads_overlay';
         overlay.id = 'noads_overlay';
-        //if(!global) overlay.clearStyle = addStyle(optionsCSS);
-        //else
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
         overlay.close = function (global) {
             if (!global) {
@@ -621,14 +627,12 @@ var options = {
 
         area.clear = function (num) {
 
-            this.innerHTML = "";
-            //TODO:???
+            this.innerHTML = '';
             /*
             while (this.firstChild) {
                 this.removeChild(this.firstChild);
             }
             */
-
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
@@ -636,7 +640,7 @@ var options = {
                 }
             }
         };
-        area.createButton = function (sID, sText, sClickFn, sClass, imgData) {
+        area.createButton = function (sID, sText, sClass, imgData, sClickFn) {
             var button = document.createElement('button');
             button.type = 'button';
             button.id = sID;
@@ -677,9 +681,6 @@ var options = {
 
             checkbox.onclick = function (e) {
                 e.preventDefault();
-                if (sClickFn) {
-                    sClickFn();
-                }
                 if (this.checked === true) {
                     options.setEnabled(sName + '_state', false);
                     this.className = classDisabled;
@@ -697,6 +698,7 @@ var options = {
                         this.appendChild(enable);
                     }
                 }
+                if (sClickFn) sClickFn();
             };
             return checkbox;
         };
@@ -715,29 +717,36 @@ var options = {
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
             textarea.spellcheck = false;
+
             if (!global) {
                 textarea.disabled = disabled;
             } else {
                 textarea.className = 'overflow';
             }
+
             return textarea;
         };
-        area.createCheckboxButton = function (txt, url, typein) {
-            var label = document.createElement('label'), input = document.createElement('input');
+        area.createCheckboxButton = function (txt, url, typein, sClickFn) {
+            var label = document.createElement('label'),
+                input = document.createElement('input'),
+                inputid = 'id-' + Math.random(); //txt.toLowerCase().replace(/[\s+-\+\/\\;\.,'"<>]/ig,'-');
             label.className = 'noads_label_subscription';
+            label.setAttribute('for', inputid);
             input.type = 'checkbox';
             input.name = 'subs';
+            input.id = inputid;
             if (url && ~getValue('noads_default_url2').indexOf(url)) {
                 input.checked = true;
             }
-            label.appendChild(input);
+            this.appendChild(input);
             if (!typein) {
                 label.appendChild(document.createTextNode(txt + ': '));
+                this.appendChild(label);
                 var a = document.createElement('a');
                 a.href = url;
                 a.target = '_blank';
                 a.appendChild(document.createTextNode(url));
-                label.appendChild(a);
+                this.appendChild(a);
             } else {
                 input = document.createElement('input');
                 input.className = 'noads_custom_url';
@@ -750,103 +759,104 @@ var options = {
                 input.onchange = input.onkeyup;
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(txt));
+                this.appendChild(label);
             }
-            this.appendChild(label);
+            this.appendChild(document.createElement('br'));
+            
+            //if (sClickFn) input.onclick = sClickFn;
         };
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
             this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val);
                 options.setWhiteList('noads_userlist_white', val);
-            }, 'positive', imageTick));
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
             this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val);
                 options.setWhiteList('noads_list_white', val);
-            }, 'positive', imageTick));
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
             this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_scriptlist', val);
                 options.setWhiteList('noads_scriptlist_white', val);
-            }, 'positive', imageTick));
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
             this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_magiclist', val);
                 options.setWhiteList('noads_magiclist_white', val);
-            }, 'positive', imageTick));
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            //this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
-                // notify URL-filter about changes & reload rules in BG
-                postMsg({ type: 'reload_rules', global: false });
-            }, 'positive', imageTick));
+                // notify URL-filter about changes & reload rules in bgProcess
+                sendMessage({ type: 'reload_rules', global: false });
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
-            //this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
-                // notify URL-filter about changes & reload rules in BG
-                postMsg({ type: 'reload_rules', global: true });
-            }, 'positive', imageTick));
+                // notify URL-filter about changes & reload rules in bgProcess
+                sendMessage({ type: 'reload_rules', global: true });
+            }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, function () {
+            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
-            }, '', imgSave));
+            }));
         };
 
         area.showSitePreferences = function (pos) {
@@ -858,13 +868,13 @@ var options = {
             var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
-                document.getElementById('noads_usercss_textarea').disabled = options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
+                document.getElementById('noads_usercss_textarea').disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
             }));
-            inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, function () {
+            inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, 'right-second', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRulesSite('noads_userlist', val, domain);
                 options.setWhiteList('noads_userlist_white', val);
-            }, 'right-second', imageTick));
+            }));
             this.appendChild(inlinearea);
 
             var textcss = this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list');
@@ -874,11 +884,11 @@ var options = {
             inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
             }));
-            inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, function () {
+            inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, 'right-second', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRulesSite('noads_list', val, domain);
                 options.setWhiteList('noads_list_white', val);
-            }, 'right-second', imageTick));
+            }));
             this.appendChild(inlinearea);
 
             // add to white list textarea
@@ -901,7 +911,7 @@ var options = {
             this.appendChild(textarea);
 
             // add to white list
-            this.appendChild(this.createButton('noads_button_save', lng.pAddToWhite, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pAddToWhite, 'positive', imageTick, function () {
                 var textarea = document.getElementById('noads_jsblocks_textarea');
                 var val = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).replace(/^\s+|\r|\s+$/g, '');
                 if (val) {
@@ -910,7 +920,7 @@ var options = {
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
                     alert(lng.pBlockedAdded + ' ' + val);
                 }
-            }, 'positive', imageTick));
+            }));
 
             var checkbox = document.createElement('button');
             checkbox.type = 'checkbox';
@@ -955,7 +965,38 @@ var options = {
             this.appendChild(checkbox);
         };
         area.showSubscriptions = function (pos) {
+            var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000,
+            label = document.createElement('label'),
+            span = document.createElement('span'),
+            input = document.createElement('input'),
+            lastUpdateNode = document.createElement('span');
+
             this.clear(pos);
+
+            lastUpdateNode.id = 'noads_autoupdate_lastupdate';
+            label.appendChild(lastUpdateNode);
+            label.appendChild(document.createElement('br'));
+
+            label.appendChild(document.createTextNode(lng.uInterval + " "));
+            span.appendChild(document.createTextNode(defaultValue.toString()));
+            span.id = 'noads_autoupdate_days_span';
+            label.appendChild(span);
+
+            label.setAttribute('for', 'noads_autoupdate_interval');
+            label.id = 'noads_autoupdate_label';
+
+            this.appendChild(label);
+
+            input.id = 'noads_autoupdate_interval';
+            input.type = 'range';
+            input.min = 1;
+            input.max = 30;
+            input.value = defaultValue;
+            input.onchange = function () {
+                span.firstChild.nodeValue = this.value.toString();
+            };
+
+            this.appendChild(input);
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
             this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
             this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
@@ -986,13 +1027,10 @@ var options = {
             this.createCheckboxButton('AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
             this.createCheckboxButton('Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
             this.createCheckboxButton('MalwarePatrol', 'http://www.malwarepatrol.net/cgi/submit?action=list_adblock');
-            this.createCheckboxButton('Peter Lowes list', 'http://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&mimetype=plaintext');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
 
-            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'right positive', '', 'right negative unchecked'));
-
-            this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, function () {
+            this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, '', imgRefresh, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) {
                     return;
@@ -1000,56 +1038,31 @@ var options = {
                     dlsubscription.disabled = true;
                 }
 
-                var url = [], inputs = area.querySelectorAll('input');
+                var url = [], inputs = area.querySelectorAll('input[type="checkbox"]');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type === 'checkbox' && radioButton.checked === true) {
-                        url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value);
+                        url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
                     }
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;
                     setValue('noads_default_url2', url);
-                    postMsg({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
+                    sendMessage({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
                 } else {
-                    postMsg({ type: 'get_filters', url: '' });
+                    sendMessage({ type: 'get_filters', url: '' });
                 }
-            }, '', imgRefresh));
-        };
-        area.showUpdates = function (pos) {
-            var defaultValue = Number(getValue('noads_autoupdate_interval')) / 86400000,
-                output = document.createElement('output'),
-                input = document.createElement('input'),
-                lastUpdateNode = document.createTextNode('');
+            }));
 
-            this.clear(pos);
-            this.appendChild(document.createTextNode(lng.uInterval + " "));
+            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
-            output.appendChild(document.createTextNode(defaultValue.toString()));
-            this.appendChild(output);
-
-            this.appendChild(document.createElement('br'));
-
-            input.id = 'noads_autoupdate_interval';
-            input.type = 'range';
-            input.min = 1;
-            input.max = 30;
-            input.value = defaultValue;
-            input.onchange = function () {
-                this.parentNode.childNodes[1].firstChild.nodeValue = this.value;
-            };
-
-            this.appendChild(input);
-            this.appendChild(document.createElement('br'));
-
-            this.appendChild(lastUpdateNode);
             options.setLastUpdate(lastUpdateNode);
-            this.appendChild(document.createElement('br'));
 
             this.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, function () {
+            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
-            }, 'positive', imageTick));
+            }));
+
         };
         area.showHelp = function (pos) {
             this.clear(pos);
@@ -1075,8 +1088,7 @@ var options = {
                 [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
                 [lng.mURLfilters, function () { area.showURLfilters(5); }],
                 [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
-                [lng.mUpdates, function () { area.showUpdates(7); }],
-                [lng.mHelp, function () { area.showHelp(8); }]
+                [lng.mHelp, function () { area.showHelp(7); }]
             );
         }
         content.appendChild(area);

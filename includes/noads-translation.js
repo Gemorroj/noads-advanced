@@ -633,7 +633,7 @@ var TRANSLATION = function () {
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
-            uInterval: 'Interval (days):',
+            uInterval: 'Update interval (days):',
             baseMenuWidth: 145, 
             baseMenuHeight: 150
         }

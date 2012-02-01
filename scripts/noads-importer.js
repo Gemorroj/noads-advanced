@@ -1,10 +1,10 @@
 var importer = {
-    arrayFilters: [],
-    arrayUserFilters: [],
+    array_filters: [],
+    array_user_filters: [],
     EXCLUDE: '[exclude]',
 
     // import subscription to a local storage
-    _getHidingRulesLength: function (arr) {
+    getHidingRulesLength: function (arr) {
         var rule, pos, len = 0;
         for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
@@ -16,14 +16,14 @@ var importer = {
         return len;
     },
 
-    _importSubscriptions: function (list, url, allRules, addRules) {
-        var convertOldRules = function (tagName, attrRules) {
-            var rule, rules, sep, additional = '', id = null, reAttrRules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
-            if (tagName === '*') {
-                tagName = '';
+    importSubscriptions: function (list, url, all_rules, add_rules) {
+        var convertOldRules = function (tag_name, attribute_rules) {
+            var rule, rules, sep, additional = '', id = null, re_attribute_rules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
+            if (tag_name === '*') {
+                tag_name = '';
             }
-            if (attrRules) {
-                rules = attrRules.match(reAttrRules);
+            if (attribute_rules) {
+                rules = attribute_rules.match(re_attribute_rules);
                 for (var i = 0, l = rules.length; i < l; i++) {
                     rule = rules[i].slice(1, -1);
                     sep = rule.indexOf('=');
@@ -40,9 +40,9 @@ var importer = {
                 }
             }
             if (id) {
-                return tagName + '.' + id + additional + ',' + tagName + '#' + id + additional;
+                return tag_name + '.' + id + additional + ',' + tag_name + '#' + id + additional;
             } else {
-                return (tagName || additional) ? tagName + additional : '';
+                return (tag_name || additional) ? tag_name + additional : '';
             }
         },
         isSiteOnly = function (domains) {
@@ -68,22 +68,22 @@ var importer = {
             var rez = [];
             if (list) {
                 var arr = list.split('\n'),
-                    isFilter = /^[^#@!~\[][a-zA-Z0-9:\.\-\/\?*\^\|_&=~]+$/, // regexp not supported
-                    reMnemonics = /\||\^/g, // ^ not supported
-                    pushRule = function (inRule, outRule) {
-                        if (inRule.charAt(inRule.length - 1) !== '|') {
-                            outRule += '*';
+                    re_is_filter = /^[^#@!~\[][a-zA-Z0-9:\.\-\/\?*\^\|_&=~]+$/, // regexp not supported
+                    re_mnemonics = /\||\^/g, // ^ not supported
+                    pushRule = function (in_rule, out_rule) {
+                        if (in_rule.charAt(in_rule.length - 1) !== '|') {
+                            out_rule += '*';
                         }
-                        if (inRule.charAt(0) !== '|') {
-                            outRule = '*' + outRule;
+                        if (in_rule.charAt(0) !== '|') {
+                            out_rule = '*' + out_rule;
                         }
 
-                        return outRule.replace('**', '*');
+                        return out_rule.replace('**', '*');
                     };
 
                 for (var i = 0, l = arr.length; i < l; i++) {
-                    if (arr[i] && isFilter.test(arr[i])) {
-                        var rule = arr[i].replace(reMnemonics, '');
+                    if (arr[i] && re_is_filter.test(arr[i])) {
+                        var rule = arr[i].replace(re_mnemonics, '');
 
                         if ((arr[i].charAt(0) === '|') && (arr[i].charAt(1) === '|')) {
                             rez.push(pushRule(arr[i], '*://*.' + rule));
@@ -99,19 +99,19 @@ var importer = {
         },
         getHidingRules = function (list, all) {
             var rez = [],
-                reTrim = /^\s+|\s+$/g,
-                reBlank = /^(?:$|[\[!@]|\/.*\/$)/,
-                reElemHide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/,
-                rePregecko = /(~pregecko2,|,~pregecko2)/; // Legacy rules (for Firefox 3 and similar Gecko 1 browsers)
+                re_trim = /^\s+|\s+$/g,
+                re_blank = /^(?:$|[\[!@]|\/.*\/$)/,
+                re_elem_hide = /^([^\/\*\|@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/,
+                re_pre_gecko = /(~pregecko2,|,~pregecko2)/; // Legacy rules (for Firefox 3 and similar Gecko 1 browsers)
             if (list) {
-                var rule, domains, tagName, attrRules, selector, arr = list.split('\n');
+                var rule, domains, tag_name, attribute_rules, selector, arr = list.split('\n');
                 for (var i = 0, l = arr.length; i < l; i++) {
-                    rule = arr[i].replace(reTrim, '');
-                    if (!reBlank.test(rule) && reElemHide.test(rule)) {
-                        domains = (RegExp.$1).replace(rePregecko, '');
-                        tagName = RegExp.$2;
-                        attrRules = RegExp.$3;
-                        selector = RegExp.$4 || convertOldRules(tagName, attrRules);
+                    rule = arr[i].replace(re_trim, '');
+                    if (!re_blank.test(rule) && re_elem_hide.test(rule)) {
+                        domains = (RegExp.$1).replace(re_pre_gecko, '');
+                        tag_name = RegExp.$2;
+                        attribute_rules = RegExp.$3;
+                        selector = RegExp.$4 || convertOldRules(tag_name, attribute_rules);
                         if (selector && isValidSelector(selector) && (all || isSiteOnly(domains))) {
                             rez.push([domains, selector]);
                         }
@@ -132,124 +132,111 @@ var importer = {
             }
             return rez;
         },
-        adblockRulesList = [],
-        returnLength = 0;
+        adblock_rules_list = [],
+        return_length = 0;
 
-        if (!addRules) {
-            adblockRulesList = getHidingRules(list, allRules);
-            importer.arrayFilters = getFilterRules(list);
+        if (!add_rules) {
+            adblock_rules_list = getHidingRules(list, all_rules);
+            importer.array_filters = getFilterRules(list);
         } else {
-            adblockRulesList = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, allRules)));
-            adblockRulesList.sort();
-            for (var i = adblockRulesList.length; i--;) {
-                if (adblockRulesList[i].indexOf('##') === -1) {
-                    adblockRulesList.splice(i, 1);
+            adblock_rules_list = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, all_rules)));
+            adblock_rules_list.sort();
+            for (var i = adblock_rules_list.length; i--;) {
+                if (adblock_rules_list[i].indexOf('##') === -1) {
+                    adblock_rules_list.splice(i, 1);
                 }
             }
 
-            importer.arrayFilters = unique.call(getValue('noads_urlfilterlist').split('\n').concat(getFilterRules(list)));
-            importer.arrayFilters.sort();
+            importer.array_filters = unique.call(getValue('noads_urlfilterlist').split('\n').concat(getFilterRules(list)));
+            importer.array_filters.sort();
         }
 
-        if (adblockRulesList.length) {
-            setValue('noads_list', adblockRulesList.join('\n'));
-            returnLength += this._getHidingRulesLength(adblockRulesList);
+        if (adblock_rules_list.length) {
+            setValue('noads_list', adblock_rules_list.join('\n'));
+            return_length += this.getHidingRulesLength(adblock_rules_list);
         }
-        if (importer.arrayFilters.length) {
-            returnLength += importer._setFilterRules();
+        if (importer.array_filters.length) {
+            return_length += importer.setFilterRules();
         }
 
-        return returnLength;
+        return return_length;
     },
 
-    _setFilterRules: function () {
-        importer.arrayFilters = unique.call(importer.arrayFilters);
-        importer.arrayFilters.sort();
-        setValue('noads_urlfilterlist', importer.arrayFilters.join('\n'));
+    setFilterRules: function () {
+        importer.array_filters = unique.call(importer.array_filters);
+        importer.array_filters.sort();
+        setValue('noads_urlfilterlist', importer.array_filters.join('\n'));
         importer.reloadRules(true, false);
 
-        return importer._getHidingRulesLength(getValue('noads_list').split('\n')) + importer.arrayFilters.length;
+        return importer.getHidingRulesLength(getValue('noads_list').split('\n')) + importer.array_filters.length;
     },
 
-    _importFilters: function (list, addRules) {
+    importFilters: function (list, add_rules) {
         var pos = list.indexOf(importer.EXCLUDE);
         if (~pos) {
-            var arraySubscription = list.substring(pos + importer.EXCLUDE.length).split('\n');
+            var subscriptions_array = list.substring(pos + importer.EXCLUDE.length).split('\n');
             importer.reloadRules(true, true);
-            if (!addRules && importer.arrayFilters.length) {
-                importer.arrayFilters = [];
+            if (!add_rules && importer.array_filters.length) {
+                importer.array_filters = [];
             }
 
-            for (var i = 0, l = arraySubscription.length; i < l; i++) {
-                arraySubscription[i] = arraySubscription[i].replace(/[\s\n\r]+/g, '');
-                //not empty or too short
-                if (arraySubscription[i] != '' && arraySubscription[i].length > 4) {
-                    var firstChar = arraySubscription[i][0];
+            for (var i = 0, l = subscriptions_array.length; i < l; i++) {
+                subscriptions_array[i] = subscriptions_array[i].replace(/[\s\n\r]+/g, '');
+                // not empty or too short
+                if (subscriptions_array[i] != '' && subscriptions_array[i].length > 4) {
+                    var firstChar = subscriptions_array[i][0];
                     // not comment
                     if (firstChar !== '#' && firstChar !== ';') {
-                        log('URL filter added -> ' + arraySubscription[i]);
-                        importer.arrayFilters.push(arraySubscription[i]);
+                        log('URL filter added -> ' + subscriptions_array[i]);
+                        importer.array_filters.push(subscriptions_array[i]);
                     }
                 }
             }
 
-            return importer._setFilterRules();
+            return importer.setFilterRules();
         }
 
         return 0;
     },
 
-    reloadRules: function (global, clean) {
+    reloadRules: function (global, clear) {
         // empty rules
-        importer._removeFilter(global ? importer.arrayFilters : importer.arrayUserFilters);
-
-        if (!clean) {
+        importer.removeFilters(global ? importer.array_filters : importer.array_user_filters);
+        if (!clear) {
             if (global) {
-                //if (!options.checkEnabled('noads_urlfilterlist_state') /*&& options.isActiveDomain('noads_urlfilterlist_white')*/) {
-                //    return;
-                //}
-                importer.arrayFilters = importer._setFiler(getValue('noads_urlfilterlist'));
+                importer.array_filters = importer.setFilters(getValue('noads_urlfilterlist'));
             } else {
-                //if (!options.checkEnabled('noads_userurlfilterlist_state') /*&& options.isActiveDomain('noads_userurlfilterlist_white')*/) {
-                //    return;
-                //}
-                importer.arrayUserFilters = importer._setFiler(getValue('noads_userurlfilterlist'));
+                importer.array_user_filters = importer.setFilters(getValue('noads_userurlfilterlist'));
             }
         }
     },
 
-    _removeFilter: function (rulesArr) {
-        for (var i = 0, l = rulesArr.length; i < l; i++) {
-            log('url removed on URL filter reload -> ' + rulesArr[i]);
-            opera.extension.urlfilter.block.remove(rulesArr[i]);
+    removeFilters: function (rules_array) {
+        for (var i = 0, l = rules_array.length; i < l; i++) {
+            log('url removed on URL filter reload -> ' + rules_array[i]);
+            opera.extension.urlfilter.block.remove(rules_array[i]);
         }
     },
 
-    _setFiler: function (rulesRaw) {
-        var /*out = [], */filters = (rulesRaw === '') ? [] : rulesRaw.split('\n');
-
+    setFilters: function (rules_raw) {
+        var filters = (rules_raw === '') ? [] : rules_raw.split('\n');
         for (var i = 0, l = filters.length; i < l; i++) {
-            //TODO:???
-            //if (filters[i].indexOf('##') === -1 && filters[i].indexOf('@@') === -1) { // check for unsupported "site##rule" format and whitlist
-                //out.push(filters[i]);
-                log('url added on URL filter reload -> ' + filters[i]);
-                opera.extension.urlfilter.block.add(filters[i]);
-            //}
+            log('url added on URL filter reload -> ' + filters[i]);
+            opera.extension.urlfilter.block.add(filters[i]);
         }
-
-        return /* out */filters;
+        return filters;
     },
 
-    request: function (url, addRules, allRules, functionCallback) {
+    request: function (url, add_rules, all_rules, callback) {
+        opera.postError(url);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 setValue('noads_last_update', new Date().getTime());
-
                 if (~url.indexOf('.ini')) {
-                    functionCallback(importer._importFilters(xmlhttp.responseText, addRules));
+                    callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
-                    functionCallback(importer._importSubscriptions(xmlhttp.responseText, url, allRules, addRules));
+                    callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
                 }
             } else if (xmlhttp.readyState >= 4) {
                 return 0;

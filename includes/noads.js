@@ -15,7 +15,7 @@ var bDebug = options.checkEnabled('noads_debug_enabled_state'),
     sStyle, uStyle,
     sCSS = '', uCSS = '',
     blockedScripts = '', inlineScripts = 0,
-    blockingText = '', reSkip, reBlock;
+    blockingArray = [], reSkip, reBlock;
 
 var quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
@@ -42,7 +42,7 @@ function setupFiltersCSS() {
         sCSS = options.getRules('noads_list', domain);
         if (sCSS) {
             sStyle = addStyle(sCSS + none, 'sCSS');
-            blockingText += ', ads by CSS';
+            blockingArray.push('ads by CSS');
             log('Blocked CSS for <' + domain + '>');
         }
     }
@@ -52,7 +52,7 @@ function setupFiltersCSS() {
         uCSS = options.getRules('noads_userlist', domain);
         if (uCSS) {
             uStyle = addStyle(uCSS + none, 'uCSS');
-            blockingText += ', ads by user CSS';
+            blockingArray.push('ads by user CSS');
             log('Blocked User CSS for <' + domain + '>');
         }
     }
@@ -158,7 +158,7 @@ function onMessageHandler(e) {
 function setupMagic() {
     var sMagic = getValue('noads_magiclist').split('\n');
     if (sMagic) {
-        blockingText += ', magic';
+        blockingArray.push('magic');
 
         var blockedFuncs = '', blockedVars = '';
         for (var i = 0, jS, j, ret = null, l = sMagic.length; i < l; i++) {
@@ -227,6 +227,7 @@ window.addEventListener('DOMContentLoaded', function () {
             // Create menu messaging channel and parse background messages
             opera.extension.onmessage = onMessageHandler;
 
+            
             if (options.checkEnabled('noads_button_state')) {
                 log('Button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');
@@ -245,7 +246,7 @@ window.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // CSS
+    // CSS failsafe handling
     try {
         setupFiltersCSS();
     } catch (e) {
@@ -256,20 +257,20 @@ window.addEventListener('DOMContentLoaded', function () {
     if (options.checkEnabled('noads_scriptlist_state')) {
         reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true);
         if (reSkip) {
-            blockingText += ', external scripts';
+            blockingArray.push('external scripts');
             window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
 
             // Block inline scripts
             reBlock = options.getReScriptBlock('noads_scriptlist', domain);
             if (reBlock) {
-                blockingText += ', inline scripts';
+                blockingArray.push('inline scripts');
                 window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
             }
         }
     }
 
-    if (blockingText !== '') {
-        log('On ' + domain + ' blocking:' + blockingText.substring(1));
+    if (blockingArray.length) {
+        log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
     }
 
     if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
