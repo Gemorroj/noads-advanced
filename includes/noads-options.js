@@ -716,7 +716,11 @@ var options = {
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
             textarea.spellcheck = false;
-            textarea.className = global ? 'overflow' : disabled;
+            if (!global) {
+                textarea.disabled = disabled;
+            } else {
+                textarea.className = 'overflow';
+            }
             return textarea;
         };
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
@@ -1040,7 +1044,7 @@ var options = {
                 var url = [], inputs = area.querySelectorAll('input');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     if (radioButton.type === 'checkbox' && radioButton.checked === true) {
-                        url.push(radioButton.nextElementSibling.href || radioButton.nextElementSibling.value);
+                        url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
                     }
                 }
                 if (url.length) {
