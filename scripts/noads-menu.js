@@ -1,7 +1,8 @@
 var theport, enabled = false;
 
-document.getElementsByTagName('html')[0].setAttribute('lang', window.navigator.language);
-document.getElementsByTagName('html')[0].setAttribute('xml:lang', window.navigator.language);
+var html = document.querySelector('html');
+html.setAttribute('lang', window.navigator.language);
+html.setAttribute('xml:lang', window.navigator.language);
 
 function onMessageHandler (e) {
     if (!e || !e.data) return;
@@ -44,12 +45,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var default_size = 12,
         actual_font;
     try {
-        actual_font = opera.extension.bgProcess.actual_font || parseInt(window.getComputedStyle(document.getElementById("id-menu"),null).getPropertyValue("font-size").replace(/[a-z]/gi,''),10);
+        actual_font = opera.extension.bgProcess.actual_font || parseInt(window.getComputedStyle(document.getElementById("id-menu"), null).getPropertyValue("font-size").replace(/[a-z]/gi, ''), 10);
         if (!opera.extension.bgProcess.menu_resized && actual_font / default_size > 1) {
             var height = opera.extension.bgProcess.button.popup.height,
             width = opera.extension.bgProcess.button.popup.width;
-            opera.extension.bgProcess.button.popup.height = Math.round(height*actual_font/default_size);
-            opera.extension.bgProcess.button.popup.width = Math.round(width*actual_font/default_size);
+            opera.extension.bgProcess.button.popup.height = Math.round(height * actual_font / default_size);
+            opera.extension.bgProcess.button.popup.width = Math.round(width * actual_font / default_size);
             opera.extension.bgProcess.menu_resized = true;
             opera.extension.bgProcess.actual_font = actual_font;
         }

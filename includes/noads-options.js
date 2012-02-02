@@ -36,7 +36,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .strikethrough{text-decoration: line-through;}\
 .noads_content .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:10px;}\
-.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;box-shadow:0 1px 1px rgba(121,153,166,0.75),inset 0 1px rgba(255,255,255,0.25),inset 0 0 1px rgba(255,255,255,0.75);-o-transition:0.25s;padding:2px;}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
 .noads_content input[type="checkbox"]{height:14px;width:14px;}\
 .noads_label_subscription{font-size:14px;margin:2px 0;padding:0 4px;}\
 .noads_label a{color:#729fcf;display:inline !important;font-size:14px;text-decoration:underline;margin:0;padding:0;}\
@@ -403,7 +403,8 @@ var options = {
             '^https?://ipinfodb\\.com',
             '^https?://live\\.nhle\\.com',
             '^https?://[0-9a-z\\.]+\\.longtailvideo\\.com',
-            '^https?://[0-9a-z\\.]\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z\\.]+\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z\\.]+\\.cdnvideo\\.ru',
             '^https?://mat1\\.gtimg\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://rutube\\.ru',
@@ -668,7 +669,7 @@ var options = {
             if (textEnabled != '' && textDisabled != '') {
                 enable = document.createTextNode(textEnabled);
                 disable = document.createTextNode(textDisabled);
-                options.checkEnabled(sName + '_state') ? checkbox.appendChild(enable) : checkbox.appendChild(disable) ;
+                options.checkEnabled(sName + '_state') ? checkbox.appendChild(enable) : checkbox.appendChild(disable);
                 changetext = true;
             } else {
                 checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
@@ -716,19 +717,21 @@ var options = {
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
             textarea.spellcheck = false;
+
             if (!global) {
                 textarea.disabled = disabled;
             } else {
                 textarea.className = 'overflow';
             }
+
             return textarea;
         };
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
-                inputid = 'id-'+Math.random(); //txt.toLowerCase().replace(/[\s+-\+\/\\;\.,'"<>]/ig,'-');
+                inputid = 'id-' + Math.random(); //txt.toLowerCase().replace(/[\s+-\+\/\\;\.,'"<>]/ig,'-');
             label.className = 'noads_label_subscription';
-            label.setAttribute('for',inputid);
+            label.setAttribute('for', inputid);
             input.type = 'checkbox';
             input.name = 'subs';
             input.id = inputid;
@@ -885,7 +888,7 @@ var options = {
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
-                document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
+                document.getElementById('noads_css_textarea').disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, 'right-second', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
@@ -973,23 +976,23 @@ var options = {
             span = document.createElement('span'),
             input = document.createElement('input'),
             lastUpdateNode = document.createElement('span');
-            
+
             this.clear(pos);
 
             lastUpdateNode.id = 'noads_autoupdate_lastupdate';
             label.appendChild(lastUpdateNode);
             label.appendChild(document.createElement('br'));
-            
+
             label.appendChild(document.createTextNode(lng.uInterval + " "));
             span.appendChild(document.createTextNode(defaultValue.toString()));
             span.id = 'noads_autoupdate_days_span';
             label.appendChild(span);
-            
+
             label.setAttribute('for', 'noads_autoupdate_interval');
             label.id = 'noads_autoupdate_label';
-            
+
             this.appendChild(label);
-            
+
             input.id = 'noads_autoupdate_interval';
             input.type = 'range';
             input.min = 1;
@@ -998,7 +1001,7 @@ var options = {
             input.onchange = function () {
                 span.innerHTML = this.value.toString();
             };
-            
+
             this.appendChild(input);
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
             this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
@@ -1032,7 +1035,7 @@ var options = {
             this.createCheckboxButton('MalwarePatrol', 'http://www.malwarepatrol.net/cgi/submit?action=list_adblock');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
-            
+
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, '', imgRefresh, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
                 if (dlsubscription.disabled === true) {
@@ -1040,12 +1043,10 @@ var options = {
                 } else {
                     dlsubscription.disabled = true;
                 }
-                
-                var url = [], inputs = area.querySelectorAll('input');
+
+                var url = [], inputs = area.querySelectorAll('input[type="checkbox"]:checked');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type === 'checkbox' && radioButton.checked === true) {
-                        url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
-                    }
+                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;
@@ -1055,17 +1056,17 @@ var options = {
                     sendMessage({ type: 'get_filters', url: '' });
                 }
             }));
-            
+
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
             options.setLastUpdate(lastUpdateNode);
-            
+
             this.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
             }));
-            
+
         };
         area.showHelp = function (pos) {
             this.clear(pos);
