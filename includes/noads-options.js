@@ -516,7 +516,7 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            node.firstChild.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
+            node.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
         }
     },
 
@@ -993,7 +993,7 @@ var options = {
             input.max = 30;
             input.value = defaultValue;
             input.onchange = function () {
-                span.firstChild.nodeValue = this.value.toString();
+                span.nodeValue = this.value.toString();
             };
 
             this.appendChild(input);
@@ -1038,11 +1038,9 @@ var options = {
                     dlsubscription.disabled = true;
                 }
 
-                var url = [], inputs = area.querySelectorAll('input[type="checkbox"]');
+                var url = [], inputs = area.querySelectorAll('input[type="checkbox"]:checked');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    if (radioButton.type === 'checkbox' && radioButton.checked === true) {
-                        url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
-                    }
+                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;
