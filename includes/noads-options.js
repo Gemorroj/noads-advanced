@@ -669,7 +669,7 @@ var options = {
             if (textEnabled != '' && textDisabled != '') {
                 enable = document.createTextNode(textEnabled);
                 disable = document.createTextNode(textDisabled);
-                options.checkEnabled(sName + '_state') ? checkbox.appendChild(enable) : checkbox.appendChild(disable) ;
+                options.checkEnabled(sName + '_state') ? checkbox.appendChild(enable) : checkbox.appendChild(disable);
                 changetext = true;
             } else {
                 checkbox.appendChild(document.createTextNode(textEnabled != '' ? textEnabled : sName));
@@ -882,7 +882,7 @@ var options = {
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
             inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
-                document.getElementById('noads_css_textarea').disabled = options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
+                document.getElementById('noads_css_textarea').disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, 'right-second', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
