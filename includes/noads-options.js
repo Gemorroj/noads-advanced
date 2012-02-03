@@ -295,51 +295,51 @@ var options = {
     // create default white list
     setDefWhiteList: function () {
         var whiteList = [
-            'acid3.acidtests.org^',
-            'amazon.com^',
-            'anonym.to^',
-            'asus.com^',
-            'bbc.co.uk^',
-            'bing.com^',
-            'britannica.com^',
-            'browserid.org^',
-            'deviantart.com^',
-            'ebay.com^',
-            'eurosport.ru^',
-            'facebook.com^',
-            'flickr.com^',
-            'guardian.co.uk^',
-            'googleusercontent.com^',
-            'hotmail.com^',
-            'imageshack.us^',
-            'imdb.com^',
-            'kinozal.tv^',
-            'lastfm.ru^',
-            'livegames.ru^',
-            'macromedia.com^',
-            'mail.ru^',
-            'megashare.by^',
-            'metacafe.com^',
-            'molotok.ru^',
-            'myspace.com^',
-            'newegg.com^',
-            'opera.com^',
-            'picasaweb.google.com^',
-            'piter.fm^',
-            'playset.ru^',
-            'sprashivai.ru^',
-            'translate.google.com^',
-            'tvshack.net^',
-            'twitter.com^',
-            'vimeo.com^',
-            'virustotal.com^',
-            'vk.com^',
-            'vkontakte.ru^',
-            'wikipedia.org^',
-            'ya.ru^',
-            'yahoo.com^',
-            'youtube.com^',
-            'youtube-nocookie.com^'
+            'acid3.acidtests.org',
+            'amazon.com',
+            'anonym.to',
+            'asus.com',
+            'bbc.co.uk',
+            'bing.com',
+            'britannica.com',
+            'browserid.org',
+            'deviantart.com',
+            'ebay.com',
+            'eurosport.ru',
+            'facebook.com',
+            'flickr.com',
+            'guardian.co.uk',
+            'googleusercontent.com',
+            'hotmail.com',
+            'imageshack.us',
+            'imdb.com',
+            'kinozal.tv',
+            'lastfm.ru',
+            'livegames.ru',
+            'macromedia.com',
+            'mail.ru',
+            'megashare.by',
+            'metacafe.com',
+            'molotok.ru',
+            'myspace.com',
+            'newegg.com',
+            'opera.com',
+            'picasaweb.google.com',
+            'piter.fm',
+            'playset.ru',
+            'sprashivai.ru',
+            'translate.google.com',
+            'tvshack.net',
+            'twitter.com',
+            'vimeo.com',
+            'virustotal.com',
+            'vk.com',
+            'vkontakte.ru',
+            'wikipedia.org',
+            'ya.ru',
+            'yahoo.com',
+            'youtube.com',
+            'youtube-nocookie.com'
         ];
 
         var skipScripts = [
@@ -461,7 +461,7 @@ var options = {
             'yui[0-9a-z\\.-]*\\.js'
         ];
 
-        setValue('noads_scriptlist_white', '@@||' + whiteList.join('\n@@||') + '\n@@==' + skipScripts.join('\n@@=='));
+        setValue('noads_scriptlist_white', '@@||' + whiteList.join('^\n@@||') + '^\n@@==' + skipScripts.join('\n@@=='));
     },
 
     setActiveDomain: function (name, domain, value) {
@@ -475,7 +475,7 @@ var options = {
                 }
             }
         } else {
-            rez.unshift('@@||' + domain.replace(/^www\./, '') + '^');
+            rez.unshift('@@||' + domain.replace(/^www\d*\./, '') + '^');
         }
         log('whitelisted ' + name + ' ' + JSON.stringify(rez));
         setValue(name, rez.join('\n'));
@@ -837,7 +837,7 @@ var options = {
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
-                sendMessage({ type: 'reload_rules', global: false });
+                sendMessage({ type: 'reload_rules', global: false, clear: false });
             }));
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
@@ -849,14 +849,14 @@ var options = {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
             this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
-                sendMessage({ type: 'reload_rules', global: false, clear: options.checkEnabled('noads_urlfilterlist_state')});
+                sendMessage({ type: 'reload_rules', global: true, clear: options.checkEnabled('noads_urlfilterlist_state')});
             });
             this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
-                sendMessage({ type: 'reload_rules', global: true });
+                sendMessage({ type: 'reload_rules', global: true, clear: false });
             }));
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
