@@ -184,19 +184,15 @@ var run = {
     // disable and enable blocking globally
     toggleBlocking: function (){
         if (block && !options.checkEnabled('noads_disable')) {
-            options.setForSite(domain, false);
-
             sendMessage({ type: 'reload_rules', global: false, clear: true });
             sendMessage({ type: 'reload_rules', global: true, clear: true });
             options.setEnabled('noads_disable', true);
-            this.setStatus(lng.nDisabled); // lng.globallyDisabled
+            this.setStatus(lng.globallyDisabled);
         } else {
-            options.setForSite(domain, true);
-            run.updateCSS(domain);
             sendMessage({ type: 'reload_rules', global: false, clear: false });
             sendMessage({ type: 'reload_rules', global: true, clear: false });
             options.setEnabled('noads_disable', false);
-            this.setStatus(lng.nEnabled); // lng.globallyEnabled
+            this.setStatus(lng.globallyEnabled);
         }
     },
     // disable and enable blocking for current site
@@ -208,8 +204,6 @@ var run = {
         } else {
             options.setForSite(domain, true);
             run.updateCSS(domain);
-            sendMessage({ type: 'reload_rules', global: false, clear: false });
-            sendMessage({ type: 'reload_rules', global: true, clear: false });
             this.setStatus(lng.nEnabled);
         }
     },
@@ -506,7 +500,6 @@ var run = {
             return false;
         };
 
-
         this.stop = function () {
             out();
             remove();
@@ -522,34 +515,34 @@ var run = {
     // the quick button
     noreload: true,
     createButton: function (css, blocked) {
-        var enabled = options.getForSite(domain),
-            arrCSS = splitCSS(css);
+        var enabled = options.getForSite(domain);
         if (this.stop) {
             this.stop();
             return;
         }
 
-        // checking for invalid CSS in preferences and removing unused ones
-        try {
-            for (var i = arrCSS.length; i--;) {
-                document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
-            }
-        } catch (e) {
-            log('invalid CSS encountered: ' + arrCSS[i]);
-            return;
-        }
-
-        css = arrCSS.join(',');
-
         if (enabled && this.noreload && !blocked && !css) return;
-
-        var sCount = blocked.split('; ').length,
-            eCount = arrCSS.length,
-            txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload,
-            title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '',
-            b = document.getElementById('noads_button');
+        var sCount, eCount, txt, title, b = document.getElementById('noads_button');
 
         if (!b) {
+            // checking for invalid CSS in preferences and removing unused ones
+            // FIXME:
+            //  Isn't it too slow for dynaminc button?
+            var arrCSS = splitCSS(css);
+            try {
+                for (var i = arrCSS.length; i--;)
+                    document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
+            } catch (e) {
+                log('invalid CSS encountered: ' + arrCSS[i]);
+                return;
+            }
+            css = arrCSS.join(',');
+
+            sCount = blocked.split('; ').length;
+            eCount = arrCSS.length;
+            txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
+            title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
+                
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
             b.type = 'button';
@@ -576,19 +569,17 @@ var run = {
                 }
             }, false);
             b.addEventListener('mouseout', function () {
-            //    this.setAttribute('style', 'visibility:hidden;');
-            //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
+                //this.setAttribute('style', 'visibility:hidden;');
+                //this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
                 this.style = 'right: -100px;';
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {
                 document.body.appendChild(b);
             } catch(e) {}
-        } else {
-            b.value = txt;
-            b.title = title;
         }
-       // b.style.visibility = 'visible';
+        
+        //b.style.visibility = 'visible';
         b.style = 'right: 0;';
     },
 
