@@ -66,7 +66,7 @@ body {
 
 /* 
  * Template: replace en to your language code and translate all strings.
- * All non-ascii text should be properjy CSS-escaped.
+ * All non-ascii text should be properly CSS-escaped.
  *
 #block_ads:lang(en) {content: 'Create general enle'}
 #block_ele:lang(en) {content: 'Create accurate enle'}

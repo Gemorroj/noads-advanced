@@ -522,13 +522,13 @@ var run = {
         }
 
         if (enabled && this.noreload && !blocked && !css) return;
-        var sCount, eCount, txt, title, b = document.getElementById('noads_button');
+        var b = document.getElementById('noads_button');
 
         if (!b) {
             // checking for invalid CSS in preferences and removing unused ones
             // FIXME:
-            //  Isn't it too slow for dynaminc button?
-            var arrCSS = splitCSS(css);
+            //  Isn't it too slow for dynamic button?
+            var sCount, eCount, txt, title, arrCSS = splitCSS(css);
             try {
                 for (var i = arrCSS.length; i--;)
                     document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
@@ -578,7 +578,7 @@ var run = {
                 document.body.appendChild(b);
             } catch(e) {}
         }
-        
+
         //b.style.visibility = 'visible';
         b.style = 'right: 0;';
     },

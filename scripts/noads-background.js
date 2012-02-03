@@ -155,8 +155,8 @@ window.addEventListener('load', function () {
     }
 
     // adding URL filters on load
-    importer.reloadRules(true, false);
-    importer.reloadRules(false, false);
+    importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
+    importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
 
     // Enable the button when a tab is ready.
     opera.extension.onconnect = onConnectHandler;
