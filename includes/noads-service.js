@@ -108,7 +108,7 @@ var noads = {
             if (/^(html|body)$/i.test(tag)) break;
             att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
             if (att) {
-                if (this.getAttrSelector(el, 'servicenoads')) {
+                if (this.getAttrSelector(el, 'noads')) {
                     // for blocker helper
                     tag = '';
                 }
@@ -359,7 +359,9 @@ var run = {
             bgColor = ele.style.backgroundColor;
 
             if (!ele.getAttribute('servicenoads')) {
-                ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
+                if (ele.className !== 'noads_placeholder') {
+                    ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
+                }
                 ele.style.outline = outlineCSS;
                 ele.style.backgroundColor = outlineBgCSS;
             }
@@ -367,7 +369,11 @@ var run = {
         out = function () {
             if (ele) {
                 // restore attributes
-                title ? ele.title = title : ele.removeAttribute('title');
+                if (title) {
+                    ele.title = title;
+                } else {
+                    ele.removeAttribute('title');
+                }
 
                 ele.style.outline = outline;
                 ele.style.backgroundColor = bgColor;
@@ -665,7 +671,7 @@ var run = {
                     img.className = 'noads_placeholder';
                     img.src = script.src;
                     img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
-                    img.setAttribute('servicenoads', 'true');
+                    img.setAttribute('noads', 'true');
 
                     link.appendChild(img);
                     content.appendChild(link);
@@ -687,7 +693,7 @@ var run = {
                     img.className = 'noads_placeholder';
                     img.src = source;
                     img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
-                    img.setAttribute('servicenoads', 'true');
+                    img.setAttribute('noads', 'true');
 
                     content.appendChild(img);
                     link.appendChild(img);
@@ -720,7 +726,7 @@ var run = {
                             img.className = 'noads_placeholder';
                             img.src = bgImages[i];
                             img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                            img.setAttribute('servicenoads', 'true');
+                            img.setAttribute('noads', 'true');
 
                             link.appendChild(img);
                             content.appendChild(link);
