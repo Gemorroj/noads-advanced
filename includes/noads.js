@@ -12,7 +12,7 @@
 // global variables
 var bDebug = options.checkEnabled('noads_debug_enabled_state'),
     lng = new TRANSLATION(),
-    sStyle, uStyle,
+    sStyle = '', uStyle = '',
     sCSS = '', uCSS = '',
     blockedScripts = '', inlineScripts = 0,
     blockingArray = [], reSkip, reBlock;
@@ -92,7 +92,7 @@ function onHotkeyHandler(e) {
     if (e.shiftKey && !e.ctrlKey && e.altKey) {
         switch (e.keyCode) {
             case 68:
-                run.toggleBlocking(); // permanent unblock/block for the site with Alt+Shift+D
+                run.toggleBlockingSite(); // permanent unblock/block for the site with Alt+Shift+D
                 break;
             case 69:
                 run.editStyles(); // Edit styles with Alt+Shift+E

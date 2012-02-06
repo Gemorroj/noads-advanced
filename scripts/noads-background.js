@@ -103,7 +103,7 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'unblock_address':
-                log('user URL-filter unblocked url -> ' + message.url);
+                log('user URL-filter removing url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
                 var filters_length = importer.array_user_filters.length;
                 for (var i = 0; i < filters_length; i++) {
@@ -119,7 +119,7 @@ window.addEventListener('load', function () {
                 }
                 break;
             case 'block_address':
-                log('user URL-filter blocked url -> ' + message.url);
+                log('user URL-filter adding url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
                 importer.array_user_filters.unshift(message.url);
                 setValue('noads_userurlfilterlist', importer.array_user_filters.join('\n'));
@@ -155,8 +155,8 @@ window.addEventListener('load', function () {
     }
 
     // adding URL filters on load
-    importer.reloadRules(true, false);
-    importer.reloadRules(false, false);
+    importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
+    importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
 
     // Enable the button when a tab is ready.
     opera.extension.onconnect = onConnectHandler;

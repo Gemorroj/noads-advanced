@@ -10,27 +10,24 @@
 // ==/UserScript==
 
 // global variables
-var sStyle, uStyle, sCSS = '', uCSS = '', blockedScripts = '';
-var none = '{display: none !important;}',
-highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}',
-paddingCSS = 'iframe, embed, object {\
+var none = '{display: none !important;}';
+var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}';
+var outlineCSS = '1px solid #306EFF';
+var outlineBgCSS = '#C6DEFF';
+var paddingCSS = 'iframe, embed, object, audio, video {\
 padding-left: 15px !important;\
 background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAAc0lEQVQY02P4z4AfMlBPAQMzAzNWNlwIRPEygAA7mM3JgGYCL5gSgUrrMCgwsKEqYABKwjg6DGog09AVMDCIgZmmEGlMBexwjiREPaoCmN3GULegKoD6AmI3xC0C6CZwMijD7AZKamLzBRsQwgCYTZ24AAD8Zqzk4ASGSwAAAABJRU5ErkJggg=="),\
 -o-linear-gradient( top, rgba(220,0,0,1) 0%, rgba(255,255,255,0) 30% ) !important;\
 background-repeat: no-repeat !important;\
 background-position: 0px 0px !important;\
 z-index: 1001 !important;\
-}',
-contentHelperCSS = ' \
+}';
+var contentHelperCSS = ' \
 .noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:10001;}\
 .noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_helper_content{font-weight:bold;color:#e00;display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
 .noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
-',
-quickButtonCSS = ' \
-#noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
-#noads_button:hover{-o-transition: right 1s}\
 ';
 
 
@@ -123,12 +120,12 @@ var noads = {
                 break;
             } else {
                 att = this.getAttrSelector(el, 'id|class|name|height|width|color|bgcolor|align|valign|type');
-                rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
                 try {
                     single = (document.querySelectorAll(tag + att).length === 1);
                 } catch (e) {
                     break;
                 }
+                rez.unshift(tag + att + ((wide !== false) ? '' : this.getNth(el)));
                 if (wide && att && single) break;
             }
             el = el.parentElement;
@@ -137,7 +134,7 @@ var noads = {
     },
 
     getFilterLink: function (css, domain) {
-        if (~css.indexOf('not(')) return;
+        if (/not\s*\(/i.test(css)) return;
         var ruleURL = css.match(/(?:src|href|data)\s*\^=\s*"([^"]+)"/i);
         if (ruleURL && ruleURL[1]) {
             ruleURL[1] += '*';
@@ -184,18 +181,30 @@ var run = {
             }, 4000);
         }
     },
-    // disable and enable blocking
-    toggleBlocking: function (block) {
+    // disable and enable blocking globally
+    toggleBlocking: function (){
+        if (block && !options.checkEnabled('noads_disable')) {
+            sendMessage({ type: 'reload_rules', global: false, clear: true });
+            sendMessage({ type: 'reload_rules', global: true, clear: true });
+            options.setEnabled('noads_disable', true);
+            this.setStatus(lng.globallyDisabled);
+        } else {
+            sendMessage({ type: 'reload_rules', global: false, clear: false });
+            sendMessage({ type: 'reload_rules', global: true, clear: false });
+            options.setEnabled('noads_disable', false);
+            this.setStatus(lng.globallyEnabled);
+        }
+    },
+    // disable and enable blocking for current site
+    toggleBlockingSite: function (block) {
         if (arguments.length ? !block : options.getForSite(domain)) {
             options.setForSite(domain, false);
             run.updateCSS(domain);
             this.setStatus(lng.nDisabled);
-            //this.sendMessage({ type: 'disable' });
         } else {
             options.setForSite(domain, true);
             run.updateCSS(domain);
             this.setStatus(lng.nEnabled);
-            //this.sendMessage({ type: 'enable' });
         }
     },
     // NoAds
@@ -237,7 +246,7 @@ var run = {
         if (!uStyle || !css) return;
 
         var remove = function () {
-            document.removeEventListener('click', click, false);
+            document.removeEventListener('click', click, true);
             document.removeEventListener('mousedown', rightclick, false);
             document.removeEventListener('keyup', press, false);
             delElement(padCSS);
@@ -317,10 +326,9 @@ var run = {
                 replaceStyle(uStyle, css ? css + none : '');
                 remove();
             };
-            //TODO:???
             padCSS = addStyle(paddingCSS);
             replaceStyle(uStyle, css + highlightCSS);
-            document.addEventListener('click', click, false);
+            document.addEventListener('click', click, true);
             document.addEventListener('mousedown', rightclick, false);
             document.addEventListener('keyup', press, false);
         }
@@ -336,8 +344,8 @@ var run = {
         var remove = function () {
             document.removeEventListener('mouseover', over, false);
             document.removeEventListener('mouseout', out, false);
-            document.removeEventListener('mousedown', rightclick, false);
-            document.removeEventListener('click', click, false);
+            document.removeEventListener('mousedown', mousebutton, true);
+            document.removeEventListener('click', click, true);
             document.removeEventListener('keyup', press, false);
             delElement(tmpCSS);
             delElement(padCSS);
@@ -354,8 +362,8 @@ var run = {
                 if (ele.className !== 'noads_placeholder') {
                     ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
                 }
-                ele.style.outline = '1px solid #306EFF';
-                ele.style.backgroundColor = '#C6DEFF';
+                ele.style.outline = outlineCSS;
+                ele.style.backgroundColor = outlineBgCSS;
             }
         },
         out = function () {
@@ -378,7 +386,14 @@ var run = {
             if (!ele || ele.getAttribute('servicenoads')) return;
             ev.preventDefault();
             ev.stopPropagation();
-
+            
+            // Hide top element with Ctrl-click, can't undo.
+            if (ev.ctrlKey) {
+                ele.style.zIndex = '1';
+                ele.style.display = 'none';
+                return;
+            }
+            
             var rules, rule = noads.getCSSrule(ele, !wide != !ev.altKey); // get CSS rule for current element
 
             css = css ? (css != (rules = noads.deleleCSSrule(css, rule)) ? (ev.shiftKey ? rules : css) : css + ',' + rule) : rule;
@@ -455,24 +470,40 @@ var run = {
         press = function (ev) {
             if (ev.keyCode === 27) run.stop();
         },
-        rightclick = function (ev) {
+        mousebutton = function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
-
+        
             // middle and left mouse button
-            if (ev.button !== 2) {
-                // Filter onclick events for selected element and it's parents.
-                // I know it's possibly brakes the page logic until reload but..
-                var el = ele;
-                while (el !== null) {
-                    if (el.nodeName.toLowerCase() === 'html') {
-                        break;
+            switch (ev.button) {
+                case 0: // Left button
+                    // Pre-filter some events for selected element and it's parents.
+                    // I know it's possibly overkill and brakes the page logic until reload but..
+                    var el = ele;
+                    while(el !== null) {
+                        if (el.nodeName.toLowerCase() === 'html') {
+                            break;
+                        }
+                        el.removeAttribute('onclick');
+                        el.removeAttribute('onmousedown');
+                        el.removeAttribute('onmouseup');
+                        el.removeAttribute('onmousemove');
+                        el.removeAttribute('onmouseout');
+                        el.onclick = null;
+                        el.onmousedown = null;
+                        el.onmouseup = null;
+                        el.onmousemove = null;
+                        el.onmouseout = null;
+                        el = el.parentElement;
                     }
-                    el.removeAttribute('onclick');
-                    el.onclick = null;
-                    el = el.parentElement;
-                }
-            } else { run.stop(); }
+                    break;
+                case 1: // Middle button
+                    break;
+                case 2: // Right button
+                    //run.stop();
+                    break;
+                default:
+            }
             return false;
         };
 
@@ -484,41 +515,42 @@ var run = {
         padCSS = addStyle(paddingCSS);
         document.addEventListener('mouseover', over, false);
         document.addEventListener('mouseout', out, false);
-        document.addEventListener('mousedown', rightclick, false);
-        document.addEventListener('click', click, false);
+        document.addEventListener('mousedown', mousebutton, true);
+        document.addEventListener('click', click, true);
         document.addEventListener('keyup', press, false);
     },
     // the quick button
     noreload: true,
     createButton: function (css, blocked) {
-        var enabled = options.getForSite(domain),
-            arrCSS = splitCSS(css);
+        var enabled = options.getForSite(domain);
         if (this.stop) {
             this.stop();
             return;
         }
 
-        // checking for invalid CSS in preferences and removing unused ones
-        try {
-            for (var i = arrCSS.length; i--;) {
-                document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
-            }
-        } catch (e) {
-            log('invalid CSS encountered: ' + arrCSS[i]);
-            return;
-        }
-
-        css = arrCSS.join(',');
-
         if (enabled && this.noreload && !blocked && !css) return;
-
-        var sCount = blocked.split('; ').length,
-            eCount = arrCSS.length,
-            txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload,
-            title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '',
-            b = document.getElementById('noads_button');
+        var b = document.getElementById('noads_button');
 
         if (!b) {
+            // checking for invalid CSS in preferences and removing unused ones
+            // FIXME:
+            //  Isn't it too slow for dynamic button?
+            var sCount, eCount, txt, title, arrCSS = splitCSS(css);
+            try {
+                for (var i = arrCSS.length; i--;) {
+                    document.querySelectorAll(arrCSS[i]).length === 0 ? arrCSS.splice(i, 1) : '';
+                }
+            } catch (e) {
+                log('invalid CSS encountered: ' + arrCSS[i]);
+                return;
+            }
+            css = arrCSS.join(',');
+
+            sCount = blocked.split('; ').length;
+            eCount = arrCSS.length;
+            txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
+            title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
+                
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
             b.type = 'button';
@@ -532,7 +564,7 @@ var run = {
                     return;
                 }
                 if (run.noreload) {
-                    run.toggleBlocking(!enabled);
+                    run.toggleBlockingSite(!enabled);
                     if (css && !blocked) {
                         delElement(this);
                     } else {
@@ -545,19 +577,17 @@ var run = {
                 }
             }, false);
             b.addEventListener('mouseout', function () {
-            //    this.setAttribute('style', 'visibility:hidden;');
-            //    this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
+                //this.setAttribute('style', 'visibility:hidden;');
+                //this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
                 this.style = 'right: -100px;';
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {
                 document.body.appendChild(b);
             } catch(e) {}
-        } else {
-            b.value = txt;
-            b.title = title;
         }
-       // b.style.visibility = 'visible';
+
+        //b.style.visibility = 'visible';
         b.style = 'right: 0;';
     },
 
@@ -675,7 +705,7 @@ var run = {
             overlay.appendChild(content);
 
             // @see noads.js
-            //bgImages = bgImages.split('; ');
+            //  bgImages = bgImages.split('; ');
 
             var bgImages = [];
             getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {

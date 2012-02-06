@@ -39,24 +39,22 @@ delElement = function (ele) {
 },
 addStyle = function (css, id) {
     if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
-        throw "Not an HTML page.";
+        throw 'Not an HTML page.';
     }
     var s = document.createElement('style');
     if (id) {
         s.id = id;
     }
     s.type = 'text/css';
-    //s.style = 'display: none !important;'; //TODO:???
     s.appendChild(document.createTextNode(css));
     return (document.querySelectorAll('head')[0] || document.documentElement).appendChild(s);
 },
 replaceStyle = function (ele, css) {
     if (ele) {
         if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
-            throw "Not an HTML page.";
+            throw 'Not an HTML page.';
         }
-
-        ele.innerHTML = "";
+        ele.innerHTML = '';
         /*
         while (ele.firstChild) {
             ele.removeChild(ele.firstChild);

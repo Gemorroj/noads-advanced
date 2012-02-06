@@ -43,8 +43,8 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 58%;width: 50px;top: 155px;right: 100px;float:right;text-align: right;position:absolute;}\
-#noads_autoupdate_label {top: 105px;right: 100px;float:right;text-align: right;position:absolute;}\
+.noads_content input[type="range"] {height: 500px;width: 50px;float:right;}\
+#noads_autoupdate_label {float:right;text-align: right;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -295,51 +295,51 @@ var options = {
     // create default white list
     setDefWhiteList: function () {
         var whiteList = [
-            'acid3.acidtests.org^',
-            'amazon.com^',
-            'anonym.to^',
-            'asus.com^',
-            'bbc.co.uk^',
-            'bing.com^',
-            'britannica.com^',
-            'browserid.org^',
-            'deviantart.com^',
-            'ebay.com^',
-            'eurosport.ru^',
-            'facebook.com^',
-            'flickr.com^',
-            'guardian.co.uk^',
-            'googleusercontent.com^',
-            'hotmail.com^',
-            'imageshack.us^',
-            'imdb.com^',
-            'kinozal.tv^',
-            'lastfm.ru^',
-            'livegames.ru^',
-            'macromedia.com^',
-            'mail.ru^',
-            'megashare.by^',
-            'metacafe.com^',
-            'molotok.ru^',
-            'myspace.com^',
-            'newegg.com^',
-            'opera.com^',
-            'picasaweb.google.com^',
-            'piter.fm^',
-            'playset.ru^',
-            'sprashivai.ru^',
-            'translate.google.com^',
-            'tvshack.net^',
-            'twitter.com^',
-            'vimeo.com^',
-            'virustotal.com^',
-            'vk.com^',
-            'vkontakte.ru^',
-            'wikipedia.org^',
-            'ya.ru^',
-            'yahoo.com^',
-            'youtube.com^',
-            'youtube-nocookie.com^'
+            'acid3.acidtests.org',
+            'amazon.com',
+            'anonym.to',
+            'asus.com',
+            'bbc.co.uk',
+            'bing.com',
+            'britannica.com',
+            'browserid.org',
+            'deviantart.com',
+            'ebay.com',
+            'eurosport.ru',
+            'facebook.com',
+            'flickr.com',
+            'guardian.co.uk',
+            'googleusercontent.com',
+            'hotmail.com',
+            'imageshack.us',
+            'imdb.com',
+            'kinozal.tv',
+            'lastfm.ru',
+            'livegames.ru',
+            'macromedia.com',
+            'mail.ru',
+            'megashare.by',
+            'metacafe.com',
+            'molotok.ru',
+            'myspace.com',
+            'newegg.com',
+            'opera.com',
+            'picasaweb.google.com',
+            'piter.fm',
+            'playset.ru',
+            'sprashivai.ru',
+            'translate.google.com',
+            'tvshack.net',
+            'twitter.com',
+            'vimeo.com',
+            'virustotal.com',
+            'vk.com',
+            'vkontakte.ru',
+            'wikipedia.org',
+            'ya.ru',
+            'yahoo.com',
+            'youtube.com',
+            'youtube-nocookie.com'
         ];
 
         var skipScripts = [
@@ -461,7 +461,7 @@ var options = {
             'yui[0-9a-z\\.-]*\\.js'
         ];
 
-        setValue('noads_scriptlist_white', '@@||' + whiteList.join('\n@@||') + '\n@@==' + skipScripts.join('\n@@=='));
+        setValue('noads_scriptlist_white', '@@||' + whiteList.join('^\n@@||') + '^\n@@==' + skipScripts.join('\n@@=='));
     },
 
     setActiveDomain: function (name, domain, value) {
@@ -475,7 +475,7 @@ var options = {
                 }
             }
         } else {
-            rez.unshift('@@||' + domain.replace(/^www\./, '') + '^');
+            rez.unshift('@@||' + domain.replace(/^www\d*\./, '') + '^');
         }
         log('whitelisted ' + name + ' ' + JSON.stringify(rez));
         setValue(name, rez.join('\n'));
@@ -516,7 +516,7 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            node.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
+            node.firstChild.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
         }
     },
 
@@ -540,9 +540,9 @@ var options = {
 
         var global = domain ? false : true;
         var press = function (e) {
-                if (e.keyCode === 27) {
-                    options.stop(global);
-                }
+            if (e.keyCode === 27) {
+                options.stop(global);
+            }
         };
         var overlay = document.getElementById('noads_overlay');
 
@@ -829,12 +829,15 @@ var options = {
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
+            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
+                sendMessage({ type: 'reload_rules', global: false, clear: !options.checkEnabled('noads_userurlfilterlist_state')});
+            }));
             this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
-                sendMessage({ type: 'reload_rules', global: false });
+                sendMessage({ type: 'reload_rules', global: false, clear: false });
             }));
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
@@ -845,12 +848,15 @@ var options = {
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
+            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
+                sendMessage({ type: 'reload_rules', global: true, clear: !options.checkEnabled('noads_urlfilterlist_state')});
+            });
             this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
-                sendMessage({ type: 'reload_rules', global: true });
+                sendMessage({ type: 'reload_rules', global: true, clear: false });
             }));
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
@@ -974,18 +980,19 @@ var options = {
             this.clear(pos);
 
             lastUpdateNode.id = 'noads_autoupdate_lastupdate';
+            lastUpdateNode.appendChild(document.createTextNode(''));
+
             label.appendChild(lastUpdateNode);
             label.appendChild(document.createElement('br'));
 
-            label.appendChild(document.createTextNode(lng.uInterval + " "));
+            label.appendChild(document.createTextNode(lng.uInterval + ' '));
             span.appendChild(document.createTextNode(defaultValue.toString()));
             span.id = 'noads_autoupdate_days_span';
             label.appendChild(span);
+            label.appendChild(document.createElement('br'));
 
             label.setAttribute('for', 'noads_autoupdate_interval');
             label.id = 'noads_autoupdate_label';
-
-            this.appendChild(label);
 
             input.id = 'noads_autoupdate_interval';
             input.type = 'range';
@@ -993,10 +1000,12 @@ var options = {
             input.max = 30;
             input.value = defaultValue;
             input.onchange = function () {
-                span.nodeValue = this.value.toString();
+                span.firstChild.nodeValue = this.value.toString();
             };
 
-            this.appendChild(input);
+            label.appendChild(input);
+            this.appendChild(label);
+
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
             this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
             this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');

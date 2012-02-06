@@ -158,7 +158,6 @@ var importer = {
         if (importer.array_filters.length) {
             return_length += importer.setFilterRules();
         }
-
         return return_length;
     },
 
@@ -192,10 +191,8 @@ var importer = {
                     }
                 }
             }
-
             return importer.setFilterRules();
         }
-
         return 0;
     },
 
@@ -230,18 +227,19 @@ var importer = {
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status == 200) {
                 setValue('noads_last_update', new Date().getTime());
                 if (~url.indexOf('.ini')) {
                     callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
                     callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
                 }
-            } else if (xmlhttp.readyState >= 4) {
-                return 0;
+            } else if (xmlhttp.readyState >= XMLHttpRequest.DONE) {
+                throw 'server response was: "' + xmlhttp.statusText + '"';
             }
         };
-        xmlhttp.open("GET", url, false);
+        xmlhttp.overrideMimeType('text/plain');
+        xmlhttp.open('GET', url, false);
         xmlhttp.send(null);
     }
 };

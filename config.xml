@@ -15,8 +15,8 @@
   <preference name="noads_userlist_state" value="enabled"/>
   <preference name="noads_list_state" value="enabled"/>
   <preference name="noads_magiclist_state" value="disabled"/>
-  <!--<preference name="noads_userurlfilterlist_state" value="enabled"/>-->
-  <!--<preference name="noads_urlfilterlist_state" value="enabled"/>-->
+  <preference name="noads_userurlfilterlist_state" value="enabled"/>
+  <preference name="noads_urlfilterlist_state" value="enabled"/>
   <preference name="noads_scriptlist_state" value="enabled"/>
   <preference name="noads_button_state" value="enabled"/>
   <preference name="noads_allrules_state" value="enabled"/>
@@ -38,7 +38,7 @@
   <access origin="http://adblock-chinalist.googlecode.com" subdomains="true"/>
   <access origin="https://adblock-chinalist.googlecode.com" subdomains="true"/>
   <access origin="https://indonesianadblockrules.googlecode.com" subdomains="true"/>
-  <access origin="https://adversity.googlecode.com/hg/Antisocial.txt" subdomains="true"/>
+  <access origin="https://adversity.googlecode.com" subdomains="true"/>
   <access origin="http://stanev.org" subdomains="true"/>
   <access origin="http://lian.info.tm" subdomains="true"/>
   <access origin="http://adblock-plus-japanese-filter.googlecode.com" subdomains="true"/>
