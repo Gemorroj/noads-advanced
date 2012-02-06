@@ -156,7 +156,8 @@ var importer = {
             return_length += this.getHidingRulesLength(adblock_rules_list);
         }
         if (importer.array_filters.length) {
-            return_length += importer.setFilterRules();
+            importer.setFilterRules();
+            return_length += importer.array_filters.length;
         }
         return return_length;
     },
