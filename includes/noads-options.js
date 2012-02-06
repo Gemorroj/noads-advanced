@@ -395,6 +395,7 @@ var options = {
             '^https?://connect\\.facebook\\.net',
             '^https?://connect\\.sensiolabs\\.com',
             '^https?://css\\.yandex\\.net',
+            '^https?://img-css\\.friends\\.yandex\\.net',
             '^https?://fastcache\\.gawkerassets\\.com',
             '^https?://fonts\\.gizmodo\\.com',
             '^https?://js\\.gotophotels\\.ru',
