@@ -228,14 +228,14 @@ var importer = {
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status == 200) {
+            if (xmlhttp.readyState == 4 /*XMLHttpRequest.DONE*/ && xmlhttp.status == 200) {
                 setValue('noads_last_update', new Date().getTime());
                 if (~url.indexOf('.ini')) {
                     callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
                     callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
                 }
-            } else if (xmlhttp.readyState >= XMLHttpRequest.DONE) {
+            } else if (xmlhttp.readyState >= 4 /*XMLHttpRequest.DONE*/) {
                 throw 'server response was: "' + xmlhttp.statusText + '"';
             }
         };
