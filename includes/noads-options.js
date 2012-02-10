@@ -754,7 +754,7 @@ var options = {
                 input.type = 'text';
                 input.value = url;
                 input.onkeyup = function () {
-                    this.previousElementSibling.checked = true;
+                    this.parentElement.previousElementSibling.checked = true;
                     setValue('noads_custom_url', this.value);
                 };
                 input.onchange = input.onkeyup;
@@ -1050,7 +1050,7 @@ var options = {
 
                 var url = [], inputs = area.querySelectorAll('input[type="checkbox"]:checked');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
+                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.firstElementChild.value);
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;
