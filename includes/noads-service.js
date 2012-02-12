@@ -103,15 +103,12 @@ var noads = {
 
     getCSSrule: function (el, wide) {
         var att, single, tag, rez = [];
+        if (el.getAttribute('noads')) return ''; // for blocker helper
         while (el) {
             tag = el.nodeName;
             if (/^(html|body)$/i.test(tag)) break;
             att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
             if (att) {
-                if (this.getAttrSelector(el, 'noads')) {
-                    // for blocker helper
-                    tag = '';
-                }
                 if (~att.indexOf('://')) {
                     rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
                 } else {
@@ -467,6 +464,7 @@ var run = {
             if (ev.keyCode === 27) run.stop();
         },
         mousebutton = function (ev) {
+            if (ele.getAttribute('noads')) return;
             ev.preventDefault();
             ev.stopPropagation();
         
@@ -528,8 +526,6 @@ var run = {
 
         if (!b) {
             // checking for invalid CSS in preferences and removing unused ones
-            // FIXME:
-            //  Isn't it too slow for dynamic button?
             var sCount, eCount, txt, title, arrCSS = splitCSS(css);
             try {
                 for (var i = arrCSS.length; i--;)
