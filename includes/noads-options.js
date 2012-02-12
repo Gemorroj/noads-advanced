@@ -729,7 +729,7 @@ var options = {
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
-                inputid = 'id-' + Math.random(); //txt.toLowerCase().replace(/[\s+-\+\/\\;\.,'"<>]/ig,'-');
+                inputid = 'id-' + (Math.random()).toString().replace('.','');
             label.className = 'noads_label_subscription';
             label.setAttribute('for', inputid);
             input.type = 'checkbox';
@@ -737,6 +737,7 @@ var options = {
             input.id = inputid;
             if (url && ~getValue('noads_default_url2').indexOf(url)) {
                 input.checked = true;
+                if (typein) input.disabled = true;
             }
             this.appendChild(input);
             if (!typein) {
@@ -748,18 +749,19 @@ var options = {
                 a.appendChild(document.createTextNode(url));
                 this.appendChild(a);
             } else {
+                label.appendChild(document.createTextNode(txt));
                 input = document.createElement('input');
-                input.className = 'noads_custom_url';
                 input.type = 'text';
+                input.className = 'noads_custom_url';
                 input.value = url;
                 input.onkeyup = function () {
-                    this.previousElementSibling.checked = true;
+                    this.previousElementSibling.checked = (this.value !== '');
                     setValue('noads_custom_url', this.value);
                 };
                 input.onchange = input.onkeyup;
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(txt));
+                this.appendChild(input);
                 this.appendChild(label);
+
             }
             this.appendChild(document.createElement('br'));
             
@@ -1046,7 +1048,7 @@ var options = {
 
                 var url = [], inputs = area.querySelectorAll('input[type="checkbox"]:checked');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.nextElementSibling.value);
+                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.value);
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;

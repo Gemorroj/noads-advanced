@@ -156,7 +156,8 @@ var importer = {
             return_length += this.getHidingRulesLength(adblock_rules_list);
         }
         if (importer.array_filters.length) {
-            return_length += importer.setFilterRules();
+            importer.setFilterRules();
+            return_length += importer.array_filters.length;
         }
         return return_length;
     },
@@ -227,14 +228,14 @@ var importer = {
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status == 200) {
+            if (xmlhttp.readyState == 4 /*XMLHttpRequest.DONE*/ && xmlhttp.status == 200) {
                 setValue('noads_last_update', new Date().getTime());
                 if (~url.indexOf('.ini')) {
                     callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
                     callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
                 }
-            } else if (xmlhttp.readyState >= XMLHttpRequest.DONE) {
+            } else if (xmlhttp.readyState >= 4 /*XMLHttpRequest.DONE*/) {
                 throw 'server response was: "' + xmlhttp.statusText + '"';
             }
         };

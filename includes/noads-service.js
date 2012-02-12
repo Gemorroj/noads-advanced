@@ -369,11 +369,7 @@ var run = {
         out = function () {
             if (ele) {
                 // restore attributes
-                if (title) {
-                    ele.title = title;
-                } else {
-                    ele.removeAttribute('title');
-                }
+                title ? ele.title = title : ele.removeAttribute('title');
 
                 ele.style.outline = outline;
                 ele.style.backgroundColor = bgColor;

@@ -1,81 +1,81 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns="http://www.w3.org/ns/widgets" version="1.3.6dev" id="https://addons.opera.com/addons/extensions/details/noads-advanced/">
+<widget xmlns="http://www.w3.org/ns/widgets" version="1.3.6" id="https://addons.opera.com/addons/extensions/details/noads-advanced/">
   <name>NoAds Advanced</name>
-  <feature name="opera:urlfilter"/>
+  <feature name="opera:urlfilter" />
   <!-- Core programmers: -->
   <author>Alexey Ruzanov (original version), Dither, Gemorroj, gwarser</author>
   <!-- Contributors: MarioLR, jnsoares -->
-  <icon src="icons/icon64.png" width="64" height="64" />
-  <icon src="icons/icon18.png" width="18" height="18" />
+  <icon src="icons/icon64.png" width="64" height="64"  />
+  <icon src="icons/icon18.png" width="18" height="18"  />
   <description xml:lang="en">Advertisement blocking filter.</description>
   <description xml:lang="ru">Блокировщик рекламы.</description>
-  <description xml:lang="es">Filtro para bloquear publicidad</description>
+  <description xml:lang="es">Filtro para bloquear publicidad.</description>
   <!-- Initial preferences -->
-  <preference name="noads_tb_enabled_state" value="enabled"/>
-  <preference name="noads_userlist_state" value="enabled"/>
-  <preference name="noads_list_state" value="enabled"/>
-  <preference name="noads_magiclist_state" value="disabled"/>
-  <!--<preference name="noads_userurlfilterlist_state" value="enabled"/>-->
-  <!--<preference name="noads_urlfilterlist_state" value="enabled"/>-->
-  <preference name="noads_scriptlist_state" value="enabled"/>
-  <preference name="noads_button_state" value="enabled"/>
-  <preference name="noads_allrules_state" value="enabled"/>
-  <preference name="noads_addrules_state" value="disabled"/>
-  <preference name="noads_debug_enabled_state" value="disabled"/>
-  <preference name="noads_autoupdate_state" value="enabled"/>
-  <!-- <preference name="noads_autoupdate_notification_state" value="enabled"/> -->
-  <preference name="noads_autoupdate_interval" value="86400000"/>
+  <preference name="noads_tb_enabled_state" value="enabled" />
+  <preference name="noads_userlist_state" value="enabled" />
+  <preference name="noads_list_state" value="enabled" />
+  <preference name="noads_magiclist_state" value="disabled" />
+  <preference name="noads_userurlfilterlist_state" value="enabled" />
+  <preference name="noads_urlfilterlist_state" value="disabled" />
+  <preference name="noads_scriptlist_state" value="enabled" />
+  <preference name="noads_button_state" value="enabled" />
+  <preference name="noads_allrules_state" value="enabled" />
+  <preference name="noads_addrules_state" value="disabled" />
+  <preference name="noads_debug_enabled_state" value="disabled" />
+  <preference name="noads_autoupdate_state" value="enabled" />
+  <preference name="noads_autoupdate_notification_state" value="disabled" />
+  <preference name="noads_autoupdate_interval" value="86400000" />
   <!-- CSS selectors and URL filter subscription sites. -->
-  <!--<access origin="*" subdomains="true"/>  -->
-  <access origin="https://easylist-downloads.adblockplus.org" subdomains="true"/>
-  <access origin="http://fanboy.co.nz.nyud.net" subdomains="true"/>
-  <access origin="https://fanboy.co.nz.nyud.net" subdomains="true"/>
-  <access origin="http://fanboy.co.nz" subdomains="true"/>
-  <access origin="https://fanboy.co.nz" subdomains="true"/>
-  <access origin="http://adblocklist.org" subdomains="true"/>
-  <access origin="http://pgl.yoyo.org" subdomains="true"/>
-  <access origin="http://adblock-chinalist.googlecode.com" subdomains="true"/>
-  <access origin="https://adblock-chinalist.googlecode.com" subdomains="true"/>
-  <access origin="https://indonesianadblockrules.googlecode.com" subdomains="true"/>
-  <access origin="https://adversity.googlecode.com" subdomains="true"/>
-  <access origin="http://stanev.org" subdomains="true"/>
-  <access origin="http://lian.info.tm" subdomains="true"/>
-  <access origin="http://adblock-plus-japanese-filter.googlecode.com" subdomains="true"/>
-  <access origin="https://adblock-plus-japanese-filter.googlecode.com" subdomains="true"/>
-  <access origin="http://home.online.no" subdomains="true"/>
-  <access origin="http://www.void.gr" subdomains="true"/>
-  <access origin="http://sites.google.com" subdomains="true"/>
-  <access origin="https://ruadlist.googlecode.com" subdomains="true"/>
-  <access origin="http://ruadlist.googlecode.com" subdomains="true"/>
-  <access origin="http://www.zoso.ro" subdomains="true"/>
-  <access origin="http://www.wiltteri.net" subdomains="true"/>
-  <access origin="http://adversity.googlecode.com/" subdomains="true"/>
-  <access origin="https://adversity.googlecode.com/" subdomains="true"/>
-  <access origin="http://malwaredomains.lanik.us" subdomains="true"/>
-  <access origin="http://rickrolldb.com" subdomains="true"/>
-  <access origin="http://ajnasz.hu" subdomains="true"/>
-  <access origin="http://mozilla.gfsolone.com" subdomains="true"/>
-  <access origin="http://adblock.oasis.org.ua" subdomains="true"/>
-  <access origin="http://adblock.schack.dk" subdomains="true"/>
-  <access origin="http://www.niecko.pl" subdomains="true"/>
-  <access origin="http://www.verzijlbergh.com" subdomains="true"/>
-  <access origin="http://www.photographer.neostrada.pl" subdomains="true"/>
-  <access origin="http://pete.teamlupus.hu" subdomains="true"/>
-  <access origin="http://abp.mozilla-hispano.org" subdomains="true"/>
-  <access origin="http://dutchmega.nl" subdomains="true"/>
-  <access origin="http://adblock.dajbych.net" subdomains="true"/>
-  <access origin="http://www.bsi.info.pl" subdomains="true"/>
-  <access origin="http://adblockrules.org" subdomains="true"/>
-  <access origin="https://gitorious.org" subdomains="true"/>
-  <access origin="http://gitorious.org" subdomains="true"/>
-  <access origin="http://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
-  <access origin="https://adblock-plus-algerian-filter.googlecode.com" subdomains="true"/>
-  <access origin="http://abp-macedonian-list.googlecode.com" subdomains="true"/>
-  <access origin="https://abp-macedonian-list.googlecode.com" subdomains="true"/>
-  <access origin="https://pgl.yoyo.org" subdomains="true"/>
-  <access origin="http://pgl.yoyo.org" subdomains="true"/>
-  <access origin="http://malwaredomains.lanik.us" subdomains="true"/>
-  <access origin="http://www.malwarepatrol.net" subdomains="true"/>
+  <!--<access origin="*" subdomains="true" />  -->
+  <access origin="https://easylist-downloads.adblockplus.org" subdomains="true" />
+  <access origin="http://fanboy.co.nz.nyud.net" subdomains="true" />
+  <access origin="https://fanboy.co.nz.nyud.net" subdomains="true" />
+  <access origin="http://fanboy.co.nz" subdomains="true" />
+  <access origin="https://fanboy.co.nz" subdomains="true" />
+  <access origin="http://adblocklist.org" subdomains="true" />
+  <access origin="http://pgl.yoyo.org" subdomains="true" />
+  <access origin="http://adblock-chinalist.googlecode.com" subdomains="true" />
+  <access origin="https://adblock-chinalist.googlecode.com" subdomains="true" />
+  <access origin="https://indonesianadblockrules.googlecode.com" subdomains="true" />
+  <access origin="https://adversity.googlecode.com" subdomains="true" />
+  <access origin="http://stanev.org" subdomains="true" />
+  <access origin="http://lian.info.tm" subdomains="true" />
+  <access origin="http://adblock-plus-japanese-filter.googlecode.com" subdomains="true" />
+  <access origin="https://adblock-plus-japanese-filter.googlecode.com" subdomains="true" />
+  <access origin="http://home.online.no" subdomains="true" />
+  <access origin="http://www.void.gr" subdomains="true" />
+  <access origin="http://sites.google.com" subdomains="true" />
+  <access origin="https://ruadlist.googlecode.com" subdomains="true" />
+  <access origin="http://ruadlist.googlecode.com" subdomains="true" />
+  <access origin="http://www.zoso.ro" subdomains="true" />
+  <access origin="http://www.wiltteri.net" subdomains="true" />
+  <access origin="http://adversity.googlecode.com/" subdomains="true" />
+  <access origin="https://adversity.googlecode.com/" subdomains="true" />
+  <access origin="http://malwaredomains.lanik.us" subdomains="true" />
+  <access origin="http://rickrolldb.com" subdomains="true" />
+  <access origin="http://ajnasz.hu" subdomains="true" />
+  <access origin="http://mozilla.gfsolone.com" subdomains="true" />
+  <access origin="http://adblock.oasis.org.ua" subdomains="true" />
+  <access origin="http://adblock.schack.dk" subdomains="true" />
+  <access origin="http://www.niecko.pl" subdomains="true" />
+  <access origin="http://www.verzijlbergh.com" subdomains="true" />
+  <access origin="http://www.photographer.neostrada.pl" subdomains="true" />
+  <access origin="http://pete.teamlupus.hu" subdomains="true" />
+  <access origin="http://abp.mozilla-hispano.org" subdomains="true" />
+  <access origin="http://dutchmega.nl" subdomains="true" />
+  <access origin="http://adblock.dajbych.net" subdomains="true" />
+  <access origin="http://www.bsi.info.pl" subdomains="true" />
+  <access origin="http://adblockrules.org" subdomains="true" />
+  <access origin="https://gitorious.org" subdomains="true" />
+  <access origin="http://gitorious.org" subdomains="true" />
+  <access origin="http://adblock-plus-algerian-filter.googlecode.com" subdomains="true" />
+  <access origin="https://adblock-plus-algerian-filter.googlecode.com" subdomains="true" />
+  <access origin="http://abp-macedonian-list.googlecode.com" subdomains="true" />
+  <access origin="https://abp-macedonian-list.googlecode.com" subdomains="true" />
+  <access origin="https://pgl.yoyo.org" subdomains="true" />
+  <access origin="http://pgl.yoyo.org" subdomains="true" />
+  <access origin="http://malwaredomains.lanik.us" subdomains="true" />
+  <access origin="http://www.malwarepatrol.net" subdomains="true" />
   <license href="http://www.apache.org/licenses/LICENSE-2.0">Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
