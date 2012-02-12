@@ -730,7 +730,7 @@ var options = {
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
-                inputid = 'id-' + Math.random(); //txt.toLowerCase().replace(/[\s+-\+\/\\;\.,'"<>]/ig,'-');
+                inputid = 'id-' + (Math.random()).toString().replace('.', '');
             label.className = 'noads_label_subscription';
             label.setAttribute('for', inputid);
             input.type = 'checkbox';
@@ -754,7 +754,7 @@ var options = {
                 input.type = 'text';
                 input.value = url;
                 input.onkeyup = function () {
-                    this.parentElement.previousElementSibling.checked = true;
+                    this.parentElement.previousElementSibling.checked = (this.value !== '');
                     setValue('noads_custom_url', this.value);
                 };
                 input.onchange = input.onkeyup;
