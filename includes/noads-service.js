@@ -108,7 +108,7 @@ var noads = {
             if (/^(html|body)$/i.test(tag)) break;
             att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
             if (att) {
-                if (this.getAttrSelector(el, 'noads')) {
+                if (this.getAttrSelector(el, 'helpernoads')) {
                     // for blocker helper
                     tag = '';
                 }
@@ -360,8 +360,8 @@ var run = {
             bgColor = ele.style.backgroundColor;
 
             if (!ele.getAttribute('servicenoads')) {
-                if (ele.className !== 'noads_placeholder') {
-                    ele.title = 'Tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', Class: ' + ele.className : '');
+                if (!ele.getAttribute('helpernoads')) {
+                    ele.title = 'tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', class: ' + ele.className : '');
                 }
                 ele.style.outline = outlineCSS;
                 ele.style.backgroundColor = outlineBgCSS;
@@ -370,11 +370,7 @@ var run = {
         out = function () {
             if (ele) {
                 // restore attributes
-                if (title) {
-                    ele.title = title;
-                } else {
-                    ele.removeAttribute('title');
-                }
+                title ? ele.title = title : ele.removeAttribute('title');
 
                 ele.style.outline = outline;
                 ele.style.backgroundColor = bgColor;
@@ -472,8 +468,10 @@ var run = {
             if (ev.keyCode === 27) run.stop();
         },
         mousebutton = function (ev) {
+            if (!ele || ele.getAttribute('servicenoads')) return;
             ev.preventDefault();
             ev.stopPropagation();
+            if (ele.getAttribute('helpernoads')) return;
         
             // middle and left mouse button
             switch (ev.button) {
@@ -534,8 +532,6 @@ var run = {
 
         if (!b) {
             // checking for invalid CSS in preferences and removing unused ones
-            // FIXME:
-            //  Isn't it too slow for dynamic button?
             var sCount, eCount, txt, title, arrCSS = splitCSS(css);
             try {
                 for (var i = arrCSS.length; i--;) {
@@ -670,11 +666,12 @@ var run = {
 
                     link.href = script.src;
                     link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
 
                     img.className = 'noads_placeholder';
                     img.src = script.src;
                     img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
-                    img.setAttribute('noads', 'true');
+                    img.setAttribute('helpernoads', 'true');
 
                     link.appendChild(img);
                     content.appendChild(link);
@@ -692,11 +689,12 @@ var run = {
 
                     link.href = source;
                     link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
 
                     img.className = 'noads_placeholder';
                     img.src = source;
                     img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
-                    img.setAttribute('noads', 'true');
+                    img.setAttribute('helpernoads', 'true');
 
                     content.appendChild(img);
                     link.appendChild(img);
@@ -725,11 +723,12 @@ var run = {
 
                             link.href = bgImages[i];
                             link.target = '_blank';
+                            link.setAttribute('helpernoads', 'true');
 
                             img.className = 'noads_placeholder';
                             img.src = bgImages[i];
                             img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                            img.setAttribute('noads', 'true');
+                            img.setAttribute('helpernoads', 'true');
 
                             link.appendChild(img);
                             content.appendChild(link);

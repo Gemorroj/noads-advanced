@@ -738,6 +738,7 @@ var options = {
             input.id = inputid;
             if (url && ~getValue('noads_default_url2').indexOf(url)) {
                 input.checked = true;
+                if (typein) input.disabled = true;
             }
             this.appendChild(input);
             if (!typein) {
@@ -750,8 +751,8 @@ var options = {
                 this.appendChild(a);
             } else {
                 input = document.createElement('input');
-                input.className = 'noads_custom_url';
                 input.type = 'text';
+                input.className = 'noads_custom_url';
                 input.value = url;
                 input.onkeyup = function () {
                     this.parentElement.previousElementSibling.checked = (this.value !== '');
