@@ -57,6 +57,7 @@ var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoK
 
 var options = {
     stop: null,
+    locked: false,
     checkEnabled: function (name) {
         return getValue(name) === 'enabled';
     },
@@ -540,11 +541,14 @@ var options = {
         if (!document.body) return;
 
         var global = domain ? false : true;
+        options.locked = true;
+        
         var press = function (e) {
             if (e.keyCode === 27) {
                 options.stop(global);
             }
         };
+        
         var overlay = document.getElementById('noads_overlay');
 
         if (overlay) {
@@ -570,6 +574,7 @@ var options = {
         overlay.id = 'noads_overlay';
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
         overlay.close = function (global) {
+            options.locked = false;
             if (!global) {
                 run.updateCSS(domain);
                 delElement(this.clearStyle);
