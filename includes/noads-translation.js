@@ -588,7 +588,7 @@ var TRANSLATION = function () {
             nDisabled: 'NoAds disabled',
             nEnabled: 'NoAds enabled',
             eStyles: 'Please, edit styles:',
-            bElement: 'Input comma separated CSS selectors of elements to block\n(= equals, ^= begins with; *= contains):',
+            bElement: 'Input comma separated CSS selectors of elements to block:\n(= equals, ^= begins with; *= contains):',
             iSubs: 'Subscription from %url added %d rules.',
             iNoDefSub: 'Error: no default subscription.',
             iNoQuota: 'Opera ' + OPERA_VERSION + ' does not support widget.preferences or storage quota is too small. \n\nSet "opera:config#WebStorage|GlobalQuotaForWidgetPreferences" >= 2048.',

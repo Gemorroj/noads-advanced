@@ -61,6 +61,7 @@ function setupFiltersCSS() {
 function onPopupMessageHandler(e) {
     // Parse menu messages
     var message = decodeMessage(e.data);
+    if (options.locked) return;
     if (message.type) {
         switch (message.type) {
             case 'block_ads':
