@@ -1028,7 +1028,7 @@ var options = {
             this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             this.appendChild(document.createElement('br'));
             this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-            this.createCheckboxButton('Fanboy main + Spanish/Portuguese + Tracking ', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
+            this.createCheckboxButton('Fanboy main + Spanish/Portuguese + Tracking', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
             this.createCheckboxButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
             this.createCheckboxButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
             this.createCheckboxButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
