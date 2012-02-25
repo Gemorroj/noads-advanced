@@ -43,7 +43,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 500px;width: 50px;float:right;}\
+.noads_content input[type="range"] {height: 500px;width: 50px;float:right;margin-top:3px;}\
 #noads_autoupdate_label {float:right;text-align: right;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
