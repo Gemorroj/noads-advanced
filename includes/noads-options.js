@@ -30,7 +30,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
 .noads_area{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
-.noads_content textarea{box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",Arial,Tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
+.noads_content textarea{cursor:auto;box-sizing: border-box;position:relative;font:13px/20px "helvetica neue",Arial,Tahoma,sans-serif;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .strikethrough{text-decoration: line-through;}\
