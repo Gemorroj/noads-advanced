@@ -2,8 +2,8 @@
 body {
     overflow: hidden;
     margin: 0;
-    padding-left: 0em;
-    padding-right: 0em;
+    padding-left: 0;
+    padding-right: 0;
     background-color: white;
     color: black;
     font-family: Tahoma, Sans-serif;
@@ -16,9 +16,9 @@ body {
     padding: 4px;
     cursor: pointer;
 }
-.menu div:hover { 
+.menu div:hover {
     background: rgba(220, 220, 220, 0.69);
- }
+}
 .end {
     padding-bottom: 6px !important;
     border-bottom: 1px solid #aaa !important;
