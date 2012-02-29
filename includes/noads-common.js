@@ -9,7 +9,7 @@
 // @exclude *dragonfly.opera.com*
 // ==/UserScript==
 
-var storage = widget.preferences; // var storage = window.opera.storage;
+var storage = widget.preferences;
 var extension = window.opera.extension;
 var domain = window.location.hostname;
 
@@ -22,7 +22,7 @@ encodeMessage = function (data) {
 },
 log = function () {
     // Example: log('[NoAds]: test..');
-    if (bDebug) opera.postError('[NoAdsAdvanced] ' + Array.prototype.slice.call(arguments));
+    if (debug) opera.postError('[NoAdsAdvanced] ' + Array.prototype.slice.call(arguments));
 },
 getValue = function (name) {
     return storage[name] || '';

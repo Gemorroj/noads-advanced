@@ -634,6 +634,7 @@ var TRANSLATION = function () {
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
             uInterval: 'Update interval (days):',
+            pAutoUpdateComplete: 'NoAds Advanced autoupdated',
             baseMenuWidth: 145, 
             baseMenuHeight: 150
         }
