@@ -10,8 +10,10 @@
 // ==/UserScript==
 
 // global variables
-var bDebug = options.checkEnabled('noads_debug_enabled_state'),
+var debug = options.checkEnabled('noads_debug_enabled_state'),
     lng = new TRANSLATION(),
+    loaded = false,
+    notification_text = '',
     sStyle = '', uStyle = '',
     sCSS = '', uCSS = '',
     blockedScripts = '', inlineScripts = 0,
@@ -117,6 +119,21 @@ function onHotkeyHandler(e) {
     }
 }
 
+function onNotifyUser(notification) {
+     var message = {
+         extension: "NoAds Advanced",
+         text: notification,
+         expire:-1
+     };
+     try {
+         var evt = document.createEvent('CustomEvent');
+         evt.initCustomEvent('Notify.It', false, false, message);
+         document.dispatchEvent(evt);
+     } catch (bug) {
+         //log(bug);
+     }
+}
+
 function onBeforeExternalScriptHandler(e) {
     var src = e.element.src;
     if (!src || reSkip.test(src)) return;
@@ -144,6 +161,12 @@ function onMessageHandler(e) {
         var channel = new MessageChannel();
         e.ports[0].postMessage(encodeMessage({type: 'noads_tab_port'}), [channel.port2]);
         channel.port1.onmessage = onPopupMessageHandler;
+    } else if (message.type === 'noadsadvanced_autoupdate') {
+        notification_text = message.text;
+        if (loaded && notification_text !== '') {
+            onNotifyUser(notification_text);
+            notification_text = '';
+        }
     }
 }
 
@@ -177,19 +200,12 @@ function setupMagic() {
                 // blocking functions
                 blockedFuncs += ',' + j[1];
 
-                /*if (~j[1].indexOf('.')) {
-                 if (window[j[1].split('.')[0]]) {
-                 var evalFn = 'window.opera.defineMagicFunction("' + j[1] + '",function(){ log("function is void"); return; });';
-                 eval(evalFn); // I don't really want this x_x;
-                 }
-                 // also must be parsed on BeforeScript event as class sometimes unavailable before
-                 } else {*/
                 (function (name, debug) {
                     window.opera.defineMagicFunction(j[1], function () {
                         if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
                         return;
                     });
-                })(j[1], bDebug);
+                })(j[1], debug);
                 //}
 
                 (function (name, debug) {
@@ -197,7 +213,7 @@ function setupMagic() {
                         if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
                         return;
                     };
-                })(j[1], bDebug);
+                })(j[1], debug);
             } else if (j[0].match(/^var/i)) {
                 //blocking variables
                 blockedVars += ',' + j[1];
@@ -222,6 +238,12 @@ window.addEventListener('DOMContentLoaded', function () {
     } else {
         // don't want that in a frames
         if (window.top === window.self) {
+            loaded = true;
+
+            if (notification_text !== '') {
+                onNotifyUser(notification_text);
+                notification_text = '';
+            }
             // Setup hotkeys
             window.addEventListener('keydown', onHotkeyHandler, false);
 

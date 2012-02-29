@@ -1,7 +1,7 @@
-var bDebug = false, lng = {}, button, menu_resized = false, actual_font = 0;
+var  button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0;
 
 window.addEventListener('load', function () {
-    bDebug = options.checkEnabled('noads_debug_enabled_state');
+    debug = options.checkEnabled('noads_debug_enabled_state');
     lng = new TRANSLATION();
 
     if (options.checkEnabled('noads_tb_enabled_state')) {
@@ -31,12 +31,18 @@ window.addEventListener('load', function () {
     }
 
     function onConnectHandler (e) {
-        if (e && e.origin && e.origin.indexOf('menu.html') > -1 && e.origin.indexOf('widget://') > -1) {
-            var tab = opera.extension.tabs.getFocused();
-            if (tab) {
-                tab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
+        var tab = opera.extension.tabs.getFocused();
+        if (!tab) return;
+        // if we got a message fom the menu
+        if (e && e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
+            tab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
+        } 
+        // if we got a message fom a page
+        else {
+            if (notification_text !== '') {
+                tab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
+                notification_text = '';
             }
-        } else {
             enableButton();
         }
     }
@@ -141,8 +147,7 @@ window.addEventListener('load', function () {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
-                //TODO:
-                // Notification.
+                notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };
             for (var subsc = 0, l = url.length; subsc < l; subsc++) {
                 try {

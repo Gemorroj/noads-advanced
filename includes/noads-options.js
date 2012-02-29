@@ -217,13 +217,11 @@ var options = {
         for (i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
             pos = rule.indexOf('##');
-            //if (pos !== -1) {
             if (global) {
                 rez.push(rule);
             } else if (domain && options.isCorrectDomain(domain, rule.slice(0, pos))) {
                 rez.push(rule);
             }
-            //}
         }
         tmp = null;
         return rez.join('\n');
@@ -251,6 +249,7 @@ var options = {
             if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
                 tmp.splice(i, 1);
                 tmp.unshift(value);
+                break;
             }
         }
         setValue(name, tmp.join('\n'));
@@ -353,7 +352,7 @@ var options = {
             '^widget:',
             // TODO: 
             // If we add all the sites this list will be endless shall we stop maybe?
-            // Propably should load from separate and(or) JSON file if Opera will allow that.
+            // Propably should load from separate and(or) JSON file.
             '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
             '^https?://(?:cdn\\.)?sstatic\\.net',
             '^https?://[0-9a-z-]*\\.cloudfront\\.net',
