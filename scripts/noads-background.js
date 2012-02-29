@@ -147,7 +147,7 @@ window.addEventListener('load', function () {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < (new Date()).getTime()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
-                notification_text = lng.mAutoUpdateComplete || 'NoAds Advanced autoupdated';
+                notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };
             for (var subsc = 0, l = url.length; subsc < l; subsc++) {
                 try {
