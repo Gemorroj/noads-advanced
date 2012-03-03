@@ -615,44 +615,49 @@ var run = {
                 }
                 return css;
             };
+        var images = [];
+        getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
+            images.push(p1);
+        });
 
-        if (scripts.length || objects.length) {
-            window.scrollTo(0, 0);
-            overlay = document.createElement('div');
-            overlay.setAttribute('servicenoads', 'true');
-            overlay.id = 'noads_helper';
-            overlay.clearStyle = addStyle(contentHelperCSS);
-            overlay.close = function () {
-                delElement(this.clearStyle);
-                window.removeEventListener('resize', resize, false);
-                for (var imgs = document.querySelectorAll('.noads_placeholder'), i = imgs.length; i--;) {
-                    delElement(imgs[i]);
-                }
-                delElement(this);
-            };
-            window.addEventListener('resize', resize, false);
 
-            var buttons = document.createElement('div');
-            buttons.setAttribute('servicenoads', 'true');
-            buttons.className = 'noads_button_placeholder';
+        window.scrollTo(0, 0);
+        overlay = document.createElement('div');
+        overlay.setAttribute('servicenoads', 'true');
+        overlay.id = 'noads_helper';
+        overlay.clearStyle = addStyle(contentHelperCSS);
+        overlay.close = function () {
+            delElement(this.clearStyle);
+            window.removeEventListener('resize', resize, false);
+            for (var imgs = document.querySelectorAll('.noads_placeholder'), i = imgs.length; i--;) {
+                delElement(imgs[i]);
+            }
+            delElement(this);
+        };
+        window.addEventListener('resize', resize, false);
 
-            var hide = document.createElement('div');
-            hide.title = lng.pHide;
-            hide.setAttribute('servicenoads', 'true');
-            hide.className = 'noads_button_hide';
-            buttons.appendChild(hide);
+        var buttons = document.createElement('div');
+        buttons.setAttribute('servicenoads', 'true');
+        buttons.className = 'noads_button_placeholder';
 
-            var close = document.createElement('div');
-            close.title = lng.pClose;
-            close.setAttribute('servicenoads', 'true');
-            close.className = 'noads_button_close';
-            close.addEventListener('click', function () {
-                run.blockElement(); //stop
-                overlay.close();
-            }, false);
-            buttons.appendChild(close);
+        var hide = document.createElement('div');
+        hide.title = lng.pHide;
+        hide.setAttribute('servicenoads', 'true');
+        hide.className = 'noads_button_hide';
+        buttons.appendChild(hide);
 
-            overlay.appendChild(buttons);
+        var close = document.createElement('div');
+        close.title = lng.pClose;
+        close.setAttribute('servicenoads', 'true');
+        close.className = 'noads_button_close';
+        close.addEventListener('click', function () {
+            run.blockElement(); //stop
+            overlay.close();
+        }, false);
+        buttons.appendChild(close);
+        overlay.appendChild(buttons);
+
+        if (scripts.length > 0 || objects.length > 0 || images.length > 0) {
             var content = document.createElement('div');
             content.setAttribute('servicenoads', 'true');
             content.className = 'noads_helper_content';
@@ -660,98 +665,101 @@ var run = {
                 this.style.visibility = (this.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
 
-            for (var i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                if (script.src && a.indexOf(script.src) === -1) {
-                    var link = document.createElement('a'), img = document.createElement('img');
+            if (scripts.length > 0) {
+                //scripts = unique.call(scripts);
 
-                    link.href = script.src;
-                    link.target = '_blank';
-                    link.setAttribute('helpernoads', 'true');
+                for (var i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
+                    if (script.src && a.indexOf(script.src) === -1) {
+                        var link = document.createElement('a'), img = document.createElement('img');
 
-                    img.className = 'noads_placeholder';
-                    img.src = script.src;
-                    img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
-                    img.setAttribute('helpernoads', 'true');
+                        link.href = script.src;
+                        link.target = '_blank';
+                        link.setAttribute('helpernoads', 'true');
 
-                    link.appendChild(img);
-                    content.appendChild(link);
-                }
-            }
+                        img.className = 'noads_placeholder';
+                        img.src = script.src;
+                        img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
+                        img.setAttribute('helpernoads', 'true');
 
-            for (var i = 0, alttext, l = objects.length; i < l; i++) {
-                var source = objects[i].src || objects[i].value || objects[i].data;
-                if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
-                    if (alttext.indexOf('widget://') === 0) {
-                        continue;
+                        link.appendChild(img);
+                        content.appendChild(link);
                     }
-
-                    var link = document.createElement('a'), img = document.createElement('img');
-
-                    link.href = source;
-                    link.target = '_blank';
-                    link.setAttribute('helpernoads', 'true');
-
-                    img.className = 'noads_placeholder';
-                    img.src = source;
-                    img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
-                    img.setAttribute('helpernoads', 'true');
-
-                    content.appendChild(img);
-                    link.appendChild(img);
-                    content.appendChild(link);
                 }
             }
+
+            if (objects.length > 0) {
+                //objects = unique.call(objects);
+
+                for (var i = 0, alttext, l = objects.length; i < l; i++) {
+                    var source = objects[i].src || objects[i].value || objects[i].data;
+                    if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
+                        if (alttext.indexOf('widget://') === 0) {
+                            continue;
+                        }
+
+                        var link = document.createElement('a'), img = document.createElement('img');
+
+                        link.href = source;
+                        link.target = '_blank';
+                        link.setAttribute('helpernoads', 'true');
+
+                        img.className = 'noads_placeholder';
+                        img.src = source;
+                        img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
+                        img.setAttribute('helpernoads', 'true');
+
+                        content.appendChild(img);
+                        link.appendChild(img);
+                        content.appendChild(link);
+                    }
+                }
+            }
+
             overlay.appendChild(content);
 
-            // @see noads.js
-            //  bgImages = bgImages.split('; ');
 
-            var bgImages = [];
-            getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
-                bgImages.push(p1);
-            });
-            bgImages = unique.call(bgImages);
+            if (images.length > 0) {
+                images = unique.call(images);
 
-            if (bgImages.length) {
                 content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
                 overlay.appendChild(content);
 
-                for (var i in bgImages) {
-                    if (bgImages.hasOwnProperty(i)) {
-                        if (bgImages[i].indexOf('data:') === -1) {
-                            var link = document.createElement('a'), img = document.createElement('img');
+                for (var i = 0, l = images.length; i < l; i++) {
+                    if (images[i].indexOf('data:') === -1) {
+                        var link = document.createElement('a'), img = document.createElement('img');
 
-                            link.href = bgImages[i];
-                            link.target = '_blank';
-                            link.setAttribute('helpernoads', 'true');
+                        link.href = images[i];
+                        link.target = '_blank';
+                        link.setAttribute('helpernoads', 'true');
 
-                            img.className = 'noads_placeholder';
-                            img.src = bgImages[i];
-                            img.alt = 'url( ' + bgImages[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                            img.setAttribute('helpernoads', 'true');
+                        img.className = 'noads_placeholder';
+                        img.src = images[i];
+                        img.alt = 'url( ' + images[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
+                        img.setAttribute('helpernoads', 'true');
 
-                            link.appendChild(img);
-                            content.appendChild(link);
-                        }
+                        link.appendChild(img);
+                        content.appendChild(link);
                     }
                 }
                 overlay.appendChild(content);
             }
+
 
             if (content.childElementCount) {
                 hide.addEventListener('click', content.hide, false);
             } else {
                 hide.style.opacity = 0.5;
             }
+        }
 
-            try {
-                (document.body || document.documentElement).appendChild(overlay);
-                this.blockElement(false, true);
-            } catch (e) {
-                delElement(overlay.clearStyle);
-                window.removeEventListener('resize', resize, false);
-                delElement(overlay);
-            }
+
+        try {
+            (document.body || document.documentElement).appendChild(overlay);
+            this.blockElement(false, true);
+        } catch (e) {
+            delElement(overlay.clearStyle);
+            window.removeEventListener('resize', resize, false);
+            delElement(overlay);
         }
     }
 };
