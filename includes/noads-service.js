@@ -183,7 +183,7 @@ var run = {
     },
     // disable and enable blocking globally
     // Not used at this time
-    toggleBlocking: function () {
+    toggleBlocking: function (block) {
         if (block && !options.checkEnabled('noads_disable')) {
             sendMessage({ type: 'reload_rules', global: false, clear: true });
             sendMessage({ type: 'reload_rules', global: true, clear: true });
