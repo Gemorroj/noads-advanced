@@ -376,6 +376,7 @@ var options = {
             '^https?://[0-9a-z-]+\\.olark\\.com',
             '^https?://[a-z\\.]+\\.twitter\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
+            '^https?://[0-9a-z]+\\.fjcdn\\.com',
             '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
@@ -544,13 +545,13 @@ var options = {
 
         var global = domain ? false : true;
         options.locked = true;
-        
+
         var press = function (e) {
-            if (e.keyCode === 27) {
-                options.stop(global);
+            if (e.keyCode === 27 && options.stop) {
+                options.stop();
             }
         };
-        
+
         var overlay = document.getElementById('noads_overlay');
 
         if (overlay) {
@@ -559,7 +560,7 @@ var options = {
         }
         //window.scrollTo(0,0);
 
-        if (this.stop) this.stop(global);
+        if (this.stop) this.stop();
         overlay = document.createElement('div');
 
         // fix z-order if site is trying to be funny and uses z-index above 1000000
@@ -575,22 +576,20 @@ var options = {
         overlay.className = 'noads_overlay';
         overlay.id = 'noads_overlay';
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
-        overlay.close = function (global) {
+        overlay.close = function () {
             options.locked = false;
             if (!global) {
                 run.updateCSS(domain);
-                delElement(this.clearStyle);
+                delElement(overlay.clearStyle);
                 document.removeEventListener('keypress', press, false);
                 run.stop = null;
-                delElement(this);
+                delElement(overlay);
             } else {
-                window.opener = 'extension';
-                window.close();
+                options.stop = null;
+                self.close();
             }
         };
-        this.stop = function (global) {
-            overlay.close(global);
-        };
+        this.stop = overlay.close;
         document.addEventListener('keypress', press, false);
 
         var win = document.createElement('div');
@@ -599,19 +598,12 @@ var options = {
             win.style.marginTop = '4%';
         }
         overlay.appendChild(win);
-        var img = document.createElement('div');
-        img.className = 'noads_close_window';
-        img.title = lng.pClose;
-        img.alt = lng.pClose;
-        img.onclick = function () {
-            if (global) {
-                window.opener = 'extension';
-                window.close();
-            } else {
-                this.parentNode.parentNode.close();
-            }
-        };
-        win.appendChild(img);
+        var close = document.createElement('div');
+        close.className = 'noads_close_window';
+        close.title = lng.pClose;
+        close.onclick = overlay.close;
+
+        win.appendChild(close);
         win.createMenu = function () {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
@@ -641,6 +633,7 @@ var options = {
                 this.removeChild(this.firstChild);
             }
             */
+
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
