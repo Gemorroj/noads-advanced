@@ -241,7 +241,7 @@ var options = {
 
     setRawRulesSite: function (name, value, domain) {
         if (value.indexOf('##') === -1 || typeof domain === 'undefined') return;
-        var rule, pos, rez = [], tmp = getValue(name).split('\n');
+        var rule, pos, tmp = getValue(name).split('\n');
 
         for (var i = tmp.length; i--; ) {
             rule = tmp[i];
@@ -779,7 +779,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showCSSList = function (pos) {
@@ -794,7 +794,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showScriptWhitelist = function (pos) {
@@ -810,7 +810,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showMagicList = function (pos) {
@@ -825,7 +825,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showUserURLfilters = function (pos) {
@@ -844,7 +844,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showURLfilters = function (pos) {
@@ -863,7 +863,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
 
