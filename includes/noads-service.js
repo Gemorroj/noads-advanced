@@ -752,7 +752,6 @@ var run = {
             }
         }
 
-
         try {
             (document.body || document.documentElement).appendChild(overlay);
             this.blockElement(false, true);
