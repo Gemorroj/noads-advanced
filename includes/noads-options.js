@@ -43,8 +43,8 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 58%;width: 50px;top: 155px;right: 100px;float:right;text-align: right;position:absolute;}\
-#noads_autoupdate_label {top: 105px;right: 100px;float:right;text-align: right;position:absolute;}\
+.noads_content input[type="range"] {height: 560px;width: 50px;float:right;margin-top:20px;}\
+#noads_autoupdate_label {float:right;text-align: right;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -240,8 +240,8 @@ var options = {
     },
 
     setRawRulesSite: function (name, value, domain) {
-        if (value.indexOf('##') === -1 || typeof domain == 'undefined') return;
-        var rule, pos, rez = [], tmp = getValue(name).split('\n');
+        if (value.indexOf('##') === -1 || typeof domain === 'undefined') return;
+        var rule, pos, tmp = getValue(name).split('\n');
 
         for (var i = tmp.length; i--; ) {
             rule = tmp[i];
@@ -376,6 +376,7 @@ var options = {
             '^https?://[0-9a-z-]+\\.olark\\.com',
             '^https?://[a-z\\.]+\\.twitter\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
+            '^https?://[0-9a-z]+\\.fjcdn\\.com',
             '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
@@ -387,7 +388,7 @@ var options = {
             '^https?://(?:api|api-read)\\.facebook\\.com',
             '^https?://api\\.soundcloud\\.com',
             '^https?://apps\\.skypeassets\\.com',
-            '^https?://(?:api|std)+\\.odnoklassniki\\.ru',
+            '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
             '^https?://api\\.recaptcha\\.net',
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://auth\\.tbn\\.ru',
@@ -398,6 +399,8 @@ var options = {
             '^https?://connect\\.facebook\\.net',
             '^https?://connect\\.sensiolabs\\.com',
             '^https?://css\\.yandex\\.net',
+            '^https?://img-css\\.friends\\.yandex\\.net',
+            '^https?://my\\.ya\\.ru',
             '^https?://fastcache\\.gawkerassets\\.com',
             '^https?://fonts\\.gizmodo\\.com',
             '^https?://js\\.gotophotels\\.ru',
@@ -519,7 +522,7 @@ var options = {
     setLastUpdate: function (node) {
         var lastUpdate = this.getLastUpdate();
         if (lastUpdate) {
-            node.innerHTML = lng.uLastUpdate + ' ' + lastUpdate;
+            node.firstChild.nodeValue = lng.uLastUpdate + ' ' + lastUpdate;
         }
     },
 
@@ -543,13 +546,13 @@ var options = {
 
         var global = domain ? false : true;
         options.locked = true;
-        
+
         var press = function (e) {
-            if (e.keyCode === 27) {
-                options.stop(global);
+            if (e.keyCode === 27 && options.stop) {
+                options.stop();
             }
         };
-        
+
         var overlay = document.getElementById('noads_overlay');
 
         if (overlay) {
@@ -558,7 +561,7 @@ var options = {
         }
         //window.scrollTo(0,0);
 
-        if (this.stop) this.stop(global);
+        if (this.stop) this.stop();
         overlay = document.createElement('div');
 
         // fix z-order if site is trying to be funny and uses z-index above 1000000
@@ -574,22 +577,20 @@ var options = {
         overlay.className = 'noads_overlay';
         overlay.id = 'noads_overlay';
         overlay.clearStyle = addStyle(optionsCSS + 'body{visibility: hidden; overflow: hidden;}');
-        overlay.close = function (global) {
+        overlay.close = function () {
             options.locked = false;
             if (!global) {
                 run.updateCSS(domain);
-                delElement(this.clearStyle);
+                delElement(overlay.clearStyle);
                 document.removeEventListener('keypress', press, false);
                 run.stop = null;
-                delElement(this);
+                delElement(overlay);
             } else {
-                window.opener = 'extension';
-                window.close();
+                options.stop = null;
+                self.close();
             }
         };
-        this.stop = function (global) {
-            overlay.close(global);
-        };
+        this.stop = overlay.close;
         document.addEventListener('keypress', press, false);
 
         var win = document.createElement('div');
@@ -598,19 +599,12 @@ var options = {
             win.style.marginTop = '4%';
         }
         overlay.appendChild(win);
-        var img = document.createElement('div');
-        img.className = 'noads_close_window';
-        img.title = lng.pClose;
-        img.alt = lng.pClose;
-        img.onclick = function () {
-            if (global) {
-                window.opener = 'extension';
-                window.close();
-            } else {
-                this.parentNode.parentNode.close();
-            }
-        };
-        win.appendChild(img);
+        var close = document.createElement('div');
+        close.className = 'noads_close_window';
+        close.title = lng.pClose;
+        close.onclick = overlay.close;
+
+        win.appendChild(close);
         win.createMenu = function () {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
@@ -640,6 +634,7 @@ var options = {
                 this.removeChild(this.firstChild);
             }
             */
+
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
@@ -736,7 +731,7 @@ var options = {
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
-                inputid = 'id-' + (Math.random()).toString().replace('.','');
+                inputid = 'id-' + (Math.random()).toString().replace('.', '');
             label.className = 'noads_label_subscription';
             label.setAttribute('for', inputid);
             input.type = 'checkbox';
@@ -756,19 +751,18 @@ var options = {
                 a.appendChild(document.createTextNode(url));
                 this.appendChild(a);
             } else {
-                label.appendChild(document.createTextNode(txt));
                 input = document.createElement('input');
                 input.type = 'text';
                 input.className = 'noads_custom_url';
                 input.value = url;
                 input.onkeyup = function () {
-                    this.previousElementSibling.checked = (this.value !== '');
+                    this.parentElement.previousElementSibling.checked = (this.value !== '');
                     setValue('noads_custom_url', this.value);
                 };
                 input.onchange = input.onkeyup;
-                this.appendChild(input);
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(txt));
                 this.appendChild(label);
-
             }
             this.appendChild(document.createElement('br'));
             
@@ -786,7 +780,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showCSSList = function (pos) {
@@ -801,7 +795,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showScriptWhitelist = function (pos) {
@@ -817,7 +811,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showMagicList = function (pos) {
@@ -832,7 +826,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showUserURLfilters = function (pos) {
@@ -851,7 +845,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
         area.showURLfilters = function (pos) {
@@ -870,7 +864,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val));
+                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
             }));
         };
 
@@ -989,18 +983,19 @@ var options = {
             this.clear(pos);
 
             lastUpdateNode.id = 'noads_autoupdate_lastupdate';
+            lastUpdateNode.appendChild(document.createTextNode(''));
+
             label.appendChild(lastUpdateNode);
             label.appendChild(document.createElement('br'));
 
-            label.appendChild(document.createTextNode(lng.uInterval + " "));
+            label.appendChild(document.createTextNode(lng.uInterval + ' '));
             span.appendChild(document.createTextNode(defaultValue.toString()));
             span.id = 'noads_autoupdate_days_span';
             label.appendChild(span);
+            label.appendChild(document.createElement('br'));
 
             label.setAttribute('for', 'noads_autoupdate_interval');
             label.id = 'noads_autoupdate_label';
-
-            this.appendChild(label);
 
             input.id = 'noads_autoupdate_interval';
             input.type = 'range';
@@ -1008,10 +1003,12 @@ var options = {
             input.max = 30;
             input.value = defaultValue;
             input.onchange = function () {
-                span.innerHTML = this.value.toString();
+                span.firstChild.nodeValue = this.value.toString();
             };
 
-            this.appendChild(input);
+            label.appendChild(input);
+            this.appendChild(label);
+
             this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
             this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
             this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
@@ -1055,7 +1052,7 @@ var options = {
 
                 var url = [], inputs = area.querySelectorAll('input[type="checkbox"]:checked');
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
-                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.value);
+                    url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.firstElementChild.value);
                 }
                 if (url.length) {
                     dlsubscription.firstChild.src = imgLoad;

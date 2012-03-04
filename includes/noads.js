@@ -25,13 +25,7 @@ var quickButtonCSS = ' \
 ';
 
 function showQuickButton(e) {
-    var docEle;
-
-    if (document.compatMode === 'CSS1Compat' && window.postMessage) {
-        docEle = document.documentElement;
-    } else {
-        docEle = document.body;
-    }
+    var docEle = (document.compatMode === 'CSS1Compat' && window.postMessage) ? document.documentElement : document.body;
 
     if (docEle && docEle.clientHeight - e.clientY < 20 && docEle.clientWidth - e.clientX < 40) {
         run.createButton(sCSS ? (uCSS ? sCSS + ',' + uCSS : sCSS) : uCSS, inlineScripts ? ('<script>(' + inlineScripts + ')' + (blockedScripts ? '; ' + blockedScripts : '')) : blockedScripts);
@@ -162,7 +156,7 @@ function onMessageHandler(e) {
         e.ports[0].postMessage(encodeMessage({type: 'noads_tab_port'}), [channel.port2]);
         channel.port1.onmessage = onPopupMessageHandler;
     } else if (message.type === 'noadsadvanced_autoupdate') {
-        notification_text = message.text;           
+        notification_text = message.text;
         if (loaded && notification_text !== '') {
             onNotifyUser(notification_text);
             notification_text = '';
@@ -203,7 +197,7 @@ function setupMagic() {
                 (function (name, debug) {
                     window.opera.defineMagicFunction(j[1], function () {
                         if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
-                        return;
+                        return null;
                     });
                 })(j[1], debug);
                 //}
@@ -211,7 +205,7 @@ function setupMagic() {
                 (function (name, debug) {
                     window[name] = function () {
                         if (debug) window.opera.postError('[NoAdsAdvanced] function ' + name + ' is void');
-                        return;
+                        return null;
                     };
                 })(j[1], debug);
             } else if (j[0].match(/^var/i)) {
@@ -239,7 +233,7 @@ window.addEventListener('DOMContentLoaded', function () {
         // don't want that in a frames
         if (window.top === window.self) {
             loaded = true;
-            
+
             if (notification_text !== '') {
                 onNotifyUser(notification_text);
                 notification_text = '';
