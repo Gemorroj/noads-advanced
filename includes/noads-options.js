@@ -367,6 +367,7 @@ var options = {
             '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
             '^https?://[0-9a-z-]+\\.wlxrs\\.com',
             '^https?://[0-9a-z-]+\\.ea\\.com',
+            '^https?://[0-9a-z\\.]*zohostatic\\.com',
             '^https?://[a-z-]+\\.aolcdn\\.com',
             '^https?://[a-z-]+\\.bitsontherun\\.com',
             '^https?://[a-z-]+\\.cdn\\.turner\\.com',
