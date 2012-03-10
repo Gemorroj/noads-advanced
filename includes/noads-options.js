@@ -42,6 +42,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_allrules{margin:8px 0 2px 5px;}\
 .noads_content input[type="range"] {height: 484px;width: 50px;float:right;margin-top:20px;}\
 #noads_autoupdate_label {float:right;text-align: right;}\
+.noads_subscriptions_block{height: 566px; overflow: auto;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -729,13 +730,14 @@ var options = {
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
-                inputid = 'id-' + (Math.random()).toString().replace('.', '');
+                inputid = 'id-' + (Math.random()).toString().replace('.', ''),
+                default_url = getValue('noads_default_url2');
             label.className = 'noads_label_subscription';
             label.setAttribute('for', inputid);
             input.type = 'checkbox';
             input.name = 'subs';
             input.id = inputid;
-            if (url && ~getValue('noads_default_url2').indexOf(url)) {
+            if (url && default_url && ~default_url.indexOf(url)) {
                 input.checked = true;
                 if (typein) input.disabled = true;
             }
@@ -749,16 +751,17 @@ var options = {
                 a.appendChild(document.createTextNode(url));
                 this.appendChild(a);
             } else {
-                input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'noads_custom_url';
-                input.value = url;
-                input.onkeyup = function () {
-                    this.parentElement.previousElementSibling.checked = (this.value !== '');
+                var input_custom_event = function () {
+                    area.getElementById(inputid).checked = (this.value !== '');
                     setValue('noads_custom_url', this.value);
                 };
-                input.onchange = input.onkeyup;
-                label.appendChild(input);
+                var input_custom = document.createElement('input');
+                input_custom.type = 'text';
+                input_custom.className = 'noads_custom_url';
+                input_custom.value = url;
+                input_custom.onkeyup = input_custom_event;
+                input_custom.onchange = input_custom_event;
+                label.appendChild(input_custom);
                 label.appendChild(document.createTextNode(txt));
                 this.appendChild(label);
             }
@@ -1007,37 +1010,42 @@ var options = {
             label.appendChild(input);
             this.appendChild(label);
 
-            this.createCheckboxButton('EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createCheckboxButton('EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
-            this.createCheckboxButton('RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
-            this.createCheckboxButton('EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
-            this.createCheckboxButton('EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
-            this.createCheckboxButton('EasyList french', 'http://lian.info.tm/liste_fr.txt');
-            this.createCheckboxButton('EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
-            this.createCheckboxButton('EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
-            this.createCheckboxButton('EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
-            this.createCheckboxButton('EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
-            this.createCheckboxButton('EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
-            this.createCheckboxButton('EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
-            this.createCheckboxButton('FanBoy (annoyance list; selectors)', 'http://www.fanboy.co.nz/fanboy-addon.txt');
-            this.appendChild(document.createElement('br'));
-            this.createCheckboxButton('FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-            this.createCheckboxButton('Fanboy main + Spanish/Portuguese + Tracking', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
-            this.createCheckboxButton('FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
-            this.createCheckboxButton('FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createCheckboxButton('FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createCheckboxButton('FanBoy portuguese/spanish', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createCheckboxButton('FanBoy czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createCheckboxButton('FanBoy japanese ', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createCheckboxButton('FanBoy turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createCheckboxButton('FanBoy polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createCheckboxButton('FanBoy vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createCheckboxButton('FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
-            this.appendChild(document.createElement('br'));
-            this.createCheckboxButton('AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
-            this.createCheckboxButton('Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
-            //this.appendChild(document.createElement('br'));
-            this.createCheckboxButton(' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+            var block = document.createElement('div');
+            block.className = 'noads_subscriptions_block';
+
+            this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
+            this.createCheckboxButton.call(block, 'EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+            this.createCheckboxButton.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
+            this.createCheckboxButton.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
+            this.createCheckboxButton.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
+            this.createCheckboxButton.call(block, 'EasyList french', 'http://lian.info.tm/liste_fr.txt');
+            this.createCheckboxButton.call(block, 'EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
+            this.createCheckboxButton.call(block, 'EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
+            this.createCheckboxButton.call(block, 'EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
+            this.createCheckboxButton.call(block, 'EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
+            this.createCheckboxButton.call(block, 'EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
+            this.createCheckboxButton.call(block, 'EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
+            this.createCheckboxButton.call(block, 'FanBoy Annoyance list', 'http://www.fanboy.co.nz/fanboy-addon.txt');
+            block.appendChild(document.createElement('br'));
+            this.createCheckboxButton.call(block, 'FanBoy main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'Fanboy main + Spanish/Portuguese + Tracking', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy main/tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy portuguese/spanish', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy japanese ', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'FanBoy swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
+            block.appendChild(document.createElement('br'));
+            this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
+            this.createCheckboxButton.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
+            //block.appendChild(document.createElement('br'));
+            this.createCheckboxButton.call(block, ' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+
+            this.appendChild(block);
 
             this.appendChild(this.createButton('noads_dlsubscription', lng.pDownload, '', imgRefresh, function () {
                 var dlsubscription = document.getElementById('noads_dlsubscription');
@@ -1051,13 +1059,13 @@ var options = {
                 for (var i = 0, radioButton; radioButton = inputs[i]; i++) {
                     url.push(radioButton.nextElementSibling.nextElementSibling.href || radioButton.nextElementSibling.firstElementChild.value);
                 }
-                if (url.length) {
-                    dlsubscription.firstChild.src = imgLoad;
-                    setValue('noads_default_url2', url);
-                    sendMessage({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
-                } else {
-                    sendMessage({ type: 'get_filters', url: '' });
+
+
+                dlsubscription.firstChild.src = imgLoad;
+                if (url.length > 0) {
+                    setValue('noads_default_url2', url.toString());
                 }
+                sendMessage({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
             }));
 
             this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));

@@ -58,7 +58,7 @@ window.addEventListener('load', function () {
             case 'get_filters':
                 if (!e.source) return;
 
-                if (!message.url) {
+                if (!message.url || !message.url.length) {
                     log('URL/CSS filter import error -> invalid URL.');
                     e.source.postMessage(encodeMessage({
                         type: 'noads_import_status',
