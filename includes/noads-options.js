@@ -752,7 +752,7 @@ var options = {
                 this.appendChild(a);
             } else {
                 var input_custom_event = function () {
-                    area.getElementById(inputid).checked = (this.value !== '');
+                    document.getElementById(inputid).checked = (this.value !== '');
                     setValue('noads_custom_url', this.value);
                 };
                 var input_custom = document.createElement('input');
