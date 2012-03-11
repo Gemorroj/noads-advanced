@@ -12,7 +12,7 @@
 
 // styles for option pages
 var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:4px;box-shadow:0 0 12px rgba(0,0,0,.35);color:#000;height:auto;overflow:visible;width:96%;margin:1% auto;padding:5px;}\
+.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:none;color:#000;height:97%;overflow:visible;width:auto;margin:0 auto;padding:1%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -29,20 +29,21 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative{color:#d12f19;}\
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
-.noads_area{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
-.noads_content textarea{font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
+.noads_area{height: 100%; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
+.noads_content textarea{height: 92%; border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
+.noads_site_textarea{height: 29% !important;}\
 .noads_content .inline .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:10px;}\
-.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"]{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
+.noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"], .noads_content fieldset{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
 .noads_label_subscription{font-size:12px;margin:2px 0;padding:0 4px;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 484px;width: 50px;float:right;margin-top:20px;}\
-#noads_autoupdate_label {float:right;text-align: right;}\
-.noads_subscriptions_block{height: 567px; overflow: auto;}\
+.noads_content input[type="range"] {height: 100%;width: 50px;float:right;margin-top:20px;}\
+#noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%;}\
+.noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -594,9 +595,7 @@ var options = {
 
         var win = document.createElement('div');
         win.className = 'noads_win';
-        if (!global) {
-            win.style.marginTop = '1%';
-        }
+
         overlay.appendChild(win);
         var close = document.createElement('div');
         close.className = 'noads_close_window';
@@ -712,14 +711,15 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            //textarea.style.height = (global ? '75%' : '200px');
-            textarea.rows = global ? '34' : '10';
+            //textarea.rows = global ? '34' : '10';
+            textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
             textarea.spellcheck = false;
 
             if (!global) {
+                textarea.className = 'noads_site_textarea';
                 textarea.disabled = disabled;
             } else {
                 textarea.className = 'overflow';
@@ -910,9 +910,10 @@ var options = {
             this.appendChild(p);
             var textarea = document.createElement('textarea');
             textarea.id = 'noads_jsblocks_textarea';
-            textarea.rows = '10';
+            textarea.rows = '100';
             textarea.cols = '100';
-            //textarea.style.height = '200px';
+            textarea.className = 'noads_site_textarea';
+            textarea.spellcheck = false;
             if (!disabled) {
                 textarea.value = blockedScripts.replace(/; /g, '\n');
             }
@@ -983,6 +984,11 @@ var options = {
 
             this.clear(pos);
 
+            var p = document.createElement('p');
+            p.className = 'noads_input_help';
+            p.appendChild(document.createTextNode('Subscriptions:')); //TODO:translate
+            this.appendChild(p);
+
             lastUpdateNode.id = 'noads_autoupdate_lastupdate';
             lastUpdateNode.appendChild(document.createTextNode(''));
 
@@ -1010,7 +1016,7 @@ var options = {
             label.appendChild(input);
             this.appendChild(label);
 
-            var block = document.createElement('div');
+            var block = document.createElement('fieldset');
             block.className = 'noads_subscriptions_block';
 
             this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
