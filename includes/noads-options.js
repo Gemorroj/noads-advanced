@@ -352,12 +352,14 @@ var options = {
             // TODO: 
             // If we add all the sites this list will be endless shall we stop maybe?
             // Propably should load from separate and(or) JSON file.
+            '^https?://94\\.198\\.241\\.153', // letitbit
             '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
             '^https?://(?:cdn\\.)?sstatic\\.net',
             '^https?://[0-9a-z-]*\\.cloudfront\\.net',
             '^https?://[0-9a-z-\\.]+\\.com\\.com',
             '^https?://[0-9a-z-]*\\.disqus\\.com',
             '^https?://[0-9a-z-]*\\.googleapis\\.com',
+            '^https?://[0-9a-z-]+\\.googlecode\\.com',
             '^https?://[0-9a-z-]*\\.yahooapis\\.com',
             '^https?://[0-9a-z-]+\\.appspot\\.com',
             '^https?://[0-9a-z-]+\\.github\\.com',
@@ -378,6 +380,7 @@ var options = {
             '^https?://[a-z]+\\.xnimg\\.cn',
             '^https?://[0-9a-z]+\\.fjcdn\\.com',
             '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
+            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
             '^https?://ajax\\.aspnetcdn\\.com',
@@ -414,6 +417,7 @@ var options = {
             '^https?://mat1\\.gtimg\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://rutube\\.ru',
+            '^https?://badoocdn\\.com',
             '^https?://s\\d+\\.addthis\\.com/js',
             '^https?://s\\d+\\.ucoz\\.net',
             '^https?://script\\.aculo\\.us',
