@@ -21,7 +21,7 @@ function sendCommand (message) {
             theport.postMessage(encodeMessage(message));
         } catch(e) {}
     }
-    window.close();
+    self.close();
 }
 
 
@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', function () {
         unblock_latest = document.getElementById('unblock_latest'),
         show_preferences = document.getElementById('show_preferences'),
         content_block_helper = document.getElementById('content_block_helper');
-   
+
     block_ads.onclick = function () { sendCommand({type: 'block_ads'}); };
     block_ele.onclick = function () { sendCommand({type: 'block_ele'}); };
     unblock_ele.onclick = function () { sendCommand({type: 'unblock_ele'}); };
