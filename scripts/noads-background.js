@@ -145,7 +145,7 @@ window.addEventListener('load', function () {
 
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
-        if (next_update < (new Date()).getTime()) {
+        if (next_update < Date.now()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
                 notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };

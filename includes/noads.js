@@ -244,7 +244,7 @@ window.addEventListener('DOMContentLoaded', function () {
             // Create menu messaging channel and parse background messages
             opera.extension.onmessage = onMessageHandler;
 
-            
+
             if (options.checkEnabled('noads_button_state')) {
                 log('Button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');

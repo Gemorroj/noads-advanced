@@ -229,7 +229,7 @@ var importer = {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 /*XMLHttpRequest.DONE*/ && xmlhttp.status == 200) {
-                setValue('noads_last_update', new Date().getTime());
+                setValue('noads_last_update', Date.now());
                 if (~url.indexOf('.ini')) {
                     callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
