@@ -740,7 +740,6 @@ var options = {
             input.id = inputid;
             if (url && ~getValue('noads_default_url2').indexOf(url)) {
                 input.checked = true;
-                if (typein) input.disabled = true;
             }
             this.appendChild(input);
             if (!typein) {
@@ -752,16 +751,19 @@ var options = {
                 a.appendChild(document.createTextNode(url));
                 this.appendChild(a);
             } else {
-                input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'noads_custom_url';
-                input.value = url;
-                input.onkeyup = function () {
-                    this.parentElement.previousElementSibling.checked = (this.value !== '');
+                var is_empty = true, edit = document.createElement('input');
+                edit.type = 'text';
+                edit.className = 'noads_custom_url';
+                edit.value = url;
+                input.disabled = (edit.value.replace(/\s/g,'') === '');
+                edit.onkeyup = function () {
+                    is_empty = (this.value.replace(/\s/g,'') === '');
+                    this.parentElement.previousElementSibling.checked = !is_empty;
+                    input.disabled = is_empty;
                     setValue('noads_custom_url', this.value);
                 };
-                input.onchange = input.onkeyup;
-                label.appendChild(input);
+                edit.onchange = edit.onkeyup;
+                label.appendChild(edit);
                 label.appendChild(document.createTextNode(txt));
                 this.appendChild(label);
             }
