@@ -7,6 +7,7 @@
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
+// @exclude *jsperf.com*
 // ==/UserScript==
 
 /*
