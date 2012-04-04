@@ -7,6 +7,7 @@
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
+// @exclude *jsperf.com*
 // ==/UserScript==
 
 
@@ -743,7 +744,6 @@ var options = {
             input.id = inputid;
             if (url && default_url && ~default_url.indexOf(url)) {
                 input.checked = true;
-                if (typein) input.disabled = true;
             }
             this.appendChild(input);
             if (!typein) {
@@ -755,17 +755,20 @@ var options = {
                 a.appendChild(document.createTextNode(url));
                 this.appendChild(a);
             } else {
-                var input_custom_event = function () {
-                    this.parentElement.previousElementSibling.checked = (this.value !== '');
-                    setValue('noads_custom_url', this.value);
-                };
-                var input_custom = document.createElement('input');
-                input_custom.type = 'text';
-                input_custom.className = 'noads_custom_url';
-                input_custom.value = url;
-                input_custom.onkeyup = input_custom_event;
-                input_custom.onchange = input_custom_event;
-                label.appendChild(input_custom);
+                var edit = document.createElement('input'),
+                    edit_event = function () {
+                        var is_empty = (this.value.replace(/\s/g, '') === '');
+                        this.parentElement.previousElementSibling.checked = !is_empty;
+                        input.disabled = is_empty;
+                        setValue('noads_custom_url', this.value);
+                    };
+                edit.type = 'text';
+                edit.className = 'noads_custom_url';
+                edit.value = url;
+                input.disabled = (edit.value.replace(/\s/g, '') === '');
+                edit.onkeyup = edit_event;
+                edit.onchange = edit_event;
+                label.appendChild(edit);
                 label.appendChild(document.createTextNode(txt));
                 this.appendChild(label);
             }
