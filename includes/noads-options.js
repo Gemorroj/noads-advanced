@@ -584,10 +584,10 @@ var options = {
                 run.updateCSS(domain);
                 delElement(overlay.clearStyle);
                 document.removeEventListener('keypress', press, false);
-                run.stop = null;
+                delete options.stop;
                 delElement(overlay);
             } else {
-                options.stop = null;
+                delete options.stop;
                 self.close();
             }
         };
