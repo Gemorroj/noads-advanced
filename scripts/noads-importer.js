@@ -210,17 +210,19 @@ var importer = {
     },
 
     removeFilters: function (rules_array) {
+        var block = opera.extension.urlfilter.block;
         for (var i = 0, l = rules_array.length; i < l; i++) {
             log('url removed on URL filter reload -> ' + rules_array[i]);
-            opera.extension.urlfilter.block.remove(rules_array[i]);
+            block.remove(rules_array[i]);
         }
     },
 
     setFilters: function (rules_raw) {
         var filters = (rules_raw === '') ? [] : rules_raw.split('\n');
+        var block = opera.extension.urlfilter.block;
         for (var i = 0, l = filters.length; i < l; i++) {
             log('url added on URL filter reload -> ' + filters[i]);
-            opera.extension.urlfilter.block.add(filters[i]);
+            block.add(filters[i]);
         }
         return filters;
     },
