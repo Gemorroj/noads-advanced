@@ -1064,6 +1064,7 @@ var options = {
             this.createCheckboxButton.call(block, 'Turkish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/trky/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Vietnamese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/vtn/complete/urlfilter.ini');
+            this.createCheckboxButton.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
             block.appendChild(document.createElement('br'));
             this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
             this.createCheckboxButton.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
