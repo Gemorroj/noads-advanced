@@ -133,7 +133,7 @@ function onBeforeExternalScriptHandler(e) {
     var src = e.element.src;
     if (!src || reSkip.test(src)) return;
     var full = !/\.(com|net|org|edu|gov|mil|int|[a-z]{2})$/i.test(domain);
-    if (getTLD(src.match(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i)[1], full) !== getTLD(domain, full)) {
+    if (getTLD(/^https?:\/\/(?:[^\/]+@)?([^:\/]+)/i.exec(src)[1], full) !== getTLD(domain, full)) {
         e.preventDefault();
         if (blockedScripts.indexOf(src) === -1) {
             blockedScripts += blockedScripts ? '; ' + src : src;
@@ -191,7 +191,7 @@ function setupMagic() {
             j = jS.split(' ');
             ret = window.parseInt(j[2], 10);
             ret = window.isNaN(ret) ? null : ret;
-            if (j[0].match(/^function/i)) {
+            if (/^function/i.test(j[0])) {
                 // blocking functions
                 blockedFuncs += ',' + j[1];
 
@@ -209,7 +209,7 @@ function setupMagic() {
                         return null;
                     };
                 })(j[1], debug);
-            } else if (j[0].match(/^var/i)) {
+            } else if (/^var/i.test(j[0])) {
                 //blocking variables
                 blockedVars += ',' + j[1];
                 window[j[1]] = ret;
