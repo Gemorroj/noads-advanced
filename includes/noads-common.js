@@ -73,7 +73,7 @@ splitCSS = function (css) {
 },
 getTLD = function (domain, full) {
     if (!domain) return '';
-    var r = domain.match(/^((?:\d{1,3}\.){3})\d{1,3}$/);
+    var r = /^((?:\d{1,3}\.){3})\d{1,3}$/.exec(domain);
     if (r) return r[1] + '0';
     var a = domain.split('.'), l = a.length;
     if (l < 2) return domain;
