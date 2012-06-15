@@ -789,7 +789,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
         area.showCSSList = function (pos) {
@@ -804,7 +804,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
         area.showScriptWhitelist = function (pos) {
@@ -820,7 +820,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
         area.showMagicList = function (pos) {
@@ -835,7 +835,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
         area.showUserURLfilters = function (pos) {
@@ -854,7 +854,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
         area.showURLfilters = function (pos) {
@@ -873,7 +873,7 @@ var options = {
 
             this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
-                window.open('data:text/plain;charset=UTF-8;base64,' + window.btoa(val), 'Export');
+                window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
         };
 
