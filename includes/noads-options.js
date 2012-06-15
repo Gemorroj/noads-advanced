@@ -45,6 +45,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content input[type="range"] {height: 100%;width: 50px;float:right;margin-top:20px;}\
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
 .noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
+.noads_input_help{font: bold 13px sans-serif;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
@@ -913,6 +914,7 @@ var options = {
             button.type = 'button';
             var disabled = !options.checkEnabled('noads_scriptlist_state') || !options.isActiveDomain('noads_scriptlist_white', domain);
             var p = document.createElement('p');
+            p.className = 'noads_input_help';
             p.appendChild(document.createTextNode(lng.pBlockedScripts));
             this.appendChild(p);
             var textarea = document.createElement('textarea');
