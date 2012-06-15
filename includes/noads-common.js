@@ -11,7 +11,6 @@
 // ==/UserScript==
 
 var storage = widget.preferences;
-var extension = window.opera.extension;
 var domain = window.location.hostname;
 
 // Helper Functions
