@@ -36,9 +36,8 @@ window.addEventListener('load', function () {
         // if we got a message fom the menu
         if (e && e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
             tab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
-        } 
-        // if we got a message fom a page
-        else {
+        } else {
+            // if we got a message fom a page
             if (notification_text !== '') {
                 tab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
                 notification_text = '';
@@ -58,7 +57,7 @@ window.addEventListener('load', function () {
             case 'get_filters':
                 if (!e.source) return;
 
-                if (!message.url) {
+                if (!message.url || !message.url.length) {
                     log('URL/CSS filter import error -> invalid URL.');
                     e.source.postMessage(encodeMessage({
                         type: 'noads_import_status',
@@ -145,7 +144,7 @@ window.addEventListener('load', function () {
 
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
-        if (next_update < (new Date()).getTime()) {
+        if (next_update < Date.now()) {
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
                 notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };

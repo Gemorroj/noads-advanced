@@ -69,7 +69,7 @@ var noads = {
                 n = a.nodeName.toLowerCase();
                 if (r.test(n)) {
                     if (n === 'id') {
-                        if (a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) {
+                        if (/[^_a-zA-Z0-9-]/i.test(a.nodeValue)) {
                             // check for unallowed values
                             continue;
                         }
@@ -78,7 +78,7 @@ var noads = {
                     } else if (n === 'class') {
                         if (~a.nodeValue.indexOf(' ')) {
                             rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
-                        } else if (!a.nodeValue.match(/[^_a-zA-Z0-9-]/i)) {
+                        } else if (!/[^_a-zA-Z0-9-]/i.test(a.nodeValue)) {
                             // check for unallowed values
                             rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, '');
                         }
@@ -136,11 +136,11 @@ var noads = {
 
     getFilterLink: function (css, domain) {
         if (/not\s*\(/i.test(css)) return;
-        var ruleURL = css.match(/(?:src|href|data)\s*\^=\s*"([^"]+)"/i);
+        var ruleURL = /(?:src|href|data)\s*\^=\s*"([^"]+)"/i.exec(css);
         if (ruleURL && ruleURL[1]) {
             ruleURL[1] += '*';
         } else {
-            ruleURL = css.match(/(?:src|href|data)\s*\*=\s*"([^"]+)"/i);
+            ruleURL = /(?:src|href|data)\s*\*=\s*"([^"]+)"/i.exec(css);
             if (ruleURL && ruleURL[1]) {
                 if (ruleURL[1].length < 5) {
                     return;
@@ -148,13 +148,13 @@ var noads = {
                     ruleURL[1] = '*' + ruleURL[1] + '*';
                 }
             } else {
-                ruleURL = css.match(/(?:src|href|data)\s*=\s*"([^"]+)"/i);
+                ruleURL = /(?:src|href|data)\s*=\s*"([^"]+)"/i.exec(css);
                 if (!ruleURL || !ruleURL[1]) return;
              }
         }
 
         ruleURL[1] = ruleURL[1].replace(/^\.\/|\.\.\/?/g,'*'); // "../" or "./" -> *
-        if (ruleURL[1].match(/^https?:?\/?\/?\*+$/gi)) return; // "http(s)://"
+        if (/^https?:?\/?\/?\*+$/i.test(ruleURL[1])) return; // "http(s)://"
         if (ruleURL[1].indexOf('http') === -1) {
             if (domain) {
                 if (ruleURL[1].indexOf('*') !== 0 && (ruleURL[1].charAt(0) === '/' || domain.charAt(domain.length - 1) === '/')) {
@@ -189,12 +189,12 @@ var run = {
             sendMessage({ type: 'reload_rules', global: false, clear: true });
             sendMessage({ type: 'reload_rules', global: true, clear: true });
             options.setEnabled('noads_disable', true);
-            this.setStatus(lng.globallyDisabled);
+            this.setStatus(lng.globallyDisabled); //TODO:add to translation file
         } else {
             sendMessage({ type: 'reload_rules', global: false, clear: false });
             sendMessage({ type: 'reload_rules', global: true, clear: false });
             options.setEnabled('noads_disable', false);
-            this.setStatus(lng.globallyEnabled);
+            this.setStatus(lng.globallyEnabled); //TODO:add to translation file
         }
     },
     // disable and enable blocking for current site

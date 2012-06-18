@@ -210,17 +210,19 @@ var importer = {
     },
 
     removeFilters: function (rules_array) {
+        var block = opera.extension.urlfilter.block;
         for (var i = 0, l = rules_array.length; i < l; i++) {
             log('url removed on URL filter reload -> ' + rules_array[i]);
-            opera.extension.urlfilter.block.remove(rules_array[i]);
+            block.remove(rules_array[i]);
         }
     },
 
     setFilters: function (rules_raw) {
         var filters = (rules_raw === '') ? [] : rules_raw.split('\n');
+        var block = opera.extension.urlfilter.block;
         for (var i = 0, l = filters.length; i < l; i++) {
             log('url added on URL filter reload -> ' + filters[i]);
-            opera.extension.urlfilter.block.add(filters[i]);
+            block.add(filters[i]);
         }
         return filters;
     },
@@ -229,7 +231,7 @@ var importer = {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 /*XMLHttpRequest.DONE*/ && xmlhttp.status == 200) {
-                setValue('noads_last_update', new Date().getTime());
+                setValue('noads_last_update', Date.now());
                 if (~url.indexOf('.ini')) {
                     callback(importer.importFilters(xmlhttp.responseText, add_rules));
                 } else {
