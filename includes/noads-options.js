@@ -12,8 +12,8 @@
 
 
 // styles for option pages
-var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:0;color:#000;height:96.6%;overflow:visible;width:auto;margin:0 auto;padding:1%;}\
+var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
+.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;width:auto;margin:50px;padding:1%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -38,6 +38,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:10px;}\
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"], .noads_content fieldset{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
+.noads_content fieldset {border:none}\
 .noads_label_subscription{font-size:12px;margin:2px 0;padding:0 4px;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
@@ -262,7 +263,7 @@ var options = {
                     // if we have `domain.tld##selectors` format
                     var vsel =  value.slice(vpos+2, value.length);
                     document.querySelectorAll(vsel);
-                    if (!(vsel.replace(/\s/g,'').length)) isNotEmpty = false;
+                    if (!(vsel.replace(/\s/g,'').length)) isNotEmptyRules = false;
                 } catch (bug) {
                     window.alert(lng.pInvalidSelector);
                     return;
@@ -374,14 +375,10 @@ var options = {
         ];
 
         var skipScripts = [
-            // data scripts? o_O
-            '^data:',
-            '^opera:',
-            '^widget:',
+            '^data:','^opera:','^widget:',
             // TODO: 
-            // If we add all the sites this list will be endless shall we stop maybe?
-            // Propably should load from separate and(or) JSON file.
-        '^http://cdn\\d*\\.', // content delivery networks >_<
+            //   Load list from separate and(or) JSON file using resource loader (12+).
+            '^https?://cdn\\d*\\.', // content delivery networks >_<
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
             '^https?://(?:api|api-read)\\.facebook\\.com',
@@ -664,11 +661,7 @@ var options = {
         area.clear = function (num) {
 
             this.innerHTML = '';
-            /*
-            while (this.firstChild) {
-                this.removeChild(this.firstChild);
-            }
-            */
+            //while (this.firstChild) this.removeChild(this.firstChild);
 
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
@@ -748,8 +741,8 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            //textarea.rows = global ? '34' : '10';
-            textarea.rows = '100';
+            textarea.rows = global ? '35' : '10';
+            //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
@@ -950,7 +943,7 @@ var options = {
             this.appendChild(p);
             var textarea = document.createElement('textarea');
             textarea.id = 'noads_jsblocks_textarea';
-            textarea.rows = '100';
+            textarea.rows = '10';
             textarea.cols = '100';
             textarea.className = 'noads_site_textarea';
             textarea.spellcheck = false;
@@ -1060,7 +1053,7 @@ var options = {
             block.className = 'noads_subscriptions_block';
 
             this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+            this.createCheckboxButton.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
             this.createCheckboxButton.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
             this.createCheckboxButton.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
             this.createCheckboxButton.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
@@ -1076,27 +1069,16 @@ var options = {
             this.createCheckboxButton.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Chinese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/chn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Czech+Tracking', 'http://www.fanboy.co.nz/adblock/opera/cz/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Espanol/Portuguese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Japanese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/jpn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Korean+Tracking', 'http://www.fanboy.co.nz/adblock/opera/krn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Merged Asian Lists+Tracking', 'http://www.fanboy.co.nz/adblock/opera/asian/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Polish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/pol/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Russian+Tracking', 'http://www.fanboy.co.nz/adblock/opera/rus/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Swedish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/swe/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Turkish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/trky/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Vietnamese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/vtn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
             block.appendChild(document.createElement('br'));
             this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
