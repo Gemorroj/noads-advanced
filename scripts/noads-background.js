@@ -26,23 +26,32 @@ window.addEventListener('load', function () {
         button = { disabled: true };
     }
 
-    function enableButton () {
-        button.disabled = !opera.extension.tabs.getFocused();
+    function isAccessible(tab) {
+        var atab = opera.extension.tabs.getFocused();
+        return !!atab && !!atab.port && tab == atab;
+    }
+    
+    function enableButton (e) {
+        // http://my.opera.com/community/forums/topic.dml?id=1419032
+        button.disabled = !isAccessible(e.tab);
     }
 
     function onConnectHandler (e) {
-        var tab = opera.extension.tabs.getFocused();
-        if (!tab) return;
+        var atab = opera.extension.tabs.getFocused();
+        if (!atab) return;
         // if we got a message fom the menu
         if (e && e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
-            tab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
+            atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
         } else {
             // if we got a message fom a page
             if (notification_text !== '') {
-                tab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
+                atab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
                 notification_text = '';
             }
-            enableButton();
+            if (e.tab == opera.extension.tabs.getFocused()) {
+                // make sure the button disabled until the atab is ready if the atab is reloaded
+                button.disabled = true;
+            }
         }
     }
 
@@ -54,6 +63,9 @@ window.addEventListener('load', function () {
             //    button.badge.textContent = message.blocked || '0';
             //    button.badge.color = "white";
             //    break;
+            case 'enable_button':
+                button.disabled = false;
+                break;
             case 'get_filters':
                 if (!e.source) return;
 
