@@ -1,4 +1,4 @@
-var theport, self = window, enabled = false;
+var theport, enabled = false;
 
 var html = document.querySelector('html');
 html.setAttribute('lang', window.navigator.language);
@@ -21,7 +21,7 @@ function sendCommand (message) {
             theport.postMessage(encodeMessage(message));
         } catch(e) {}
     }
-    self.close();
+    window.close();
 }
 
 

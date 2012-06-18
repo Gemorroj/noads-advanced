@@ -43,7 +43,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 100%;width: 50px;float:right;margin-top:20px;}\
+.noads_content input[type="range"] {min-height:560px;height:100%;width:50px;float:right;margin-top:20px;}\
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
 .noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
 .noads_input_help{font: bold 13px sans-serif;}\
@@ -621,7 +621,7 @@ var options = {
                 delElement(overlay);
             } else {
                 delete options.stop;
-                self.close();
+                window.close();
             }
         };
         this.stop = overlay.close;
@@ -741,7 +741,7 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.rows = global ? '35' : '10';
+            textarea.rows = global ? '40' : '14';
             //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
@@ -943,7 +943,7 @@ var options = {
             this.appendChild(p);
             var textarea = document.createElement('textarea');
             textarea.id = 'noads_jsblocks_textarea';
-            textarea.rows = '10';
+            textarea.rows = '12';
             textarea.cols = '100';
             textarea.className = 'noads_site_textarea';
             textarea.spellcheck = false;
