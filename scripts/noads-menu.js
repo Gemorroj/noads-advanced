@@ -1,4 +1,4 @@
-var theport, enabled = false;
+var theport, self = window, enabled = false;
 
 var html = document.querySelector('html');
 html.setAttribute('lang', window.navigator.language);

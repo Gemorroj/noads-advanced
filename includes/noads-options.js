@@ -241,18 +241,45 @@ var options = {
     },
 
     setRawRulesSite: function (name, value, domain) {
-        if (value.indexOf('##') === -1 || typeof domain === 'undefined') return;
-        var rule, pos, tmp = getValue(name).split('\n');
+        if (typeof domain === 'undefined') return;
+        var isNotEmptyRules = (value.replace(/\s/g,'').length !== 0),
+            vpos = value.indexOf('##'),
+            tmp = getValue(name).split('\n');
+        
+        if (isNotEmptyRules) {
+            // check rule correctness
+            if (vpos === -1) {
+                try {
+                    // if we have `selectors` format
+                    document.querySelectorAll(value);
+                    value = domain + '##' + value;
+                } catch (bug) {
+                    window.alert(lng.pInvalidSelector);
+                    return;
+                }
+            } else {
+                try {
+                    // if we have `domain.tld##selectors` format
+                    var vsel =  value.slice(vpos+2, value.length);
+                    document.querySelectorAll(vsel);
+                    if (!(vsel.replace(/\s/g,'').length)) isNotEmpty = false;
+                } catch (bug) {
+                    window.alert(lng.pInvalidSelector);
+                    return;
+                }
+            }
+        }
 
-        for (var i = tmp.length; i--; ) {
+        for (var rpos, rule, i = tmp.length; i--; ) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
-            if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+            rpos = rule.indexOf('##');
+            if (rpos !== -1 && options.isCorrectDomain(domain, rule.slice(0, rpos))) {
                 tmp.splice(i, 1);
-                tmp.unshift(value);
                 break;
             }
         }
+
+        if (isNotEmptyRules) tmp.unshift(value);
         setValue(name, tmp.join('\n'));
     },
 
@@ -354,7 +381,7 @@ var options = {
             // TODO: 
             // If we add all the sites this list will be endless shall we stop maybe?
             // Propably should load from separate and(or) JSON file.
-	    '^http://cdn\\d*\\.', // content delivery networks >_<
+        '^http://cdn\\d*\\.', // content delivery networks >_<
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
             '^https?://(?:api|api-read)\\.facebook\\.com',
