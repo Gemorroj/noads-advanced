@@ -26,21 +26,21 @@ window.addEventListener('load', function () {
         button = { disabled: true };
     }
 
-    function isAccessible(tab) {
+    function isAccessible() {
         var atab = opera.extension.tabs.getFocused();
-        return !!atab && !!atab.port && tab == atab;
+        return !!atab && (typeof atab.port !== 'undefined' ? !!atab.port : true);
     }
     
     function enableButton (e) {
         // http://my.opera.com/community/forums/topic.dml?id=1419032
-        button.disabled = !isAccessible(e.tab);
+        button.disabled = !isAccessible();
     }
 
     function onConnectHandler (e) {
         var atab = opera.extension.tabs.getFocused();
-        if (!atab) return;
+        if (!atab || !e) return;
         // if we got a message fom the menu
-        if (e && e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
+        if (e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
             atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
         } else {
             // if we got a message fom a page
@@ -48,8 +48,8 @@ window.addEventListener('load', function () {
                 atab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
                 notification_text = '';
             }
-            if (e.tab == opera.extension.tabs.getFocused()) {
-                // make sure the button disabled until the atab is ready if the atab is reloaded
+            if (typeof e.tab !== 'undefined' && e.tab == opera.extension.tabs.getFocused()) {
+                // make sure the button disabled in 12 after reload until it's ready
                 button.disabled = true;
             }
         }
