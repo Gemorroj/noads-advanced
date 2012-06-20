@@ -250,11 +250,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 addStyle(quickButtonCSS, 'qbCSS');
                 window.addEventListener('mousemove', showQuickButton, false);
             }
-            
-            sendMessage({ type: 'enable_button', set: true });
         }
     }
-}, false);
+}, true);
 
 // Main body
 (function () {

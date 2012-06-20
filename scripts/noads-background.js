@@ -1,8 +1,9 @@
-var  button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0;
+var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0;
 
 window.addEventListener('load', function () {
-    debug = options.checkEnabled('noads_debug_enabled_state');
-    lng = new TRANSLATION();
+    var debug = options.checkEnabled('noads_debug_enabled_state'),
+        lng = new TRANSLATION (),
+        v12 = (typeof opera.extension.tabGroups !== 'undefined');
 
     if (options.checkEnabled('noads_tb_enabled_state')) {
         button = opera.contexts.toolbar.createItem({
@@ -14,7 +15,7 @@ window.addEventListener('load', function () {
                 width: lng.baseMenuWidth || 180,
                 height: lng.baseMenuHeight || 155
             },
-            badge : {
+            badge: {
                 display: 'none',
                 textContent: '0',
                 color: 'white',
@@ -23,17 +24,18 @@ window.addEventListener('load', function () {
         });
         opera.contexts.toolbar.addItem(button);
     } else {
-        button = { disabled: true };
+        button = {
+            disabled: true
+        };
     }
 
-    function isAccessible() {
-        var atab = opera.extension.tabs.getFocused();
-        return !!atab && (typeof atab.port !== 'undefined' ? !!atab.port : true);
+    function isAccessible (tab) {
+        return !!tab && (v12 ? !!tab.port && tab.readyState === 'complete' : true);
     }
-    
-    function enableButton (e) {
-        // http://my.opera.com/community/forums/topic.dml?id=1419032
-        button.disabled = !isAccessible();
+
+    function toggleButton () {
+        var atab = opera.extension.tabs.getFocused();
+        button.disabled = !isAccessible(atab);
     }
 
     function onConnectHandler (e) {
@@ -42,16 +44,26 @@ window.addEventListener('load', function () {
         // if we got a message fom the menu
         if (e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
             atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
-        } else {
+        } else {           
             // if we got a message fom a page
             if (notification_text !== '') {
-                atab.postMessage(encodeMessage({ type: 'noadsadvanced_autoupdate', text: notification_text}));
+                atab.postMessage(encodeMessage({
+                    type: 'noadsadvanced_autoupdate',
+                    text: notification_text
+                }));
                 notification_text = '';
             }
-            if (typeof e.tab !== 'undefined' && e.tab == opera.extension.tabs.getFocused()) {
-                // make sure the button disabled in 12 after reload until it's ready
-                button.disabled = true;
-            }
+            
+            // button will be disabled for new tabs
+            button.disabled = true;       
+            // Start a timed loop
+            var loop = setInterval(function () {
+                // When the page has finished loading, turn the button on
+                if (isAccessible(atab)) {
+                    button.disabled = false;
+                    clearInterval(loop);
+                }
+            }, 100);
         }
     }
 
@@ -63,9 +75,6 @@ window.addEventListener('load', function () {
             //    button.badge.textContent = message.blocked || '0';
             //    button.badge.color = "white";
             //    break;
-            case 'enable_button':
-                button.disabled = false;
-                break;
             case 'get_filters':
                 if (!e.source) return;
 
@@ -79,8 +88,7 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
-                importerCallback = function (rulesN) {
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [], importerCallback = function (rulesN) {
                     if (rulesN) {
                         message_success.push(message.url[subsc]);
                         message_rules = rulesN;
@@ -157,7 +165,7 @@ window.addEventListener('load', function () {
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < Date.now()) {
-            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function(rulesN) {
+            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function (rulesN) {
                 notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };
             for (var subsc = 0, l = url.length; subsc < l; subsc++) {
@@ -176,7 +184,7 @@ window.addEventListener('load', function () {
 
     // Enable the button when a tab is ready.
     opera.extension.onconnect = onConnectHandler;
-    opera.extension.tabs.onfocus = enableButton;
-    opera.extension.tabs.onblur = enableButton;
+    opera.extension.tabs.onfocus = toggleButton;
+    //opera.extension.tabs.onblur = toggleButton;
     opera.extension.onmessage = onMessageHandler;
 }, false);
