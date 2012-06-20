@@ -31,12 +31,7 @@ window.addEventListener('load', function () {
 
     function toggleButton (e) {
         var atab = opera.extension.tabs.getFocused();
-        if (v12) {
-            button.disabled = true;
-            if (!!atab.port) atab.port.postMessage(encodeMessage({ type: 'ask_status' }));
-        } else {
-            button.disabled = !!atab;
-        }
+        button.disabled = v12 ? !atab.port : !atab;
     }
     
     function setButtonState (port, state) {

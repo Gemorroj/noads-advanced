@@ -162,10 +162,7 @@ function onMessageHandler(e) {
             onNotifyUser(notification_text);
             notification_text = '';
         }
-    } else if (message.type === 'ask_status') {
-        e.source.postMessage(encodeMessage({type: 'status_enabled'}));
     }
-
 }
 
 /* Add custom magic; yay Merlin!
