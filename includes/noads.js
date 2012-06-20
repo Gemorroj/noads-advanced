@@ -79,8 +79,8 @@ function onPopupMessageHandler(e) {
             case 'show_preferences':
                 options.showPreferences(domain);
                 break;
-            case 'ask_menu_status':
-                e.source.postMessage(encodeMessage({type: 'menu_status_enable'}));
+            case 'ask_status':
+                e.source.postMessage(encodeMessage({type: 'status_enabled'}));
                 break;
         }
     }
@@ -162,7 +162,10 @@ function onMessageHandler(e) {
             onNotifyUser(notification_text);
             notification_text = '';
         }
+    } else if (message.type === 'ask_status') {
+        e.source.postMessage(encodeMessage({type: 'status_enabled'}));
     }
+
 }
 
 /* Add custom magic; yay Merlin!
@@ -250,6 +253,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 addStyle(quickButtonCSS, 'qbCSS');
                 window.addEventListener('mousemove', showQuickButton, false);
             }
+            
+            sendMessage({type: 'status_enabled'});
         }
     }
 }, true);

@@ -29,13 +29,23 @@ window.addEventListener('load', function () {
         };
     }
 
-    function isAccessible (tab) {
-        return !!tab && (v12 ? !!tab.port && tab.readyState === 'complete' : true);
-    }
-
-    function toggleButton () {
+    function toggleButton (e) {
         var atab = opera.extension.tabs.getFocused();
-        button.disabled = !isAccessible(atab);
+        if (v12) {
+            button.disabled = true;
+            if (!!atab.port) atab.port.postMessage({ type: 'ask_status' });
+        } else {
+            button.disabled = !!atab;
+        }
+    }
+    
+    function setButtonState (port, state) {
+        if (v12) {
+            // in case source tab is active
+            if (port === opera.extension.tabs.getFocused().port) {
+                button.disabled = !state;
+            }
+        }
     }
 
     function onConnectHandler (e) {
@@ -55,15 +65,7 @@ window.addEventListener('load', function () {
             }
             
             // button will be disabled for new tabs
-            button.disabled = true;       
-            // Start a timed loop
-            var loop = setInterval(function () {
-                // When the page has finished loading, turn the button on
-                if (isAccessible(atab)) {
-                    button.disabled = false;
-                    clearInterval(loop);
-                }
-            }, 100);
+            setButtonState(e.source, false);
         }
     }
 
@@ -75,6 +77,9 @@ window.addEventListener('load', function () {
             //    button.badge.textContent = message.blocked || '0';
             //    button.badge.color = "white";
             //    break;
+            case 'status_enabled':
+                setButtonState(e.source, true);
+                break;
             case 'get_filters':
                 if (!e.source) return;
 
