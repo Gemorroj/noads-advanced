@@ -79,8 +79,8 @@ function onPopupMessageHandler(e) {
             case 'show_preferences':
                 options.showPreferences(domain);
                 break;
-            case 'ask_menu_status':
-                e.source.postMessage(encodeMessage({type: 'menu_status_enable'}));
+            case 'ask_status':
+                e.source.postMessage(encodeMessage({type: 'status_enabled'}));
                 break;
         }
     }
@@ -245,15 +245,16 @@ window.addEventListener('DOMContentLoaded', function () {
             // Create menu messaging channel and parse background messages
             opera.extension.onmessage = onMessageHandler;
 
-
             if (options.checkEnabled('noads_button_state')) {
                 log('Button is enabled...');
                 addStyle(quickButtonCSS, 'qbCSS');
                 window.addEventListener('mousemove', showQuickButton, false);
             }
+
+            sendMessage({type: 'status_enabled'});
         }
     }
-}, false);
+}, true);
 
 // Main body
 (function () {

@@ -12,8 +12,8 @@
 
 
 // styles for option pages
-var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;height:100%;left:0;overflow:auto;position:fixed;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;background-color:#f3f4f5;border-radius:0;color:#000;height:96.6%;overflow:visible;width:auto;margin:0 auto;padding:1%;}\
+var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
+.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;width:auto;margin:50px;padding:1%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
@@ -30,7 +30,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative{color:#d12f19;}\
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
-.noads_area{height: 100%; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
+.noads_area{/*height: 100%;*/height: 800px; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
 .noads_content textarea{height: 92%; border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_site_textarea{height: 29% !important;}\
 .noads_content .inline .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:22px;}\
@@ -42,9 +42,10 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
-.noads_content input[type="range"] {height: 100%;width: 50px;float:right;margin-top:20px;}\
+.noads_content input[type="range"] {min-height:560px;height:100%;width:50px;float:right;margin-top:20px;}\
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
-.noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
+/*.noads_content fieldset {border:none}*/\
+.noads_subscriptions_block{/*height: 91%;*/height: 730px; margin: 0; overflow: auto; width: 75%;}\
 .noads_input_help{font: bold 13px sans-serif;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
@@ -241,18 +242,45 @@ var options = {
     },
 
     setRawRulesSite: function (name, value, domain) {
-        if (value.indexOf('##') === -1 || typeof domain === 'undefined') return;
-        var rule, pos, tmp = getValue(name).split('\n');
+        if (typeof domain === 'undefined') return;
+        var isNotEmptyRules = (value.replace(/\s/g, '').length !== 0),
+            vpos = value.indexOf('##'),
+            tmp = getValue(name).split('\n');
 
-        for (var i = tmp.length; i--; ) {
+        if (isNotEmptyRules) {
+            // check rule correctness
+            if (vpos === -1) {
+                try {
+                    // if we have `selectors` format
+                    document.querySelectorAll(value);
+                    value = domain + '##' + value;
+                } catch (bug) {
+                    window.alert(lng.pInvalidSelector);
+                    return;
+                }
+            } else {
+                try {
+                    // if we have `domain.tld##selectors` format
+                    var vsel =  value.slice(vpos+2, value.length);
+                    document.querySelectorAll(vsel);
+                    if (!(vsel.replace(/\s/g,'').length)) isNotEmptyRules = false;
+                } catch (bug) {
+                    window.alert(lng.pInvalidSelector);
+                    return;
+                }
+            }
+        }
+
+        for (var rpos, rule, i = tmp.length; i--;) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
-            if (pos !== -1 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+            rpos = rule.indexOf('##');
+            if (rpos !== -1 && options.isCorrectDomain(domain, rule.slice(0, rpos))) {
                 tmp.splice(i, 1);
-                tmp.unshift(value);
                 break;
             }
         }
+
+        if (isNotEmptyRules) tmp.unshift(value);
         setValue(name, tmp.join('\n'));
     },
 
@@ -347,41 +375,54 @@ var options = {
         ];
 
         var skipScripts = [
-            // data scripts? o_O
-            '^data:',
-            '^opera:',
-            '^widget:',
+            '^data:','^opera:','^widget:',
             // TODO: 
-            // If we add all the sites this list will be endless shall we stop maybe?
-            // Propably should load from separate and(or) JSON file.
-            '^https?://94\\.198\\.241\\.153', // letitbit
-            '^https?://(?:cdn\\.)?connect\\.mail\\.ru',
-            '^https?://(?:cdn\\.)?sstatic\\.net',
-            '^https?://[0-9a-z-]*\\.cloudfront\\.net',
+            //   Load list from separate and(or) JSON file using resource loader (12+).
+            '^https?://cdn\\d*\\.', // content delivery networks >_<
+            '^https?://(?:apis|maps|plus)+\\.google\\.com',
+            '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
+            '^https?://(?:api|api-read)\\.facebook\\.com',
+            '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
+            '^https?://yuilibrary\\.com',
+            '^https?://(?:[0-9a-z-]*\\.)?ebayrtm.com',
+            '^https?://(?:[0-9a-z-]*\\.)?ebaystatic.com',
+            '^https?://(?:[0-9a-z-]*\\.)?gawkerassets.com',
+            '^https?://(?:[0-9a-z-]*\\.)?keycaptcha.com',
+            '^https?://(?:[0-9a-z-]*\\.)?solvemedia.com',
             '^https?://[0-9a-z-\\.]+\\.com\\.com',
-            '^https?://[0-9a-z-]*\\.disqus\\.com',
-            '^https?://[0-9a-z-]*\\.googleapis\\.com',
+            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
+            '^https?://[0-9a-z-]+\\.cloudfront\\.net',
+            '^https?://[0-9a-z-\\.]+\\.disqus\\.com',
+            '^https?://[0-9a-z-]+\\.googleapis\\.com',
             '^https?://[0-9a-z-]+\\.googlecode\\.com',
-            '^https?://[0-9a-z-]*\\.yahooapis\\.com',
+            '^https?://[0-9a-z-]+\\.yahooapis\\.com',
             '^https?://[0-9a-z-]+\\.appspot\\.com',
+            '^https?://[0-9a-z-]+\\.ea\\.com',
             '^https?://[0-9a-z-]+\\.github\\.com',
+            '^https?://[0-9a-z-]+\\.googlecode\\.com',
             '^https?://[0-9a-z-]+\\.gstatic\\.com',
             '^https?://[0-9a-z-]+\\.hotmail\\.',
             '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
+            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
+            '^https?://[0-9a-z-]+\\.olark\\.com',
             '^https?://[0-9a-z-]+\\.wlxrs\\.com',
-            '^https?://[0-9a-z-]+\\.ea\\.com',
+            '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
+            '^https?://[0-9a-z-\\.]*zohostatic\\.com',
+            '^https?://[0-9a-z-]+\.akamai(?:hd)?\.net',
+            '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
+            '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
+            '^https?://[0-9a-z-]+\\.fjcdn\\.com',
+            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
+            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
             '^https?://[0-9a-z\\.]*zohostatic\\.com',
             '^https?://[a-z-]+\\.aolcdn\\.com',
             '^https?://[a-z-]+\\.bitsontherun\\.com',
             '^https?://[a-z-]+\\.cdn\\.turner\\.com',
-            '^https?://[a-z]+\\.ignimgs\\.com',
             '^https?://[a-z-]+\\.stj\\.s-msn\\.com',
-            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
-            '^https?://[0-9a-z-]+\\.olark\\.com',
             '^https?://[a-z\\.]+\\.twitter\\.com',
+            '^https?://[a-z]+\\.ignimgs\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
-            '^https?://[0-9a-z]+\\.fjcdn\\.com',
-            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
             '^https?://[0-9a-z-]+\\.ltvimg\\.com',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
@@ -390,34 +431,26 @@ var options = {
             '^https?://api-maps\\.yandex\\.ru',
             '^https?://api-public\\.addthis\\.com',
             '^https?://api\\.bit\\.ly',
-            '^https?://(?:api|api-read)\\.facebook\\.com',
+            '^https?://api\\.recaptcha\\.net',
             '^https?://api\\.soundcloud\\.com',
             '^https?://apps\\.skypeassets\\.com',
-            '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
-            '^https?://api\\.recaptcha\\.net',
-            '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://auth\\.tbn\\.ru',
-            '^https?://[0-9a-z\\.]+\\.akamai\\.net',
-            '^https?://[0-9a-z\\.]*\\.?browserid\\.org',
-            '^https?://cdn\\.gigya\\.com',
-            '^https?://cdn\\.gradientbot\\.com',
+            '^https?://badoocdn\\.com',
             '^https?://connect\\.facebook\\.net',
+            '^https?://connect\\.mail\\.ru',
             '^https?://connect\\.sensiolabs\\.com',
             '^https?://css\\.yandex\\.net',
-            '^https?://img-css\\.friends\\.yandex\\.net',
-            '^https?://my\\.ya\\.ru',
             '^https?://fastcache\\.gawkerassets\\.com',
             '^https?://fonts\\.gizmodo\\.com',
-            '^https?://js\\.gotophotels\\.ru',
-            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
+            '^https?://img-css\\.friends\\.yandex\\.net',
             '^https?://internal\\.immogames\\.cdnvideo\\.ru',
             '^https?://ipinfodb\\.com',
+            '^https?://js\\.gotophotels\\.ru',
             '^https?://live\\.nhle\\.com',
-            '^https?://[0-9a-z\\.]+\\.longtailvideo\\.com',
-            '^https?://[0-9a-z\\.]+\\.edgecastcdn\\.net',
-            '^https?://[0-9a-z\\.]+\\.cdnvideo\\.ru',
+            '^https?://login\\.vk\\.com',
             '^https?://mat1\\.gtimg\\.com',
-            '^https?://www\\.redditstatic\\.com',
+            '^https?://my\\.ya\\.ru',
+            '^https?://onlywire\\.com',
             '^https?://rutube\\.ru',
             '^https?://badoocdn\\.com',
             '^https?://s\\d+\\.addthis\\.com/js',
@@ -425,6 +458,7 @@ var options = {
             '^https?://script\\.aculo\\.us',
             '^https?://secure\\.gravatar\\.com',
             '^https?://secure\\.skypeassets\\.com',
+            '^https?://sstatic\\.net',
             '^https?://st\\.drweb\\.com',
             '^https?://static\\.addtoany\\.com',
             '^https?://static\\.ak\\.fbcdn\\.net',
@@ -434,18 +468,16 @@ var options = {
             '^https?://static\\.myopera\\.com',
             '^https?://static\\.polldaddy\\.com',
             '^https?://translate\\.googleusercontent\\.com',
-            '^https?://onlywire\\.com',
             '^https?://userapi\\.com',
-            '^https?://login\\.vk\\.com',
-            '^https?://vkontakte\\.ru',
             '^https?://vk\\.com',
+            '^https?://vkontakte\\.ru',
             '^https?://www\\.bing\\.com',
             '^https?://www\\.browserscope\\.org',
             '^https?://www\\.gamehive\\.ru',
             '^https?://www\\.paypalobjects\\.com',
-            '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
+            '^https?://www\\.redditstatic\\.com',
             '^https?://yandex\\.st',
-            '^https?://yuilibrary\\.com',
+            '^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)', // letitbit
             // TODO:
             // See comment before. That idea ends here.
             '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',
@@ -593,7 +625,7 @@ var options = {
                 delElement(overlay);
             } else {
                 delete options.stop;
-                self.close();
+                window.close();
             }
         };
         this.stop = overlay.close;
@@ -633,11 +665,7 @@ var options = {
         area.clear = function (num) {
 
             this.innerHTML = '';
-            /*
-            while (this.firstChild) {
-                this.removeChild(this.firstChild);
-            }
-            */
+            //while (this.firstChild) this.removeChild(this.firstChild);
 
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
@@ -717,8 +745,8 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            //textarea.rows = global ? '34' : '10';
-            textarea.rows = '100';
+            textarea.rows = global ? '40' : '14';
+            //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
@@ -919,7 +947,7 @@ var options = {
             this.appendChild(p);
             var textarea = document.createElement('textarea');
             textarea.id = 'noads_jsblocks_textarea';
-            textarea.rows = '100';
+            textarea.rows = '12';
             textarea.cols = '100';
             textarea.className = 'noads_site_textarea';
             textarea.spellcheck = false;
@@ -935,7 +963,7 @@ var options = {
                 var textarea = document.getElementById('noads_jsblocks_textarea');
                 var val = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).replace(/^\s+|\r|\s+$/g, '');
                 if (val) {
-                    val = val.replace(/[*+?^=!${}()|[\]\\]|\.(?!\w)/g, '\\$&').replace(/\n+/g, '|');
+                    val = val.replace(/[*+?^=!${}()\.|[\]\\]|\.(?!\w)/g, '\\$&').replace(/http:/gi,'https?:').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
                     alert(lng.pBlockedAdded + ' ' + val);
@@ -1029,7 +1057,7 @@ var options = {
             block.className = 'noads_subscriptions_block';
 
             this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyList and EasyPrivacy combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+            this.createCheckboxButton.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
             this.createCheckboxButton.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
             this.createCheckboxButton.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
             this.createCheckboxButton.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
