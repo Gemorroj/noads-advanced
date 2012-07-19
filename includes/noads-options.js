@@ -408,7 +408,7 @@ var options = {
             '^https?://[0-9a-z-]+\\.wlxrs\\.com',
             '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
             '^https?://[0-9a-z-\\.]*zohostatic\\.com',
-            '^https?://[0-9a-z-]+\.akamai(?:hd)?\.net',
+            '^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net',
             '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
             '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
             '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
