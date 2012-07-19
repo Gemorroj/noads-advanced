@@ -7,7 +7,7 @@ html.setAttribute('xml:lang', window.navigator.language);
 function onMessageHandler (e) {
     if (!e || !e.data) return;
     // if we want to interact with the menu from injected script
-    if (decodeMessage(e.data).type === 'menu_status_enable') {
+    if (decodeMessage(e.data).type === 'status_enabled') {
         if (document && document.body) {
             document.body.style.color = 'black';
         }
@@ -21,7 +21,7 @@ function sendCommand (message) {
             theport.postMessage(encodeMessage(message));
         } catch(e) {}
     }
-    self.close();
+    window.close();
 }
 
 
@@ -72,7 +72,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     if (theport) {
         try {
-            theport.postMessage(encodeMessage({type: 'ask_menu_status'}));
+            theport.postMessage(encodeMessage({type: 'ask_status'}));
         } catch(e) {}
     }
 
