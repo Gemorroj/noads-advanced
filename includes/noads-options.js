@@ -477,7 +477,7 @@ var options = {
             '^https?://www\\.paypalobjects\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://yandex\\.st',
-            '^https?://94\\.198\\.241\\.1[4|5][0-9]', // letitbit
+            '^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)', // letitbit
             // TODO:
             // See comment before. That idea ends here.
             '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',
