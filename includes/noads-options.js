@@ -380,7 +380,7 @@ var options = {
             //   Load list from separate and(or) JSON file using resource loader (12+).
             '^https?://cdn\\d*\\.', // content delivery networks >_<
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
-            '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
+            '^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+',
             '^https?://(?:api|api-read)\\.facebook\\.com',
             '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
             '^https?://yuilibrary\\.com',
