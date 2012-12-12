@@ -253,10 +253,10 @@ var options = {
 
     setRawRulesSite: function (name, value, domain) {
         if (typeof domain === 'undefined') return;
-        var isNotEmptyRules = (value.replace(/\s/g,'').length !== 0),
+        var isNotEmptyRules = (value.replace(/\s/g, '').length !== 0),
             vpos = value.indexOf('##'),
             tmp = getValue(name).split('\n');
-        
+
         if (isNotEmptyRules) {
             // check rule correctness
             if (vpos === -1) {
@@ -281,7 +281,7 @@ var options = {
             }
         }
 
-        for (var rpos, rule, i = tmp.length; i--; ) {
+        for (var rpos, rule, i = tmp.length; i--;) {
             rule = tmp[i];
             rpos = rule.indexOf('##');
             if (rpos !== -1 && options.isCorrectDomain(domain, rule.slice(0, rpos))) {
@@ -390,7 +390,7 @@ var options = {
             //   Load list from separate and(or) JSON file using resource loader (12+).
             '^https?://cdn\\d*\\.', // content delivery networks >_<
             '^https?://(?:apis|maps|plus)+\\.google\\.com',
-            '^https?://www\\.google\\.com/(?:uds|cse|jsapi|recaptcha|support|s2)+',
+            '^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+',
             '^https?://(?:api|api-read)\\.facebook\\.com',
             '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
             '^https?://yuilibrary\\.com',
@@ -401,10 +401,11 @@ var options = {
             '^https?://(?:[0-9a-z-]*\\.)?solvemedia.com',
             '^https?://[0-9a-z-\\.]+\\.com\\.com',
             '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
-            '^https?://[0-9a-z-]*\\.cloudfront\\.net',
-            '^https?://[0-9a-z-]*\\.disqus\\.com',
-            '^https?://[0-9a-z-]*\\.googleapis\\.com',
-            '^https?://[0-9a-z-]*\\.yahooapis\\.com',
+            '^https?://[0-9a-z-]+\\.cloudfront\\.net',
+            '^https?://[0-9a-z-\\.]+\\.disqus\\.com',
+            '^https?://[0-9a-z-]+\\.googleapis\\.com',
+            '^https?://[0-9a-z-]+\\.googlecode\\.com',
+            '^https?://[0-9a-z-]+\\.yahooapis\\.com',
             '^https?://[0-9a-z-]+\\.appspot\\.com',
             '^https?://[0-9a-z-]+\\.ea\\.com',
             '^https?://[0-9a-z-]+\\.github\\.com',
@@ -417,7 +418,7 @@ var options = {
             '^https?://[0-9a-z-]+\\.wlxrs\\.com',
             '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
             '^https?://[0-9a-z-\\.]*zohostatic\\.com',
-            '^https?://[0-9a-z-]+\.akamai(?:hd)?\.net',
+            '^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net',
             '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
             '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
             '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
@@ -431,6 +432,7 @@ var options = {
             '^https?://[a-z\\.]+\\.twitter\\.com',
             '^https?://[a-z]+\\.ignimgs\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
+            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
             '^https?://ajax\\.aspnetcdn\\.com',
@@ -483,7 +485,7 @@ var options = {
             '^https?://www\\.paypalobjects\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://yandex\\.st',
-            '^https?://94\\.198\\.241\\.153', // letitbit
+            '^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)', // letitbit
             // TODO:
             // See comment before. That idea ends here.
             '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',

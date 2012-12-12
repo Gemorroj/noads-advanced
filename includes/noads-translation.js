@@ -646,8 +646,8 @@ var TRANSLATION = function () {
             uLastUpdate: 'Last update:',
             uInterval: 'Update interval (days):',
             pAutoUpdateComplete: 'NoAds Advanced autoupdated',
-            baseMenuWidth: 145, 
-            baseMenuHeight: 150
+            baseMenuWidth: 150, 
+            baseMenuHeight: 155
         }
     }
 }; //TRANSLATION

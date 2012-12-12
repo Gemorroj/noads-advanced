@@ -12,7 +12,7 @@ window.addEventListener('load', function () {
             icon: 'icons/icon18.png',
             popup: {
                 href: 'menu.html',
-                width: lng.baseMenuWidth || 180,
+                width: lng.baseMenuWidth || 150,
                 height: lng.baseMenuHeight || 155
             },
             badge: {
@@ -49,7 +49,7 @@ window.addEventListener('load', function () {
         // if we got a message fom the menu
         if (e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
             atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
-        } else {           
+        } else {
             // if we got a message fom a page
             if (notification_text !== '') {
                 atab.postMessage(encodeMessage({

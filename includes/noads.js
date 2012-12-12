@@ -260,7 +260,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 addStyle(quickButtonCSS, 'qbCSS');
                 window.addEventListener('mousemove', showQuickButton, false);
             }
-            
+
             sendMessage({type: 'status_enabled'});
         }
     }
