@@ -3,6 +3,16 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*

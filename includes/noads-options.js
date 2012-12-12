@@ -3,6 +3,16 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
@@ -12,14 +22,15 @@
 
 
 // styles for option pages
-var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;width:auto;margin:50px;padding:1%;}\
+var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;height:100%;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
+.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;margin:0px;padding:1%;height:95%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
-.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;height:95%;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
+.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
 .noads_content .inline{position:relative;display:inline-block;float:right;margin-top:-48px;margin-right:-10px;}\
 .noads_content .inline-clean{position:relative;display:inline-block;margin-top:-28px;}\
+.noads_content .button_area {height:8%;}\
 .noads_content button{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;background-image:none !important;width:auto;height:auto;display:inline-block;float:left;background-color:#f5f5f5 !important;border:1px solid #dedede;border-top:1px solid #eee;border-left:1px solid #eee;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:100%;line-height:130%;text-decoration:none;vertical-align:middle;font-weight:700;color:#565656;cursor:pointer !important;opacity:1;z-index:1000005 !important;margin:10px 10px 5px 0;padding:5px 10px 6px 7px;}\
 .noads_content button.unchecked{opacity:0.5;}\
 .noads_content button img{display: inline-block;border:none;width:16px;height:16px;margin:0 3px -3px 0 !important;padding:0;}\
@@ -31,8 +42,7 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
 .noads_area{height: 100%; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
-.noads_content textarea{height: 92%; border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
-.noads_site_textarea{height: 29% !important;}\
+.noads_content textarea{ border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;resize:vertical;width:100%;height:92%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:0;}\
@@ -636,7 +646,8 @@ var options = {
         close.title = lng.pClose;
         close.onclick = overlay.close;
 
-        win.appendChild(close);
+        if(!global) win.appendChild(close);
+
         win.createMenu = function () {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
@@ -659,10 +670,8 @@ var options = {
         area.className = 'noads_area';
 
         area.clear = function (num) {
-
             this.innerHTML = '';
             //while (this.firstChild) this.removeChild(this.firstChild);
-
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
@@ -741,7 +750,8 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.rows = global ? '40' : '14';
+            textarea.style.height = global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px';
             //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
@@ -756,6 +766,11 @@ var options = {
             }
 
             return textarea;
+        };
+        area.createButtonArea = function() {
+            var button_area = document.createElement('div');
+            button_area.className = 'button_area';
+            return button_area;
         };
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
@@ -805,62 +820,70 @@ var options = {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
             this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val);
                 options.setWhiteList('noads_userlist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
             this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val);
                 options.setWhiteList('noads_list_white', val);
             }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
             this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+            
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_scriptlist', val);
                 options.setWhiteList('noads_scriptlist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
             this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_magiclist', val);
                 options.setWhiteList('noads_magiclist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
@@ -868,18 +891,20 @@ var options = {
             this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
                 sendMessage({ type: 'reload_rules', global: false, clear: !options.checkEnabled('noads_userurlfilterlist_state')});
             }));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
                 sendMessage({ type: 'reload_rules', global: false, clear: false });
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showURLfilters = function (pos) {
             this.clear(pos);
@@ -887,18 +912,20 @@ var options = {
             this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
                 sendMessage({ type: 'reload_rules', global: true, clear: !options.checkEnabled('noads_urlfilterlist_state')});
             });
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
                 sendMessage({ type: 'reload_rules', global: true, clear: false });
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
 
         area.showSitePreferences = function (pos) {
@@ -1110,15 +1137,17 @@ var options = {
                 sendMessage({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
             }));
 
-            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
             options.setLastUpdate(lastUpdateNode);
 
-            this.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
+            button_area.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
             }));
+            this.appendChild(button_area);
 
         };
         area.showHelp = function (pos) {

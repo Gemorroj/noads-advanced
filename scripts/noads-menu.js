@@ -75,6 +75,6 @@ window.addEventListener('DOMContentLoaded', function () {
             theport.postMessage(encodeMessage({type: 'ask_status'}));
         } catch(e) {}
     }
-
+    
     document.body.style.color = enabled ? 'black' : 'gray';
 }, false);
