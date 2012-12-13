@@ -22,6 +22,12 @@ body {
     padding-bottom: 6px !important;
     border-bottom: 1px solid #aaa !important;
 }
+.on {
+    color: black;
+}
+.off {
+    color: tomato;
+}
 
 #block_ads:lang(ru), #block_ads:lang(ru-RU) {content: '\0421 \043E \0437 \0434 \0430 \0442 \044C  \043E \0431 \0449 \0435 \0435  \043F \0440 \0430 \0432 \0438 \043B \043E '}
 #block_ele:lang(ru), #block_ele:lang(ru-RU) {content: '\0421 \043E \0437 \0434 \0430 \0442 \044C  \0447 \0430 \0441 \0442 \043D \043E \0435  \043F \0440 \0430 \0432 \0438 \043B \043E '}

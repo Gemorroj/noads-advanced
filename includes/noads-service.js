@@ -192,21 +192,6 @@ var run = {
             }, 4000);
         }
     },
-    // disable and enable blocking globally
-    // Not used at this time
-    toggleBlocking: function (block) {
-        if (block && !options.checkEnabled('noads_disable')) {
-            sendMessage({ type: 'reload_rules', global: false, clear: true });
-            sendMessage({ type: 'reload_rules', global: true, clear: true });
-            options.setEnabled('noads_disable', true);
-            this.setStatus(lng.globallyDisabled); //TODO:add to translation file
-        } else {
-            sendMessage({ type: 'reload_rules', global: false, clear: false });
-            sendMessage({ type: 'reload_rules', global: true, clear: false });
-            options.setEnabled('noads_disable', false);
-            this.setStatus(lng.globallyEnabled); //TODO:add to translation file
-        }
-    },
     // disable and enable blocking for current site
     toggleBlockingSite: function (block) {
         if (arguments.length ? !block : options.getForSite(domain)) {

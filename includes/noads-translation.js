@@ -99,7 +99,7 @@ var TRANSLATION = function () {
             uLastUpdate: '\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435:',
             uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):',
             baseMenuWidth: 180,
-            baseMenuHeight: 160
+            baseMenuHeight: 170
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -647,7 +647,7 @@ var TRANSLATION = function () {
             uInterval: 'Update interval (days):',
             pAutoUpdateComplete: 'NoAds Advanced autoupdated',
             baseMenuWidth: 150, 
-            baseMenuHeight: 155
+            baseMenuHeight: 170
         }
     }
 }; //TRANSLATION

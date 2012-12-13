@@ -1,68 +1,62 @@
-var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0;
+var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0, disabled = options.checkEnabled('noads_disabled'),
+    v12 = (typeof opera.extension.tabGroups !== 'undefined');
+
+function toggleExtension () {
+    if (disabled) {
+        disabled = false;
+        importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
+        importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
+    } else {
+        disabled = true;
+        importer.reloadRules(true, true);
+        importer.reloadRules(false, true);
+    }
+    options.setEnabled('noads_disabled', disabled);
+}
+
+function toggleButton (e) {
+    var atab = opera.extension.tabs.getFocused();
+    button.disabled = v12 ? !atab.port : !atab;
+}
+
+function setButtonState (port, state) {
+    if (v12) {
+        // in case source tab is active
+        if (port === opera.extension.tabs.getFocused().port) {
+            button.disabled = !state;
+        }
+    }
+}
+
+function onConnectHandler (e) {
+    var atab = opera.extension.tabs.getFocused();
+    if (!atab || !e) return;
+    // if we got a message fom the menu
+    if (e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
+        atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
+    } else {
+        // if we got a message fom a page
+        if (notification_text !== '') {
+            atab.postMessage(encodeMessage({
+                type: 'noadsadvanced_autoupdate',
+                text: notification_text
+            }));
+            notification_text = '';
+        }
+
+        if (disabled) {
+            atab.postMessage(encodeMessage({
+                type: 'disable_noads'
+            }));
+        }            
+        // button will be disabled for new tabs
+        setButtonState(e.source, false);
+    }
+}
 
 window.addEventListener('load', function () {
     var debug = options.checkEnabled('noads_debug_enabled_state'),
-        lng = new TRANSLATION (),
-        v12 = (typeof opera.extension.tabGroups !== 'undefined');
-
-    if (options.checkEnabled('noads_tb_enabled_state')) {
-        button = opera.contexts.toolbar.createItem({
-            disabled: true,
-            title: 'NoAds Advanced',
-            icon: 'icons/icon18.png',
-            popup: {
-                href: 'menu.html',
-                width: lng.baseMenuWidth || 150,
-                height: lng.baseMenuHeight || 155
-            },
-            badge: {
-                display: 'none',
-                textContent: '0',
-                color: 'white',
-                backgroundColor: 'rgba(211, 0, 4, 1)'
-            }
-        });
-        opera.contexts.toolbar.addItem(button);
-    } else {
-        button = {
-            disabled: true
-        };
-    }
-
-    function toggleButton (e) {
-        var atab = opera.extension.tabs.getFocused();
-        button.disabled = v12 ? !atab.port : !atab;
-    }
-    
-    function setButtonState (port, state) {
-        if (v12) {
-            // in case source tab is active
-            if (port === opera.extension.tabs.getFocused().port) {
-                button.disabled = !state;
-            }
-        }
-    }
-
-    function onConnectHandler (e) {
-        var atab = opera.extension.tabs.getFocused();
-        if (!atab || !e) return;
-        // if we got a message fom the menu
-        if (e.origin && ~e.origin.indexOf('menu.html') && ~e.origin.indexOf('widget://')) {
-            atab.postMessage(encodeMessage({ type: 'noads_bg_port' }), [e.source]);
-        } else {
-            // if we got a message fom a page
-            if (notification_text !== '') {
-                atab.postMessage(encodeMessage({
-                    type: 'noadsadvanced_autoupdate',
-                    text: notification_text
-                }));
-                notification_text = '';
-            }
-            
-            // button will be disabled for new tabs
-            setButtonState(e.source, false);
-        }
-    }
+        lng = new TRANSLATION ();
 
     function onMessageHandler (e) {
         var message = decodeMessage(e.data);
@@ -162,6 +156,35 @@ window.addEventListener('load', function () {
         }
     }
 
+    if (options.checkEnabled('noads_tb_enabled_state')) {
+        button = opera.contexts.toolbar.createItem({
+            disabled: true,
+            title: 'NoAds Advanced',
+            icon: 'icons/icon18.png',
+            popup: {
+                href: 'menu.html',
+                width: lng.baseMenuWidth || 150,
+                height: lng.baseMenuHeight || 170
+            },
+            badge: {
+                display: 'none',
+                textContent: '0',
+                color: 'white',
+                backgroundColor: 'rgba(211, 0, 4, 1)'
+            }
+        });
+        opera.contexts.toolbar.addItem(button);
+    } else {
+        button = {
+            disabled: true
+        };
+    }
+
+    // Enable the button when a tab is ready.
+    opera.extension.onconnect = onConnectHandler;
+    opera.extension.tabs.onfocus = toggleButton;
+    opera.extension.onmessage = onMessageHandler;
+
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < Date.now()) {
@@ -178,13 +201,9 @@ window.addEventListener('load', function () {
         }
     }
 
+    if (options.checkEnabled('noads_disabled')) return;
+
     // adding URL filters on load
     importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
     importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
-
-    // Enable the button when a tab is ready.
-    opera.extension.onconnect = onConnectHandler;
-    opera.extension.tabs.onfocus = toggleButton;
-    //opera.extension.tabs.onblur = toggleButton;
-    opera.extension.onmessage = onMessageHandler;
 }, false);

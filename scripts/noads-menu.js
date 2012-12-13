@@ -24,6 +24,19 @@ function sendCommand (message) {
     window.close();
 }
 
+function setToggleMenuItem () {
+    var background = opera.extension.bgProcess,
+        is_enabled = !background.disabled,
+        menuitem = document.getElementById('toggle_extension');
+
+    menuitem.className = is_enabled ? 'end on' : 'end off';
+    menuitem.innerText = is_enabled ? 'Disable extension' : 'Enable extension';
+}
+
+function toggleExtension () {
+    opera.extension.bgProcess.toggleExtension();
+    setToggleMenuItem();
+}
 
 if (opera.extension) {
     opera.extension.onmessage = function (e) {
@@ -65,6 +78,7 @@ window.addEventListener('DOMContentLoaded', function () {
     document.getElementById('unblock_latest').onclick = function () { sendCommand({type: 'unblock_latest'}) };
     document.getElementById('show_preferences').onclick = function () { sendCommand({type: 'show_preferences'}) };
     document.getElementById('content_block_helper').onclick = function () { sendCommand({type: 'content_block_helper'}) };
+    document.getElementById('toggle_extension').onclick = function () { toggleExtension() };
 
     if (theport) {
         try {
@@ -73,4 +87,5 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     document.body.style.color = enabled ? 'black' : 'gray';
+    setToggleMenuItem();
 }, false);

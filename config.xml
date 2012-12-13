@@ -25,6 +25,7 @@
   <preference name="noads_autoupdate_state" value="enabled" />
   <preference name="noads_autoupdate_notification_state" value="disabled" />
   <preference name="noads_autoupdate_interval" value="86400000" />
+  <preference name="noads_disabled" value="disabled" />
   <!-- CSS selectors and URL filter subscription sites. -->
   <access origin="*" subdomains="true" />
 <!--

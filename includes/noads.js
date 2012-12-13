@@ -21,7 +21,7 @@
 // ==/UserScript==
 
 // global variables
-var debug = options.checkEnabled('noads_debug_enabled_state'),
+var debug = false,
     lng = new TRANSLATION(),
     loaded = false,
     notification_text = '',
@@ -69,6 +69,10 @@ function onPopupMessageHandler(e) {
     // Parse menu messages
     var message = decodeMessage(e.data);
     if (options.locked) return;
+    if (message.type === 'ask_status') {
+        e.source.postMessage(encodeMessage({type: 'status_enabled'}));
+    }  
+    if (options.checkEnabled('noads_disabled')) return;
     if (message.type) {
         switch (message.type) {
             case 'block_ads':
@@ -88,9 +92,6 @@ function onPopupMessageHandler(e) {
                 break;
             case 'show_preferences':
                 options.showPreferences(domain);
-                break;
-            case 'ask_status':
-                e.source.postMessage(encodeMessage({type: 'status_enabled'}));
                 break;
         }
     }
@@ -232,48 +233,23 @@ function setupMagic() {
     }
 }
 
-// On document load
-window.addEventListener('DOMContentLoaded', function () {
-    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
-        delElement(document.getElementById('sCSS'));
-        delElement(document.getElementById('uCSS'));
-        delElement(document.getElementById('qbCSS'));
-        window.removeEventListener('mousemove', showQuickButton, false);
-        window.removeEventListener('keydown', onHotkeyHandler, false);
-    } else {
-        // don't want that in a frames
-        if (window.top === window.self) {
-            loaded = true;
-
-            if (notification_text !== '') {
-                onNotifyUser(notification_text);
-                notification_text = '';
-            }
-            // Setup hotkeys
-            window.addEventListener('keydown', onHotkeyHandler, false);
-
-            // Create menu messaging channel and parse background messages
-            opera.extension.onmessage = onMessageHandler;
-
-            if (options.checkEnabled('noads_button_state')) {
-                log('Button is enabled...');
-                addStyle(quickButtonCSS, 'qbCSS');
-                window.addEventListener('mousemove', showQuickButton, false);
-            }
-
-            sendMessage({type: 'status_enabled'});
-        }
-    }
-}, true);
-
 // Main body
 (function () {
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
+
+    // we can only work with options after checking this
     if (typeof storage === "undefined" || !storage) {
         run.setStatus(lng.iNoQuota);
         window.alert(lng.iNoQuota);
         return;
     }
+
+    debug = options.checkEnabled('noads_debug_enabled_state');
+
+    // Create menu messaging channel and parse messages from the background
+    opera.extension.onmessage = onMessageHandler;
+
+    if (options.checkEnabled('noads_disabled')) return;
 
     // CSS failsafe handling
     try {
@@ -298,7 +274,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    if (blockingArray.length) {
+    if (debug && blockingArray.length) {
         log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
     }
 
@@ -306,3 +282,34 @@ window.addEventListener('DOMContentLoaded', function () {
         setupMagic();
     }
 })();
+
+// On the document load
+window.addEventListener('DOMContentLoaded', function () {
+    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+        delElement(document.getElementById('sCSS'));
+        delElement(document.getElementById('uCSS'));
+        delElement(document.getElementById('qbCSS'));
+        window.removeEventListener('mousemove', showQuickButton, false);
+        window.removeEventListener('keydown', onHotkeyHandler, false);
+    } else {
+        // don't want that in a frames
+        if (window.top === window.self) {
+            loaded = true;
+
+            if (notification_text !== '') {
+                onNotifyUser(notification_text);
+                notification_text = '';
+            }
+            // Setup hotkeys
+            window.addEventListener('keydown', onHotkeyHandler, false);
+
+            if (options.checkEnabled('noads_button_state')) {
+                log('Button is enabled...');
+                addStyle(quickButtonCSS, 'qbCSS');
+                window.addEventListener('mousemove', showQuickButton, false);
+            }
+
+            sendMessage({type: 'status_enabled'});
+        }
+    }
+}, true);

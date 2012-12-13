@@ -226,12 +226,11 @@ var options = {
                 }
             }
         }
-        for (i = 0, l = tmp.length; i < l; i++) {
+        for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
             if (global) {
                 rez.push(rule);
-            } else if (domain && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+            } else if (domain && (pos = rule.indexOf('##')) > 0 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
                 rez.push(rule);
             }
         }
