@@ -52,7 +52,8 @@ function onConnectHandler (e) {
 
 window.addEventListener('load', function () {
     var debug = options.checkEnabled('noads_debug_enabled_state'),
-        lng = new TRANSLATION ();
+        lng = new TRANSLATION (),
+        mlng = new MENU_TRANSLATION ();
 
     function onMessageHandler (e) {
         var message = decodeMessage(e.data);
@@ -161,8 +162,8 @@ window.addEventListener('load', function () {
             icon: 'icons/icon18.png',
             popup: {
                 href: 'menu.html',
-                width: lng.baseMenuWidth || 150,
-                height: lng.baseMenuHeight || 170
+                width: mlng.baseMenuWidth || 150,
+                height: mlng.baseMenuHeight || 170
             },
             badge: {
                 display: 'none',
@@ -204,32 +205,32 @@ window.addEventListener('load', function () {
 
         var menus = [], menuitems = [
         {
-            title: 'Create general rule',
+            title: mlng.blockAds,
             onclick: function (event) {
                 sendMenuRequest('block_ads');
             }
         }, {
-            title: 'Create accurate rule',
+            title: mlng.blockEle,
             onclick: function (event) {
                 sendMenuRequest('block_ele');
             }
         }, {
-            title: 'Unblock...',
+            title:  mlng.unblockEle,
             onclick: function (event) {
                 sendMenuRequest('unblock_ele');
             }
         }, {
-            title: 'Unblock latest',
+            title: mlng.unblockLatest,
             onclick: function (event) {
                 sendMenuRequest('unblock_latest');
             }
         }, {
-            title: 'Content block helper',
+            title: mlng.contentBlockHelper,
             onclick: function (event) {
                 sendMenuRequest('content_block_helper');
             }
         }, {
-            title: 'Site preferences',
+            title: mlng.preferences,
             onclick: function (event) {
                 sendMenuRequest('show_preferences');
             }

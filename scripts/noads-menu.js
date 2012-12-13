@@ -4,6 +4,8 @@ var html = document.querySelector('html');
 html.setAttribute('lang', window.navigator.language);
 html.setAttribute('xml:lang', window.navigator.language);
 
+var mlng = new MENU_TRANSLATION ();
+
 function onMessageHandler (e) {
     if (!e || !e.data) return;
     // if we want to interact with the menu from injected script
@@ -29,8 +31,8 @@ function setToggleMenuItem () {
         is_enabled = !background.disabled,
         menuitem = document.getElementById('toggle_extension');
 
-    menuitem.className = is_enabled ? 'end on' : 'end off';
-    menuitem.innerText = is_enabled ? 'Disable extension' : 'Enable extension';
+    menuitem.className = is_enabled ? 'on' : 'off';
+    menuitem.innerText = is_enabled ? mlng.toggleExtensionOn : mlng.toggleExtensionOff;
 }
 
 function toggleExtension () {
@@ -72,13 +74,31 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     } catch (bug) {}
 
-    document.getElementById('block_ads').onclick = function () { sendCommand({type: 'block_ads'}) };
-    document.getElementById('block_ele').onclick = function () { sendCommand({type: 'block_ele'}) };
-    document.getElementById('unblock_ele').onclick = function () { sendCommand({type: 'unblock_ele'}) };
-    document.getElementById('unblock_latest').onclick = function () { sendCommand({type: 'unblock_latest'}) };
-    document.getElementById('show_preferences').onclick = function () { sendCommand({type: 'show_preferences'}) };
-    document.getElementById('content_block_helper').onclick = function () { sendCommand({type: 'content_block_helper'}) };
-    document.getElementById('toggle_extension').onclick = function () { toggleExtension() };
+    var block_ads = document.getElementById('block_ads'),
+        block_ele = document.getElementById('block_ele'),
+        unblock_ele = document.getElementById('unblock_ele'),
+        unblock_latest = document.getElementById('unblock_latest'),
+        show_preferences = document.getElementById('show_preferences'),
+        content_block_helper = document.getElementById('content_block_helper'),
+        toggle_extension = document.getElementById('toggle_extension');
+    
+    if (window.navigator.language !== 'en') {
+        block_ads.innerText = mlng.blockAds;
+        block_ele.innerText = mlng.blockEle;
+        unblock_ele.innerText = mlng.unblockEle;
+        unblock_latest.innerText = mlng.unblockLatest;
+        show_preferences.innerText = mlng.preferences;
+        content_block_helper.innerText = mlng.contentBlockHelper;
+    }
+    setToggleMenuItem();
+
+    block_ads.onclick = function () { sendCommand({type: 'block_ads'}); };
+    block_ele.onclick = function () { sendCommand({type: 'block_ele'}); };
+    unblock_ele.onclick = function () { sendCommand({type: 'unblock_ele'}); };
+    unblock_latest.onclick = function () { sendCommand({type: 'unblock_latest'}); };
+    show_preferences.onclick = function () { sendCommand({type: 'show_preferences'}); };
+    content_block_helper.onclick = function () { sendCommand({type: 'content_block_helper'}); };
+    toggle_extension.onclick = function () { toggleExtension() };
 
     if (theport) {
         try {
@@ -87,5 +107,5 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     document.body.style.color = enabled ? 'black' : 'gray';
-    setToggleMenuItem();
+
 }, false);
