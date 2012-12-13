@@ -1,5 +1,19 @@
+/*
+The main idea is to convey the content, so do not be afraid to localize
+the original text with something different (something that fits, of course).
+Read the original text, understand its content, and consider how you would formulate
+the text in your language (without first having heard of the original).
+
+All non-ascii text should be properly JavaSript-escaped.
+*/
+
 var MENU_TRANSLATION = function () {
     switch (window.navigator.language) {
+        case 'ru-RU':
+        case 'ru_RU':
+        case 'uk':
+        case 'uz':
+        case 'be':
         case 'ru': return {
             blockAds: '\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u0431\u0449\u0435\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e',
             blockEle: '\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0447\u0430\u0441\u0442\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e',
@@ -13,8 +27,8 @@ var MENU_TRANSLATION = function () {
             baseMenuWidth: 180,
             baseMenuHeight: 170
         };
-    	case 'es-ES':
-		case 'es-AR':
+        case 'es-ES':
+        case 'es-AR':
         case 'es': return {
             blockAds: 'Bloquear anuncio',
             blockEle: 'Bloquear elemento',
@@ -58,6 +72,8 @@ var MENU_TRANSLATION = function () {
             toggleExtensionOn: 'Disable extension',
             toggleExtensionOff: 'Enable extension'
         };
+        // International English (en)
+        // Contributor: <author> <additional-info>
         default: return {
             blockAds: 'Create general rule',
             blockEle: 'Create accurate rule',

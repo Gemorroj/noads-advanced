@@ -215,7 +215,7 @@ window.addEventListener('load', function () {
                 sendMenuRequest('block_ele');
             }
         }, {
-            title:  mlng.unblockEle,
+            title: mlng.unblockEle,
             onclick: function (event) {
                 sendMenuRequest('unblock_ele');
             }
@@ -241,7 +241,7 @@ window.addEventListener('load', function () {
         }
 
         // Add the menu item to the context menu
-        menu.addItem(item);
+        menu.addItem(item, 1);
         // Add the sub-menu items to the main menu item
         for (var i = 0; i < menus.length; i++) {
             item.addItem(menus[i]);
