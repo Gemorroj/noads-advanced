@@ -1160,6 +1160,7 @@ var options = {
 
             this.appendChild(this.createCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
             this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
+            this.appendChild(this.createCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
         };
 
         if (domain) {

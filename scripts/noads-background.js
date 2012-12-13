@@ -1,5 +1,6 @@
-var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0, disabled = options.checkEnabled('noads_disabled'),
-    v12 = (typeof opera.extension.tabGroups !== 'undefined');
+var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0,
+    disabled = options.checkEnabled('noads_disabled'),
+    v12 = ( typeof opera.extension.tabGroups !== 'undefined');
 
 function toggleExtension () {
     if (disabled) {
@@ -44,11 +45,6 @@ function onConnectHandler (e) {
             notification_text = '';
         }
 
-        if (disabled) {
-            atab.postMessage(encodeMessage({
-                type: 'disable_noads'
-            }));
-        }            
         // button will be disabled for new tabs
         setButtonState(e.source, false);
     }
@@ -70,7 +66,8 @@ window.addEventListener('load', function () {
                 setButtonState(e.source, true);
                 break;
             case 'get_filters':
-                if (!e.source) return;
+                if (!e.source)
+                    return;
 
                 if (!message.url || !message.url.length) {
                     log('URL/CSS filter import error -> invalid URL.');
@@ -82,14 +79,15 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [], importerCallback = function (rulesN) {
-                    if (rulesN) {
-                        message_success.push(message.url[subsc]);
-                        message_rules = rulesN;
-                    } else {
-                        message_fileerror.push(message.url[subsc]);
-                    }
-                };
+                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                    importerCallback = function (rulesN) {
+                        if (rulesN) {
+                            message_success.push(message.url[subsc]);
+                            message_rules = rulesN;
+                        } else {
+                            message_fileerror.push(message.url[subsc]);
+                        }
+                    };
                 for (var subsc = 0, l = message.url.length; subsc < l; subsc++) {
                     try {
                         importer.request(message.url[subsc], subsc, message.allRules, importerCallback);
@@ -153,7 +151,7 @@ window.addEventListener('load', function () {
                     window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
                 }
                 break;
-        }
+        } //switch
     }
 
     if (options.checkEnabled('noads_tb_enabled_state')) {
@@ -180,6 +178,75 @@ window.addEventListener('load', function () {
         };
     }
 
+    // Check the Context Menu API is supported
+    if (opera.contexts.menu && options.checkEnabled('noads_menu_enabled_state')) {
+        var menu = opera.contexts.menu;
+
+        // Create menu item properties objects
+        var mainmenu = {
+            title: 'NoAds Advanced',
+            type: 'folder'
+        }
+
+        // Create menu items with the specified properties
+        var item = menu.createItem(mainmenu);
+        
+        function sendMenuRequest(request) {
+            try {
+                opera.extension.tabs.getFocused().postMessage(encodeMessage({
+                    type: 'noads_context_menu',
+                    subtype: {
+                        type: request 
+                    }
+                }));
+            } catch (bug) {}
+        }
+
+        var menus = [], menuitems = [
+        {
+            title: 'Create general rule',
+            onclick: function (event) {
+                sendMenuRequest('block_ads');
+            }
+        }, {
+            title: 'Create accurate rule',
+            onclick: function (event) {
+                sendMenuRequest('block_ele');
+            }
+        }, {
+            title: 'Unblock...',
+            onclick: function (event) {
+                sendMenuRequest('unblock_ele');
+            }
+        }, {
+            title: 'Unblock latest',
+            onclick: function (event) {
+                sendMenuRequest('unblock_latest');
+            }
+        }, {
+            title: 'Content block helper',
+            onclick: function (event) {
+                sendMenuRequest('content_block_helper');
+            }
+        }, {
+            title: 'Site preferences',
+            onclick: function (event) {
+                sendMenuRequest('show_preferences');
+            }
+        }]
+
+        for (var i = 0; i < menuitems.length; i++) {
+            menus[i] = menu.createItem(menuitems[i]);
+        }
+
+        // Add the menu item to the context menu
+        menu.addItem(item);
+        // Add the sub-menu items to the main menu item
+        for (var i = 0; i < menus.length; i++) {
+            item.addItem(menus[i]);
+        }
+    }
+
     // Enable the button when a tab is ready.
     opera.extension.onconnect = onConnectHandler;
     opera.extension.tabs.onfocus = toggleButton;
@@ -201,7 +268,8 @@ window.addEventListener('load', function () {
         }
     }
 
-    if (options.checkEnabled('noads_disabled')) return;
+    if (options.checkEnabled('noads_disabled'))
+        return;
 
     // adding URL filters on load
     importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));

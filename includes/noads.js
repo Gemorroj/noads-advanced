@@ -173,6 +173,8 @@ function onMessageHandler(e) {
             onNotifyUser(notification_text);
             notification_text = '';
         }
+    } else if (message.type === 'noads_context_menu') {
+        onPopupMessageHandler({data: encodeMessage(message.subtype)});
     }
 }
 
