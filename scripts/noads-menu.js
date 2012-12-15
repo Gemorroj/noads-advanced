@@ -20,7 +20,7 @@ function onMessageHandler (e) {
 function sendCommand (message) {
     if (theport && message) {
         try {
-            theport.postMessage(encodeMessage(message));
+            theport.postMessage(encodeMessage({type: message}));
         } catch(e) {}
     }
     window.close();
@@ -92,12 +92,12 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     setToggleMenuItem();
 
-    block_ads.onclick = function () { sendCommand({type: 'block_ads'}); };
-    block_ele.onclick = function () { sendCommand({type: 'block_ele'}); };
-    unblock_ele.onclick = function () { sendCommand({type: 'unblock_ele'}); };
-    unblock_latest.onclick = function () { sendCommand({type: 'unblock_latest'}); };
-    show_preferences.onclick = function () { sendCommand({type: 'show_preferences'}); };
-    content_block_helper.onclick = function () { sendCommand({type: 'content_block_helper'}); };
+    block_ads.onclick = function () { sendCommand('block_ads'); };
+    block_ele.onclick = function () { sendCommand('block_ele'); };
+    unblock_ele.onclick = function () { sendCommand('unblock_ele'); };
+    unblock_latest.onclick = function () { sendCommand('unblock_latest'); };
+    show_preferences.onclick = function () { sendCommand('show_preferences'); };
+    content_block_helper.onclick = function () { sendCommand('content_block_helper'); };
     toggle_extension.onclick = function () { toggleExtension() };
 
     if (theport) {

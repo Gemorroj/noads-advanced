@@ -12,4 +12,4 @@ Supported two subscription formats: CSS-block (AdBlock+) and the URL-block (urlf
 License
 -------
 
-This source code licensed under the Apache License, Version 2.0.
+This source code licensed under the Apache License 2.0.

@@ -7,10 +7,12 @@ function toggleExtension () {
         disabled = false;
         importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
         importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
+        button.badge.display = "none";
     } else {
         disabled = true;
         importer.reloadRules(true, true);
         importer.reloadRules(false, true);
+        button.badge.display = "block";
     }
     options.setEnabled('noads_disabled', disabled);
 }
@@ -57,6 +59,7 @@ window.addEventListener('load', function () {
 
     function onMessageHandler (e) {
         var message = decodeMessage(e.data);
+        //console.log('[NoAdsAdv]:' + JSON.stringify(message));
         switch (message.type) {
             //case 'set_badge':
             //    button.badge.display = "block";
@@ -166,8 +169,8 @@ window.addEventListener('load', function () {
                 height: mlng.baseMenuHeight || 170
             },
             badge: {
-                display: 'none',
-                textContent: '0',
+                display: disabled ? 'block' : 'none',
+                textContent: 'off',
                 color: 'white',
                 backgroundColor: 'rgba(211, 0, 4, 1)'
             }

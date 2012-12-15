@@ -18,6 +18,8 @@
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 // global variables
@@ -239,7 +241,7 @@ function setupMagic() {
 (function () {
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
 
-    // we can only work with options after checking this
+    // We can only work with options after checking this, though it's mostly useless now.
     if (typeof storage === "undefined" || !storage) {
         run.setStatus(lng.iNoQuota);
         window.alert(lng.iNoQuota);
@@ -247,10 +249,6 @@ function setupMagic() {
     }
 
     debug = options.checkEnabled('noads_debug_enabled_state');
-
-    // Create menu messaging channel and parse messages from the background
-    opera.extension.onmessage = onMessageHandler;
-
     if (options.checkEnabled('noads_disabled')) return;
 
     // CSS failsafe handling
@@ -258,6 +256,15 @@ function setupMagic() {
         setupFiltersCSS();
     } catch (e) {
         window.opera.addEventListener('BeforeCSS', setupFiltersCSS, false);
+    }
+    
+    // Create menu messaging channel and parse messages from the background. Should we do it in frames?
+    if (window.top === window.self) {
+        opera.extension.onmessage = onMessageHandler;
+    }
+    
+    if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
+        setupMagic();
     }
 
     // Block external scripts
@@ -279,10 +286,6 @@ function setupMagic() {
     if (debug && blockingArray.length) {
         log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
     }
-
-    if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
-        setupMagic();
-    }
 })();
 
 // On the document load
@@ -291,10 +294,8 @@ window.addEventListener('DOMContentLoaded', function () {
         delElement(document.getElementById('sCSS'));
         delElement(document.getElementById('uCSS'));
         delElement(document.getElementById('qbCSS'));
-        window.removeEventListener('mousemove', showQuickButton, false);
-        window.removeEventListener('keydown', onHotkeyHandler, false);
     } else {
-        // don't want that in a frames
+        // don't want that in frames
         if (window.top === window.self) {
             loaded = true;
 
@@ -302,6 +303,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 onNotifyUser(notification_text);
                 notification_text = '';
             }
+
             // Setup hotkeys
             window.addEventListener('keydown', onHotkeyHandler, false);
 
