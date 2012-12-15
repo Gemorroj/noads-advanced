@@ -90,6 +90,10 @@ getTLD = function (domain, full) {
     if (l < 2) return domain;
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
+inArray = function(needle) {
+    for(var i = 0, l = this.length; i < l; i++) if(this[i] && (this[i] === needle)) return true;
+    return false;
+},
 unique = function () {
     var u = {}, a = [];
     for (var i = 0, l = this.length; i < l; ++i) {

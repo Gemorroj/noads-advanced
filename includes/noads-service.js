@@ -28,13 +28,14 @@ var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #F
 var outlineCSS = '1px solid #306EFF';
 var outlineBgCSS = '#C6DEFF';
 var paddingCSS = 'iframe, embed, object, audio, video {\
-padding-left: 15px !important;\
+padding-left: 20px !important;\
 background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAAc0lEQVQY02P4z4AfMlBPAQMzAzNWNlwIRPEygAA7mM3JgGYCL5gSgUrrMCgwsKEqYABKwjg6DGog09AVMDCIgZmmEGlMBexwjiREPaoCmN3GULegKoD6AmI3xC0C6CZwMijD7AZKamLzBRsQwgCYTZ24AAD8Zqzk4ASGSwAAAABJRU5ErkJggg=="),\
 -o-linear-gradient( top, rgba(220,0,0,1) 0%, rgba(255,255,255,0) 30% ) !important;\
-background-size: 15px 100%;\
+background-size: 20px 100%;\
 background-repeat: no-repeat !important;\
 background-position: 0px 0px !important;\
 z-index: 1001 !important;\
+border: 1px solid rgba(220,0,0,1) !important;\
 }';
 var contentHelperCSS = ' \
 .noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:10001;}\
@@ -42,7 +43,7 @@ var contentHelperCSS = ' \
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_helper_content{font-weight:bold;color:black;display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:visible;margin:0;padding:0;z-index:1000000;}\
 .noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
-.noads_css_img_back {padding-left:5px; background-color: white; opacity: 0.9}\
+.noads_css_img_back {padding-left:10px; background-color: white; opacity: 0.9}\
 ';
 
 
@@ -348,7 +349,7 @@ var run = {
             return;
         }
         var css, tmpCSS, padCSS, ele = null, outline = '', bgColor = '', title = '';
-
+        
         var remove = function () {
             document.removeEventListener('mouseover', over, false);
             document.removeEventListener('mouseout', out, false);
@@ -393,7 +394,7 @@ var run = {
             
             // Hide top element with Ctrl-click, can't undo.
             if (ev.ctrlKey) {
-                ele.style.zIndex = '1';
+                ele.style.height = '0px';
                 ele.style.display = 'none';
                 return;
             }
@@ -485,23 +486,6 @@ var run = {
                 case 0: // Left button
                     // Pre-filter some events for selected element and it's parents.
                     // I know it's possibly overkill and brakes the page logic until reload but..
-                    var el = ele;
-                    while(el !== null) {
-                        if (el.nodeName.toLowerCase() === 'html') {
-                            break;
-                        }
-                        el.removeAttribute('onclick');
-                        el.removeAttribute('onmousedown');
-                        el.removeAttribute('onmouseup');
-                        el.removeAttribute('onmousemove');
-                        el.removeAttribute('onmouseout');
-                        el.onclick = null;
-                        el.onmousedown = null;
-                        el.onmouseup = null;
-                        el.onmousemove = null;
-                        el.onmouseout = null;
-                        el = el.parentElement;
-                    }
                     break;
                 case 1: // Middle button
                     break;
@@ -598,14 +582,16 @@ var run = {
     contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
         if (overlay) {
-            this.blockElement(); //stop
+            if (typeof run.stop === 'function') run.stop();
             overlay.close();
             return;
         }
 
+        this.blockElement(false, true);
+
         var diffHeight = window.outerHeight - window.innerHeight,
-            scripts = document.querySelectorAll('script'),
-            objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),
+            scripts = Array.prototype.slice.call(document.querySelectorAll('script'),0),
+            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),0),
             images = [],
             resize = function () {
                 if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
@@ -681,58 +667,65 @@ var run = {
                 content.style.visibility = (content.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
 
-            if (scripts.length > 0) {
-                //scripts = unique.call(scripts);
+            for (var i = 0, l = scripts.length; i < l; i++) {
+                scripts[i] = scripts[i].src;
+            }
+            var blocked = blockedScripts.split('; ');
+            if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
+            if (scripts.length) {
+                scripts = unique.call(scripts);
 
-                for (var link, img, i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                    if (script.src && a.indexOf(script.src) === -1) {
-                        link = document.createElement('a');
-                        img = document.createElement('canvas');
+                for (var link, img, i = 0, l = scripts.length; i < l; i++) {
+                    link = document.createElement('a');
+                    img = document.createElement('canvas');
 
-                        link.href = script.src;
-                        link.target = '_blank';
-                        link.setAttribute('helpernoads', 'true');
-                        img.setAttribute('helpernoads', 'true');
-                        img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
+                    link.href = scripts[i];
+                    link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
+                    img.setAttribute('helpernoads', 'true');
+                    img.alt = 'script: ' + scripts[i].replace(/[\?&]+.*$/g, '') + ' ';
 
-                        img.className = 'noads_placeholder';
-                        img.width = 100;
-                        img.height = 20;
+                    img.className = 'noads_placeholder';
+                    img.width = 100;
+                    img.height = 20;
 
-                        drawAltText(img);
+                    drawAltText(img);
 
-                        link.appendChild(img);
-                        content.appendChild(link);
-                    }
+                    link.appendChild(img);
+                    content.appendChild(link);
                 }
             }
 
-            if (objects.length > 0) {
-                //objects = unique.call(objects);
+            for (var url, i = 0; i < objects.length; i++) {
+                url = objects[i].src || objects[i].value || objects[i].data || null;
+                if (!url) {
+                    objects.splice(i,1);
+                    continue;
+                }
+                objects[i] = objects[i].tagName.toLowerCase() + ': ' + url.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, '');
+            }
+            if (objects.length) objects = objects.filter(function(ele, ind, arr){ return ele.indexOf('widget://') === -1; });
+            if (objects.length) {
+                objects = unique.call(objects);
 
-                for (var link, img, i = 0, alttext, l = objects.length; i < l; i++) {
-                    var source = objects[i].src || objects[i].value || objects[i].data;
-                    if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
-                        if (alttext.indexOf('widget://') === 0) continue;
+                for (var link, img, alttext, i = 0, l = objects.length; i < l; i++) {
+                    link = document.createElement('a');
+                    img = document.createElement('canvas');
 
-                        link = document.createElement('a');
-                        img = document.createElement('canvas');
+                    link.href = objects[i].replace(/^\w+:\s/,'');
+                    link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
 
-                        link.href = source;
-                        link.target = '_blank';
-                        link.setAttribute('helpernoads', 'true');
+                    img.alt = objects[i];
+                    img.className = 'noads_placeholder';
+                    img.setAttribute('helpernoads', 'true');
+                    img.width = 100;
+                    img.height = 20;
 
-                        img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
-                        img.className = 'noads_placeholder';
-                        img.setAttribute('helpernoads', 'true');
-                        img.width = 100;
-                        img.height = 20;
+                    drawAltText(img);
 
-                        drawAltText(img);
-
-                        link.appendChild(img);
-                        content.appendChild(link);
-                    }
+                    link.appendChild(img);
+                    content.appendChild(link);
                 }
             }
 
@@ -740,7 +733,9 @@ var run = {
                 images.push(p1.trim());
             });
 
-            if (images.length > 0) {
+            if (images.length) images = images.filter(function(ele, ind, arr){ return ele.indexOf('data:') === -1; });
+
+            if (images.length) {
                 var back = document.createElement('div');
                 back.style.minWidth = '200px';
                 back.setAttribute('servicenoads', 'true');
@@ -751,7 +746,6 @@ var run = {
                 back.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
 
                 for (var link, img, i = 0, l = images.length; i < l; i++) {
-                    if (~images[i].indexOf('data:'))  continue;
                     link = document.createElement('a');
                     img = document.createElement('img');
 
@@ -781,7 +775,6 @@ var run = {
 
         try {
             (document.body || document.documentElement).appendChild(overlay);
-            this.blockElement(false, true);
         } catch (e) {
             delElement(overlay.clearStyle);
             window.removeEventListener('resize', resize, false);
