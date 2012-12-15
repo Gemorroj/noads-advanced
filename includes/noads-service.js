@@ -590,7 +590,7 @@ var run = {
         this.blockElement(false, true);
 
         var diffHeight = window.outerHeight - window.innerHeight,
-            scripts = Array.prototype.slice.call(document.querySelectorAll('script'),0),
+            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'),0).filter(function(){return true}),
             objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),0),
             images = [],
             resize = function () {
@@ -671,7 +671,7 @@ var run = {
                 scripts[i] = scripts[i].src;
             }
             var blocked = blockedScripts.split('; ');
-            if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
+            //if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
             if (scripts.length) {
                 scripts = unique.call(scripts);
 
