@@ -1,6 +1,6 @@
 var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0,
     disabled = options.checkEnabled('noads_disabled'),
-    v12 = ( typeof opera.extension.tabGroups !== 'undefined');
+    v12 = (typeof opera.extension.tabGroups !== 'undefined');
 
 function toggleExtension () {
     if (disabled) {
@@ -190,7 +190,7 @@ window.addEventListener('load', function () {
         var mainmenu = {
             title: 'NoAds Advanced',
             type: 'folder'
-        }
+        };
 
         // Create menu items with the specified properties
         var item = menu.createItem(mainmenu);
@@ -237,16 +237,16 @@ window.addEventListener('load', function () {
             onclick: function (event) {
                 sendMenuRequest('show_preferences');
             }
-        }]
+        }];
 
-        for (var i = 0; i < menuitems.length; i++) {
+        for (var i = 0, l = menuitems.length; i < l; i++) {
             menus[i] = menu.createItem(menuitems[i]);
         }
 
         // Add the menu item to the context menu
         menu.addItem(item, 1);
         // Add the sub-menu items to the main menu item
-        for (var i = 0; i < menus.length; i++) {
+        for (var i = 0, l = menus.length; i < l; i++) {
             item.addItem(menus[i]);
         }
     }

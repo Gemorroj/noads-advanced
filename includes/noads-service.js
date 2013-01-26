@@ -538,13 +538,13 @@ var run = {
             eCount = arrCSS.length;
             txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
             title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
-                
+
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
             b.type = 'button';
             b.value = txt;
             b.title = title;
-            b.style = 'right: -100px;';
+            b.style.right = '-100px';
             b.id = 'noads_button';
             b.addEventListener('click', function (e) {
                 if (e.ctrlKey && !e.shiftKey && !e.altKey) {
@@ -567,7 +567,7 @@ var run = {
             b.addEventListener('mouseout', function () {
                 //this.setAttribute('style', 'visibility:hidden;');
                 //this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
-                this.style = 'right: -100px;';
+                this.style.right = '-100px';
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {
@@ -576,7 +576,7 @@ var run = {
         }
 
         //b.style.visibility = 'visible';
-        b.style = 'right: 0;';
+        b.style.right = '0';
     },
 
     contentBlockHelper: function () {
@@ -616,7 +616,7 @@ var run = {
                 ctx.fillStyle = "black";
                 ctx.fillText(img.alt, 10, 0);
                 img.width = ctx.measureText(img.alt).width + 20;
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 ctx.textBaseline = "top";
                 ctx.font = 'bold 16px serif';
                 ctx.fillStyle = "black";
@@ -670,7 +670,7 @@ var run = {
             for (var i = 0, l = scripts.length; i < l; i++) {
                 scripts[i] = scripts[i].src;
             }
-            var blocked = blockedScripts.split('; ');
+            //var blocked = blockedScripts.split('; ');
             //if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
             if (scripts.length) {
                 scripts = unique.call(scripts);
