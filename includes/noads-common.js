@@ -3,11 +3,23 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 var storage = widget.preferences;
@@ -77,6 +89,10 @@ getTLD = function (domain, full) {
     var a = domain.split('.'), l = a.length;
     if (l < 2) return domain;
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
+},
+inArray = function(needle) {
+    for(var i = 0, l = this.length; i < l; i++) if(this[i] && (this[i] === needle)) return true;
+    return false;
 },
 unique = function () {
     var u = {}, a = [];

@@ -3,11 +3,23 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 /*
@@ -83,13 +95,11 @@ var TRANSLATION = function () {
             pHide: '\u0421\u043f\u0440\u044f\u0442\u0430\u0442\u044c',
             pHideButton: '\u0423\u0431\u0440\u0430\u0442\u044c \u043a\u043d\u043e\u043f\u043a\u0443 \u0431\u044b\u0441\u0442\u0440\u043e\u0433\u043e \u0434\u043e\u0441\u0442\u0443\u043f\u0430',
             pToolbarButton: '\u041a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430 \u0442\u0443\u043b\u0431\u0430\u0440\u0435',
-            pCSSlinks: '\u0421\u0441\u044b\u043b\u043a\u0438, \u0432\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS',
+            pCSSlinks: '\u0412\u043d\u0435\u0434\u0440\u0451\u043d\u043d\u044b\u0435 \u0432 CSS \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438',
             pDebug: '\u041e\u0442\u043b\u0430\u0434\u043a\u0430',
             pInvalidSelector: '\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 CSS \u0441\u0435\u043b\u0435\u043a\u0442\u043e\u0440. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0438\u043d\u0442\u0430\u043a\u0441\u0438\u0441.',
             uLastUpdate: '\u041f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0435 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435:',
-            uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):',
-            baseMenuWidth: 180,
-            baseMenuHeight: 160
+            uInterval: '\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b (\u0434\u043d\u0438):'
         };
         case 'tr': return {
             _s: function (count) { return (count > 1) ? 's' : ''; },
@@ -144,7 +154,7 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
@@ -203,7 +213,7 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
@@ -322,7 +332,7 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
@@ -382,7 +392,7 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
@@ -508,7 +518,7 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
@@ -630,14 +640,12 @@ var TRANSLATION = function () {
             pHide: 'Hide',
             pHideButton: 'Hide quick button',
             pToolbarButton: 'Toolbar button',
-            pCSSlinks: 'Links embedded in CSS',
+            pCSSlinks: 'CSS-embedded images',
             pDebug: 'Debug',
             pInvalidSelector: 'CSS selector is invalid. Please check the syntax.',
             uLastUpdate: 'Last update:',
             uInterval: 'Update interval (days):',
-            pAutoUpdateComplete: 'NoAds Advanced autoupdated',
-            baseMenuWidth: 145, 
-            baseMenuHeight: 150
+            pAutoUpdateComplete: 'NoAds Advanced autoupdated'
         }
     }
 }; //TRANSLATION

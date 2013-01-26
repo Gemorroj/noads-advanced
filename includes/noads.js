@@ -3,15 +3,27 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 // global variables
-var debug = options.checkEnabled('noads_debug_enabled_state'),
+var debug = false,
     lng = new TRANSLATION(),
     loaded = false,
     notification_text = '',
@@ -59,6 +71,10 @@ function onPopupMessageHandler(e) {
     // Parse menu messages
     var message = decodeMessage(e.data);
     if (options.locked) return;
+    if (message.type === 'ask_status') {
+        e.source.postMessage(encodeMessage({type: 'status_enabled'}));
+    }  
+    if (options.checkEnabled('noads_disabled')) return;
     if (message.type) {
         switch (message.type) {
             case 'block_ads':
@@ -78,9 +94,6 @@ function onPopupMessageHandler(e) {
                 break;
             case 'show_preferences':
                 options.showPreferences(domain);
-                break;
-            case 'ask_status':
-                e.source.postMessage(encodeMessage({type: 'status_enabled'}));
                 break;
         }
     }
@@ -162,6 +175,8 @@ function onMessageHandler(e) {
             onNotifyUser(notification_text);
             notification_text = '';
         }
+    } else if (message.type === 'noads_context_menu') {
+        onPopupMessageHandler({data: encodeMessage(message.subtype)});
     }
 }
 
@@ -222,54 +237,34 @@ function setupMagic() {
     }
 }
 
-// On document load
-window.addEventListener('DOMContentLoaded', function () {
-    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
-        delElement(document.getElementById('sCSS'));
-        delElement(document.getElementById('uCSS'));
-        delElement(document.getElementById('qbCSS'));
-        window.removeEventListener('mousemove', showQuickButton, false);
-        window.removeEventListener('keydown', onHotkeyHandler, false);
-    } else {
-        // don't want that in a frames
-        if (window.top === window.self) {
-            loaded = true;
-
-            if (notification_text !== '') {
-                onNotifyUser(notification_text);
-                notification_text = '';
-            }
-            // Setup hotkeys
-            window.addEventListener('keydown', onHotkeyHandler, false);
-
-            // Create menu messaging channel and parse background messages
-            opera.extension.onmessage = onMessageHandler;
-
-            if (options.checkEnabled('noads_button_state')) {
-                log('Button is enabled...');
-                addStyle(quickButtonCSS, 'qbCSS');
-                window.addEventListener('mousemove', showQuickButton, false);
-            }
-
-            sendMessage({type: 'status_enabled'});
-        }
-    }
-}, true);
-
 // Main body
 (function () {
     //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
+
+    // We can only work with options after checking this, though it's mostly useless now.
     if (typeof storage === "undefined" || !storage) {
         run.setStatus(lng.iNoQuota);
         window.alert(lng.iNoQuota);
         return;
     }
 
+    debug = options.checkEnabled('noads_debug_enabled_state');
+    if (options.checkEnabled('noads_disabled')) return;
+
     // CSS failsafe handling
     try {
         setupFiltersCSS();
     } catch (e) {
         window.opera.addEventListener('BeforeCSS', setupFiltersCSS, false);
+    }
+    
+    // Create menu messaging channel and parse messages from the background. Should we do it in frames?
+    if (window.top === window.self) {
+        opera.extension.onmessage = onMessageHandler;
+    }
+    
+    if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
+        setupMagic();
     }
 
     // Block external scripts
@@ -288,11 +283,37 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    if (blockingArray.length) {
+    if (debug && blockingArray.length) {
         log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
     }
-
-    if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
-        setupMagic();
-    }
 })();
+
+// On the document load
+window.addEventListener('DOMContentLoaded', function () {
+    if (!(document.documentElement instanceof window.HTMLHtmlElement)) {
+        delElement(document.getElementById('sCSS'));
+        delElement(document.getElementById('uCSS'));
+        delElement(document.getElementById('qbCSS'));
+    } else {
+        // don't want that in frames
+        if (window.top === window.self) {
+            loaded = true;
+
+            if (notification_text !== '') {
+                onNotifyUser(notification_text);
+                notification_text = '';
+            }
+
+            // Setup hotkeys
+            window.addEventListener('keydown', onHotkeyHandler, false);
+
+            if (options.checkEnabled('noads_button_state')) {
+                log('Button is enabled...');
+                addStyle(quickButtonCSS, 'qbCSS');
+                window.addEventListener('mousemove', showQuickButton, false);
+            }
+
+            sendMessage({type: 'status_enabled'});
+        }
+    }
+}, true);

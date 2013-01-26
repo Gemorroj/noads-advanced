@@ -3,23 +3,36 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 
 // styles for option pages
-var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;width:100%;height:100%;z-index:1000000 !important;margin:0;padding:0;}\
-.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;width:auto;margin:20px;padding:1%;}\
+var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;direction:ltr;display:block !important;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:12px !important;left:0;overflow:auto;position:fixed;background-color:#f3f4f5;top:0;height:100%;width:100%;z-index:1000000 !important;margin:0;padding:0;}\
+.noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;margin:0px;padding:1%;height:95%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
 .noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
-.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;height:95%;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
+.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
 .noads_content .inline{position:relative;display:inline-block;float:right;margin-top:-48px;margin-right:-10px;}\
 .noads_content .inline-clean{position:relative;display:inline-block;margin-top:-28px;}\
+.noads_content .button_area {height:8%;}\
 .noads_content button{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;background-image:none !important;width:auto;height:auto;display:inline-block;float:left;background-color:#f5f5f5 !important;border:1px solid #dedede;border-top:1px solid #eee;border-left:1px solid #eee;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:100%;line-height:130%;text-decoration:none;vertical-align:middle;font-weight:700;color:#565656;cursor:pointer !important;opacity:1;z-index:1000005 !important;margin:10px 10px 5px 0;padding:5px 10px 6px 7px;}\
 .noads_content button.unchecked{opacity:0.5;}\
 .noads_content button img{display: inline-block;border:none;width:16px;height:16px;margin:0 3px -3px 0 !important;padding:0;}\
@@ -30,31 +43,30 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_content button.negative{color:#d12f19;}\
 .noads_content button.negative:hover{background:#fbe3e4;border:1px solid #fbc2c4;color:#d12f19;}\
 .noads_content p{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;clear:both;text-align:left;padding-top:10px;margin:0;padding:0;}\
-.noads_area{/*height: 100%;*/height: 800px; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
-.noads_content textarea{height: 92%; border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;width:100%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
-.noads_site_textarea{height: 29% !important;}\
+.noads_area{height: 100%; letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;padding: 0 15px 0 15px; margin:0; width:auto;}\
+.noads_content textarea{ outline:none!important; border-radius: 3px; font:13px/normal "Courier New";cursor:auto;box-sizing:border-box;position:relative;border:1px solid;background:none;text-shadow:1px 1px 1px #666;color:#007;outline:none !important;resize:vertical;width:100%;height:92%;overflow:hidden;text-align:left;z-index:1000001 !important;border-color:#ccc #aaa #aaa #ccc;margin:0;padding:0 10px;}\
 .noads_content .inline .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:22px;}\
 .noads_content .overflow{overflow:auto;}\
 .noads_content .right{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:0;}\
 .noads_content .right-second{text-transform:none !important;text-shadow:none !important;box-shadow:none !important;border-radius:0 !important;position:relative;float:right;margin-right:10px;}\
 .noads_content input[type="checkbox"], .noads_content input[type="text"], .noads_content input[type="range"], .noads_content fieldset{border-radius:3px;border:1px solid rgba(80,80,130,0.5);background:#fff;padding:2px;}\
+.noads_content fieldset {border:none}\
 .noads_label_subscription{font-size:12px;margin:2px 0;padding:0 4px;}\
 .noads_custom_url{font-size:10px;width:400px;margin:2px;}\
 .noads_usercss_area{height:200px;width:100%;}\
 .noads_allrules{margin:8px 0 2px 5px;}\
 .noads_content input[type="range"] {min-height:560px;height:100%;width:50px;float:right;margin-top:20px;}\
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
-/*.noads_content fieldset {border:none}*/\
-.noads_subscriptions_block{/*height: 91%;*/height: 730px; margin: 0; overflow: auto; width: 75%;}\
+.noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
 .noads_input_help{font: bold 13px sans-serif;}\
 .noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
 
 // images for buttons
-var imageTick = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABpklEQVQ4y72TUS9CcRjGu3Oc7wIoiUzYWMCqFDk6ERDNDelUSlUMg+PSgJDZwIBhNpcFGZ/BfAnp8a9NWy4Mti7+d//nfd/n9z6vAIDgP0+Q9gLaQAOvXK5x/amAZr2eNx8b0XfAQs6Xc78q0LRWxw8cdWDuyQN/yAZDUIsyX5H9R2L1ai1vOjRg5tGN6UcX2rebIfNLUOwUUslPpiu2suec6foqVq3U8vGRpyIuTEacic6lHnFUMlpAJS2YLllp9xnzyt2Ywe42DX6KCSy+d1+PyYdRTDw4wG5pIHUXRosc+VQSYt+Fvqr7tPVlPMxhJjIGXVARJbAGFUvy6Z49BuP3DvjvOLRtqlEyJoqK7XlUyhq7TnSZxsMWWK77Mf/sgz9sg+nIAPOJEd6wFZ47K5gNFYpdwvdCW6o4aYHZUdGkM8ynxoTPiXs73LcWuMMW6ALKOKyYiMulvg0SgUUrFuXo3G2F53YEztAQWtYUILBiImsO9aMkyhcq6OpZGRlZDe1qIwismHAkm/pVlMl+6VKvGATWW4ElO+NPt0Bg0fnDWRlpucYPvqKpPJHKdtsAAAAASUVORK5CYII=';
-var imageCross = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIElEQVQ4y5WTD09SURjGXVvbWZ+holzN5clpripTwOtfYpq2Kf8B4ZKoCQjcwVBi1bba+iR9Ls3KEDSSC1zO5eklG0mIm9ve7dzd8/ze+zzve3sA9FymqivytbPP7ReUtIGKdxX7g7zi9sbKNqepE9AUp7fRSGWgxxIdkKovwKuBEGprG/j1culzaX7h3j/AXzFy79Cg0uMK6uubLUjFu8KpO+qRGJDNoXk+nrXGihPTV04ByRRrxBW9sf0G+PgJeibbBKAWkHnF4+fUHdpmFKD3FX8AxzPPRVGautpmQY/GmXgdFbqSBt5/gEimUA2GQN2hbUSAzM6f89G0hcST7NwQ6+F1VpNXRT2yRXbeAjs5EmaBdAYVjw9HU7OiOD7Buk/hNCymurw6MmTH7QMcbkBJ4WhyRi+YJfb//Q6A6vQ0RwXQNGBzAkt2YCtBvi3Ij4zxCwGqw81VlwdaKAwkFBImgSjZoQAry3YUjWZ8Hxrm5wLKdhdXnW5o8ipAY1QdLlBY4nDMpJ/MLwLhNZRfLCL/8DH2+/p5G4A2i1N3aMFX1DUOlT6dwhKHoyaWfzLCDoYfidL0LBCUcWKx4mBgEHu3enkLQJsllW0OaAEZ6rIDFJY4fGZsBfZtYIh97b8vfpolqNY5/Bh8gN0bBqnNAm2WVJpbQME0rlNYHWnv3+1jX3rviLPijhALRrOUfzrKuv1Me4bbbPf6TenCMV62fgNyu6THuNSv5wAAAABJRU5ErkJggg==';
-var imgRefresh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACPklEQVQ4y42T20vTYRzGB/szYlZpSSEBVsg6Z5ms5YnMoNXm65qOVBtY5lys6c/NHdrBndQcG5ZkVMIPjEZYVtvYcFXLH0HX3ongbXj39N0IcPrDBrw37+F5nvf58JUAkPxv3XjeONgyrZCKnUlKEWiaqhcU4xciuwr0fdbK7i5qDLq3qrhmvm395otmXIsq0RCug/5lOzqeqXDSfNwnKtC71CHXv1fzXNIIf9aByM8goishTOV8CH59Au/yGMZSFrSGGlHVWzlaJNDzoV3W9e4W71m2YvbXNCZ/ePE050fomxu+rB2uNAdryozHX4y46q7HQd0BZ5EARTaYPz3AjDCJSC4Id8YG3Zwa523yfGQcGziKJp8CV1x1qNDuC+z4gvp1a9yRtBQcnSkOl1xnVs9yNe6tlyo7y4VytjcmWuL1mYY1anmTWv5Taz+1cdpygtt+ab+mzFSm2iMlM0ZIGSFlysBFRmZMQi2zy55zjCIziswoMutPd0kNiTum7UJkxpHZxj+zTTJbE+VOSGOEVNi6R0jdZLbqSduIih0DC/fy/cR3PCakAWvGhOHEQ1BkUGRQZHS/0cKV5ApIHekRtE0055Eaih4TUieXMmLud7SANCZMFCEdSQwVkGpnb+NI9yGekMqKBAjp6KOP/YithAtIw9+9GM864cpYMbw0hJ55HVr8ShzWV/CEVC46CxTZ18d3Qv+K5ZGCkKLGVI3q+1XrFDlOSA2EVLbrMOUHh1oWShk00U1CKiWkg6UI/AWErIiZtuoGSgAAAABJRU5ErkJggg==';
-var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB9klEQVQYGQXAgaeeVRwH8M957nnvtSlbRYstqVEERrlsVQDpTwgpDCymMEBBIJCkxEIJIAKihMCwECagElIgpU3vfd/nnN837fiN797CY3geT+A+0tEEOFiaZWmSUuWfw42ft7v1vdsfv/xlx9M3b1y5SvPU+SNBKvYj9ms5WJpTR4vWuLct907mmV//vHfp829++eT42tdnFrwgfHX7XxWSuP7hD6pCaza9WZZmP2K7llHatPTXXrr40Kmjw48WPBJUxTrKOgLWin7ApjdVsd2XdYTE93fuOtwc2O7GYcfpUUFs9wWW1gibvmiak7Vsd1GJCpX4468TktZJn4mE3Qh4+/VLNn3RF9YZ/+3KqFJFRKqsY0pKR6uJxLuf/ai1Zmls+qJhVIxRAoCzZx+0jgMSXaiUqunhc+dpNCEQFapKEpWoKlqzroOUDnOSAC0BGlUkQSRItERS1rVJSocxCwERTSORRKpEJFE1pSLKbg0pnZgVwjuvXAAAAAAAN27+ZIxISl9aM4uIhA9uXQUAAADXL98057AfIdE1qqIBrlx4FQAAAEDNMteg9CSZlUbArd+/AAAAAM8++qI5p3VGkvSK3/ajHn/m4mmt8eZznwIAAAA4d3+ZM/B3O7727ftJniSXJQ9QkpCSFClJkSKRBAm5qy13/gchfG6Lu4hurwAAAABJRU5ErkJggg==';
-var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAKoAAP///8LCwkJCQpKSkoKCgmJiYgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQJCgAAACwAAAYADgAKAAADLBgiAf5QGCOgBZJeqNi2QVE0HAkUC1EGJJEGw8DOTkjAccNuA0EMnxrMBEgAACH5BAkKAAAALAAAAgAKAA4AAAMtCBAioRAIY0RUs97VHgxF4UVFQ2xEU2wgMV7BMLyKLG8DQQzLGMS/IEs4BCQAACH5BAkKAAAALAAAAAAKAA4AAAMtCLohEmsJY4QKpDRqQXHE4EAA4RTRVRDkNQzt8r4pMBBhHQRwzcS/nW4HvAATACH5BAkKAAAALAAAAAAOAAoAAAMtCLpBFSuuIgSRIIzR6qsQsG1BQQSCYQjKQBBDlK5KoIU1mOFYbfOYHzA4lCQAACH5BAkKAAAALAIAAAAOAAoAAAMrCAoxEysu56QKcBDySIEMJnaCQFxiVJTFgkmBB1pRUM60YBgCveg83+WWAAAh+QQJCgAAACwGAAAACgAOAAADKwgR0K6LPRjHkFARO8HYQxdY2BQQRdkQgkB0RVuIaBm0KiAYhtDtPRGukQAAIfkECQoAAAAsBgACAAoADgAAAyoIqhH7rT0WJ7UrjOFmIJs1EKDVcFBBdE8hCAXzfi+hCIYhBGqH66aZJQEAIfkECQoAAAAsAgAGAA4ACgAAAywIugwRLb4X2YR10SAEVsEwYIJhCIw4KuUZFERIEAPYvV0BiN9C5BkQrKdIAAA7';
+var imageTick = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGrSURBVDjLvZPZLkNhFIV75zjvYm7VGFNCqoZUJ+roKUUpjRuqp61Wq0NKDMelGGqOxBSUIBKXWtWGZxAvobr8lWjChRgSF//dv9be+9trCwAI/vIE/26gXmviW5bqnb8yUK028qZjPfoPWEj4Ku5HBspgAz941IXZeze8N1bottSo8BTZviVWrEh546EO03EXpuJOdG63otJbjBKHkEp/Ml6yNYYzpuezWL4s5VMtT8acCMQcb5XL3eJE8VgBlR7BeMGW9Z4yT9y1CeyucuhdTGDxfftaBO7G4L+zg91UocxVmCiy51NpiP3n2treUPujL8xhOjYOzZYsQWANyRYlU4Y9Br6oHd5bDh0bCpSOixJiWx71YY09J5pM/WEbzFcDmHvwwBu2wnikg+lEj4mwBe5bC5h1OUqcwpdC60dxegRmR06TyjCF9G9z+qM2uCJmuMJmaNZaUrCSIi6X+jJIBBYtW5Cge7cd7sgoHDfDaAvKQGAlRZYc6ltJlMxX03UzlaRlBdQrzSCwksLRbOpHUSb7pcsnxCCwngvM2Rm/ugUCi84fycr4l2t8Bb6iqTxSCgNIAAAAAElFTkSuQmCC';
+var imageCross = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIhSURBVDjLlZPrThNRFIWJicmJz6BWiYbIkYDEG0JbBiitDQgm0PuFXqSAtKXtpE2hNuoPTXwSnwtExd6w0pl2OtPlrphKLSXhx07OZM769qy19wwAGLhM1ddC184+d18QMzoq3lfsD3LZ7Y3XbE5DL6Atzuyilc5Ciyd7IHVfgNcDYTQ2tvDr5crn6uLSvX+Av2Lk36FFpSVENDe3OxDZu8apO5rROJDLo30+Nlvj5RnTlVNAKs1aCVFr7b4BPn6Cls21AWgEQlz2+Dl1h7IdA+i97A/geP65WhbmrnZZ0GIJpr6OqZqYAd5/gJpKox4Mg7pD2YoC2b0/54rJQuJZdm6Izcgma4TW1WZ0h+y8BfbyJMwBmSxkjw+VObNanp5h/adwGhaTXF4NWbLj9gEONyCmUZmd10pGgf1/vwcgOT3tUQE0DdicwIod2EmSbwsKE1P8QoDkcHPJ5YESjgBJkYQpIEZ2KEB51Y6y3ojvY+P8XEDN7uKS0w0ltA7QGCWHCxSWWpwyaCeLy0BkA7UXyyg8fIzDoWHeBaDN4tQdSvAVdU1Aok+nsNTipIEVnkywo/FHatVkBoIhnFisOBoZxcGtQd4B0GYJNZsDSiAEadUBCkstPtN3Avs2Msa+Dt9XfxoFSNYF/Bh9gP0bOqHLAm2WUF1YQskwrVFYPWkf3h1iXwbvqGfFPSGW9Eah8HSS9fuZDnS32f71m8KFY7xs/QZyu6TH2+2+FAAAAABJRU5ErkJggg==';
+var imgRefresh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAI/SURBVDjLjZPbS9NhHMYH+zNidtCSQrqwQtY5y2QtT2QGrTZf13TkoYFlzsWa/tzcoR3cSc2xYUlGJfzAaIRltY0N12H5I+jaOxG8De+evhtdOP1hu3hv3sPzPO/z4SsBIPnfuvG8cbBlWiEVO5OUItA0VS8oxi9EdhXo+6yV3V3UGHRvVXHNfNv6zRfNuBZVoiFcB/3LdnQ8U+Gk+bhPVKB3qUOuf6/muaQR/qwDkZ9BRFdCmMr5EPz6BN7lMYylLGgNNaKqt3K0SKDnQ7us690t3rNsxeyvaUz+8OJpzo/QNzd8WTtcaQ7WlBmPvxhx1V2Pg7oDziIBimwwf3qAGWESkVwQ7owNujk1ztvk+cg4NnAUTT4FrrjqUKHdF9jxBfXr1rgjaSk4OlMcLrnOrJ7latxbL1V2lgvlbG9MtMTrMw1r1PImtfyn1n5q47TlBLf90n5NmalMtUdKZoyQMkLKlIGLjMyYhFpmlz3nGEVmFJlRZNaf7pIaEndM24XIjCOzjX9mm2S2JsqdkMYIqbB1j5C6yWzVk7YRFTsGFu7l+4nveExIA9aMCcOJh6DIoMigyOh+o4UryRWQOtIjaJtoziM1FD0mpE4uZcTc72gBaUyYKEI6khgqINXO3saR7kM8IZUVCRDS0Ucf+xFbCReQhr97MZ51wpWxYnhpCD3zOrT4lTisr+AJqVx0Fiiyr4/vhP4VyyMFIUWNqRrV96vWKXKckBoIqWzXYcoPDrUslDJoopuEVEpIB0sR+AuErIiZ6OqMKAAAAABJRU5ErkJggg==';
+var imgSave = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAH+SURBVBgZBcE9i11VGAbQtc/sO0OCkqhghEREAwpWAWUg8aMVf4KFaJEqQtAipTZWViKiCGOh2Ap2gmJhlSIWFsFOxUK0EsUM3pl79n4f12qHb3z3Fh7D83gC95GOJsDe0ixLk5Qq/+xv/Lw9Xd+78/HLX3Y8fXTr2nWapy4eCFKxG7Fby97SnDlYtMbxthyfzHO//nl85fNvfvnk8MbX5xa8IHx1518Vkrj54Q+qQms2vVmWZjdiu5ZR2rT01166/NCZg/2PFjwSVMU6yjoC1oq+x6Y3VbHdlXWExPd379nf7Nmejv2Os6OC2O4KLK0RNn3RNCdr2Z5GJSpU4o+/TkhaJ30mEk5HwNuvX7Hpi76wzvjvtIwqVUSkyjqmpHS0mki8+9mPWmuWxqYvGkbFGCUAOH/+QevYI9GFSqmaHr5wkUYTAlGhqiRRiaqiNes6SOkwJwnQEqBRRRJEgkRLJGVdm6R0GLMQENE0EkmkSkQSVVMqopyuIaUTs0J455VLAAAAAODW0U/GiKT0pTWziEj44PZ1AAAAcPPqkTmH3QiJrlEVDXDt0qsAAAAAapa5BqUnyaw0Am7//gUAAAB49tEXzTmtM5KkV/y2G/X4M5fPao03n/sUAAAAwIX7y5yBv9vhjW/fT/IkuSp5gJKElKRISYoUiSRIyD1tufs/IXxui20QsKIAAAAASUVORK5CYII=';
+var imgLoad = 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==';
 
 
 var options = {
@@ -216,12 +228,11 @@ var options = {
                 }
             }
         }
-        for (i = 0, l = tmp.length; i < l; i++) {
+        for (var i = 0, l = tmp.length; i < l; i++) {
             rule = tmp[i];
-            pos = rule.indexOf('##');
             if (global) {
                 rez.push(rule);
-            } else if (domain && options.isCorrectDomain(domain, rule.slice(0, pos))) {
+            } else if (domain && (pos = rule.indexOf('##')) > 0 && options.isCorrectDomain(domain, rule.slice(0, pos))) {
                 rez.push(rule);
             }
         }
@@ -378,52 +389,13 @@ var options = {
             '^data:','^opera:','^widget:',
             // TODO: 
             //   Load list from separate and(or) JSON file using resource loader (12+).
-            '^https?://cdn\\d*\\.', // content delivery networks >_<
-            '^https?://(?:apis|maps|plus)+\\.google\\.com',
-            '^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+',
-            '^https?://(?:api|api-read)\\.facebook\\.com',
-            '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
-            '^https?://yuilibrary\\.com',
-            '^https?://(?:[0-9a-z-]*\\.)?ebayrtm.com',
-            '^https?://(?:[0-9a-z-]*\\.)?ebaystatic.com',
-            '^https?://(?:[0-9a-z-]*\\.)?gawkerassets.com',
-            '^https?://(?:[0-9a-z-]*\\.)?keycaptcha.com',
-            '^https?://(?:[0-9a-z-]*\\.)?solvemedia.com',
-            '^https?://[0-9a-z-\\.]+\\.com\\.com',
-            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
-            '^https?://[0-9a-z-]+\\.cloudfront\\.net',
-            '^https?://[0-9a-z-\\.]+\\.disqus\\.com',
-            '^https?://[0-9a-z-]+\\.googleapis\\.com',
-            '^https?://[0-9a-z-]+\\.googlecode\\.com',
-            '^https?://[0-9a-z-]+\\.yahooapis\\.com',
-            '^https?://[0-9a-z-]+\\.appspot\\.com',
-            '^https?://[0-9a-z-]+\\.ea\\.com',
-            '^https?://[0-9a-z-]+\\.github\\.com',
-            '^https?://[0-9a-z-]+\\.googlecode\\.com',
-            '^https?://[0-9a-z-]+\\.gstatic\\.com',
-            '^https?://[0-9a-z-]+\\.hotmail\\.',
-            '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
-            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
-            '^https?://[0-9a-z-]+\\.olark\\.com',
-            '^https?://[0-9a-z-]+\\.wlxrs\\.com',
-            '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
-            '^https?://[0-9a-z-\\.]*zohostatic\\.com',
-            '^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net',
-            '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
-            '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
-            '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
-            '^https?://[0-9a-z-]+\\.fjcdn\\.com',
-            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
-            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
-            '^https?://[0-9a-z\\.]*zohostatic\\.com',
+            '^https?://(?:apis|maps)+\\.google\\.com',
             '^https?://[a-z-]+\\.aolcdn\\.com',
             '^https?://[a-z-]+\\.bitsontherun\\.com',
             '^https?://[a-z-]+\\.cdn\\.turner\\.com',
             '^https?://[a-z-]+\\.stj\\.s-msn\\.com',
-            '^https?://[a-z\\.]+\\.twitter\\.com',
             '^https?://[a-z]+\\.ignimgs\\.com',
             '^https?://[a-z]+\\.xnimg\\.cn',
-            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
             '^https?://a\\.dolimg\\.com',
             '^https?://a\\.fsdn\\.com',
             '^https?://ajax\\.aspnetcdn\\.com',
@@ -436,9 +408,7 @@ var options = {
             '^https?://apps\\.skypeassets\\.com',
             '^https?://auth\\.tbn\\.ru',
             '^https?://badoocdn\\.com',
-            '^https?://connect\\.facebook\\.net',
-            '^https?://connect\\.mail\\.ru',
-            '^https?://connect\\.sensiolabs\\.com',
+            '^https?://cdn\\d*\\.', // content delivery networks >_<
             '^https?://css\\.yandex\\.net',
             '^https?://fastcache\\.gawkerassets\\.com',
             '^https?://fonts\\.gizmodo\\.com',
@@ -447,12 +417,9 @@ var options = {
             '^https?://ipinfodb\\.com',
             '^https?://js\\.gotophotels\\.ru',
             '^https?://live\\.nhle\\.com',
-            '^https?://login\\.vk\\.com',
-            '^https?://mat1\\.gtimg\\.com',
             '^https?://my\\.ya\\.ru',
             '^https?://onlywire\\.com',
             '^https?://rutube\\.ru',
-            '^https?://badoocdn\\.com',
             '^https?://s\\d+\\.addthis\\.com/js',
             '^https?://s\\d+\\.ucoz\\.net',
             '^https?://script\\.aculo\\.us',
@@ -463,20 +430,50 @@ var options = {
             '^https?://static\\.addtoany\\.com',
             '^https?://static\\.ak\\.fbcdn\\.net',
             '^https?://static\\.allegrostatic\\.pl',
-            '^https?://static\\.chartbeat\\.com',
             '^https?://static\\.crowdscience\\.com',
             '^https?://static\\.myopera\\.com',
             '^https?://static\\.polldaddy\\.com',
             '^https?://translate\\.googleusercontent\\.com',
             '^https?://userapi\\.com',
-            '^https?://vk\\.com',
-            '^https?://vkontakte\\.ru',
-            '^https?://www\\.bing\\.com',
             '^https?://www\\.browserscope\\.org',
             '^https?://www\\.gamehive\\.ru',
             '^https?://www\\.paypalobjects\\.com',
             '^https?://www\\.redditstatic\\.com',
             '^https?://yandex\\.st',
+            '^https?://yuilibrary\\.com',
+            '^https?://(?:[0-9a-z-]*\\.)?ebayrtm.com',
+            '^https?://(?:[0-9a-z-]*\\.)?ebaystatic.com',
+            '^https?://(?:[0-9a-z-]*\\.)?gawkerassets.com',
+            '^https?://(?:[0-9a-z-]*\\.)?keycaptcha.com',
+            '^https?://(?:[0-9a-z-]*\\.)?solvemedia.com',
+            '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
+            '^https?://[0-9a-z-\\.]*zohostatic\\.com',
+            '^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net',
+            '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
+            '^https?://[0-9a-z-\\.]+\\.com\\.com',
+            '^https?://[0-9a-z-\\.]+\\.disqus\\.com',
+            '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
+            '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
+            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
+            '^https?://[0-9a-z-]+\\.appspot\\.com',
+            '^https?://[0-9a-z-]+\\.cloudfront\\.net',
+            '^https?://[0-9a-z-]+\\.ea\\.com',
+            '^https?://[0-9a-z-]+\\.fjcdn\\.com',
+            '^https?://[0-9a-z-]+\\.github\\.com',
+            '^https?://[0-9a-z-]+\\.googleapis\\.com',
+            '^https?://[0-9a-z-]+\\.googlecode\\.com',
+            '^https?://[0-9a-z-]+\\.gstatic\\.com',
+            '^https?://[0-9a-z-]+\\.hotmail\\.',
+            '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
+            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
+            '^https?://[0-9a-z-]+\\.olark\\.com',
+            '^https?://[0-9a-z-]+\\.wlxrs\\.com',
+            '^https?://[0-9a-z-]+\\.yahooapis\\.com',
+            '^https?://[0-9a-z-]+\\.ytimg\\.com',
+            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
+            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
+            '^https?://mat1\\.gtimg\\.com',
+            '^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+',
             '^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)', // letitbit
             // TODO:
             // See comment before. That idea ends here.
@@ -640,7 +637,8 @@ var options = {
         close.title = lng.pClose;
         close.onclick = overlay.close;
 
-        win.appendChild(close);
+        if(!global) win.appendChild(close);
+
         win.createMenu = function () {
             var menu = document.createElement('ul');
             menu.className = 'noads_menu';
@@ -663,10 +661,8 @@ var options = {
         area.className = 'noads_area';
 
         area.clear = function (num) {
-
             this.innerHTML = '';
             //while (this.firstChild) this.removeChild(this.firstChild);
-
             if (arguments.length) {
                 for (var i = 0, li = document.querySelectorAll('#noads_menu li'), l = li.length; i < l; i++) {
                     li[i].style.backgroundColor = (i == num) ? '#fafbfc' : '#edeeef';
@@ -745,7 +741,8 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.rows = global ? '40' : '14';
+            textarea.style.height = global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px';
             //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
@@ -760,6 +757,11 @@ var options = {
             }
 
             return textarea;
+        };
+        area.createButtonArea = function() {
+            var button_area = document.createElement('div');
+            button_area.className = 'button_area';
+            return button_area;
         };
         area.createCheckboxButton = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
@@ -809,62 +811,70 @@ var options = {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
             this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userlist', val);
                 options.setWhiteList('noads_userlist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
             this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_list', val);
                 options.setWhiteList('noads_list_white', val);
             }));
 
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_css_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
             this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+            
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_scriptlist', val);
                 options.setWhiteList('noads_scriptlist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_scriptlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
             this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_magiclist', val);
                 options.setWhiteList('noads_magiclist_white', val);
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_magic_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
@@ -872,18 +882,20 @@ var options = {
             this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
                 sendMessage({ type: 'reload_rules', global: false, clear: !options.checkEnabled('noads_userurlfilterlist_state')});
             }));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_userurlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
                 sendMessage({ type: 'reload_rules', global: false, clear: false });
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_userurlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
         area.showURLfilters = function (pos) {
             this.clear(pos);
@@ -891,18 +903,20 @@ var options = {
             this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
                 sendMessage({ type: 'reload_rules', global: true, clear: !options.checkEnabled('noads_urlfilterlist_state')});
             });
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
+
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 options.setRawRules('noads_urlfilterlist', val);
                 // options.setWhiteList(sName + '_white', val); exclusions by URL-filter are unsupported
                 // notify URL-filter about changes & reload rules in bgProcess
                 sendMessage({ type: 'reload_rules', global: true, clear: false });
             }));
-
-            this.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
+            button_area.appendChild(this.createButton('noads_button_export', lng.pExport, '', imgSave, function () {
                 var val = document.getElementById('noads_urlfilterlist_textarea').value.replace(/^\s+|\r|\s+$/g, '');
                 window.open('data:text/plain;charset=UTF-8,' + window.encodeURIComponent(val), 'Export');
             }));
+            this.appendChild(button_area);
         };
 
         area.showSitePreferences = function (pos) {
@@ -1073,27 +1087,16 @@ var options = {
             this.createCheckboxButton.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Chinese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/chn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Czech+Tracking', 'http://www.fanboy.co.nz/adblock/opera/cz/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Espanol/Portuguese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/esp/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Japanese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/jpn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Korean+Tracking', 'http://www.fanboy.co.nz/adblock/opera/krn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Merged Asian Lists+Tracking', 'http://www.fanboy.co.nz/adblock/opera/asian/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Polish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/pol/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Russian+Tracking', 'http://www.fanboy.co.nz/adblock/opera/rus/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Swedish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/swe/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Turkish+Tracking', 'http://www.fanboy.co.nz/adblock/opera/trky/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Vietnamese+Tracking', 'http://www.fanboy.co.nz/adblock/opera/vtn/complete/urlfilter.ini');
             this.createCheckboxButton.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
             block.appendChild(document.createElement('br'));
             this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
@@ -1125,15 +1128,17 @@ var options = {
                 sendMessage({ type: 'get_filters', url: url, allRules: document.getElementById('noads_allrules_toggle').checked });
             }));
 
-            this.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
+            var button_area = this.createButtonArea();
+            button_area.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
             options.setLastUpdate(lastUpdateNode);
 
-            this.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
+            button_area.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
             }));
+            this.appendChild(button_area);
 
         };
         area.showHelp = function (pos) {
@@ -1145,6 +1150,7 @@ var options = {
 
             this.appendChild(this.createCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
             this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
+            this.appendChild(this.createCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
         };
 
         if (domain) {

@@ -3,32 +3,47 @@
 // @exclude opera:*
 // @exclude about:*
 // @exclude widget:*
+// @exclude *.js
+// @exclude *.txt
+// @exclude *.pdf
+// @exclude *.fb2
+// @exclude *.jpg
+// @exclude *.jpeg
+// @exclude *.png
+// @exclude *.apng
+// @exclude *.gif
+// @exclude *.swf
 // @exclude *://localhost*
 // @exclude *://192.168.*
 // @exclude *://0.0.0.0*
 // @exclude *dragonfly.opera.com*
 // @exclude *jsperf.com*
+// @exclude *peacekeeper.futuremark.com*
+// @exclude *acid3.acidtests.org*
 // ==/UserScript==
 
 // global variables
-var none = '{display: none !important;}';
+var none = '{display: none !important; height: 0 !important; width: 0 !important;}';
 var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}';
 var outlineCSS = '1px solid #306EFF';
 var outlineBgCSS = '#C6DEFF';
 var paddingCSS = 'iframe, embed, object, audio, video {\
-padding-left: 15px !important;\
+padding-left: 20px !important;\
 background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAAc0lEQVQY02P4z4AfMlBPAQMzAzNWNlwIRPEygAA7mM3JgGYCL5gSgUrrMCgwsKEqYABKwjg6DGog09AVMDCIgZmmEGlMBexwjiREPaoCmN3GULegKoD6AmI3xC0C6CZwMijD7AZKamLzBRsQwgCYTZ24AAD8Zqzk4ASGSwAAAABJRU5ErkJggg=="),\
 -o-linear-gradient( top, rgba(220,0,0,1) 0%, rgba(255,255,255,0) 30% ) !important;\
+background-size: 20px 100%;\
 background-repeat: no-repeat !important;\
 background-position: 0px 0px !important;\
 z-index: 1001 !important;\
+border: 1px solid rgba(220,0,0,1) !important;\
 }';
 var contentHelperCSS = ' \
 .noads_button_placeholder {display:block !important;float:none;position:fixed;right:0;top:0;height:auto;width:auto;padding:2px;margin:0;border:1px solid #bbb;background:-o-skin("Window Skin");z-index:10001;}\
 .noads_button_hide{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Minimize Button Skin");cursor:pointer;z-index:1000002;}\
 .noads_button_close{display:block !important;float:left;height:18px;width:18px;padding:0;margin:0;border:none;background:-o-skin("Caption Close Button Skin");cursor:pointer;z-index:1000002;}\
-.noads_helper_content{font-weight:bold;color:#e00;display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:auto;margin:0;padding:0;z-index:1000000;}\
+.noads_helper_content{font-weight:bold;color:black;display:block;float:none;position:absolute;left:0;top:0;width:auto;height:auto;overflow:visible;margin:0;padding:0;z-index:1000000;}\
 .noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
+.noads_css_img_back {padding-left:10px; background-color: white; opacity: 0.9}\
 ';
 
 
@@ -73,14 +88,14 @@ var noads = {
                             // check for unallowed values
                             continue;
                         }
-                        rez = '#' + a.nodeValue.replace(/[\x22\x5C]/g, '');
+                        rez = '[id=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '') + '\x22]';
                         break;
                     } else if (n === 'class') {
                         if (~a.nodeValue.indexOf(' ')) {
                             rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
                         } else if (!/[^_a-zA-Z0-9-]/i.test(a.nodeValue)) {
                             // check for unallowed values
-                            rez += '.' + a.nodeValue.replace(/[\x22\x5C]/g, '');
+                            rez += '[class=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '') + '\x22]';
                         }
                     } else {
                         rez += '[' + n + '=\x22' + a.nodeValue.replace(/[\x22\x5C]/g, '\\$&') + '\x22]';
@@ -104,15 +119,22 @@ var noads = {
 
     getCSSrule: function (el, wide) {
         var att, single, tag, rez = [];
+
+        if (el.getAttribute('helpernoads')) {
+            if (el.nodeName.toLowerCase() === 'canvas') {
+                return '[href="'+ el.parentElement.href +'"]';
+            } else if (el.nodeName.toLowerCase() === 'img') {
+                return '[src="'+ el.src +'"]';
+            } else {
+                return '[href="'+ el.href +'"]';
+            }
+        }
+
         while (el) {
             tag = el.nodeName;
             if (/^(html|body)$/i.test(tag)) break;
             att = this.getAttrSelector(el, 'src') || this.getAttrSelector(el, 'href') || this.getAttrSelector(el, 'data');
             if (att) {
-                if (this.getAttrSelector(el, 'helpernoads')) {
-                    // for blocker helper
-                    tag = '';
-                }
                 if (~att.indexOf('://')) {
                     rez.unshift(tag + (wide ? att.replace(/^(\[\w+)(=\x22\w+:\/\/)([^?#]+\/[^?#]+\/|[^?#]+).*(\x22\])$/i, '$1^$2$3$4') : att));
                 } else {
@@ -180,21 +202,6 @@ var run = {
             window.setTimeout(function () {
                 window.defaultStatus = '';
             }, 4000);
-        }
-    },
-    // disable and enable blocking globally
-    // Not used at this time
-    toggleBlocking: function (block) {
-        if (block && !options.checkEnabled('noads_disable')) {
-            sendMessage({ type: 'reload_rules', global: false, clear: true });
-            sendMessage({ type: 'reload_rules', global: true, clear: true });
-            options.setEnabled('noads_disable', true);
-            this.setStatus(lng.globallyDisabled); //TODO:add to translation file
-        } else {
-            sendMessage({ type: 'reload_rules', global: false, clear: false });
-            sendMessage({ type: 'reload_rules', global: true, clear: false });
-            options.setEnabled('noads_disable', false);
-            this.setStatus(lng.globallyEnabled); //TODO:add to translation file
         }
     },
     // disable and enable blocking for current site
@@ -342,7 +349,7 @@ var run = {
             return;
         }
         var css, tmpCSS, padCSS, ele = null, outline = '', bgColor = '', title = '';
-
+        
         var remove = function () {
             document.removeEventListener('mouseover', over, false);
             document.removeEventListener('mouseout', out, false);
@@ -387,7 +394,7 @@ var run = {
             
             // Hide top element with Ctrl-click, can't undo.
             if (ev.ctrlKey) {
-                ele.style.zIndex = '1';
+                ele.style.height = '0px';
                 ele.style.display = 'none';
                 return;
             }
@@ -479,28 +486,11 @@ var run = {
                 case 0: // Left button
                     // Pre-filter some events for selected element and it's parents.
                     // I know it's possibly overkill and brakes the page logic until reload but..
-                    var el = ele;
-                    while(el !== null) {
-                        if (el.nodeName.toLowerCase() === 'html') {
-                            break;
-                        }
-                        el.removeAttribute('onclick');
-                        el.removeAttribute('onmousedown');
-                        el.removeAttribute('onmouseup');
-                        el.removeAttribute('onmousemove');
-                        el.removeAttribute('onmouseout');
-                        el.onclick = null;
-                        el.onmousedown = null;
-                        el.onmouseup = null;
-                        el.onmousemove = null;
-                        el.onmouseout = null;
-                        el = el.parentElement;
-                    }
                     break;
                 case 1: // Middle button
                     break;
                 case 2: // Right button
-                    //run.stop();
+                    run.stop();
                     break;
                 default:
             }
@@ -592,14 +582,17 @@ var run = {
     contentBlockHelper: function () {
         var overlay = document.getElementById('noads_helper');
         if (overlay) {
-            this.blockElement(); //stop
+            if (typeof run.stop === 'function') run.stop();
             overlay.close();
             return;
         }
 
+        this.blockElement(false, true);
+
         var diffHeight = window.outerHeight - window.innerHeight,
-            scripts = document.querySelectorAll('script'),
-            objects = document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),
+            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'),0).filter(function(){return true}),
+            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),0),
+            images = [],
             resize = function () {
                 if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
                     window.setTimeout(overlay.close, 200);
@@ -615,12 +608,20 @@ var run = {
                     } catch (e) {}
                 }
                 return css;
+            },
+            drawAltText = function (img){
+                var ctx = img.getContext('2d');
+                ctx.textBaseline = "top";
+                ctx.font = 'bold 16px serif';
+                ctx.fillStyle = "black";
+                ctx.fillText(img.alt, 10, 0);
+                img.width = ctx.measureText(img.alt).width + 20;
+                ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height)
+                ctx.textBaseline = "top";
+                ctx.font = 'bold 16px serif';
+                ctx.fillStyle = "black";
+                ctx.fillText(img.alt, 10, 0);
             };
-        var images = [];
-        getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
-            images.push(p1);
-        });
-
 
         window.scrollTo(0, 0);
         overlay = document.createElement('div');
@@ -634,6 +635,7 @@ var run = {
                 delElement(imgs[i]);
             }
             delElement(this);
+            if (typeof run.stop === 'function') run.stop();
         };
         window.addEventListener('resize', resize, false);
 
@@ -652,7 +654,6 @@ var run = {
         close.setAttribute('servicenoads', 'true');
         close.className = 'noads_button_close';
         close.addEventListener('click', function () {
-            run.blockElement(); //stop
             overlay.close();
         }, false);
         buttons.appendChild(close);
@@ -663,88 +664,107 @@ var run = {
             content.setAttribute('servicenoads', 'true');
             content.className = 'noads_helper_content';
             content.hide = function () {
-                this.style.visibility = (this.style.visibility !== 'hidden') ? 'hidden' : 'visible';
+                content.style.visibility = (content.style.visibility !== 'hidden') ? 'hidden' : 'visible';
             };
 
-            if (scripts.length > 0) {
-                //scripts = unique.call(scripts);
+            for (var i = 0, l = scripts.length; i < l; i++) {
+                scripts[i] = scripts[i].src;
+            }
+            var blocked = blockedScripts.split('; ');
+            //if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
+            if (scripts.length) {
+                scripts = unique.call(scripts);
 
-                for (var i = 0, script, a = blockedScripts.split('; '); script = scripts[i]; i++) {
-                    if (script.src && a.indexOf(script.src) === -1) {
-                        var link = document.createElement('a'), img = document.createElement('img');
+                for (var link, img, i = 0, l = scripts.length; i < l; i++) {
+                    link = document.createElement('a');
+                    img = document.createElement('canvas');
 
-                        link.href = script.src;
-                        link.target = '_blank';
-                        link.setAttribute('helpernoads', 'true');
+                    link.href = scripts[i];
+                    link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
+                    img.setAttribute('helpernoads', 'true');
+                    img.alt = 'script: ' + scripts[i].replace(/[\?&]+.*$/g, '') + ' ';
 
-                        img.className = 'noads_placeholder';
-                        img.src = script.src;
-                        img.alt = 'script: ' + script.src.replace(/[\?&]+.*$/g, '') + ' ';
-                        img.setAttribute('helpernoads', 'true');
+                    img.className = 'noads_placeholder';
+                    img.width = 100;
+                    img.height = 20;
 
-                        link.appendChild(img);
-                        content.appendChild(link);
-                    }
+                    drawAltText(img);
+
+                    link.appendChild(img);
+                    content.appendChild(link);
                 }
             }
 
-            if (objects.length > 0) {
-                //objects = unique.call(objects);
-
-                for (var i = 0, alttext, l = objects.length; i < l; i++) {
-                    var source = objects[i].src || objects[i].value || objects[i].data;
-                    if (source && (alttext = source.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, ''))) {
-                        if (alttext.indexOf('widget://') === 0) {
-                            continue;
-                        }
-
-                        var link = document.createElement('a'), img = document.createElement('img');
-
-                        link.href = source;
-                        link.target = '_blank';
-                        link.setAttribute('helpernoads', 'true');
-
-                        img.className = 'noads_placeholder';
-                        img.src = source;
-                        img.alt = objects[i].tagName.toLowerCase() + ': ' + alttext + ' ';
-                        img.setAttribute('helpernoads', 'true');
-
-                        content.appendChild(img);
-                        link.appendChild(img);
-                        content.appendChild(link);
-                    }
+            for (var url, i = 0; i < objects.length; i++) {
+                url = objects[i].src || objects[i].value || objects[i].data || null;
+                if (!url) {
+                    objects.splice(i,1);
+                    continue;
                 }
+                objects[i] = objects[i].tagName.toLowerCase() + ': ' + url.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, '');
+            }
+            if (objects.length) objects = objects.filter(function(ele, ind, arr){ return ele.indexOf('widget://') === -1; });
+            if (objects.length) {
+                objects = unique.call(objects);
+
+                for (var link, img, alttext, i = 0, l = objects.length; i < l; i++) {
+                    link = document.createElement('a');
+                    img = document.createElement('canvas');
+
+                    link.href = objects[i].replace(/^\w+:\s/,'');
+                    link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
+
+                    img.alt = objects[i];
+                    img.className = 'noads_placeholder';
+                    img.setAttribute('helpernoads', 'true');
+                    img.width = 100;
+                    img.height = 20;
+
+                    drawAltText(img);
+
+                    link.appendChild(img);
+                    content.appendChild(link);
+                }
+            }
+
+            getStyleSheet().replace(/(?:url\(['"]?)([^'"\)]+)(?:['"]?\))/ig, function (str, p1) {
+                images.push(p1.trim());
+            });
+
+            if (images.length) images = images.filter(function(ele, ind, arr){ return ele.indexOf('data:') === -1; });
+
+            if (images.length) {
+                var back = document.createElement('div');
+                back.style.minWidth = '200px';
+                back.setAttribute('servicenoads', 'true');
+                back.className = 'noads_css_img_back';
+
+                images = unique.call(images);
+
+                back.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
+
+                for (var link, img, i = 0, l = images.length; i < l; i++) {
+                    link = document.createElement('a');
+                    img = document.createElement('img');
+
+                    link.href = images[i];
+                    link.target = '_blank';
+                    link.setAttribute('helpernoads', 'true');
+
+                    img.className = 'noads_placeholder';
+                    img.src = images[i];
+                    img.alt = 'url(' + images[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ')';
+                    img.setAttribute('helpernoads', 'true');
+
+                    link.appendChild(img);
+                    back.appendChild(link);
+                }
+                content.appendChild(back);
             }
 
             overlay.appendChild(content);
-
-
-            if (images.length > 0) {
-                images = unique.call(images);
-
-                content.appendChild(document.createTextNode(lng.pCSSlinks + ':'));
-                overlay.appendChild(content);
-
-                for (var i = 0, l = images.length; i < l; i++) {
-                    if (images[i].indexOf('data:') === -1) {
-                        var link = document.createElement('a'), img = document.createElement('img');
-
-                        link.href = images[i];
-                        link.target = '_blank';
-                        link.setAttribute('helpernoads', 'true');
-
-                        img.className = 'noads_placeholder';
-                        img.src = images[i];
-                        img.alt = 'url( ' + images[i].replace(/^[\/\.]+|[\?&]+.*$/g, '') + ' )';
-                        img.setAttribute('helpernoads', 'true');
-
-                        link.appendChild(img);
-                        content.appendChild(link);
-                    }
-                }
-                overlay.appendChild(content);
-            }
-
 
             if (content.childElementCount) {
                 hide.addEventListener('click', content.hide, false);
@@ -755,7 +775,6 @@ var run = {
 
         try {
             (document.body || document.documentElement).appendChild(overlay);
-            this.blockElement(false, true);
         } catch (e) {
             delElement(overlay.clearStyle);
             window.removeEventListener('resize', resize, false);

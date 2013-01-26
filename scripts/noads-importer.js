@@ -242,7 +242,7 @@ var importer = {
             }
         };
         xmlhttp.overrideMimeType('text/plain');
-        xmlhttp.open('GET', url, false);
+        xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), false);
         xmlhttp.send(null);
     }
 };
