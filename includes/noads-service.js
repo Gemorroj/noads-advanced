@@ -122,11 +122,11 @@ var noads = {
 
         if (el.getAttribute('helpernoads')) {
             if (el.nodeName.toLowerCase() === 'canvas') {
-                return '[href="'+ el.parentElement.href +'"]';
+                return '[href="' + el.parentElement.href + '"]';
             } else if (el.nodeName.toLowerCase() === 'img') {
-                return '[src="'+ el.src +'"]';
+                return '[src="' + el.src + '"]';
             } else {
-                return '[href="'+ el.href +'"]';
+                return '[href="' + el.href + '"]';
             }
         }
 
@@ -590,8 +590,8 @@ var run = {
         this.blockElement(false, true);
 
         var diffHeight = window.outerHeight - window.innerHeight,
-            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'),0).filter(function(){return true}),
-            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),0),
+            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'), 0).filter(function(){return true;}),
+            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'), 0),
             images = [],
             resize = function () {
                 if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
@@ -616,7 +616,7 @@ var run = {
                 ctx.fillStyle = "black";
                 ctx.fillText(img.alt, 10, 0);
                 img.width = ctx.measureText(img.alt).width + 20;
-                ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height)
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
                 ctx.textBaseline = "top";
                 ctx.font = 'bold 16px serif';
                 ctx.fillStyle = "black";
@@ -699,7 +699,7 @@ var run = {
             for (var url, i = 0; i < objects.length; i++) {
                 url = objects[i].src || objects[i].value || objects[i].data || null;
                 if (!url) {
-                    objects.splice(i,1);
+                    objects.splice(i, 1);
                     continue;
                 }
                 objects[i] = objects[i].tagName.toLowerCase() + ': ' + url.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, '');

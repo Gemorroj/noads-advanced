@@ -389,7 +389,19 @@ var options = {
             '^data:','^opera:','^widget:',
             // TODO: 
             //   Load list from separate and(or) JSON file using resource loader (12+).
-            '^https?://(?:apis|maps)+\\.google\\.com',
+            '^https?://(?:api|api-read)\\.facebook\\.com',
+            '^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru',
+            '^https?://connect\\.facebook\\.net',
+            '^https?://connect\\.mail\\.ru',
+            '^https?://connect\\.sensiolabs\\.com',
+            '^https?://login\\.vk\\.com',
+            '^https?://vk\\.com',
+            '^https?://vkontakte\\.ru',
+            '^https?://www\\.bing\\.com',
+            '^https?://static\\.chartbeat\\.com',
+            '^https?://[a-z\\.]+\\.twitter\\.com',
+
+            '^https?://(?:apis|maps|plus)+\\.google\\.com',
             '^https?://[a-z-]+\\.aolcdn\\.com',
             '^https?://[a-z-]+\\.bitsontherun\\.com',
             '^https?://[a-z-]+\\.cdn\\.turner\\.com',
@@ -741,8 +753,8 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.style.height = global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
-                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px';
+            textarea.style.height = global ? Math.round(document.documentElement.clientHeight * 0.83) + 'px'
+                                           : Math.round(document.documentElement.clientHeight * 0.25) + 'px';
             //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
