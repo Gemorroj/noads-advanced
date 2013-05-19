@@ -59,7 +59,7 @@ addStyle = function (css, id) {
     }
     s.type = 'text/css';
     s.appendChild(document.createTextNode(css));
-    return (document.querySelectorAll('head')[0] || document.documentElement).appendChild(s);
+    return (document.head || document.documentElement).appendChild(s);
 },
 replaceStyle = function (ele, css) {
     if (ele) {
@@ -91,17 +91,23 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 inArray = function (needle) {
-    for (var i = 0, l = this.length; i < l; i++) if (this[i] && (this[i] === needle)) return true;
+    for (var i = 0, l = this.length; i < l; ++i) {
+        var tmp = this[i];
+        if (tmp && (tmp === needle)) {
+            return true;
+        }
+    }
     return false;
 },
 unique = function () {
     var u = {}, a = [];
     for (var i = 0, l = this.length; i < l; ++i) {
-        if (this[i] in u) {
+        var tmp = this[i];
+        if (tmp in u) {
             continue;
         }
-        a.push(this[i]);
-        u[this[i]] = 1;
+        a.push(tmp);
+        u[tmp] = 1;
    }
    return a;
 };
