@@ -1,6 +1,5 @@
 var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0,
-    disabled = options.checkEnabled('noads_disabled'),
-    v12 = (typeof opera.extension.tabGroups !== 'undefined');
+    disabled = options.checkEnabled('noads_disabled');
 
 function toggleExtension () {
     if (disabled) {
@@ -19,15 +18,13 @@ function toggleExtension () {
 
 function toggleButton (e) {
     var atab = opera.extension.tabs.getFocused();
-    button.disabled = v12 ? !atab.port : !atab;
+    button.disabled = !atab.port;
 }
 
 function setButtonState (port, state) {
-    if (v12) {
-        // in case source tab is active
-        if (port === opera.extension.tabs.getFocused().port) {
-            button.disabled = !state;
-        }
+    // in case source tab is active
+    if (port === opera.extension.tabs.getFocused().port) {
+        button.disabled = !state;
     }
 }
 
