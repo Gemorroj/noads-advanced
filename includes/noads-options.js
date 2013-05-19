@@ -272,7 +272,7 @@ var options = {
             } else {
                 try {
                     // if we have `domain.tld##selectors` format
-                    var vsel =  value.slice(vpos+2, value.length);
+                    var vsel =  value.slice(vpos + 2, value.length);
                     document.querySelectorAll(vsel);
                     if (!(vsel.replace(/\s/g,'').length)) isNotEmptyRules = false;
                 } catch (bug) {

@@ -82,14 +82,15 @@ var importer = {
                     };
 
                 for (var i = 0, l = arr.length; i < l; i++) {
-                    if (arr[i] && re_is_filter.test(arr[i])) {
-                        var rule = arr[i].replace(re_mnemonics, '');
+                    var preRule = arr[i];
+                    if (preRule && re_is_filter.test(preRule)) {
+                        var rule = preRule.replace(re_mnemonics, '');
 
-                        if ((arr[i].charAt(0) === '|') && (arr[i].charAt(1) === '|')) {
-                            rez.push(pushRule(arr[i], '*://*.' + rule));
-                            rez.push(pushRule(arr[i], '*://' + rule));
+                        if ((preRule.charAt(0) === '|') && (preRule.charAt(1) === '|')) {
+                            rez.push(pushRule(preRule, '*://*.' + rule));
+                            rez.push(pushRule(preRule, '*://' + rule));
                         } else {
-                            rez.push(pushRule(arr[i], rule));
+                            rez.push(pushRule(preRule, rule));
                         }
                     }
                 }
@@ -230,15 +231,17 @@ var importer = {
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 /*XMLHttpRequest.DONE*/ && xmlhttp.status == 200) {
-                setValue('noads_last_update', Date.now());
-                if (~url.indexOf('.ini')) {
-                    callback(importer.importFilters(xmlhttp.responseText, add_rules));
+            if (xmlhttp.readyState === 4 /*XMLHttpRequest.DONE*/) {
+                if (xmlhttp.status === 200) {
+                    setValue('noads_last_update', Date.now());
+                    if (~url.indexOf('.ini')) {
+                        callback(importer.importFilters(xmlhttp.responseText, add_rules));
+                    } else {
+                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
+                    }
                 } else {
-                    callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
+                    throw 'server response was: "' + xmlhttp.statusText + '"';
                 }
-            } else if (xmlhttp.readyState >= 4 /*XMLHttpRequest.DONE*/) {
-                throw 'server response was: "' + xmlhttp.statusText + '"';
             }
         };
         xmlhttp.overrideMimeType('text/plain');
