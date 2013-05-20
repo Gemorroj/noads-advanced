@@ -144,6 +144,7 @@
         "^https?://[0-9a-z-]+\\.wlxrs\\.com",
         "^https?://[0-9a-z-]+\\.yahooapis\\.com",
         "^https?://[0-9a-z-]+\\.ytimg\\.com",
+        "^https?://[0-9a-z-]+\\.s3.amazonaws.com",
         "^https?://a[0-9]+\\.e\\.fsimg\\.ru",
         "^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com",
         "^https?://mat1\\.gtimg\\.com",
