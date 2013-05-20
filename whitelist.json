@@ -134,6 +134,7 @@
         "^https?://[0-9a-z-]+\\.ea\\.com",
         "^https?://[0-9a-z-]+\\.fjcdn\\.com",
         "^https?://[0-9a-z-]+\\.github\\.com",
+        "^https?://[0-9a-z-]+\\.githubapp\\.com",
         "^https?://[0-9a-z-]+\\.googleapis\\.com",
         "^https?://[0-9a-z-]+\\.googlecode\\.com",
         "^https?://[0-9a-z-]+\\.gstatic\\.com",
