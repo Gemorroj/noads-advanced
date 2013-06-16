@@ -147,6 +147,7 @@
         "^https?://a[0-9]+\\.e\\.fsimg\\.ru",
         "^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com",
         "^https?://mat1\\.gtimg\\.com",
+        "^https?://www\\-cdn\\.jtvnw\\.net",
         "^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+",
         "^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)",
 
