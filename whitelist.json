@@ -154,7 +154,7 @@
         "^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+",
         "^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)",
 
-        "[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js",
+        "[a-z0-9-\\.]+\\.(?:full|min|pack)+\\.js",
 
         "AC_RunActiveContent\\.js",
         "api\\.php",
@@ -173,8 +173,11 @@
         "ping\\.js",
         "play(?:er)?\\.js",
         "prototype[0-9a-z\\.-]*\\.js",
+        "right[0-9a-z-]*\\.js",
+        "scriptaculous\\.js",
         "show_afs_search\\.js",
         "swfobject[0-9-\\.]*\\.js",
+        "webfont\\.js",
         "widgets?\\.js",
         "yahoo-dom-event\\.js",
         "yui[0-9a-z\\.-]*\\.js"
