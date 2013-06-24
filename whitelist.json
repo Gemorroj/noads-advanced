@@ -82,6 +82,7 @@
         "^https?://apps\\.skypeassets\\.com",
         "^https?://auth\\.tbn\\.ru",
         "^https?://badoocdn\\.com",
+        "^https?://e\\d+\\.boxcdn\\.net",
         "^https?://cdn\\d*\\.",
         "^https?://css\\.yandex\\.net",
         "^https?://fastcache\\.gawkerassets\\.com",
