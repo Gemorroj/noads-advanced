@@ -148,6 +148,7 @@
         "^https?://[0-9a-z-]+\\.ytimg\\.com",
         "^https?://[0-9a-z-]+\\.s3.amazonaws.com",
         "^https?://[0-9a-z-]+\\.belgeodesy\\.by",
+        "^https?://[0-9a-z-\\.]+\\.nocookie\\.net",
         "^https?://s3\\.countby\\.com",
         "^https?://a[0-9]+\\.e\\.fsimg\\.ru",
         "^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com",
