@@ -28,8 +28,9 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;margin:0px;padding:1%;height:95%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
-.noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
-.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
+.noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:pointer;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
+.noads_menu li:hover{background-color:#f3f4f5 !important;}\
+.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 0 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
 .noads_content .inline{position:relative;display:inline-block;float:right;margin-top:-48px;margin-right:-10px;}\
 .noads_content .inline-clean{position:relative;display:inline-block;margin-top:-28px;}\
 .noads_content .button_area {height:8%;}\
@@ -488,6 +489,9 @@ var options = {
                 list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
+                if (item[2]) {
+                    list.style.cssText = item[2];
+                }
                 list.style.backgroundColor = (i === 0) ? '#fafbfc' : '#edeeef';
                 list.style.borderBottomColor = (i === 0) ? '#fafbfc' : '#aaaaaa';
                 menu.appendChild(list);
@@ -993,6 +997,9 @@ var options = {
             this.appendChild(this.createButtonCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
             this.appendChild(this.createButtonCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
         };
+        area.showFaq = function (pos) {
+            window.open(lng.lFaq, '_blank');
+        };
 
         if (domain) {
             win.createMenu(
@@ -1007,7 +1014,8 @@ var options = {
                 [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
                 [lng.mURLfilters, function () { area.showURLfilters(5); }],
                 [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
-                [lng.mHelp, function () { area.showHelp(7); }]
+                [lng.mHelp, function () { area.showHelp(7); }],
+                [lng.mFaq, function () { area.showFaq(8); }, 'float: right; margin-right: 3px;']
             );
         }
         content.appendChild(area);
