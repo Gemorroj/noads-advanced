@@ -131,6 +131,7 @@
         "^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net",
         "^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com",
         "^https?://[0-9a-z-\\.]+\\.s-msft\\.com",
+        "^https?://[0-9a-z-\\.]+\\.fastly\\.net",
         "^https?://[0-9a-z-]+\\.appspot\\.com",
         "^https?://[0-9a-z-]+\\.cloudfront\\.net",
         "^https?://[0-9a-z-]+\\.ea\\.com",
