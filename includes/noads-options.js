@@ -526,9 +526,9 @@ var options = {
             if (sClickFn) button.onclick = sClickFn;
             return button;
         };
-        area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
+        area.createButtonCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
             var checkbox = document.createElement('button');
-            checkbox.type = 'checkbox';
+            checkbox.type = 'button';
             checkbox.id = sName + '_toggle';
             if (imgData) {
                 var img = document.createElement('img');
@@ -604,7 +604,7 @@ var options = {
             button_area.className = 'button_area';
             return button_area;
         };
-        area.createCheckboxButton = function (txt, url, typein, sClickFn) {
+        area.createCheckbox = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
                 inputid = 'id-' + (Math.random()).toString().replace('.', ''),
@@ -651,7 +651,7 @@ var options = {
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
-            this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
@@ -667,7 +667,7 @@ var options = {
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
-            this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
 
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -685,8 +685,8 @@ var options = {
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
-            this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
+            this.appendChild(this.createButtonCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
             
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -703,7 +703,7 @@ var options = {
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
-            this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
 
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -720,7 +720,7 @@ var options = {
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
+            this.appendChild(this.createButtonCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
                 sendMessage({ type: 'reload_rules', global: false, clear: !options.checkEnabled('noads_userurlfilterlist_state')});
             }));
 
@@ -741,7 +741,7 @@ var options = {
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
+            this.appendChild(this.createButtonCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
                 sendMessage({ type: 'reload_rules', global: true, clear: !options.checkEnabled('noads_urlfilterlist_state')});
             });
 
@@ -768,7 +768,7 @@ var options = {
             this.appendChild(textucss);
             var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
+            inlinearea.appendChild(this.createButtonCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_usercss_textarea').disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, 'right-second', imageTick, function () {
@@ -782,7 +782,7 @@ var options = {
             this.appendChild(textcss);
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
+            inlinearea.appendChild(this.createButtonCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_css_textarea').disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, 'right-second', imageTick, function () {
@@ -911,40 +911,40 @@ var options = {
             var block = document.createElement('fieldset');
             block.className = 'noads_subscriptions_block';
 
-            this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
-            this.createCheckboxButton.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
-            this.createCheckboxButton.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
-            this.createCheckboxButton.call(block, 'EasyList french', 'http://lian.info.tm/liste_fr.txt');
-            this.createCheckboxButton.call(block, 'EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
-            this.createCheckboxButton.call(block, 'EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
-            this.createCheckboxButton.call(block, 'EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
-            this.createCheckboxButton.call(block, 'EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
-            this.createCheckboxButton.call(block, 'EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
-            this.createCheckboxButton.call(block, 'EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
-            this.createCheckboxButton.call(block, 'FanBoy Annoyance list', 'http://www.fanboy.co.nz/fanboy-addon.txt');
+            this.createCheckbox.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
+            this.createCheckbox.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+            this.createCheckbox.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
+            this.createCheckbox.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
+            this.createCheckbox.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
+            this.createCheckbox.call(block, 'EasyList french', 'http://lian.info.tm/liste_fr.txt');
+            this.createCheckbox.call(block, 'EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
+            this.createCheckbox.call(block, 'EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
+            this.createCheckbox.call(block, 'EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
+            this.createCheckbox.call(block, 'EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
+            this.createCheckbox.call(block, 'EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
+            this.createCheckbox.call(block, 'EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
+            this.createCheckbox.call(block, 'FanBoy Annoyance list', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
+            this.createCheckbox.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
+            this.createCheckbox.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
+            this.createCheckbox.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
+            this.createCheckbox.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
+            this.createCheckbox.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
+            this.createCheckbox.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
+            this.createCheckbox.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
+            this.createCheckbox.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
+            this.createCheckbox.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
+            this.createCheckbox.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
             block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
-            this.createCheckboxButton.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
-            this.createCheckboxButton.call(block, 'Rickroll Database', 'http://rickrolldb.com/ricklist.txt');
+            this.createCheckbox.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
+            this.createCheckbox.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
+            this.createCheckbox.call(block, 'Rickroll Database', 'http://rickrolldb.com/ricklist.txt');
             //block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, ' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+            this.createCheckbox.call(block, ' (*.txt, *.ini)', getValue('noads_custom_url'), true);
 
             this.appendChild(block);
 
@@ -970,11 +970,11 @@ var options = {
             }));
 
             var button_area = this.createButtonArea();
-            button_area.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
+            button_area.appendChild(this.createButtonCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
             options.setLastUpdate(lastUpdateNode);
 
-            button_area.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            button_area.appendChild(this.createButtonCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
@@ -989,9 +989,9 @@ var options = {
             p.appendChild(document.createTextNode(lng.pAbout));
             this.appendChild(p);
 
-            this.appendChild(this.createCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
-            this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
-            this.appendChild(this.createCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
         };
 
         if (domain) {
