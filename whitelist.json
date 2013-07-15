@@ -74,6 +74,8 @@
         "^https?://a\\.fsdn\\.com",
         "^https?://ajax\\.aspnetcdn\\.com",
         "^https?://ajax\\.microsoft\\.com",
+        "^https?://[a-z0-9]+\\.mozillalabs\\.com",
+        "^https?://cdn\\.popcornjs\\.org",
         "^https?://api-maps\\.yandex\\.ru",
         "^https?://api-public\\.addthis\\.com",
         "^https?://api\\.bit\\.ly",
