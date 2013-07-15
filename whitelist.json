@@ -54,7 +54,7 @@
         "^https?://(?:api|api-read)+\\.facebook\\.com",
         "^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru",
         "^https?://connect\\.facebook\\.net",
-        "^https?://connect\\.mail\\.ru",
+        "^https?://(?:cdn\\.)?connect\\.mail\\.ru",
         "^https?://connect\\.sensiolabs\\.com",
         "^https?://login\\.vk\\.com",
         "^https?://vk\\.com",
