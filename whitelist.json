@@ -74,6 +74,7 @@
         "^https?://syn\\.5min\\.com",
         "^https?://assets\\.pinterest\\.com",
         "^https?://[a-z0-9]+\\.api\\.oneall\\.com",
+        "^https?://cackle\\.me",
 
         "^https?://(?:apis|maps|plus)+\\.google\\.com",
         "^https?://[a-z-]+\\.aolcdn\\.com",
@@ -141,7 +142,7 @@
         "^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net",
         "^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru",
         "^https?://[0-9a-z-\\.]+\\.com\\.com",
-        "^https?://[0-9a-z-\\.]+\\.disqus\\.com",
+        "^https?://(?:[0-9a-z-\\.]\\.)?disqus\\.com",
         "^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net",
         "^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com",
         "^https?://[0-9a-z-\\.]+\\.s-msft\\.com",
