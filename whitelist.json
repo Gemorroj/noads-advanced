@@ -51,7 +51,7 @@
     "scripts": [
         "^data:","^opera:","^widget:",
 
-        "^https?://(?:api|api-read)\\.facebook\\.com",
+        "^https?://(?:api|api-read)+\\.facebook\\.com",
         "^https?://(?:api|stg|www)+\\.odnoklassniki\\.ru",
         "^https?://connect\\.facebook\\.net",
         "^https?://connect\\.mail\\.ru",
@@ -149,6 +149,7 @@
         "^https?://[0-9a-z-]+\\.wlxrs\\.com",
         "^https?://[0-9a-z-]+\\.yahooapis\\.com",
         "^https?://[0-9a-z-]+\\.ytimg\\.com",
+        "^https?://(?:www\\.)?youtube\\.com",
         "^https?://[0-9a-z-]+\\.s3.amazonaws.com",
         "^https?://[0-9a-z-]+\\.belgeodesy\\.by",
         "^https?://[0-9a-z-\\.]+\\.nocookie\\.net",
