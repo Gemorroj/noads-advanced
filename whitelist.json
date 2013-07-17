@@ -61,6 +61,7 @@
         "^https?://[a-z\\.]+\\.twitter\\.com",
         "^https?://[a-z0-9]+\\.twimg\\.com",
 
+        "^https?://s5o\\.ru",
         "^https?://russiasport\\.ru",
         "^https?://static\\.huluim\\.com",
         "^https?://www\\.bkrtx\\.com",
