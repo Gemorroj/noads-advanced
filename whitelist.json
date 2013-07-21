@@ -60,6 +60,7 @@
         "^https?://static\\.chartbeat\\.com",
         "^https?://[a-z\\.]+\\.twitter\\.com",
         "^https?://[a-z0-9]+\\.twimg\\.com",
+        "^https?://[a-z0-9]+\\.zamimg\\.com",
 
         "^https?://s5o\\.ru",
         "^https?://russiasport\\.ru",
