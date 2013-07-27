@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -28,8 +24,9 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 .noads_win{letter-spacing:normal !important;box-sizing:content-box !important;text-transform:none !important;text-shadow:none !important;font-weight: normal !important;display:block !important;border-radius:0;color:#000;overflow:visible;margin:0px;padding:1%;height:95%;}\
 .noads_close_window{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background:-o-skin("Caption Close Button Skin");border:none;cursor:pointer;display:block !important;float:right;height:18px;width:18px;margin:0;padding:0;}\
 .noads_menu{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;list-style:none;overflow:hidden;margin:0 0 -1px 2px;padding:2px 2px 0;}\
-.noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:default;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
-.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 4px 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
+.noads_menu li{border:1px solid #aaa;border-bottom-color:#fafbfc;border-radius:4px 4px 0 0;color:#000;cursor:pointer;float:left;font-family:Tahoma,sans-serif;font-size:14px;line-height:normal;list-style-position:outside;text-align:left;white-space:nowrap;margin:0 0 0 1px;padding:3px 9px;}\
+.noads_menu li:hover{background-color:#f3f4f5 !important;}\
+.noads_content{letter-spacing:normal !important;text-transform:none !important;text-shadow:none !important;box-shadow:none !important;background-color:#fafbfc;border:1px solid #aaa;border-radius:0 0 4px 4px;display:block !important;overflow:hidden;width:auto;margin:0 5px 5px;padding:5px;}\
 .noads_content .inline{position:relative;display:inline-block;float:right;margin-top:-48px;margin-right:-10px;}\
 .noads_content .inline-clean{position:relative;display:inline-block;margin-top:-28px;}\
 .noads_content .button_area {height:8%;}\
@@ -59,7 +56,8 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
 .noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
 .noads_input_help{font: bold 13px sans-serif;}\
-.noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
+.noads_help{line-height:160%;background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}\
+kbd{padding:0.1em 0.6em;border:1px solid #ccc;font-size:11px;font-family:Arial,Helvetica,sans-serif;background-color:#f7f7f7;color:#333;-moz-box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;-webkit-box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;display:inline-block;margin:0 0.1em;text-shadow:0 1px 0 #fff;line-height:1.4;white-space:nowrap;}';
 
 // images for buttons
 var imageTick = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGrSURBVDjLvZPZLkNhFIV75zjvYm7VGFNCqoZUJ+roKUUpjRuqp61Wq0NKDMelGGqOxBSUIBKXWtWGZxAvobr8lWjChRgSF//dv9be+9trCwAI/vIE/26gXmviW5bqnb8yUK028qZjPfoPWEj4Ku5HBspgAz941IXZeze8N1bottSo8BTZviVWrEh546EO03EXpuJOdG63otJbjBKHkEp/Ml6yNYYzpuezWL4s5VMtT8acCMQcb5XL3eJE8VgBlR7BeMGW9Z4yT9y1CeyucuhdTGDxfftaBO7G4L+zg91UocxVmCiy51NpiP3n2treUPujL8xhOjYOzZYsQWANyRYlU4Y9Br6oHd5bDh0bCpSOixJiWx71YY09J5pM/WEbzFcDmHvwwBu2wnikg+lEj4mwBe5bC5h1OUqcwpdC60dxegRmR06TyjCF9G9z+qM2uCJmuMJmaNZaUrCSIi6X+jJIBBYtW5Cge7cd7sgoHDfDaAvKQGAlRZYc6ltJlMxX03UzlaRlBdQrzSCwksLRbOpHUSb7pcsnxCCwngvM2Rm/ugUCi84fycr4l2t8Bb6iqTxSCgNIAAAAAElFTkSuQmCC';
@@ -211,11 +209,11 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                rez.push(rule.slice(pos + 4));
+                rez.push(rule.slice(pos + 4)); // screenRegExp(rule.slice(pos + 4))?
             }
         }
         tmp = null;
-        return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
+        return rez.length ? new RegExp(rez.join('|'),'mi') : false;
     },
 
     getRawRules: function (name, domain, global) {
@@ -223,8 +221,9 @@ var options = {
         if (!domain) {
             var whitelist = getValue(name + '_white').split('\n');
             for (var i = 0, l = whitelist.length; i < l; i++) {
-                if (whitelist[i].indexOf('@@') === 0) {
-                    rez.push(whitelist[i]);
+                rule = whitelist[i];
+                if (rule.indexOf('@@') === 0) {
+                    rez.push(rule);
                 }
             }
         }
@@ -245,6 +244,8 @@ var options = {
         for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
             if (rule.indexOf('@@') !== 0 && rule.length > 2) {
+                rez.push(rule);
+            } else if (rule.indexOf('##$$') === 0 && rule.length > 4) {
                 rez.push(rule);
             }
         }
@@ -272,7 +273,7 @@ var options = {
             } else {
                 try {
                     // if we have `domain.tld##selectors` format
-                    var vsel =  value.slice(vpos+2, value.length);
+                    var vsel =  value.slice(vpos + 2, value.length);
                     document.querySelectorAll(vsel);
                     if (!(vsel.replace(/\s/g,'').length)) isNotEmptyRules = false;
                 } catch (bug) {
@@ -336,181 +337,26 @@ var options = {
 
     // create default white list
     setDefWhiteList: function () {
-        var whiteList = [
-            'acid3.acidtests.org',
-            'amazon.com',
-            'anonym.to',
-            'asus.com',
-            'bbc.co.uk',
-            'bing.com',
-            'britannica.com',
-            'browserid.org',
-            'deviantart.com',
-            'developer.mozilla.org',
-            'ebay.com',
-            'eurosport.ru',
-            'facebook.com',
-            'flickr.com',
-            'guardian.co.uk',
-            'googleusercontent.com',
-            'hotmail.com',
-            'imageshack.us',
-            'imdb.com',
-            'kinozal.tv',
-            'lastfm.ru',
-            'livegames.ru',
-            'macromedia.com',
-            'mail.ru',
-            'megashare.by',
-            'metacafe.com',
-            'molotok.ru',
-            'myspace.com',
-            'newegg.com',
-            'opera.com',
-            'picasaweb.google.com',
-            'piter.fm',
-            'playset.ru',
-            'sprashivai.ru',
-            'translate.google.com',
-            'tvshack.net',
-            'twitter.com',
-            'vimeo.com',
-            'virustotal.com',
-            'vk.com',
-            'vkontakte.ru',
-            'wikipedia.org',
-            'ya.ru',
-            'yahoo.com',
-            'youtube.com',
-            'youtube-nocookie.com'
-        ];
-
-        var skipScripts = [
-            '^data:','^opera:','^widget:',
-            // TODO: 
-            //   Load list from separate and(or) JSON file using resource loader (12+).
-            '^https?://(?:apis|maps)+\\.google\\.com',
-            '^https?://[a-z-]+\\.aolcdn\\.com',
-            '^https?://[a-z-]+\\.bitsontherun\\.com',
-            '^https?://[a-z-]+\\.cdn\\.turner\\.com',
-            '^https?://[a-z-]+\\.stj\\.s-msn\\.com',
-            '^https?://[a-z]+\\.ignimgs\\.com',
-            '^https?://[a-z]+\\.xnimg\\.cn',
-            '^https?://a\\.dolimg\\.com',
-            '^https?://a\\.fsdn\\.com',
-            '^https?://ajax\\.aspnetcdn\\.com',
-            '^https?://ajax\\.microsoft\\.com',
-            '^https?://api-maps\\.yandex\\.ru',
-            '^https?://api-public\\.addthis\\.com',
-            '^https?://api\\.bit\\.ly',
-            '^https?://api\\.recaptcha\\.net',
-            '^https?://api\\.soundcloud\\.com',
-            '^https?://apps\\.skypeassets\\.com',
-            '^https?://auth\\.tbn\\.ru',
-            '^https?://badoocdn\\.com',
-            '^https?://cdn\\d*\\.', // content delivery networks >_<
-            '^https?://css\\.yandex\\.net',
-            '^https?://fastcache\\.gawkerassets\\.com',
-            '^https?://fonts\\.gizmodo\\.com',
-            '^https?://img-css\\.friends\\.yandex\\.net',
-            '^https?://internal\\.immogames\\.cdnvideo\\.ru',
-            '^https?://ipinfodb\\.com',
-            '^https?://js\\.gotophotels\\.ru',
-            '^https?://live\\.nhle\\.com',
-            '^https?://my\\.ya\\.ru',
-            '^https?://onlywire\\.com',
-            '^https?://rutube\\.ru',
-            '^https?://s\\d+\\.addthis\\.com/js',
-            '^https?://s\\d+\\.ucoz\\.net',
-            '^https?://script\\.aculo\\.us',
-            '^https?://secure\\.gravatar\\.com',
-            '^https?://secure\\.skypeassets\\.com',
-            '^https?://sstatic\\.net',
-            '^https?://st\\.drweb\\.com',
-            '^https?://static\\.addtoany\\.com',
-            '^https?://static\\.ak\\.fbcdn\\.net',
-            '^https?://static\\.allegrostatic\\.pl',
-            '^https?://static\\.crowdscience\\.com',
-            '^https?://static\\.myopera\\.com',
-            '^https?://static\\.polldaddy\\.com',
-            '^https?://translate\\.googleusercontent\\.com',
-            '^https?://userapi\\.com',
-            '^https?://www\\.browserscope\\.org',
-            '^https?://www\\.gamehive\\.ru',
-            '^https?://www\\.paypalobjects\\.com',
-            '^https?://www\\.redditstatic\\.com',
-            '^https?://yandex\\.st',
-            '^https?://yuilibrary\\.com',
-            '^https?://(?:[0-9a-z-]*\\.)?ebayrtm.com',
-            '^https?://(?:[0-9a-z-]*\\.)?ebaystatic.com',
-            '^https?://(?:[0-9a-z-]*\\.)?gawkerassets.com',
-            '^https?://(?:[0-9a-z-]*\\.)?keycaptcha.com',
-            '^https?://(?:[0-9a-z-]*\\.)?solvemedia.com',
-            '^https?://[0-9a-z-\\.]*\\.?browserid\\.org',
-            '^https?://[0-9a-z-\\.]*zohostatic\\.com',
-            '^https?://[0-9a-z-\\.]+\\.akamai(?:hd)?\\.net',
-            '^https?://[0-9a-z-\\.]+\\.cdnvideo\\.ru',
-            '^https?://[0-9a-z-\\.]+\\.com\\.com',
-            '^https?://[0-9a-z-\\.]+\\.disqus\\.com',
-            '^https?://[0-9a-z-\\.]+\\.edgecastcdn\\.net',
-            '^https?://[0-9a-z-\\.]+\\.longtailvideo\\.com',
-            '^https?://[0-9a-z-\\.]+\\.s-msft\\.com',
-            '^https?://[0-9a-z-]+\\.appspot\\.com',
-            '^https?://[0-9a-z-]+\\.cloudfront\\.net',
-            '^https?://[0-9a-z-]+\\.ea\\.com',
-            '^https?://[0-9a-z-]+\\.fjcdn\\.com',
-            '^https?://[0-9a-z-]+\\.github\\.com',
-            '^https?://[0-9a-z-]+\\.googleapis\\.com',
-            '^https?://[0-9a-z-]+\\.googlecode\\.com',
-            '^https?://[0-9a-z-]+\\.gstatic\\.com',
-            '^https?://[0-9a-z-]+\\.hotmail\\.',
-            '^https?://[0-9a-z-]+\\.imgsmail\\.ru',
-            '^https?://[0-9a-z-]+\\.ltvimg\\.com',
-            '^https?://[0-9a-z-]+\\.olark\\.com',
-            '^https?://[0-9a-z-]+\\.wlxrs\\.com',
-            '^https?://[0-9a-z-]+\\.yahooapis\\.com',
-            '^https?://[0-9a-z-]+\\.ytimg\\.com',
-            '^https?://a[0-9]+\\.e\\.fsimg\\.ru',
-            '^https?://i[0-9]+\\.services\\.social\\.microsoft\\.com',
-            '^https?://mat1\\.gtimg\\.com',
-            '^https?://www\\.google\\.com/(?:uds|coop|cse|jsapi|recaptcha|support|s2)+',
-            '^https?://94\\.198\\.241\\.1(?:41|42|43|44|45|46|47|48|49|50|51|52|53)', // letitbit
-            // TODO:
-            // See comment before. That idea ends here.
-            '[a-z0-9]+\\.jq\\.(?:full|min|pack)+\\.js',
-            'AC_RunActiveContent\\.js',
-            'api\\.php',
-            'ajax\\.js',
-            'bundle_github\\.js',
-            'chart\\.js',
-            'common\\.js',
-            'config\\.js',
-            'core\\.js',
-            'dojo\\.js',
-            'ext[0-9a-z\\.-]*\\.js',
-            'home\\.js',
-            'feedback\\.js',
-            'jquery[0-9a-z\\.-]*\\.js',
-            'mootools[0-9a-z-\\.]*\\.js',
-            'ping\\.js',
-            'play(?:er)?\\.js',
-            'prototype[0-9a-z\\.-]*\\.js',
-            'show_afs_search\\.js',
-            'swfobject[0-9-\\.]*\\.js',
-            'widgets?\\.js',
-            'yahoo-dom-event\\.js',
-            'yui[0-9a-z\\.-]*\\.js'
-        ];
-
-        setValue('noads_scriptlist_white', '@@||' + whiteList.join('^\n@@||') + '^\n@@==' + skipScripts.join('\n@@=='));
+        try {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                whitelist = JSON.parse(e.target.result);
+                setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
+                setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+            };
+            reader.readAsText(opera.extension.getFile('/scriptrules.json'));
+        } catch (bug) {
+            log('FileReader error! Script rules will be empty.');
+        }
     },
 
     setActiveDomain: function (name, domain, value) {
         var rez = getValue(name).split('\n');
         if (value) {
-            for (var i = rez.length; i--;) {
-                if (rez[i].indexOf('@@||') === 0) {
-                    if (this.isWhiteListed(rez[i].slice(4), domain)) {
+            for (var rule, i = rez.length; i--;) {
+                rule = rez[i];
+                if (rule.indexOf('@@||') === 0) {
+                    if (this.isWhiteListed(rule.slice(4), domain)) {
                         rez.splice(i, 1);
                     }
                 }
@@ -647,6 +493,9 @@ var options = {
                 list = document.createElement('li');
                 list.appendChild(document.createTextNode(item[0]));
                 list.onclick = item[1];
+                if (item[2]) {
+                    list.style.cssText = item[2];
+                }
                 list.style.backgroundColor = (i === 0) ? '#fafbfc' : '#edeeef';
                 list.style.borderBottomColor = (i === 0) ? '#fafbfc' : '#aaaaaa';
                 menu.appendChild(list);
@@ -685,9 +534,9 @@ var options = {
             if (sClickFn) button.onclick = sClickFn;
             return button;
         };
-        area.createCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
+        area.createButtonCheckbox = function (sName, textEnabled, classEnabled, textDisabled, classDisabled, imgData, sClickFn) {
             var checkbox = document.createElement('button');
-            checkbox.type = 'checkbox';
+            checkbox.type = 'button';
             checkbox.id = sName + '_toggle';
             if (imgData) {
                 var img = document.createElement('img');
@@ -741,9 +590,6 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.style.height = global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
-                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px';
-            //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
@@ -756,6 +602,8 @@ var options = {
                 textarea.className = 'overflow';
             }
 
+            textarea.setAttribute('style', 'min-height: ' + (global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px !important'));
             return textarea;
         };
         area.createButtonArea = function() {
@@ -763,7 +611,7 @@ var options = {
             button_area.className = 'button_area';
             return button_area;
         };
-        area.createCheckboxButton = function (txt, url, typein, sClickFn) {
+        area.createCheckbox = function (txt, url, typein, sClickFn) {
             var label = document.createElement('label'),
                 input = document.createElement('input'),
                 inputid = 'id-' + (Math.random()).toString().replace('.', ''),
@@ -810,7 +658,7 @@ var options = {
         area.showUserCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_usercss_textarea', lng.pUCSS, 'noads_userlist'));
-            this.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
                 var val = document.getElementById('noads_usercss_textarea').value.replace(/^\s+|\r|\s+$/g, '');
@@ -826,7 +674,7 @@ var options = {
         area.showCSSList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_css_textarea', lng.pCSS, 'noads_list'));
-            this.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
 
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -844,8 +692,8 @@ var options = {
         area.showScriptWhitelist = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_scriptlist_textarea', lng.pScripts, 'noads_scriptlist'));
-            this.appendChild(this.createCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
-            this.appendChild(this.createCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
+            this.appendChild(this.createButtonCheckbox('noads_scriptlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_button', lng.pHideButton, 'positive right-second', lng.pShowButton, 'negative unchecked right-second'));
             
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -862,7 +710,7 @@ var options = {
         area.showMagicList = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_magic_textarea', lng.pMK, 'noads_magiclist'));
-            this.appendChild(this.createCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            this.appendChild(this.createButtonCheckbox('noads_magiclist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
 
             var button_area = this.createButtonArea();
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive', imageTick, function () {
@@ -879,7 +727,7 @@ var options = {
         area.showUserURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_userurlfilterlist_textarea', lng.pUserURLfilters, 'noads_userurlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
+            this.appendChild(this.createButtonCheckbox('noads_userurlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right',null, function () {
                 sendMessage({ type: 'reload_rules', global: false, clear: !options.checkEnabled('noads_userurlfilterlist_state')});
             }));
 
@@ -900,7 +748,7 @@ var options = {
         area.showURLfilters = function (pos) {
             this.clear(pos);
             this.appendChild(this.createTextarea('noads_urlfilterlist_textarea', lng.pURLfilters, 'noads_urlfilterlist'));
-            this.appendChild(this.createCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
+            this.appendChild(this.createButtonCheckbox('noads_urlfilterlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'),null, function () {
                 sendMessage({ type: 'reload_rules', global: true, clear: !options.checkEnabled('noads_urlfilterlist_state')});
             });
 
@@ -927,7 +775,7 @@ var options = {
             this.appendChild(textucss);
             var inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
+            inlinearea.appendChild(this.createButtonCheckbox('noads_userlist', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_usercss_textarea').disabled = !options.checkEnabled('noads_userlist_state') || !options.isActiveDomain('noads_userlist_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_usercss', lng.pSave, 'right-second', imageTick, function () {
@@ -941,7 +789,7 @@ var options = {
             this.appendChild(textcss);
             inlinearea = document.createElement('div');
             inlinearea.className = 'inline';
-            inlinearea.appendChild(this.createCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
+            inlinearea.appendChild(this.createButtonCheckbox('noads_list', lng.pEnabled, 'positive right', lng.pDisabled, 'negative right', null, function () {
                 document.getElementById('noads_css_textarea').disabled = !options.checkEnabled('noads_list_state') || !options.isActiveDomain('noads_list_white', domain);
             }));
             inlinearea.appendChild(this.createButton('noads_button_save_css', lng.pSave, 'right-second', imageTick, function () {
@@ -968,6 +816,8 @@ var options = {
             if (!disabled) {
                 textarea.value = blockedScripts.replace(/; /g, '\n');
             }
+            textarea.setAttribute('style', 'min-height: ' + (global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px !important'));
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
@@ -977,7 +827,7 @@ var options = {
                 var textarea = document.getElementById('noads_jsblocks_textarea');
                 var val = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).replace(/^\s+|\r|\s+$/g, '');
                 if (val) {
-                    val = val.replace(/[*+?^=!${}()\.|[\]\\]|\.(?!\w)/g, '\\$&').replace(/http:/gi,'https?:').replace(/\n+/g, '|');
+                    val = screenRegExp(val).replace(/http:/gi,'https?:').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
                     alert(lng.pBlockedAdded + ' ' + val);
@@ -1070,40 +920,40 @@ var options = {
             var block = document.createElement('fieldset');
             block.className = 'noads_subscriptions_block';
 
-            this.createCheckboxButton.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
-            this.createCheckboxButton.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
-            this.createCheckboxButton.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
-            this.createCheckboxButton.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
-            this.createCheckboxButton.call(block, 'EasyList french', 'http://lian.info.tm/liste_fr.txt');
-            this.createCheckboxButton.call(block, 'EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
-            this.createCheckboxButton.call(block, 'EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
-            this.createCheckboxButton.call(block, 'EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
-            this.createCheckboxButton.call(block, 'EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
-            this.createCheckboxButton.call(block, 'EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
-            this.createCheckboxButton.call(block, 'EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
-            this.createCheckboxButton.call(block, 'FanBoy Annoyance list', 'http://www.fanboy.co.nz/fanboy-addon.txt');
+            this.createCheckbox.call(block, 'EasyList', 'https://easylist-downloads.adblockplus.org/easylist.txt');
+            this.createCheckbox.call(block, 'EasyPrivacy/EasyList combination', 'https://easylist-downloads.adblockplus.org/easyprivacy+easylist.txt');
+            this.createCheckbox.call(block, 'RuAdList/EasyList russian', 'https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt');
+            this.createCheckbox.call(block, 'EasyList german', 'https://easylist-downloads.adblockplus.org/easylistgermany.txt');
+            this.createCheckbox.call(block, 'EasyList bulgarian', 'http://stanev.org/abp/adblock_bg.txt');
+            this.createCheckbox.call(block, 'EasyList french', 'http://lian.info.tm/liste_fr.txt');
+            this.createCheckbox.call(block, 'EasyList japanese', 'http://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt');
+            this.createCheckbox.call(block, 'EasyList greek', 'http://www.void.gr/kargig/void-gr-filters.txt');
+            this.createCheckbox.call(block, 'EasyList polish', 'http://adblocklist.org/adblock-pxf-polish.txt');
+            this.createCheckbox.call(block, 'EasyList chinese', 'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt');
+            this.createCheckbox.call(block, 'EasyList romanian', 'http://www.zoso.ro/pages/rolist.txt');
+            this.createCheckbox.call(block, 'EasyList finnish', 'http://www.wiltteri.net/wiltteri.txt');
+            this.createCheckbox.call(block, 'FanBoy Annoyance list', 'http://www.fanboy.co.nz/fanboy-addon.txt');
             block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
-            this.createCheckboxButton.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
+            this.createCheckbox.call(block, 'Fanboy Main', 'http://www.fanboy.co.nz/adblock/opera/urlfilter.ini');
+            this.createCheckbox.call(block, 'Fanboy Main+Tracking', 'http://www.fanboy.co.nz/adblock/opera/complete/urlfilter.ini');
+            this.createCheckbox.call(block, 'Chinese', 'http://www.fanboy.co.nz/adblock/opera/chn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Czech', 'http://www.fanboy.co.nz/adblock/opera/cz/urlfilter.ini');
+            this.createCheckbox.call(block, 'Espanol/Portuguese', 'http://www.fanboy.co.nz/adblock/opera/esp/urlfilter.ini');
+            this.createCheckbox.call(block, 'Japanese', 'http://www.fanboy.co.nz/adblock/opera/jpn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Korean', 'http://www.fanboy.co.nz/adblock/opera/krn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Merged Asian Lists', 'http://www.fanboy.co.nz/adblock/opera/asian/urlfilter.ini');
+            this.createCheckbox.call(block, 'Polish', 'http://www.fanboy.co.nz/adblock/opera/pol/urlfilter.ini');
+            this.createCheckbox.call(block, 'Russian', 'http://www.fanboy.co.nz/adblock/opera/rus/urlfilter.ini');
+            this.createCheckbox.call(block, 'Swedish', 'http://www.fanboy.co.nz/adblock/opera/swe/urlfilter.ini');
+            this.createCheckbox.call(block, 'Turkish', 'http://www.fanboy.co.nz/adblock/opera/trky/urlfilter.ini');
+            this.createCheckbox.call(block, 'Vietnamese', 'http://www.fanboy.co.nz/adblock/opera/vtn/urlfilter.ini');
+            this.createCheckbox.call(block, 'Latvian List', 'https://gitorious.org/adblock-latvian/adblock-latvian/blobs/raw/master/lists/urlfilter.ini');
             block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
-            this.createCheckboxButton.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
-            this.createCheckboxButton.call(block, 'Rickroll Database', 'http://rickrolldb.com/ricklist.txt');
+            this.createCheckbox.call(block, 'AntiSocial List', 'https://adversity.googlecode.com/hg/Antisocial.txt');
+            this.createCheckbox.call(block, 'Malware Domains', 'http://malwaredomains.lanik.us/malwaredomains_full.txt');
+            this.createCheckbox.call(block, 'Rickroll Database', 'http://rickrolldb.com/ricklist.txt');
             //block.appendChild(document.createElement('br'));
-            this.createCheckboxButton.call(block, ' (*.txt, *.ini)', getValue('noads_custom_url'), true);
+            this.createCheckbox.call(block, ' (*.txt, *.ini)', getValue('noads_custom_url'), true);
 
             this.appendChild(block);
 
@@ -1129,11 +979,11 @@ var options = {
             }));
 
             var button_area = this.createButtonArea();
-            button_area.appendChild(this.createCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
+            button_area.appendChild(this.createButtonCheckbox('noads_allrules', lng.pAllRules, 'positive', '', 'negative unchecked'));
 
             options.setLastUpdate(lastUpdateNode);
 
-            button_area.appendChild(this.createCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
+            button_area.appendChild(this.createButtonCheckbox('noads_autoupdate', lng.pEnabled, 'positive right', lng.pDisabled, 'negative unchecked right'));
             button_area.appendChild(this.createButton('noads_button_save', lng.pSave, 'positive right-second', imageTick, function () {
                 var noads_autoupdate_interval = Number(document.getElementById('noads_autoupdate_interval').value) * 86400000;
                 options.setAutoupdate(noads_autoupdate_interval);
@@ -1145,12 +995,15 @@ var options = {
             this.clear(pos);
             var p = document.createElement('pre');
             p.className = 'noads_help';
-            p.appendChild(document.createTextNode(lng.pAbout));
+            p.innerHTML = lng.pAbout;
             this.appendChild(p);
 
-            this.appendChild(this.createCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
-            this.appendChild(this.createCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
-            this.appendChild(this.createCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_tb_enabled', lng.pToolbarButton, 'right-second inline-clean', lng.pToolbarButton, 'right-second unchecked inline-clean'));
+            this.appendChild(this.createButtonCheckbox('noads_menu_enabled', 'Menu', 'right-second inline-clean', 'Menu', 'right-second unchecked inline-clean'));
+        };
+        area.showFaq = function (pos) {
+            window.open(lng.lFaq, '_blank');
         };
 
         if (domain) {
@@ -1166,7 +1019,8 @@ var options = {
                 [lng.mUserURLfilters, function () { area.showUserURLfilters(4); }],
                 [lng.mURLfilters, function () { area.showURLfilters(5); }],
                 [lng.mSubscriptions, function () { area.showSubscriptions(6); }],
-                [lng.mHelp, function () { area.showHelp(7); }]
+                [lng.mHelp, function () { area.showHelp(7); }],
+                [lng.mFaq, function () { area.showFaq(8); }, 'float: right; margin-right: 3px;']
             );
         }
         content.appendChild(area);

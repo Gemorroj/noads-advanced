@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -23,7 +19,7 @@
 // ==/UserScript==
 
 // global variables
-var none = '{display: none !important; height: 0 !important; width: 0 !important;}';
+var none = '{display: none !important; height: 0 !important; width: 0 !important; z-index: 10051005;}';
 var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}';
 var outlineCSS = '1px solid #306EFF';
 var outlineBgCSS = '#C6DEFF';
@@ -122,11 +118,11 @@ var noads = {
 
         if (el.getAttribute('helpernoads')) {
             if (el.nodeName.toLowerCase() === 'canvas') {
-                return '[href="'+ el.parentElement.href +'"]';
+                return '[href="' + el.parentElement.href + '"]';
             } else if (el.nodeName.toLowerCase() === 'img') {
-                return '[src="'+ el.src +'"]';
+                return '[src="' + el.src + '"]';
             } else {
-                return '[href="'+ el.href +'"]';
+                return '[href="' + el.href + '"]';
             }
         }
 
@@ -538,13 +534,13 @@ var run = {
             eCount = arrCSS.length;
             txt = this.noreload ? (enabled ? lng.blocked + ': ' + (blocked ? sCount + ' ' + lng.script + lng._s(sCount) + (css ? lng.and : '') : '') + (css ? eCount + ' ' + lng.element + lng._s(eCount) : '') : lng.disabled) : lng.reload;
             title = (enabled && this.noreload) ? lng.unblock + ': ' + (blocked ? blocked + (css ? '; ' : '') : '') + css : '';
-                
+
             b = document.createElement('input');
             b.setAttribute('servicenoads', 'true');
             b.type = 'button';
             b.value = txt;
             b.title = title;
-            b.style = 'right: -100px;';
+            b.style.right = '-100px';
             b.id = 'noads_button';
             b.addEventListener('click', function (e) {
                 if (e.ctrlKey && !e.shiftKey && !e.altKey) {
@@ -567,7 +563,7 @@ var run = {
             b.addEventListener('mouseout', function () {
                 //this.setAttribute('style', 'visibility:hidden;');
                 //this.setAttribute('style', 'right:'+b.offsetWidth+'px;');
-                this.style = 'right: -100px;';
+                this.style.right = '-100px';
                 delElement(this, this.offsetHeight * this.offsetWidth);
             }, false);
             try {
@@ -576,7 +572,7 @@ var run = {
         }
 
         //b.style.visibility = 'visible';
-        b.style = 'right: 0;';
+        b.style.right = '0';
     },
 
     contentBlockHelper: function () {
@@ -590,8 +586,8 @@ var run = {
         this.blockElement(false, true);
 
         var diffHeight = window.outerHeight - window.innerHeight,
-            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'),0).filter(function(){return true}),
-            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'),0),
+            scripts = Array.prototype.slice.call(document.querySelectorAll('script[src]'), 0).filter(function(){return true;}),
+            objects = Array.prototype.slice.call(document.querySelectorAll('iframe,embed,object,param[name="flashvars"],param[name="movie"],audio,video'), 0),
             images = [],
             resize = function () {
                 if (diffHeight > (diffHeight = window.outerHeight - window.innerHeight)) {
@@ -616,7 +612,7 @@ var run = {
                 ctx.fillStyle = "black";
                 ctx.fillText(img.alt, 10, 0);
                 img.width = ctx.measureText(img.alt).width + 20;
-                ctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height)
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                 ctx.textBaseline = "top";
                 ctx.font = 'bold 16px serif';
                 ctx.fillStyle = "black";
@@ -670,7 +666,7 @@ var run = {
             for (var i = 0, l = scripts.length; i < l; i++) {
                 scripts[i] = scripts[i].src;
             }
-            var blocked = blockedScripts.split('; ');
+            //var blocked = blockedScripts.split('; ');
             //if (scripts.length) scripts = scripts.filter(function(ele, ind, arr){ return !inArray.call(blocked, ele); });
             if (scripts.length) {
                 scripts = unique.call(scripts);
@@ -699,7 +695,7 @@ var run = {
             for (var url, i = 0; i < objects.length; i++) {
                 url = objects[i].src || objects[i].value || objects[i].data || null;
                 if (!url) {
-                    objects.splice(i,1);
+                    objects.splice(i, 1);
                     continue;
                 }
                 objects[i] = objects[i].tagName.toLowerCase() + ': ' + url.replace(/[\?&]+.*$/g, '').replace(/^[\w_]+=/g, '');
