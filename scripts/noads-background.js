@@ -80,7 +80,7 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                var subsc_counter = 0, message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
                     subsc_len = message.url.length,
                     add_rules = (subsc_len > 1),
                     importer_callback = function (rulesN) {
@@ -89,6 +89,10 @@ window.addEventListener('load', function () {
                             message_success.push(message.url[subsc]);
                         } else {
                             message_fileerror.push(message.url[subsc]);
+                        }
+                        subsc_counter++;
+                        if (subsc_counter === subsc_len) {
+                            filters.reloadRules(true, true);
                         }
                     };
 
@@ -103,7 +107,6 @@ window.addEventListener('load', function () {
                     importer.request(message.url[subsc], add_rules, message.allRules, importer_callback);
                 }
                 if (message_success.length) {
-                    filters.reloadRules(true, true);
                     e.source.postMessage(encodeMessage({
                         type: 'noads_import_status',
                         status: 'good',
