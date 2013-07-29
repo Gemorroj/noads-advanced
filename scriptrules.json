@@ -54,7 +54,6 @@
         "^https?://(?:api-read|graph)+\\.facebook\\.com",
         "^https?://(?:stg|www)+\\.odnoklassniki\\.ru",
         "^https?://(?:login\\.)?vk\\.com",
-        "^https?://vkontakte\\.ru",
         "^https?://www\\.bing\\.com",
         "^https?://[a-z\\.]+\\.twitter\\.com",
         "^https?://[a-z0-9]+\\.twimg\\.com",

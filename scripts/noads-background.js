@@ -1,4 +1,4 @@
-var button, notification_text = '', debug = false, lng = {}, menu_resized = false, actual_font = 0,
+var button, notification_text = '', debug = options.checkEnabled('noads_debug_enabled_state'), lng = {}, menu_resized = false, actual_font = 0,
     disabled = options.checkEnabled('noads_disabled');
 
 function toggleExtension () {
@@ -50,8 +50,7 @@ function onConnectHandler (e) {
 }
 
 window.addEventListener('load', function () {
-    var debug = options.checkEnabled('noads_debug_enabled_state'),
-        lng = new TRANSLATION (),
+    var lng = new TRANSLATION (),
         mlng = new MENU_TRANSLATION ();
 
     function onMessageHandler (e) {

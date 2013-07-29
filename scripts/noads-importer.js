@@ -126,6 +126,7 @@ var importer = {
         if (!add_rules) {
             css_rules_list = getHidingRules(list, all_rules);
             // OUTDATED: we get url-filter rules only from .ini subscriptions now.
+            //TODO: Why? O_o
             //this.array_filters = getFilterRules(list);
         } else {
             css_rules_list = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, all_rules)));
@@ -182,7 +183,6 @@ var importer = {
 
             this.array_filters = unique.call(this.array_filters);
             this.array_filters.sort();
-            length = this.array_filters.length;
 
             return this.setFilterRules();
         }
