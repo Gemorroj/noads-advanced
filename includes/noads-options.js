@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -60,7 +56,8 @@ var optionsCSS = '.noads_overlay{visibility:visible;background-color:#e3e5e7;dir
 #noads_autoupdate_label {float:right;text-align: right;padding-bottom: 6px; height: 83%; width: 24%;}\
 .noads_subscriptions_block{height: 91%; overflow: auto; width: 75%;}\
 .noads_input_help{font: bold 13px sans-serif;}\
-.noads_help{background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}';
+.noads_help{line-height:160%;background-color:#fafbfc;border:none;box-sizing:border-box;color:#000;font-family:monospace;font-size:14px;height:auto;overflow:auto;white-space:pre-wrap;width:96%;margin:4px 0;padding:0 4px;}\
+kbd{padding:0.1em 0.6em;border:1px solid #ccc;font-size:11px;font-family:Arial,Helvetica,sans-serif;background-color:#f7f7f7;color:#333;-moz-box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;-webkit-box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;box-shadow:0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;display:inline-block;margin:0 0.1em;text-shadow:0 1px 0 #fff;line-height:1.4;white-space:nowrap;}';
 
 // images for buttons
 var imageTick = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGrSURBVDjLvZPZLkNhFIV75zjvYm7VGFNCqoZUJ+roKUUpjRuqp61Wq0NKDMelGGqOxBSUIBKXWtWGZxAvobr8lWjChRgSF//dv9be+9trCwAI/vIE/26gXmviW5bqnb8yUK028qZjPfoPWEj4Ku5HBspgAz941IXZeze8N1bottSo8BTZviVWrEh546EO03EXpuJOdG63otJbjBKHkEp/Ml6yNYYzpuezWL4s5VMtT8acCMQcb5XL3eJE8VgBlR7BeMGW9Z4yT9y1CeyucuhdTGDxfftaBO7G4L+zg91UocxVmCiy51NpiP3n2treUPujL8xhOjYOzZYsQWANyRYlU4Y9Br6oHd5bDh0bCpSOixJiWx71YY09J5pM/WEbzFcDmHvwwBu2wnikg+lEj4mwBe5bC5h1OUqcwpdC60dxegRmR06TyjCF9G9z+qM2uCJmuMJmaNZaUrCSIi6X+jJIBBYtW5Cge7cd7sgoHDfDaAvKQGAlRZYc6ltJlMxX03UzlaRlBdQrzSCwksLRbOpHUSb7pcsnxCCwngvM2Rm/ugUCi84fycr4l2t8Bb6iqTxSCgNIAAAAAElFTkSuQmCC';
@@ -212,11 +209,11 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                rez.push(rule.slice(pos + 4));
+                rez.push(rule.slice(pos + 4)); // screenRegExp(rule.slice(pos + 4))?
             }
         }
         tmp = null;
-        return rez.length ? new RegExp(rez.join('|').replace(/\/|\.(?=\w)/g, '\\$&')) : false;
+        return rez.length ? new RegExp(rez.join('|'),'mi') : false;
     },
 
     getRawRules: function (name, domain, global) {
@@ -247,6 +244,8 @@ var options = {
         for (var i = 0, l = arr.length; i < l; i++) {
             rule = arr[i];
             if (rule.indexOf('@@') !== 0 && rule.length > 2) {
+                rez.push(rule);
+            } else if (rule.indexOf('##$$') === 0 && rule.length > 4) {
                 rez.push(rule);
             }
         }
@@ -338,19 +337,24 @@ var options = {
 
     // create default white list
     setDefWhiteList: function () {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            whitelist = JSON.parse(e.target.result);
-            setValue('noads_scriptlist_white', '@@||' + whitelist.sites.join('^\n@@||') + '^\n@@==' + whitelist.scripts.join('\n@@=='));
-        };
-        reader.readAsText(opera.extension.getFile('/whitelist.json'));
+        try {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                whitelist = JSON.parse(e.target.result);
+                setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
+                setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+            };
+            reader.readAsText(opera.extension.getFile('/scriptrules.json'));
+        } catch (bug) {
+            log('FileReader error! Script rules will be empty.');
+        }
     },
 
     setActiveDomain: function (name, domain, value) {
         var rez = getValue(name).split('\n');
         if (value) {
-            for (var i = rez.length; i--;) {
-                var rule = rez[i];
+            for (var rule, i = rez.length; i--;) {
+                rule = rez[i];
                 if (rule.indexOf('@@||') === 0) {
                     if (this.isWhiteListed(rule.slice(4), domain)) {
                         rez.splice(i, 1);
@@ -586,9 +590,6 @@ var options = {
             p.appendChild(document.createTextNode(hTxt));
             this.appendChild(p);
 
-            textarea.style.height = global ? Math.round(document.documentElement.clientHeight * 0.83) + 'px'
-                                           : Math.round(document.documentElement.clientHeight * 0.25) + 'px';
-            //textarea.rows = '100';
             textarea.cols = '100';
             textarea.value = options.getRawRules(sName, domain, global);
             textarea.id = sID;
@@ -601,6 +602,8 @@ var options = {
                 textarea.className = 'overflow';
             }
 
+            textarea.setAttribute('style', 'min-height: ' + (global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px !important'));
             return textarea;
         };
         area.createButtonArea = function() {
@@ -813,6 +816,8 @@ var options = {
             if (!disabled) {
                 textarea.value = blockedScripts.replace(/; /g, '\n');
             }
+            textarea.setAttribute('style', 'min-height: ' + (global ? Math.round(document.documentElement.clientHeight*0.83) + 'px' 
+                                           : Math.round(document.documentElement.clientHeight*0.25) + 'px !important'));
             textarea.disabled = disabled;
             textarea.readOnly = true;
             this.appendChild(textarea);
@@ -822,7 +827,7 @@ var options = {
                 var textarea = document.getElementById('noads_jsblocks_textarea');
                 var val = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).replace(/^\s+|\r|\s+$/g, '');
                 if (val) {
-                    val = val.replace(/[*+?^=!${}()\.|[\]\\]|\.(?!\w)/g, '\\$&').replace(/http:/gi,'https?:').replace(/\n+/g, '|');
+                    val = screenRegExp(val).replace(/http:/gi,'https?:').replace(/\n+/g, '|');
                     var whitelist = getValue('noads_scriptlist_white');
                     setValue('noads_scriptlist_white', '@@==' + val + (whitelist ? '\n' + whitelist : ''));
                     alert(lng.pBlockedAdded + ' ' + val);
@@ -990,7 +995,7 @@ var options = {
             this.clear(pos);
             var p = document.createElement('pre');
             p.className = 'noads_help';
-            p.appendChild(document.createTextNode(lng.pAbout));
+            p.innerHTML = lng.pAbout;
             this.appendChild(p);
 
             this.appendChild(this.createButtonCheckbox('noads_debug_enabled', lng.pDebug, 'right inline-clean', lng.pDebug, 'right unchecked inline-clean'));

@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -32,6 +28,9 @@ var debug = false,
     blockedScripts = '', inlineScripts = 0,
     blockingArray = [], reSkip, reBlock;
 
+(function () {
+if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
+
 var quickButtonCSS = ' \
 #noads_button{background-image:-o-linear-gradient(bottom, rgb(250,233,167) 0%, rgb(254,243,197) 100%);-o-transition: right 1s; position:fixed;bottom:0;width:auto !important;height:auto !important;margin:0 0 2px 2px;padding:10px 10px 10px 10px;background-color:#f5f5f5 !important;border:1px solid #838383;border-top:1px solid #A5A5A5;border-left:1px solid #A5A5A5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:14px;line-height:130%;text-decoration:none;font-weight:700;color:#565656;z-index:1000000;cursor:pointer;}\
 #noads_button:hover{-o-transition: right 1s}\
@@ -46,6 +45,17 @@ function showQuickButton(e) {
 }
 
 function setupFiltersCSS() {
+    // HACK: prevents anti-adblocking technique.
+    if (options.checkEnabled('noads_userlist_state') || options.checkEnabled('noads_list_state')) {
+        var getPropertyValueOld = window.CSSStyleDeclaration.prototype.getPropertyValue;
+        if (typeof getPropertyValueOld === 'function') window.CSSStyleDeclaration.prototype.getPropertyValue = function() {
+            if (typeof arguments[0] === 'string' && arguments[0] === 'display') {
+                if (this.zIndex == 10051005) return 'block';
+            }
+            return getPropertyValueOld.apply(this, arguments);
+        };
+    }
+
     // Add CSS rules
     if (options.checkEnabled('noads_list_state') && options.isActiveDomain('noads_list_white', domain)) {
         sCSS = options.getRules('noads_list', domain);
@@ -238,55 +248,52 @@ function setupMagic() {
 }
 
 // Main body
-(function () {
-    //if (document !== undefined && document.documentElement && !(document.documentElement instanceof window.HTMLHtmlElement)) return;
 
-    // We can only work with options after checking this, though it's mostly useless now.
-    if (typeof storage === "undefined" || !storage) {
-        run.setStatus(lng.iNoQuota);
-        window.alert(lng.iNoQuota);
-        return;
-    }
+// We can only work with options after checking this, though it's mostly useless now.
+if (typeof storage === "undefined" || !storage) {
+    run.setStatus(lng.iNoQuota);
+    window.alert(lng.iNoQuota);
+    return;
+}
 
-    debug = options.checkEnabled('noads_debug_enabled_state');
-    if (options.checkEnabled('noads_disabled')) return;
+debug = options.checkEnabled('noads_debug_enabled_state');
+if (options.checkEnabled('noads_disabled')) return;
 
-    // CSS failsafe handling
-    try {
-        setupFiltersCSS();
-    } catch (e) {
-        window.opera.addEventListener('BeforeCSS', setupFiltersCSS, false);
-    }
-    
-    // Create menu messaging channel and parse messages from the background. Should we do it in frames?
-    if (window.top === window.self) {
-        opera.extension.onmessage = onMessageHandler;
-    }
-    
-    if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
-        setupMagic();
-    }
+// CSS failsafe handling
+try {
+    setupFiltersCSS();
+} catch (e) {
+    window.opera.addEventListener('BeforeCSS', setupFiltersCSS, false);
+}
 
-    // Block external scripts
-    if (options.checkEnabled('noads_scriptlist_state')) {
-        reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true);
-        if (reSkip) {
-            blockingArray.push('external scripts');
-            window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
+// Create menu messaging channel and parse messages from the background. Should we do it in frames?
+if (window.top === window.self) {
+    opera.extension.onmessage = onMessageHandler;
+}
 
-            // Block inline scripts
-            reBlock = options.getReScriptBlock('noads_scriptlist', domain);
-            if (reBlock) {
-                blockingArray.push('inline scripts');
-                window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
-            }
+if (options.checkEnabled('noads_magiclist_state') && options.isActiveDomain('noads_scriptlist_white', domain)) {
+    setupMagic();
+}
+
+// Block external scripts
+if (options.checkEnabled('noads_scriptlist_state')) {
+    reSkip = options.isActiveDomain('noads_scriptlist_white', domain, true);
+    if (reSkip) {
+        blockingArray.push('external scripts');
+        window.opera.addEventListener('BeforeExternalScript', onBeforeExternalScriptHandler, false);
+
+        // Block inline scripts
+        reBlock = options.getReScriptBlock('noads_scriptlist', domain);
+        if (reBlock) {
+            blockingArray.push('inline scripts');
+            window.opera.addEventListener('BeforeScript', onBeforeScriptHandler, false);
         }
     }
+}
 
-    if (debug && blockingArray.length) {
-        log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
-    }
-})();
+if (debug && blockingArray.length) {
+    log('On ' + domain + ' blocking: ' + blockingArray.join(', '));
+}
 
 // On the document load
 window.addEventListener('DOMContentLoaded', function () {
@@ -317,3 +324,5 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 }, true);
+
+})();

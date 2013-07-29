@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -75,6 +71,9 @@ replaceStyle = function (ele, css) {
         ele.appendChild(document.createTextNode(css));
     }
 },
+screenRegExp = function (text) { 
+    return text.replace(/\s/g, '\\s').replace(/[[\]{}()*+?.\\^$|#]/g, "\\$&");
+},
 splitCSS = function (css) {
     var rez = [];
     css.replace(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g, function (s, m) {
@@ -91,8 +90,8 @@ getTLD = function (domain, full) {
     return full ? a[l - 2] + '.' + a[l - 1] : a[(l > 2 && /^(co|com|net|org|edu|gov|mil|int)$/i.test(a[l - 2])) ? l - 3 : l - 2];
 },
 inArray = function (needle) {
-    for (var i = 0, l = this.length; i < l; ++i) {
-        var tmp = this[i];
+    for (var tmp, i = 0, l = this.length; i < l; ++i) {
+        tmp = this[i];
         if (tmp && (tmp === needle)) {
             return true;
         }
@@ -101,8 +100,8 @@ inArray = function (needle) {
 },
 unique = function () {
     var u = {}, a = [];
-    for (var i = 0, l = this.length; i < l; ++i) {
-        var tmp = this[i];
+    for (var tmp, i = 0, l = this.length; i < l; ++i) {
+        tmp = this[i];
         if (tmp in u) {
             continue;
         }

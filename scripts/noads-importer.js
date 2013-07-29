@@ -1,20 +1,6 @@
 var importer = {
     array_filters: [],
-    array_user_filters: [],
     EXCLUDE: '[exclude]',
-
-    // import subscription to a local storage
-    getHidingRulesLength: function (arr) {
-        var rule, pos, len = 0;
-        for (var i = 0, l = arr.length; i < l; i++) {
-            rule = arr[i];
-            pos = rule.indexOf('##');
-            if (pos !== -1 && rule.length > pos + 2) {
-                len += rule.slice(pos + 2).match(/(([\w#:.~>+()\s-]+|\*|\[.*?\])+)\s*(,|$)/g).length;
-            }
-        }
-        return len;
-    },
 
     importSubscriptions: function (list, url, all_rules, add_rules) {
         var convertOldRules = function (tag_name, attribute_rules) {
@@ -64,6 +50,7 @@ var importer = {
             }
             return true;
         },
+        // Export URL filters from AdBlock subscriptions.
         getFilterRules = function (list) {
             var rez = [];
             if (list) {
@@ -81,8 +68,8 @@ var importer = {
                         return out_rule.replace('**', '*');
                     };
 
-                for (var i = 0, l = arr.length; i < l; i++) {
-                    var preRule = arr[i];
+                for (var preRule, i = 0, l = arr.length; i < l; i++) {
+                    preRule = arr[i];
                     if (preRule && re_is_filter.test(preRule)) {
                         var rule = preRule.replace(re_mnemonics, '');
 
@@ -133,52 +120,51 @@ var importer = {
             }
             return rez;
         },
-        adblock_rules_list = [],
+        css_rules_list = [],
         return_length = 0;
 
         if (!add_rules) {
-            adblock_rules_list = getHidingRules(list, all_rules);
-            importer.array_filters = getFilterRules(list);
+            css_rules_list = getHidingRules(list, all_rules);
+            // OUTDATED: we get url-filter rules only from .ini subscriptions now.
+            //this.array_filters = getFilterRules(list);
         } else {
-            adblock_rules_list = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, all_rules)));
-            adblock_rules_list.sort();
-            for (var i = adblock_rules_list.length; i--;) {
-                if (adblock_rules_list[i].indexOf('##') === -1) {
-                    adblock_rules_list.splice(i, 1);
+            css_rules_list = unique.call(getValue('noads_list').split('\n').concat(getHidingRules(list, all_rules)));
+            css_rules_list.sort();
+            for (var i = css_rules_list.length; i--;) {
+                if (css_rules_list[i].indexOf('##') === -1) {
+                    css_rules_list.splice(i, 1);
                 }
             }
 
-            importer.array_filters = unique.call(getValue('noads_urlfilterlist').split('\n').concat(getFilterRules(list)));
-            importer.array_filters.sort();
+            //this.array_filters = unique.call(getValue('noads_urlfilterlist').split('\n').concat(getFilterRules(list)));
+            //this.array_filters.sort();
         }
 
-        if (adblock_rules_list.length) {
-            setValue('noads_list', adblock_rules_list.join('\n'));
-            return_length += this.getHidingRulesLength(adblock_rules_list);
+        if (css_rules_list.length) {
+            return_length += css_rules_list.length;
+            setValue('noads_list', css_rules_list.join('\n'));
         }
-        if (importer.array_filters.length) {
-            importer.setFilterRules();
-            return_length += importer.array_filters.length;
-        }
+
+        /*if (this.array_filters.length) {
+            return_length += this.setFilterRules();
+        }*/
         return return_length;
     },
 
     setFilterRules: function () {
-        importer.array_filters = unique.call(importer.array_filters);
-        importer.array_filters.sort();
-        setValue('noads_urlfilterlist', importer.array_filters.join('\n'));
-        importer.reloadRules(true, false);
-
-        return importer.getHidingRulesLength(getValue('noads_list').split('\n')) + importer.array_filters.length;
+        var length = this.array_filters.length;
+        setValue('noads_urlfilterlist', this.array_filters.join('\n'));
+        this.array_filters = [];
+        return length;
     },
 
     importFilters: function (list, add_rules) {
-        var pos = list.indexOf(importer.EXCLUDE);
+        var pos = list.indexOf(this.EXCLUDE);
         if (~pos) {
-            var subscriptions_array = list.substring(pos + importer.EXCLUDE.length).split('\n');
-            importer.reloadRules(true, true);
-            if (!add_rules && importer.array_filters.length) {
-                importer.array_filters = [];
+            var subscriptions_array = list.substring(pos + this.EXCLUDE.length).split('\n');
+
+            if (!add_rules && this.array_filters.length) {
+                this.array_filters = [];
             }
 
             for (var i = 0, l = subscriptions_array.length; i < l; i++) {
@@ -189,44 +175,20 @@ var importer = {
                     // not comment
                     if (firstChar !== '#' && firstChar !== ';') {
                         log('URL filter added -> ' + subscriptions_array[i]);
-                        importer.array_filters.push(subscriptions_array[i]);
+                        this.array_filters.push(subscriptions_array[i]);
                     }
                 }
             }
-            return importer.setFilterRules();
+
+            this.array_filters = unique.call(this.array_filters);
+            this.array_filters.sort();
+            length = this.array_filters.length;
+
+            return this.setFilterRules();
         }
-        return 0;
+        return -1;
     },
 
-    reloadRules: function (global, clear) {
-        // empty rules
-        importer.removeFilters(global ? importer.array_filters : importer.array_user_filters);
-        if (!clear) {
-            if (global) {
-                importer.array_filters = importer.setFilters(getValue('noads_urlfilterlist'));
-            } else {
-                importer.array_user_filters = importer.setFilters(getValue('noads_userurlfilterlist'));
-            }
-        }
-    },
-
-    removeFilters: function (rules_array) {
-        var block = opera.extension.urlfilter.block;
-        for (var i = 0, l = rules_array.length; i < l; i++) {
-            log('url removed on URL filter reload -> ' + rules_array[i]);
-            block.remove(rules_array[i]);
-        }
-    },
-
-    setFilters: function (rules_raw) {
-        var filters = (rules_raw === '') ? [] : rules_raw.split('\n');
-        var block = opera.extension.urlfilter.block;
-        for (var i = 0, l = filters.length; i < l; i++) {
-            log('url added on URL filter reload -> ' + filters[i]);
-            block.add(filters[i]);
-        }
-        return filters;
-    },
 
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
@@ -240,12 +202,16 @@ var importer = {
                         callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
                     }
                 } else {
-                    throw 'server response was: "' + xmlhttp.statusText + '"';
+                    callback(-1);
                 }
             }
         };
         xmlhttp.overrideMimeType('text/plain');
-        xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), false);
-        xmlhttp.send(null);
+        try {
+            xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), false);
+            xmlhttp.send(null);
+        } catch (bug) {
+            callback(-1);
+        }
     }
 };

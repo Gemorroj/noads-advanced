@@ -4,13 +4,13 @@ var button, notification_text = '', debug = false, lng = {}, menu_resized = fals
 function toggleExtension () {
     if (disabled) {
         disabled = false;
-        importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
-        importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
+        filters.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
+        filters.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
         button.badge.display = "none";
     } else {
         disabled = true;
-        importer.reloadRules(true, true);
-        importer.reloadRules(false, true);
+        filters.reloadRules(true, true);
+        filters.reloadRules(false, true);
         button.badge.display = "block";
     }
     options.setEnabled('noads_disabled', disabled);
@@ -45,7 +45,7 @@ function onConnectHandler (e) {
         }
 
         // button will be disabled for new tabs
-        setButtonState(e.source, false);
+        //setButtonState(e.source, false);
     }
 }
 
@@ -58,11 +58,11 @@ window.addEventListener('load', function () {
         var message = decodeMessage(e.data);
         //console.log('[NoAdsAdv]:' + JSON.stringify(message));
         switch (message.type) {
-            //case 'set_badge':
-            //    button.badge.display = "block";
-            //    button.badge.textContent = message.blocked || '0';
-            //    button.badge.color = "white";
-            //    break;
+            case 'set_badge':
+                button.badge.display = "block";
+                button.badge.textContent = message.blocked || '0';
+                button.badge.color = "white";
+                break;
             case 'status_enabled':
                 setButtonState(e.source, true);
                 break;
@@ -80,22 +80,31 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
-                    importerCallback = function (rulesN) {
-                        if (rulesN) {
+                var subsc_counter = 0, message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                    subsc_len = message.url.length,
+                    add_rules = (subsc_len > 1),
+                    importer_callback = function (rulesN) {
+                        if (rulesN !== -1) {
+                            message_rules += rulesN;
                             message_success.push(message.url[subsc]);
-                            message_rules = rulesN;
                         } else {
                             message_fileerror.push(message.url[subsc]);
                         }
+                        subsc_counter++;
+                        if (subsc_counter === subsc_len) {
+                            filters.reloadRules(true, true);
+                        }
                     };
-                for (var subsc = 0, l = message.url.length; subsc < l; subsc++) {
-                    try {
-                        importer.request(message.url[subsc], subsc, message.allRules, importerCallback);
-                    } catch (ex) {
-                        log('URL/CSS filter import error -> ' + ex);
-                        message_error.push(message.url[subsc]);
-                    }
+
+                // FIXME: We reset them here hoping for redownload otherwise lists will needlessly 
+                // grow over time as we used add_rules option for non-original purpose in multidownloader.
+                if (subsc_len && add_rules) {
+                    setValue('noads_urlfilterlist', '');
+                    setValue('noads_list', '');
+                }
+
+                for (var subsc = 0; subsc < subsc_len; subsc++) {
+                    importer.request(message.url[subsc], add_rules, message.allRules, importer_callback);
                 }
                 if (message_success.length) {
                     e.source.postMessage(encodeMessage({
@@ -123,15 +132,15 @@ window.addEventListener('load', function () {
             case 'unblock_address':
                 log('user URL-filter removing url -> ' + message.url);
                 opera.extension.urlfilter.block.remove(message.url);
-                var filters_length = importer.array_user_filters.length;
+                var filters_length = filters.array_user_filters.length;
                 for (var i = 0; i < filters_length; i++) {
-                    if (importer.array_user_filters[i] == message.url) {
-                        importer.array_user_filters.splice(i, 1);
+                    if (filters.array_user_filters[i] == message.url) {
+                        filters.array_user_filters.splice(i, 1);
                         break;
                     }
                 }
                 if (filters_length) {
-                    setValue('noads_userurlfilterlist', importer.array_user_filters.join('\n'));
+                    setValue('noads_userurlfilterlist', filters.array_user_filters.join('\n'));
                 } else {
                     setValue('noads_urlfilterlist', '');
                 }
@@ -139,11 +148,11 @@ window.addEventListener('load', function () {
             case 'block_address':
                 log('user URL-filter adding url -> ' + message.url);
                 opera.extension.urlfilter.block.add(message.url);
-                importer.array_user_filters.unshift(message.url);
-                setValue('noads_userurlfilterlist', importer.array_user_filters.join('\n'));
+                filters.array_user_filters.unshift(message.url);
+                setValue('noads_userurlfilterlist', filters.array_user_filters.join('\n'));
                 break;
             case 'reload_rules':
-                importer.reloadRules(message.global, message.clear);
+                filters.reloadRules(message.global, message.clear);
                 break;
             case 'noads_import_status':
                 if (message.status === 'good') {
@@ -256,15 +265,16 @@ window.addEventListener('load', function () {
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < Date.now()) {
-            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importerCallback = function (rulesN) {
+            var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importer_callback = function () {
                 notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
             };
-            for (var subsc = 0, l = url.length; subsc < l; subsc++) {
-                try {
-                    importer.request(url[subsc], subsc, allRules, importerCallback);
-                } catch (ex) {
-                    log('URL/CSS filter import error -> ' + ex);
-                }
+            var subsc_len = url.length, add_rules = (subsc_len > 1);
+            if (subsc_len && add_rules) {
+                setValue('noads_urlfilterlist', '');
+                setValue('noads_list', '');
+            }
+            for (var subsc = 0; subsc < subsc_len; subsc++) {
+                importer.request(url[subsc], add_rules, allRules, importer_callback);
             }
         }
     }
@@ -273,6 +283,6 @@ window.addEventListener('load', function () {
         return;
 
     // adding URL filters on load
-    importer.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
-    importer.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
+    filters.reloadRules(true, !options.checkEnabled('noads_urlfilterlist_state'));
+    filters.reloadRules(false, !options.checkEnabled('noads_userurlfilterlist_state'));
 }, false);

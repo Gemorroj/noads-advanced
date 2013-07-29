@@ -6,10 +6,6 @@
 // @exclude *.js
 // @exclude *.txt
 // @exclude *.pdf
-// @exclude *.fb2
-// @exclude *.jpg
-// @exclude *.jpeg
-// @exclude *.png
 // @exclude *.apng
 // @exclude *.gif
 // @exclude *.swf
@@ -23,7 +19,7 @@
 // ==/UserScript==
 
 // global variables
-var none = '{display: none !important; height: 0 !important; width: 0 !important;}';
+var none = '{display: none !important; height: 0 !important; width: 0 !important; z-index: 10051005;}';
 var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}';
 var outlineCSS = '1px solid #306EFF';
 var outlineBgCSS = '#C6DEFF';
