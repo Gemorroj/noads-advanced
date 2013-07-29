@@ -213,7 +213,7 @@ var options = {
             }
         }
         tmp = null;
-        return rez.length ? new RegExp(rez.join('|'),'mi') : false;
+        return rez.length ? new RegExp(rez.join('|'), 'mi') : false;
     },
 
     getRawRules: function (name, domain, global) {
@@ -340,9 +340,13 @@ var options = {
         try {
             var reader = new FileReader();
             reader.onload = function (e) {
-                whitelist = JSON.parse(e.target.result);
-                setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
-                setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+                var whitelist = JSON.parse(e.target.result);
+                if (whitelist.allowsites.length > 0 || whitelist.allowscripts.length > 0) {
+                    setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
+                }
+                if (whitelist.blockregexps.length > 0) {
+                    setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+                }
             };
             reader.readAsText(opera.extension.getFile('/scriptrules.json'));
         } catch (bug) {
