@@ -340,13 +340,21 @@ var options = {
         try {
             var reader = new FileReader();
             reader.onload = function (e) {
-                var whitelist = JSON.parse(e.target.result);
-                if (whitelist.allowsites.length > 0 || whitelist.allowscripts.length > 0) {
-                    setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
+                var whitelist = JSON.parse(e.target.result), noads_scriptlist_white = '', noads_scriptlist = '';
+
+                if (whitelist.allowsites.length > 0) {
+                    noads_scriptlist_white += '\n@@||' + whitelist.allowsites.join('^\n@@||') + '^';
                 }
+                if (whitelist.allowscripts.length > 0) {
+                    noads_scriptlist_white += '\n@@==' + whitelist.allowscripts.join('\n@@==');
+                }
+
                 if (whitelist.blockregexps.length > 0) {
-                    setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+                    noads_scriptlist += '##$$' + whitelist.blockregexps.join('^\n##$$') + '^';
                 }
+
+                setValue('noads_scriptlist_white', noads_scriptlist_white.trim());
+                setValue('noads_scriptlist', noads_scriptlist.trim());
             };
             reader.readAsText(opera.extension.getFile('/scriptrules.json'));
         } catch (bug) {
