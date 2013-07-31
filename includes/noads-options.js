@@ -209,7 +209,7 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                rez.push(rule.slice(pos + 4)); // screenRegExp(rule.slice(pos + 4))?
+                rez.push(rule.slice(pos + 4));
             }
         }
         tmp = null;
@@ -340,21 +340,23 @@ var options = {
         try {
             var reader = new FileReader();
             reader.onload = function (e) {
-                var whitelist = JSON.parse(e.target.result), noads_scriptlist_white = '', noads_scriptlist = '';
+                var scriptlist = JSON.parse(e.target.result), noads_scriptlist_white = '', noads_scriptlist = '';
 
-                if (whitelist.allowsites.length > 0) {
-                    noads_scriptlist_white += '\n@@||' + whitelist.allowsites.join('^\n@@||') + '^';
+                if (scriptlist.allowsites.length) {
+                    noads_scriptlist_white += '\n@@||' + scriptlist.allowsites.join('^\n@@||') + '^';
                 }
-                if (whitelist.allowscripts.length > 0) {
-                    noads_scriptlist_white += '\n@@==' + whitelist.allowscripts.join('\n@@==');
-                }
-
-                if (whitelist.blockregexps.length > 0) {
-                    noads_scriptlist += '##$$' + whitelist.blockregexps.join('^\n##$$') + '^';
+                if (scriptlist.allowscripts.length) {
+                    noads_scriptlist_white += '\n@@==' + scriptlist.allowscripts.join('\n@@==');
                 }
 
-                setValue('noads_scriptlist_white', noads_scriptlist_white.trim());
-                setValue('noads_scriptlist', noads_scriptlist.trim());
+                if (noads_scriptlist_white.length) {
+                    setValue('noads_scriptlist_white', noads_scriptlist_white.trim());
+                }
+
+                if (scriptlist.blockregexps.length) {
+                    noads_scriptlist += '##$$' + scriptlist.blockregexps.join('\n##$$');
+                    setValue('noads_scriptlist', noads_scriptlist.trim());
+                }
             };
             reader.readAsText(opera.extension.getFile('/scriptrules.json'));
         } catch (bug) {
