@@ -87,7 +87,7 @@ window.addEventListener('load', function () {
                             message_rules += rulesN;
                             message_success.push(url);
                         } else {
-                            if (status === 'file error') message_error.push(url);
+                            if (status === 'download error') message_error.push(url);
                             else message_fileerror.push(url);
                         }
                         if (++subsc_counter === subsc_len) {
