@@ -196,21 +196,21 @@ var importer = {
                 if (xmlhttp.status === 200) {
                     setValue('noads_last_update', Date.now());
                     if (~url.indexOf('.ini')) {
-                        callback(importer.importFilters(xmlhttp.responseText, add_rules));
+                        callback(importer.importFilters(xmlhttp.responseText, add_rules), url, 'good');
                     } else {
-                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules));
+                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules), url, 'good');
                     }
                 } else {
-                    callback(-1);
+                    callback(-1, url, 'download error');
                 }
             }
         };
         xmlhttp.overrideMimeType('text/plain');
         try {
-            xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+            xmlhttp.open('GET', url+((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
             xmlhttp.send(null);
         } catch (bug) {
-            callback(-1);
+            callback(-1, url, 'download error');
         }
     }
 };
