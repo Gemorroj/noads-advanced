@@ -207,7 +207,7 @@ var importer = {
         };
         xmlhttp.overrideMimeType('text/plain');
         try {
-            xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+            xmlhttp.open('GET', url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), false);
             xmlhttp.send(null);
         } catch (bug) {
             callback(-1);
