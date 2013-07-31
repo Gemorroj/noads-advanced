@@ -209,11 +209,11 @@ var options = {
             rule = tmp[i];
             pos = rule.indexOf('##$$');
             if (pos != -1 && this.isCorrectDomain(domain, rule.slice(0, pos))) {
-                rez.push(rule.slice(pos + 4)); // screenRegExp(rule.slice(pos + 4))?
+                rez.push(rule.slice(pos + 4));
             }
         }
         tmp = null;
-        return rez.length ? new RegExp(rez.join('|'),'mi') : false;
+        return rez.length ? new RegExp(rez.join('|'), 'mi') : false;
     },
 
     getRawRules: function (name, domain, global) {
@@ -340,9 +340,23 @@ var options = {
         try {
             var reader = new FileReader();
             reader.onload = function (e) {
-                whitelist = JSON.parse(e.target.result);
-                setValue('noads_scriptlist_white', '@@||' + whitelist.allowsites.join('^\n@@||') + '^\n@@==' + whitelist.allowscripts.join('\n@@=='));
-                setValue('noads_scriptlist', '##$$' + whitelist.blockregexps.join('^\n##$$'));
+                var scriptlist = JSON.parse(e.target.result), noads_scriptlist_white = '', noads_scriptlist = '';
+
+                if (scriptlist.allowsites.length) {
+                    noads_scriptlist_white += '\n@@||' + scriptlist.allowsites.join('^\n@@||') + '^';
+                }
+                if (scriptlist.allowscripts.length) {
+                    noads_scriptlist_white += '\n@@==' + scriptlist.allowscripts.join('\n@@==');
+                }
+
+                if (noads_scriptlist_white.length) {
+                    setValue('noads_scriptlist_white', noads_scriptlist_white.trim());
+                }
+
+                if (scriptlist.blockregexps.length) {
+                    noads_scriptlist += '##$$' + scriptlist.blockregexps.join('\n##$$');
+                    setValue('noads_scriptlist', noads_scriptlist.trim());
+                }
             };
             reader.readAsText(opera.extension.getFile('/scriptrules.json'));
         } catch (bug) {
