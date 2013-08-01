@@ -82,16 +82,38 @@ window.addEventListener('load', function () {
                 var subsc_counter = 0, message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
                     subsc_len = message.url.length,
                     add_rules = (subsc_len > 1),
-                    importer_callback = function (rulesN) {
+                    importer_callback = function (rulesN, url, status) {
                         if (rulesN !== -1) {
                             message_rules += rulesN;
-                            message_success.push(message.url[subsc]);
+                            message_success.push(url);
                         } else {
-                            message_fileerror.push(message.url[subsc]);
+                            if (status === 'download error') message_error.push(url);
+                            else message_fileerror.push(url);
                         }
-                        subsc_counter++;
-                        if (subsc_counter === subsc_len) {
+                        if (++subsc_counter === subsc_len) {
                             filters.reloadRules(true, true);
+                            if (message_success.length) {
+                                e.source.postMessage(encodeMessage({
+                                    type: 'noads_import_status',
+                                    status: 'good',
+                                    url: '\n' + message_success.join('\n') + '\n',
+                                    length: message_rules
+                                }));
+                            }
+                            if (message_fileerror.length) {
+                                e.source.postMessage(encodeMessage({
+                                    type: 'noads_import_status',
+                                    status: 'file error',
+                                    url: '\n' + message_fileerror.join('\n') + '\n'
+                                }));
+                            }
+                            if (message_error.length) {
+                                e.source.postMessage(encodeMessage({
+                                    type: 'noads_import_status',
+                                    status: 'download failed',
+                                    url: '\n' + message_error.join('\n') + '\n'
+                                }));
+                            }
                         }
                     };
 
@@ -103,29 +125,7 @@ window.addEventListener('load', function () {
                 }
 
                 for (var subsc = 0; subsc < subsc_len; subsc++) {
-                    importer.request(message.url[subsc], add_rules, message.allRules, importer_callback);
-                }
-                if (message_success.length) {
-                    e.source.postMessage(encodeMessage({
-                        type: 'noads_import_status',
-                        status: 'good',
-                        url: '\n' + message_success.join('\n') + '\n',
-                        length: message_rules
-                    }));
-                }
-                if (message_fileerror.length) {
-                    e.source.postMessage(encodeMessage({
-                        type: 'noads_import_status',
-                        status: 'file error',
-                        url: '\n' + message_fileerror.join('\n') + '\n'
-                    }));
-                }
-                if (message_error.length) {
-                    e.source.postMessage(encodeMessage({
-                        type: 'noads_import_status',
-                        status: 'download failed',
-                        url: '\n' + message_error.join('\n') + '\n'
-                    }));
+                    importer.request(message.url[subsc], add_rules, message.allRules, importer_callback.bind(this));
                 }
                 break;
             case 'unblock_address':
@@ -264,16 +264,19 @@ window.addEventListener('load', function () {
     if (options.checkEnabled('noads_autoupdate_state')) {
         var next_update = Number(getValue('noads_last_update')) + Number(getValue('noads_autoupdate_interval'));
         if (next_update < Date.now()) {
+            var subsc_counter = 0, subsc_len = url.length, add_rules = (subsc_len > 1);
             var url = options.getSubscriptions(), allRules = options.checkEnabled('noads_allrules_state'), importer_callback = function () {
-                notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
+                if (++subsc_counter === subsc_len) {
+                    filters.reloadRules(true, true);
+                    notification_text = lng.pAutoUpdateComplete || 'NoAds Advanced autoupdated';
+                }
             };
-            var subsc_len = url.length, add_rules = (subsc_len > 1);
             if (subsc_len && add_rules) {
                 setValue('noads_urlfilterlist', '');
                 setValue('noads_list', '');
             }
             for (var subsc = 0; subsc < subsc_len; subsc++) {
-                importer.request(url[subsc], add_rules, allRules, importer_callback);
+                importer.request(url[subsc], add_rules, allRules, importer_callback.bind(this));
             }
         }
     }
