@@ -3,7 +3,7 @@ var lng = new TRANSLATION();
 opera.extension.onmessage = function (e) {
     var message = decodeMessage(e.data);
     if (message.type === 'noads_import_status') {
-        if (message.status === 'good') {
+        if (message.status === importer.STATUS_SUCCESS) {
             window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
         } else {
             window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);

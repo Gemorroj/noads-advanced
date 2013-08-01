@@ -1,6 +1,8 @@
 var importer = {
     array_filters: [],
     EXCLUDE: '[exclude]',
+    STATUS_ERROR: 'download error',
+    STATUS_SUCCESS: 'good',
 
     importSubscriptions: function (list, url, all_rules, add_rules) {
         var convertOldRules = function (tag_name, attribute_rules) {
@@ -196,21 +198,21 @@ var importer = {
                 if (xmlhttp.status === 200) {
                     setValue('noads_last_update', Date.now());
                     if (~url.indexOf('.ini')) {
-                        callback(importer.importFilters(xmlhttp.responseText, add_rules), url, 'good');
+                        callback(importer.importFilters(xmlhttp.responseText, add_rules), url, importer.STATUS_SUCCESS);
                     } else {
-                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules), url, 'good');
+                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules), url, importer.STATUS_SUCCESS);
                     }
                 } else {
-                    callback(-1, url, 'download error');
+                    callback(-1, url, importer.STATUS_ERROR);
                 }
             }
         };
         xmlhttp.overrideMimeType('text/plain');
         try {
-            xmlhttp.open('GET', url+((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+            xmlhttp.open('GET', url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
             xmlhttp.send(null);
         } catch (bug) {
-            callback(-1, url, 'download error');
+            callback(-1, url, importer.STATUS_ERROR);
         }
     }
 };
