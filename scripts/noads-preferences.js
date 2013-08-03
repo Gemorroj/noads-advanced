@@ -3,11 +3,7 @@ var lng = new TRANSLATION();
 opera.extension.onmessage = function (e) {
     var message = decodeMessage(e.data);
     if (message.type === 'noads_import_status') {
-        if (message.status === 'good') {
-            window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
-        } else {
-            window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);
-        }
+        window.alert(message.status);
         var btn = document.getElementById("noads_dlsubscription");
         btn.firstChild.src = imgRefresh;
         btn.disabled = false;

@@ -79,39 +79,22 @@ window.addEventListener('load', function () {
                     return;
                 }
 
-                var subsc_counter = 0, message_rules = 0, message_success = [], message_error = [], message_fileerror = [],
+                var messages = [],
+                    subsc_counter = 0,
                     subsc_len = message.url.length,
                     add_rules = (subsc_len > 1),
                     importer_callback = function (rulesN, url, status) {
                         if (rulesN !== -1) {
-                            message_rules += rulesN;
-                            message_success.push(url);
+                            messages.push(lng.iSubs.replace('%url%', url).replace('%rules%', rulesN));
                         } else {
-                            if (status === 'download error') message_error.push(url);
-                            else message_fileerror.push(url);
+                            messages.push(lng.iSubsError.replace('%url%', url).replace('%status%', status));
                         }
                         if (++subsc_counter === subsc_len) {
                             filters.reloadRules(true, true);
-                            if (message_success.length) {
+                            if (messages.length) {
                                 e.source.postMessage(encodeMessage({
                                     type: 'noads_import_status',
-                                    status: 'good',
-                                    url: '\n' + message_success.join('\n') + '\n',
-                                    length: message_rules
-                                }));
-                            }
-                            if (message_fileerror.length) {
-                                e.source.postMessage(encodeMessage({
-                                    type: 'noads_import_status',
-                                    status: 'file error',
-                                    url: '\n' + message_fileerror.join('\n') + '\n'
-                                }));
-                            }
-                            if (message_error.length) {
-                                e.source.postMessage(encodeMessage({
-                                    type: 'noads_import_status',
-                                    status: 'download failed',
-                                    url: '\n' + message_error.join('\n') + '\n'
+                                    status: '\n' + messages.join('\n') + '\n'
                                 }));
                             }
                         }
