@@ -1,10 +1,10 @@
 var importer = {
     array_filters: [],
+    last_error: '',
     EXCLUDE: '[exclude]',
-    STATUS_ERROR: 'download error',
-    STATUS_SUCCESS: 'good',
 
     importSubscriptions: function (list, url, all_rules, add_rules) {
+        this.last_error = '';
         var convertOldRules = function (tag_name, attribute_rules) {
             var rule, rules, sep, additional = '', id = null, re_attribute_rules = /\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g;
             if (tag_name === '*') {
@@ -161,6 +161,7 @@ var importer = {
     },
 
     importFilters: function (list, add_rules) {
+        this.last_error = '';
         var pos = list.indexOf(this.EXCLUDE);
         if (~pos) {
             var subscriptions_array = list.substring(pos + this.EXCLUDE.length).split('\n');
@@ -187,9 +188,9 @@ var importer = {
 
             return this.setFilterRules();
         }
+        this.last_error = '[exclude] section not found';
         return -1;
     },
-
 
     request: function (url, add_rules, all_rules, callback) {
         var xmlhttp = new XMLHttpRequest();
@@ -198,21 +199,21 @@ var importer = {
                 if (xmlhttp.status === 200) {
                     setValue('noads_last_update', Date.now());
                     if (~url.indexOf('.ini')) {
-                        callback(importer.importFilters(xmlhttp.responseText, add_rules), url, importer.STATUS_SUCCESS);
+                        callback(importer.importFilters(xmlhttp.responseText, add_rules), url, importer.last_error);
                     } else {
-                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules), url, importer.STATUS_SUCCESS);
+                        callback(importer.importSubscriptions(xmlhttp.responseText, url, all_rules, add_rules), url, importer.last_error);
                     }
                 } else {
-                    callback(-1, url, importer.STATUS_ERROR);
+                    callback(-1, url, 'server error');
                 }
             }
         };
         xmlhttp.overrideMimeType('text/plain');
         try {
-            xmlhttp.open('GET', url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
+            xmlhttp.open('GET', url+((/\?/).test(url) ? "&" : "?") + (new Date()).getTime(), true);
             xmlhttp.send(null);
         } catch (bug) {
-            callback(-1, url, importer.STATUS_ERROR);
+            callback(-1, url, bug.message);
         }
     }
 };

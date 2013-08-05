@@ -73,38 +73,28 @@ window.addEventListener('load', function () {
                     log('URL/CSS filter import error -> invalid URL.');
                     e.source.postMessage(encodeMessage({
                         type: 'noads_import_status',
-                        status: importer.STATUS_ERROR,
+                        status: 'download failed',
                         url: 'unknown'
                     }));
                     return;
                 }
 
-                var subsc_counter = 0, message_rules = 0, message_success = [], message_error = [],
+                var messages = [],
+                    subsc_counter = 0,
                     subsc_len = message.url.length,
                     add_rules = (subsc_len > 1),
                     importer_callback = function (rulesN, url, status) {
-                        if (status === importer.STATUS_SUCCESS && rulesN !== -1) {
-                            message_rules += rulesN;
-                            message_success.push(url);
+                        if (rulesN !== -1) {
+                            messages.push(lng.iSubs.replace('%url%', url).replace('%rules%', rulesN));
                         } else {
-                            message_error.push(url);
+                            messages.push(lng.iSubsError.replace('%url%', url).replace('%status%', status));
                         }
-
                         if (++subsc_counter === subsc_len) {
                             filters.reloadRules(true, true);
-                            if (message_success.length) {
+                            if (messages.length) {
                                 e.source.postMessage(encodeMessage({
                                     type: 'noads_import_status',
-                                    status: importer.STATUS_SUCCESS,
-                                    url: '\n' + message_success.join('\n') + '\n',
-                                    length: message_rules
-                                }));
-                            }
-                            if (message_error.length) {
-                                e.source.postMessage(encodeMessage({
-                                    type: 'noads_import_status',
-                                    status: importer.STATUS_ERROR,
-                                    url: '\n' + message_error.join('\n') + '\n'
+                                    status: '\n' + messages.join('\n') + '\n'
                                 }));
                             }
                         }
@@ -147,7 +137,7 @@ window.addEventListener('load', function () {
                 filters.reloadRules(message.global, message.clear);
                 break;
             case 'noads_import_status':
-                if (message.status === importer.STATUS_SUCCESS) {
+                if (message.status === 'good') {
                     window.alert(lng.iSubs.replace('%url', message.url).replace('%d', message.length));
                 } else {
                     window.alert(lng.mSubscriptions + ' ' + lng.pError + ': ' + message.status + '\n\nURL: ' + message.url);

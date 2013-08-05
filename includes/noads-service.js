@@ -19,10 +19,8 @@
 // ==/UserScript==
 
 // global variables
-var none = '{display: none !important; height: 0 !important; width: 0 !important; z-index: 10051005;}';
+var none = '{display: none !important; height: 0 !important; width: 0 !important; padding: 0 !important; margin: 0 !important; z-index: 10051005;}';
 var highlightCSS = '{background-color: #FF5555 !important; outline: 1px solid #FF1111 !important; opacity: 0.6 !important;}';
-var outlineCSS = '1px solid #306EFF';
-var outlineBgCSS = '#C6DEFF';
 var paddingCSS = 'iframe, embed, object, audio, video {\
 padding-left: 20px !important;\
 background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAAc0lEQVQY02P4z4AfMlBPAQMzAzNWNlwIRPEygAA7mM3JgGYCL5gSgUrrMCgwsKEqYABKwjg6DGog09AVMDCIgZmmEGlMBexwjiREPaoCmN3GULegKoD6AmI3xC0C6CZwMijD7AZKamLzBRsQwgCYTZ24AAD8Zqzk4ASGSwAAAABJRU5ErkJggg=="),\
@@ -41,6 +39,8 @@ var contentHelperCSS = ' \
 .noads_placeholder{display:block !important;width:auto;min-width:20px;max-width:900px;min-height:20px;max-height:100px;margin:0 !important;padding:0 !important;border:1px outset #aaa;font:16px Times New Roman;color:black;background-color:white;}\
 .noads_css_img_back {padding-left:10px; background-color: white; opacity: 0.9}\
 ';
+var outlineStyle = '1px solid #306EFF';
+var outlineBgStyle = '#C6DEFF';
 
 
 // NoAds Advanced main
@@ -367,8 +367,8 @@ var run = {
                 if (!ele.getAttribute('helpernoads')) {
                     ele.title = 'tag: ' + ele.nodeName + (ele.id ? ', ID: ' + ele.id : '') + (ele.className ? ', class: ' + ele.className : '');
                 }
-                ele.style.outline = outlineCSS;
-                ele.style.backgroundColor = outlineBgCSS;
+                ele.style.outline = outlineStyle;
+                ele.style.backgroundColor = outlineBgStyle;
             }
         },
         out = function () {
@@ -388,10 +388,9 @@ var run = {
             ev.preventDefault();
             ev.stopPropagation();
             
-            // Hide top element with Ctrl-click, can't undo.
+            // Hide top element with Ctrl+click using visibility to avoid collapsing.
             if (ev.ctrlKey) {
-                ele.style.height = '0px';
-                ele.style.display = 'none';
+                ele.style.visibility = 'hidden';
                 return;
             }
             
@@ -480,8 +479,6 @@ var run = {
             // middle and left mouse button
             switch (ev.button) {
                 case 0: // Left button
-                    // Pre-filter some events for selected element and it's parents.
-                    // I know it's possibly overkill and brakes the page logic until reload but..
                     break;
                 case 1: // Middle button
                     break;
