@@ -87,7 +87,7 @@
         "^https?://syn\\.5min\\.com",
         "^https?://assets\\.pinterest\\.com",
         "^https?://[a-z0-9]+\\.api\\.oneall\\.com",
-        "^https?://cackle\\.me",
+        "^https?://[a-z0-9]+\\.cackle\\.me",
 
         "^https?://(?:apis|maps|plus)+\\.google\\.com",
         "^https?://[a-z\\-]+\\.aolcdn\\.com",
