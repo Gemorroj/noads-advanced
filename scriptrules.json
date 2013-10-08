@@ -143,6 +143,7 @@
         "^https?://[0-9a-z\\-\\.]+\\.cdnvideo\\.ru",
         "^https?://[0-9a-z\\-\\.]+\\.com\\.com",
         "^https?://(?:[0-9a-z\\-\\.]*\\.)?disqus\\.com",
+        "^https?://(?:[0-9a-z\\-\\.]*\\.)?disquscdn\\.com",
         "^https?://[0-9a-z\\-\\.]+\\.edgecastcdn\\.net",
         "^https?://[0-9a-z\\-\\.]+\\.longtailvideo\\.com",
         "^https?://[0-9a-z\\-\\.]+\\.s-msft\\.com",
